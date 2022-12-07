@@ -68,7 +68,7 @@ export default function UserSignUp({ navigation }) {
     ) {
       setValue({
         ...value,
-        error: "Name,Email,Phone number and Password are mandatory.",
+        error: " الإسم والبريد الإلكتروني ورقم الجوال ورقم السري مطلوبين ",
       });
       return;
     }
@@ -129,31 +129,21 @@ export default function UserSignUp({ navigation }) {
           />
         </View>
 
-        <Text style={[styles.title]}>{"  "}تسجيل حساب جديد كسائح   </Text>
+        <Text style={[styles.title]}>{"  "} تسجيل حساب جديد كمرشد سياحي   </Text>
         <Text style={{ color: "red" }}>{value?.error}</Text>
 
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
-            placeholder="First Name"
+            placeholder="الإسم"
             onChangeText={(text) => setValue({ ...value, firstname: text })}
             underlineColorAndroid="transparent"
           />
         </View>
-
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
-            placeholder="Phone number"
-            onChangeText={(text) => setValue({ ...value, phone: text })}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="E-mail"
+            placeholder="البريد الإلكتروني"
             onChangeText={(text) => setValue({ ...value, email: text })}
             underlineColorAndroid="transparent"
           />
@@ -161,8 +151,18 @@ export default function UserSignUp({ navigation }) {
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
+            placeholder="رقم الجوال"
+            onChangeText={(text) => setValue({ ...value, phone: text })}
+            underlineColorAndroid="transparent"
+          />
+        </View>
+
+
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
             secureTextEntry={true}
-            placeholder="Password"
+            placeholder="الرقم السري"
             onChangeText={(text) => setValue({ ...value, password: text })}
             underlineColorAndroid="transparent"
           />
@@ -170,7 +170,7 @@ export default function UserSignUp({ navigation }) {
 
         <View style={styles.buttonCont}>
           <Button
-            title="Sign up"
+            title="إنشاء حساب"
             color="#ffff"
             onPress={() => signUp()} //
           ></Button>

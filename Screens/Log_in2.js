@@ -107,15 +107,17 @@ export default function Log_in2({ navigation }) {
                         fontWeight: "500",
                         color: "#333",
                         marginBottom: 15,
+                        alignSelf: "center"
+
                     }}
                 >
-                    Log In
+                    تسجيل الدخول
                 </Text>
                 <Text style={{ color: "red" }}>{value?.error}</Text>
                 <View>
                     <TextInput
                         style={styles.body}
-                        placeholder="E-mail"
+                        placeholder="البريد الإلكتروني"
                         onChangeText={(text) => setValue({ ...value, email: text, error: "" })}
                         underlineColorAndroid="transparent"
                         value={value.email}
@@ -124,7 +126,7 @@ export default function Log_in2({ navigation }) {
                     <TextInput
                         style={styles.body}
                         secureTextEntry={true}
-                        placeholder="Password"
+                        placeholder="الرقم السري"
                         onChangeText={(text) => setValue({ ...value, password: text, error: "" })}
                         underlineColorAndroid="transparent"
                         value={value.password}
@@ -149,7 +151,7 @@ export default function Log_in2({ navigation }) {
                                 fontSize: 16,
                             }}
                         >
-                            Login
+                            تسجيل الدخول
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -161,7 +163,6 @@ export default function Log_in2({ navigation }) {
                         marginBottom: 30,
                     }}
                 >
-                    <Text>New to the app?</Text>
                     <TouchableOpacity onPress={() => navSignUP(value)}>
                         <Text
                             style={{
@@ -171,9 +172,11 @@ export default function Log_in2({ navigation }) {
                             }}
                         >
                             {" "}
-                            Register
+                            تسجيل جديد
                         </Text>
                     </TouchableOpacity>
+                    <Text>ليس لديك حساب؟</Text>
+
                 </View>
             </View>
         </SafeAreaView>
