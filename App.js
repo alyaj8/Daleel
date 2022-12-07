@@ -10,9 +10,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
 import Tourist_Home from './Screens/Tourist_Home'
-import Sign_up from './Screens/Sign_up'
-import Log_in from './Screens/Log_in'
+import Local_Home from './Screens/Local_Home'
+
+import Tourist_Sign_up from './Screens/Tourist_Sign_up'
+import Local_Sign_up from './Screens/Local_Sign_up'
+
+
 import Log_in2 from './Screens/Log_in2'
+import Sign_up from './Screens/Sign_up'
 
 
 const Stack = createNativeStackNavigator();
@@ -44,10 +49,17 @@ function App() {
         screenOptions={{ headerShown: false }}
         initialRouteName="Log_in2"
       >
-        <Stack.Screen name="Sign_up" component={Sign_up} />
-        <Stack.Screen name="Log_in" component={Log_in} />
         <Stack.Screen name="Log_in2" component={Log_in2} />
+        <Stack.Screen name="Sign_up" component={Sign_up} />
+        <Stack.Screen name="Tourist_Sign_up" component={Tourist_Sign_up} />
+        <Stack.Screen name="Local_Sign_up" component={Local_Sign_up} />
+
         <Stack.Screen name="Tourist_Home" component={Tourist_Home} />
+        <Stack.Screen name="Local_Home" component={Local_Home} />
+
+
+
+
 
       </Stack.Navigator>
 
