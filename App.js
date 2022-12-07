@@ -9,9 +9,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
-import Home from './Screens/Home'
+import Tourist_Home from './Screens/Tourist_Home'
 import Sign_up from './Screens/Sign_up'
 import Log_in from './Screens/Log_in'
+import Log_in2 from './Screens/Log_in2'
 
 
 const Stack = createNativeStackNavigator();
@@ -41,10 +42,12 @@ function App() {
     <NavigationContainer>
       <Stack.Navigator
         screenOptions={{ headerShown: false }}
-        initialRouteName="Log_in"
+        initialRouteName="Log_in2"
       >
         <Stack.Screen name="Sign_up" component={Sign_up} />
         <Stack.Screen name="Log_in" component={Log_in} />
+        <Stack.Screen name="Log_in2" component={Log_in2} />
+        <Stack.Screen name="Tourist_Home" component={Tourist_Home} />
 
       </Stack.Navigator>
 

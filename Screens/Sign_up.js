@@ -39,7 +39,7 @@ function msg(error) {
 }
 
 
-export default function UserSignUp(navigation) {
+export default function UserSignUp({ navigation }) {
   const [push_token, setPushToken] = useState("");
   /* useEffect(() => {
      registerForPushNotificationsAsync().then((token) => {
@@ -49,9 +49,11 @@ export default function UserSignUp(navigation) {
   const [value, setValue] = React.useState({
     email: "",
     password: "",
-    username: "",
+    //username: "",
+    phone: "",
     firstname: "",
-    lastname: "",
+    // lastname: "",
+
     error: "",
   });
   const auth = getAuth();
@@ -61,17 +63,16 @@ export default function UserSignUp(navigation) {
     if (
       value.firstname === "" ||
       value.email === "" ||
-      value.username === "" ||
+      value.phone === "" ||
       value.password === ""
     ) {
       setValue({
         ...value,
-        error: " First name, username, Email and password are mandatory.",
+        error: "Name,Email,Phone number and Password are mandatory.",
       });
       return;
     }
     try {
-
       const { user } = await createUserWithEmailAndPassword(
         auth,
         value.email,
@@ -81,19 +82,20 @@ export default function UserSignUp(navigation) {
 
       const data = {
         email: value.email,
-        username: value.username,
+        phone: value.phone,
         firstname: value.firstname,
-        lastname: value.lastname,
+        // lastname: value.lastname,
         password: value.password,
         uid: user.uid,
-        isAdmin: false,
+        isTourist: false,
         push_token: push_token || "",
       };
 
       setDoc(doc(db, "users", user.uid), data).then(() => {
         alert("User Created please Login");
         console.log("here2", user.uid);
-        navigation.navigate("Log_in");
+        navigation.navigate("Log_in2");
+
       })
     } catch (er) {
       console.log('====================================');
@@ -123,7 +125,7 @@ export default function UserSignUp(navigation) {
             name="arrow-back-outline"
             size={40}
             style={{ color: "black" }}
-            onPress={() => navigation.goBack()}
+            onPress={() => navigation.navigate("Log_in2")}
           />
         </View>
 
@@ -138,23 +140,15 @@ export default function UserSignUp(navigation) {
             underlineColorAndroid="transparent"
           />
         </View>
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="Last Name"
-            nChangeText={(text) => setValue({ ...value, lastname: text })}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.body}
-            placeholder="Username"
-            onChangeText={(text) => setValue({ ...value, username: text })}
-            underlineColorAndroid="transparent"
-          />
-        </View>
 
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.body}
+            placeholder="Phone number"
+            onChangeText={(text) => setValue({ ...value, phone: text })}
+            underlineColorAndroid="transparent"
+          />
+        </View>
 
         <View style={styles.InputContainer}>
           <TextInput
@@ -164,7 +158,6 @@ export default function UserSignUp(navigation) {
             underlineColorAndroid="transparent"
           />
         </View>
-
         <View style={styles.InputContainer}>
           <TextInput
             style={styles.body}
@@ -177,7 +170,7 @@ export default function UserSignUp(navigation) {
 
         <View style={styles.buttonCont}>
           <Button
-            title="SignUp"
+            title="Sign up"
             color="#ffff"
             onPress={() => signUp()} //
           ></Button>
@@ -212,6 +205,6 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 250,
     borderRadius: 10,
-    backgroundColor: "blue",
+    backgroundColor: "lightblue",
   },
 });

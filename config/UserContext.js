@@ -1,11 +1,11 @@
 import React, { createContext, useState } from "react";
+
 const UserContext = createContext();
-
 const UserProvider = ({ children }) => {
-    const [isAdmin, setIsAdmin] = useState(false);
 
+    const [isTourist, setisTourist] = useState(false);
     return (
-        <UserContext.Provider value={{ isAdmin, setIsAdmin }}>
+        <UserContext.Provider value={{ isTourist, setisTourist }}>
             {children}
         </UserContext.Provider>
     );
