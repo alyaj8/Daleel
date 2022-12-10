@@ -6,7 +6,7 @@ export default function Local_Home(navigation) {
     return (
         <View style={styles.container}>
             <View>
-                <Text>Welcome to Daleel's Local Guide Home</Text>
+                <Text>Welcome to Daleel's Local Home</Text>
 
                 <TouchableOpacity
                     style={{

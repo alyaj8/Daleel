@@ -59,7 +59,7 @@ export default function Log_in2({ navigation }) {
         if (value.email === "" || value.password === "") {
             setValue({
                 ...value,
-                error: "Email and password are mandatory.",
+                error: "البريد الإلكتروني والرقم السري مطلوبين",
             });
             return;
         }
@@ -98,17 +98,23 @@ export default function Log_in2({ navigation }) {
         <SafeAreaView
             style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
         >
-            <View style={{ paddingHorizontal: 25 }}>
+            <View style={{ alignItems: "center", marginTop: -40 }}>
+                <Image
+                    style={{ height: 265, width: 265 }}
+                    source={require("../assets/Daleel_Logo.jpg")}
+                />
+            </View>
+
+            <View style={{ paddingHorizontal: 25, marginTop: 10 }}>
 
 
                 <Text
                     style={{
                         fontSize: 28,
                         fontWeight: "500",
-                        color: "#333",
-                        marginBottom: 15,
-                        alignSelf: "center"
-
+                        marginBottom: 1,
+                        alignSelf: "center",
+                        marginTop: 20
                     }}
                 >
                     تسجيل الدخول
@@ -117,7 +123,7 @@ export default function Log_in2({ navigation }) {
                 <View>
                     <TextInput
                         style={styles.body}
-                        placeholder="البريد الإلكتروني"
+                        placeholder="*البريد الإلكتروني"
                         onChangeText={(text) => setValue({ ...value, email: text, error: "" })}
                         underlineColorAndroid="transparent"
                         value={value.email}
@@ -126,7 +132,7 @@ export default function Log_in2({ navigation }) {
                     <TextInput
                         style={styles.body}
                         secureTextEntry={true}
-                        placeholder="الرقم السري"
+                        placeholder="*الرقم السري"
                         onChangeText={(text) => setValue({ ...value, password: text, error: "" })}
                         underlineColorAndroid="transparent"
                         value={value.password}
@@ -138,7 +144,7 @@ export default function Log_in2({ navigation }) {
                     <TouchableOpacity
                         onPress={signIn}
                         style={{
-                            backgroundColor: "lightblue",
+                            backgroundColor: "#5398a0",
                             padding: 20,
                             borderRadius: 10,
                             marginBottom: 30,

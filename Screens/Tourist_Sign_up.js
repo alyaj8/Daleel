@@ -87,7 +87,7 @@ export default function UserSignUp({ navigation }) {
         // lastname: value.lastname,
         password: value.password,
         uid: user.uid,
-        isTourist: false,
+        isTourist: true,
         push_token: push_token || "",
       };
 
@@ -117,61 +117,76 @@ export default function UserSignUp({ navigation }) {
         <View
           style={{
             width: "100%",
-            height: 40,
-            paddingHorizontal: 20,
+            height: 45,
+            paddingHorizontal: 5,
+            marginTop: 30,
+
           }}
         >
           <Icon
             name="arrow-back-outline"
-            size={40}
+            size={50}
             style={{ color: "black" }}
             onPress={() => navigation.goBack()}
           />
         </View>
 
-        <Text style={[styles.title]}>{"  "} تسجيل حساب جديد كمرشد سياحي   </Text>
+        <View style={{ alignItems: "center", marginTop: 0 }}>
+          <Image
+            style={{ height: 200, width: 200 }}
+            source={require("../assets/Daleel_Logo.jpg")}
+          />
+        </View>
+
+        <Text style={[styles.title]}> تسجيل حساب جديد     </Text>
+        <Text style={{ color: "grey", alignSelf: "center", fontSize: 17 }}> معلومات السائح:</Text>
+
         <Text style={{ color: "red" }}>{value?.error}</Text>
 
-        <View style={styles.InputContainer}>
+        <View style={{ alignContent: "center", alignItems: "center" }}>
           <TextInput
             style={styles.body}
-            placeholder="الإسم"
+            placeholder="*الإسم"
             onChangeText={(text) => setValue({ ...value, firstname: text })}
             underlineColorAndroid="transparent"
           />
         </View>
-        <View style={styles.InputContainer}>
+        <View style={{ alignContent: "center", alignItems: "center" }}>
           <TextInput
             style={styles.body}
-            placeholder="البريد الإلكتروني"
+            placeholder="*البريد الإلكتروني"
             onChangeText={(text) => setValue({ ...value, email: text })}
             underlineColorAndroid="transparent"
           />
         </View>
-        <View style={styles.InputContainer}>
+        <View style={{ alignContent: "center", alignItems: "center" }}>
           <TextInput
             style={styles.body}
-            placeholder="رقم الجوال"
+            placeholder="*رقم الجوال"
+
             onChangeText={(text) => setValue({ ...value, phone: text })}
             underlineColorAndroid="transparent"
+            keyboardType="numeric"
+
           />
         </View>
 
 
-        <View style={styles.InputContainer}>
+        <View style={{ alignContent: "center", alignItems: "center" }}>
           <TextInput
             style={styles.body}
             secureTextEntry={true}
-            placeholder="الرقم السري"
+            placeholder="*الرقم السري"
             onChangeText={(text) => setValue({ ...value, password: text })}
             underlineColorAndroid="transparent"
+
           />
         </View>
 
         <View style={styles.buttonCont}>
           <Button
             title="إنشاء حساب"
-            color="#ffff"
+            color="black"
             onPress={() => signUp()} //
           ></Button>
         </View>
@@ -182,12 +197,13 @@ export default function UserSignUp({ navigation }) {
 
 const styles = StyleSheet.create({
   title: {
-    alignSelf: "flex-end",
+    alignSelf: "center",
     fontWeight: "bold",
-    fontSize: 20,
+    fontSize: 22,
     marginTop: 20,
     paddingLeft: 10,
-    marginBottom: 20,
+    marginBottom: 5,
+
   },
   body: {
     borderWidth: 1,
@@ -198,12 +214,15 @@ const styles = StyleSheet.create({
     height: 42,
     paddingLeft: 20,
     paddingRight: 20,
+    textAlign: "right"
+
   },
   buttonCont: {
-    margin: 50,
+    marginTop: 20,
+    alignSelf: "center",
     padding: 5,
     width: 250,
     borderRadius: 10,
-    backgroundColor: "lightblue",
+    backgroundColor: "#5398a0",
   },
 });
