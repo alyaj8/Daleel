@@ -168,10 +168,10 @@ export default function UserSignUp({ navigation }) {
 
 
                 uid: user.uid,
-                isTourist: false,
+                isTourist: true,
                 push_token: push_token || "",
             };
-
+            setDoc(doc(db, "users", user.uid), data)
             setDoc(doc(db, "Admin_users", user.uid), data).then(() => {
                 alert("User Created please Login");
                 navigation.navigate("Log_in2");
