@@ -168,7 +168,7 @@ export default function UserSignUp({ navigation }) {
 
 
                 uid: user.uid,
-                isTourist: true,
+                isTourist: false,
                 push_token: push_token || "",
             };
             setDoc(doc(db, "users", user.uid), data)
