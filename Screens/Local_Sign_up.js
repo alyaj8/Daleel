@@ -217,9 +217,10 @@ export default function UserSignUp({ navigation }) {
                         source={require("../assets/Daleel_Logo.jpg")}
                     />
                 </View>
+                <View style={{ paddingHorizontal: 25, marginTop: 10}}>
 
-                <Text style={[styles.title]}> تسجيل حساب جديد</Text>
-                <Text style={{ color: "grey", alignSelf: "center", fontSize: 15 }}> معلومات المرشد السياحي:    </Text>
+                <Text style={[styles.title]}> إنشاء حساب جديد</Text>
+                
 
                 <Text style={{ color: "red" }}>{value?.error}</Text>
 
@@ -233,7 +234,8 @@ export default function UserSignUp({ navigation }) {
                             size={55}
 
                         />
-                        <Text style={{ alignContent: "center" }}>
+                        <Text style={{ alignContent: "center",fontSize: 16,
+                                                       fontWeight: "700",color:"#4F6367"}}>
                             اختر الصورة الشخصية
                         </Text>
                     </View>
@@ -260,6 +262,8 @@ export default function UserSignUp({ navigation }) {
                     </View>
                 )}
 
+                <Text style={styles.lable}>  الاسم الأول</Text>
+
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -268,6 +272,7 @@ export default function UserSignUp({ navigation }) {
                         underlineColorAndroid="transparent"
                     />
                 </View>
+                <Text style={styles.lable}>  الاسم الأخير</Text>
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -276,6 +281,7 @@ export default function UserSignUp({ navigation }) {
                         underlineColorAndroid="transparent"
                     />
                 </View>
+                <Text style={styles.lable}>  اسم الحساب</Text>
 
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
@@ -285,7 +291,7 @@ export default function UserSignUp({ navigation }) {
                         underlineColorAndroid="transparent"
                     />
                 </View>
-
+                <Text style={styles.lable}> البريد الإلكتروني</Text>
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -294,7 +300,7 @@ export default function UserSignUp({ navigation }) {
                         underlineColorAndroid="transparent"
                     />
                 </View>
-
+                <Text style={styles.lable}> رقم الجوال</Text>
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -305,7 +311,7 @@ export default function UserSignUp({ navigation }) {
 
                     />
                 </View>
-
+                <Text style={styles.lable}> معروف</Text>
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -316,7 +322,7 @@ export default function UserSignUp({ navigation }) {
 
                     />
                 </View>
-
+                <Text style={styles.lable}>  كلمة المرور</Text>
                 <View style={{ alignContent: "center", alignItems: "center" }}>
                     <TextInput
                         style={styles.body}
@@ -334,6 +340,7 @@ export default function UserSignUp({ navigation }) {
                         onPress={() => signUp()} //
                     ></Button>
                 </View>
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
@@ -341,23 +348,24 @@ export default function UserSignUp({ navigation }) {
 
 const styles = StyleSheet.create({
     title: {
-        alignSelf: "center",
-        fontWeight: "bold",
-        fontSize: 22,
+        fontSize: 28,
+        fontWeight: "600",
+        marginBottom: 25,
+        alignSelf: "flex-end",
         marginTop: 20,
-        paddingLeft: 10,
-        marginBottom: 5,
-
+        color:"#4F6367",
     },
     body: {
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        margin: 12,
-        width: 350,
-        height: 42,
+        borderWidth: 3,
+        borderColor:"#BDBDBD",
+        width: "100%",
+        height: 50,
         paddingLeft: 20,
         paddingRight: 20,
+        backgroundColor: "#ffff",
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 20,
         textAlign: "right"
     },
     buttonCont: {
@@ -368,4 +376,12 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: "#5398a0",
     },
+    lable:{
+        fontSize: 16,
+        fontWeight: "700",
+        marginTop:10,
+        marginBottom: 5,
+        alignSelf: "flex-end",
+        color:"#4F6367",
+      },
 });

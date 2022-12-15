@@ -12,7 +12,6 @@ import {
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 function msg(error) {
     switch (error.code) {
         case "auth/invalid-email":
@@ -36,7 +35,6 @@ function msg(error) {
     }
     return error.code;
 }
-
 export default function Log_in2({ navigation }) {
     const [value, setValue] = React.useState({
         email: "",
@@ -111,16 +109,28 @@ export default function Log_in2({ navigation }) {
                 <Text
                     style={{
                         fontSize: 28,
-                        fontWeight: "500",
-                        marginBottom: 1,
-                        alignSelf: "center",
-                        marginTop: 20
+                        fontWeight: "600",
+                        marginBottom: 40,
+                        alignSelf: "flex-end",
+                        marginTop: 20,
+                        color:"#4F6367",
                     }}
                 >
                     تسجيل الدخول
                 </Text>
                 <Text style={{ color: "red" }}>{value?.error}</Text>
                 <View>
+                <Text
+                    style={{
+                        fontSize: 16,
+                        fontWeight: "700",
+                        marginBottom: 10,
+                        alignSelf: "flex-end",
+                        color:"#4F6367",
+                    }}
+                >
+                    البريد الإلكتروني
+                </Text>
                     <TextInput
                         style={styles.body}
                         placeholder="*البريد الإلكتروني"
@@ -128,7 +138,17 @@ export default function Log_in2({ navigation }) {
                         underlineColorAndroid="transparent"
                         value={value.email}
                     />
-
+             <Text
+                    style={{
+                        fontSize: 16,
+                        fontWeight: "700",
+                        marginBottom: 10,
+                        alignSelf: "flex-end",
+                        color:"#4F6367",
+                    }}
+                >
+                    كلمة المرور
+                </Text>
                     <TextInput
                         style={styles.body}
                         secureTextEntry={true}
@@ -154,7 +174,8 @@ export default function Log_in2({ navigation }) {
                             style={{
                                 textAlign: "center",
                                 fontWeight: "700",
-                                fontSize: 16,
+                                fontSize: 18,
+                                color:"white",
                             }}
                         >
                             تسجيل الدخول
@@ -172,16 +193,21 @@ export default function Log_in2({ navigation }) {
                     <TouchableOpacity onPress={() => navSignUP(value)}>
                         <Text
                             style={{
-                                color: "#2F5233",
+                                color: "#7A9E9F",
                                 fontWeight: "800",
                                 textDecorationLine: "underline",
                             }}
                         >
                             {" "}
-                            تسجيل جديد
+                            إنشاء حساب
                         </Text>
                     </TouchableOpacity>
-                    <Text>ليس لديك حساب؟</Text>
+                    <Text
+                     style={{
+                        textAlign: "center",
+                        fontSize: 16,
+                        color:"#4F6367",
+                    }}>ليس لديك حساب؟</Text>
 
                 </View>
             </View>
@@ -191,7 +217,8 @@ export default function Log_in2({ navigation }) {
 
 const styles = StyleSheet.create({
     body: {
-        borderWidth: 1,
+        borderWidth: 3,
+        borderColor:"#BDBDBD",
         width: "100%",
         height: 50,
         paddingLeft: 20,
@@ -199,6 +226,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#ffff",
         padding: 10,
         borderRadius: 10,
-        marginBottom: 30,
+        marginBottom: 20,
+        textAlign: "right"
     },
+ 
 });
