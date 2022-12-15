@@ -9,7 +9,7 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
-  date,
+  TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -271,7 +271,7 @@ export default function UserSignUp({ navigation }) {
         <View
           style={{
             width: "100%",
-            height: 45,
+            height: 40,
             paddingHorizontal: 5,
             marginTop: 30,
 
@@ -292,91 +292,113 @@ export default function UserSignUp({ navigation }) {
           />
         </View>
 
-        <Text style={[styles.title]}> تسجيل حساب جديد     </Text>
-        <Text style={{ color: "grey", alignSelf: "center", fontSize: 17 }}> معلومات السائح:</Text>
+        <View style={{ paddingHorizontal: 25, marginTop: 10 }}>
+
+          <Text style={[styles.title]}> إنشاء حساب جديد </Text>
+
+          <Text style={{ color: "red" }}>{value?.error}</Text>
+
+          <Text style={styles.lable}> الاسم</Text>
+
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "red",
+                marginLeft: 10,
+              }}
+            >
+              {NameError}
+            </Text>
+            <TextInput
+              style={styles.body}
+              placeholder="*الإسم"
+              onChangeText={(text) => setValue({ ...value, firstname: text })}
+              underlineColorAndroid="transparent"
+            />
+          </View>
 
 
-        <View style={{ alignContent: "center", alignItems: "center" }}>
-          <Text
-            style={{
-              color: "red",
-              marginLeft: 10,
-            }}
-          >
-            {NameError}
-          </Text>
-          <TextInput
-            style={styles.body}
-            placeholder="*الإسم"
-            onChangeText={(text) => setValue({ ...value, firstname: text })}
-            underlineColorAndroid="transparent"
-          />
-        </View>
+          <Text style={styles.lable}> البريد الإلكتروني</Text>
 
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "red",
+                marginLeft: 10,
+              }}
+            >
+              {EmailError}
+            </Text>
+            <TextInput
+              style={styles.body}
+              placeholder="*البريد الإلكتروني"
+              onChangeText={(text) => setValue({ ...value, email: text })}
+              underlineColorAndroid="transparent"
+            />
+          </View>
+          <Text style={styles.lable}>رقم الجوال</Text>
 
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "red",
+                marginLeft: 10,
+              }}
+            >
+              {PhoneError}
+            </Text>
+            <TextInput
+              style={styles.body}
+              placeholder="*رقم الجوال"
 
-        <View style={{ alignContent: "center", alignItems: "center" }}>
-          <Text
-            style={{
-              color: "red",
-              marginLeft: 10,
-            }}
-          >
-            {EmailError}
-          </Text>
-          <TextInput
-            style={styles.body}
-            placeholder="*البريد الإلكتروني"
-            onChangeText={(text) => setValue({ ...value, email: text })}
-            underlineColorAndroid="transparent"
-          />
-        </View>
-        <View style={{ alignContent: "center", alignItems: "center" }}>
-          <Text
-            style={{
-              color: "red",
-              marginLeft: 10,
-            }}
-          >
-            {PhoneError}
-          </Text>
-          <TextInput
-            style={styles.body}
-            placeholder="*رقم الجوال"
+              onChangeText={(text) => setValue({ ...value, phone: text })}
+              underlineColorAndroid="transparent"
+              keyboardType="numeric"
 
-            onChangeText={(text) => setValue({ ...value, phone: text })}
-            underlineColorAndroid="transparent"
-            keyboardType="numeric"
+            />
+          </View>
 
-          />
-        </View>
+          <Text style={styles.lable}> كلمة المرور</Text>
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "red",
+                marginLeft: 10,
+              }}
+            >
+              {PassError}
+            </Text>
+            <TextInput
+              style={styles.body}
+              secureTextEntry={true}
+              placeholder="*الرقم السري"
+              onChangeText={(text) => setValue({ ...value, password: text })}
+              underlineColorAndroid="transparent"
 
+            />
+          </View>
 
-        <View style={{ alignContent: "center", alignItems: "center" }}>
-          <Text
-            style={{
-              color: "red",
-              marginLeft: 10,
-            }}
-          >
-            {PassError}
-          </Text>
-          <TextInput
-            style={styles.body}
-            secureTextEntry={true}
-            placeholder="*الرقم السري"
-            onChangeText={(text) => setValue({ ...value, password: text })}
-            underlineColorAndroid="transparent"
+          <View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#5398a0",
+                padding: 20,
+                borderRadius: 10,
+                marginBottom: 30,
+              }} onPress={() => signUp()} //
+            >
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontWeight: "700",
+                  fontSize: 18,
+                  color: "white",
+                }}
+              >
+                إنشاء حساب
+              </Text></TouchableOpacity>
+          </View>
 
-          />
-        </View>
-
-        <View style={styles.buttonCont}>
-          <Button
-            title="إنشاء حساب"
-            color="black"
-            onPress={() => signUp()} //
-          ></Button>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -385,32 +407,38 @@ export default function UserSignUp({ navigation }) {
 
 const styles = StyleSheet.create({
   title: {
-    alignSelf: "center",
-    fontWeight: "bold",
-    fontSize: 22,
+    fontSize: 28,
+    fontWeight: "600",
+    marginBottom: 25,
+    alignSelf: "flex-end",
     marginTop: 20,
-    paddingLeft: 10,
-    marginBottom: 5,
-
+    color: "#4F6367",
   },
   body: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    margin: 12,
-    width: 350,
-    height: 42,
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
     paddingLeft: 20,
     paddingRight: 20,
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
     textAlign: "right"
-
   },
   buttonCont: {
-    marginTop: 20,
-    alignSelf: "center",
-    padding: 5,
-    width: 250,
-    borderRadius: 10,
     backgroundColor: "#5398a0",
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 30,
+  },
+  lable: {
+    fontSize: 16,
+    fontWeight: "700",
+    marginTop: 10,
+    marginBottom: 5,
+    alignSelf: "flex-end",
+    color: "#4F6367",
   },
 });
