@@ -113,24 +113,24 @@ export default function Log_in2({ navigation }) {
                         marginBottom: 40,
                         alignSelf: "flex-end",
                         marginTop: 20,
-                        color:"#4F6367",
+                        color: "#4F6367",
                     }}
                 >
                     تسجيل الدخول
                 </Text>
                 <Text style={{ color: "red" }}>{value?.error}</Text>
                 <View>
-                <Text
-                    style={{
-                        fontSize: 16,
-                        fontWeight: "700",
-                        marginBottom: 10,
-                        alignSelf: "flex-end",
-                        color:"#4F6367",
-                    }}
-                >
-                    البريد الإلكتروني
-                </Text>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            fontWeight: "700",
+                            marginBottom: 10,
+                            alignSelf: "flex-end",
+                            color: "#4F6367",
+                        }}
+                    >
+                        البريد الإلكتروني
+                    </Text>
                     <TextInput
                         style={styles.body}
                         placeholder="*البريد الإلكتروني"
@@ -138,20 +138,20 @@ export default function Log_in2({ navigation }) {
                         underlineColorAndroid="transparent"
                         value={value.email}
                     />
-             <Text
-                    style={{
-                        fontSize: 16,
-                        fontWeight: "700",
-                        marginBottom: 10,
-                        alignSelf: "flex-end",
-                        color:"#4F6367",
-                    }}
-                >
-                    كلمة المرور
-                </Text>
+                    <Text
+                        style={{
+                            fontSize: 16,
+                            fontWeight: "700",
+                            marginBottom: 10,
+                            alignSelf: "flex-end",
+                            color: "#4F6367",
+                        }}
+                    >
+                        كلمة المرور
+                    </Text>
                     <TextInput
                         style={styles.body}
-                        secureTextEntry={true}
+                        //  secureTextEntry={true}
                         placeholder="*الرقم السري"
                         onChangeText={(text) => setValue({ ...value, password: text, error: "" })}
                         underlineColorAndroid="transparent"
@@ -175,7 +175,7 @@ export default function Log_in2({ navigation }) {
                                 textAlign: "center",
                                 fontWeight: "700",
                                 fontSize: 18,
-                                color:"white",
+                                color: "white",
                             }}
                         >
                             تسجيل الدخول
@@ -203,11 +203,11 @@ export default function Log_in2({ navigation }) {
                         </Text>
                     </TouchableOpacity>
                     <Text
-                     style={{
-                        textAlign: "center",
-                        fontSize: 16,
-                        color:"#4F6367",
-                    }}>ليس لديك حساب؟</Text>
+                        style={{
+                            textAlign: "center",
+                            fontSize: 16,
+                            color: "#4F6367",
+                        }}>ليس لديك حساب؟</Text>
 
                 </View>
             </View>
@@ -218,7 +218,7 @@ export default function Log_in2({ navigation }) {
 const styles = StyleSheet.create({
     body: {
         borderWidth: 3,
-        borderColor:"#BDBDBD",
+        borderColor: "#BDBDBD",
         width: "100%",
         height: 50,
         paddingLeft: 20,
@@ -229,5 +229,5 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         textAlign: "right"
     },
- 
+
 });
