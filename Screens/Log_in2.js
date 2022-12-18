@@ -15,19 +15,19 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 function msg(error) {
     switch (error.code) {
         case "auth/invalid-email":
-            error.code = "Wrong email address";
+            error.code = "عنوان البريد الإلكتروني غير صحيح";
             break;
 
         case "auth/user-not-found":
             error.code =
-                "There is no account for this email,you have to register first";
+                "لا يوجد حساب بهذا الإيميل";
             break;
 
         case "auth/wrong-password":
-            error.code = "Password is not correct";
+            error.code = "الرقم السري المستعمل غير صحيح";
             break;
         case "auth/too-many-requests":
-            error.code = "You have exceeded the attempts limit, try again later";
+            error.code = "لقد تعديت المحاولات المتاحه، حاول في وقت لاحق";
             break;
 
         default:

@@ -63,16 +63,16 @@ export default function UserSignUp({ navigation }) {
   function msg(error) {
     switch (error.code) {
       case "auth/invalid-email":
-        error.code = "Wrong email address";
+        error.code = "عنوان البريد الإلكتروني غير صحيح";
         break;
 
       case "auth/email-already-in-use":
         error.code =
-          "The email is already registered try to login or use forgot password";
+          "البريد الإلكتروني قدم تم استخدامه من قبل";
         break;
 
       case "auth/weak-password":
-        error.code = "week password";
+        error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف";
         break;
 
       default:
@@ -86,14 +86,9 @@ export default function UserSignUp({ navigation }) {
 
   const validatName = () => {
     if (value.firstname === "") {
-      setNameError("empty")
+      setNameError("لا يمكن ترك الإسم فارغا")
     }
-    else if (!checkFirstName(value.firstname)) { setNameError("wrong") }
-    else if (checkFirstName(value.firstname) && value.firstname !== "") {
-      setNameError("")
-    }
-
-    else if (!checkFirstName(value.firstname)) { setNameError("wrong") }
+    else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الرقم السري من احرف انجليزيه") }
     else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("")
     }
@@ -103,19 +98,19 @@ export default function UserSignUp({ navigation }) {
   const validatPass = () => {
     if (checkPass(value.password)) { setPassError("") }
     else if (value.password === "") {
-      setPassError("empty")
+      setPassError("لا يمكن ترك الرقم السري فارغا")
     }
     else if (!checkPass(value.password))
-      setPassError("must be larger than 8")
+      setPassError("يجب ان يتكون الرقم السري من ٨ احرف على الأقل")
   }
 
   const validatEmail = () => {
     setEmailError("");
     if (value.email === "") {
-      setEmailError("empty")
+      setEmailError("لا يمكن ترك البريد الإلكتروني فارغا")
     }
     else if (!checkEmail(value.email)) {
-      setEmailError("wrong address")
+      setEmailError("عنوان البريد الإلكتروني غير صحيح")
     }
   }
 
@@ -123,10 +118,10 @@ export default function UserSignUp({ navigation }) {
     if (checkPhone(value.phone)) { setPhoneError("") }
 
     else if (value.phone === "") {
-      setPhoneError("empty")
+      setPhoneError("لا يمكن ترك رقم الجوال فارغا")
     }
     else if (!checkPhone2(value.phone))
-      setPhoneError("must == 10")
+      setPhoneError("يجب ان يتكون الرقم السري من ٩ ارقام  ")
   }
   async function signUp() {
     if (
@@ -138,6 +133,7 @@ export default function UserSignUp({ navigation }) {
       checkFirstName(value.firstname) === false ||
       checkPass(value.password) == false ||
       checkEmail(value.email) == false
+      //value.error===""
       // checklastName(value.lastname) === false ||
       //     checkUserName(value.username) === false ||
       //  (await CheckUnique(value.username)) === false
@@ -175,7 +171,6 @@ export default function UserSignUp({ navigation }) {
 
         })
       } catch (er) {
-        console.log('====================================');
         console.log("er", er);
         console.log('====================================');
         er = msg(er);
@@ -217,14 +212,14 @@ export default function UserSignUp({ navigation }) {
   let checkPhone = (value) => {
     var letters = /^[0-9]+$/;
     // console.log(value.length);
-    if (value.match(letters) && value.length == 10) {
+    if (value.match(letters) && value.length == 9) {
       return true;
     } else {
       return false;
     }
   };
   let checkPhone2 = (value) => {
-    if (value.length == 10) {
+    if (value.length == 9) {
       return true;
     } else {
       return false;
@@ -296,7 +291,6 @@ export default function UserSignUp({ navigation }) {
 
           <Text style={[styles.title]}> إنشاء حساب جديد </Text>
 
-          <Text style={{ color: "red" }}>{value?.error}</Text>
 
           <Text style={styles.lable}> الاسم</Text>
 
@@ -328,6 +322,8 @@ export default function UserSignUp({ navigation }) {
               }}
             >
               {EmailError}
+              <Text style={{ color: "red" }}>{value?.error}</Text>
+
             </Text>
             <TextInput
               style={styles.body}
