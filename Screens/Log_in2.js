@@ -79,9 +79,9 @@ export default function Log_in2({ navigation }) {
                 error: "",
             });
             if (docSnap.data().isTourist) {
-                navigation.navigate("Tourist_Home");
+                navigation.navigate("TouristBottomTabs");
             } else {
-                navigation.navigate("Local_Home");
+                navigation.navigate("LocalbottomTabs");
             }
         } catch (er) {
             er = msg(er);
