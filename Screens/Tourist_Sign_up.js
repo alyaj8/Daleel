@@ -34,13 +34,14 @@ export default function UserSignUp({ navigation }) {
     phone: "",
     firstname: "",
     // lastname: "",
-
+    password2: "",
     error: "",
   });
   const [NameError, setNameError] = useState("");
   const [PassError, setPassError] = useState("");
   const [EmailError, setEmailError] = useState("");
   const [PhoneError, setPhoneError] = useState("");
+  const [Pass2Error, setPass2Error] = useState("");
 
   const [Error, setError] = useState({
     firstname: "",
@@ -123,12 +124,27 @@ export default function UserSignUp({ navigation }) {
     else if (!checkPhone2(value.phone))
       setPhoneError("يجب ان يتكون الرقم السري من ٩ ارقام  ")
   }
+
+  const validatPass2 = () => {
+
+    if (value.password === value.password2) {
+      setPass2Error("");
+    }
+    else if (value.password2 === "") {
+      setPass2Error("لا يمكن ترك الرقم السري فارغا")
+    }
+    else if (value.password != value.password2) {
+      setPass2Error("no match")
+      console.log("pass false")
+    }
+  }
   async function signUp() {
     if (
       value.firstname === "" ||
       value.email === "" ||
       value.phone === "" ||
       value.password === "" ||
+      value.password2 === "" ||
       pass === false ||
       checkFirstName(value.firstname) === false ||
       checkPass(value.password) == false ||
@@ -142,7 +158,7 @@ export default function UserSignUp({ navigation }) {
       validatPass();
       validatEmail();
       validatPhone();
-
+      validatPass2();
 
 
     }
@@ -373,7 +389,24 @@ export default function UserSignUp({ navigation }) {
 
             />
           </View>
-
+          <Text style={styles.lable}>  تأكيد كلمة المرور</Text>
+          <View style={{ alignContent: "center", alignItems: "center" }}>
+            <Text
+              style={{
+                color: "red",
+                marginLeft: 10,
+              }}
+            >
+              {Pass2Error}
+            </Text>
+            <TextInput
+              style={styles.body}
+              secureTextEntry={true}
+              placeholder="*تأكيد الرقم السري"
+              onChangeText={(text) => setValue({ ...value, password2: text })}
+              underlineColorAndroid="transparent"
+            />
+          </View>
           <View>
             <TouchableOpacity
               style={{

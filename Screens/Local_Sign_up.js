@@ -69,6 +69,8 @@ export default function UserSignUp({ navigation }) {
     const [LastNameError, setLastNameError] = useState("");
     const [MaroofError, setMaroofError] = useState("");
     const [UsernameError, setUsernameError] = useState("");
+    const [Pass2Error, setPass2Error] = useState("");
+    const [a1, seta1] = useState(false);
 
 
     /* useEffect(() => {
@@ -139,7 +141,7 @@ export default function UserSignUp({ navigation }) {
         city: "",
         poster: "",
 
-
+        password2: "",
         error: "",
     });
     const auth = getAuth();
@@ -190,7 +192,7 @@ export default function UserSignUp({ navigation }) {
             setPhoneError("لا يمكن ترك رقم الجوال فارغا")
         }
         else if (!checkPhone2(value.phone))
-            setPhoneError("يجب ان يتكون الرقم السري من ٩ ارقام  ")
+            setPhoneError("يجب ان يتكون الرقم الجوال من ٩ ارقام  ")
     }
 
     const validatMaroof = () => {
@@ -206,22 +208,36 @@ export default function UserSignUp({ navigation }) {
 
 
     const validatUsername = () => {
-        CheckUnique(value.username);
+        seta1(CheckUnique(value.username));
+        console.log(a1)
 
-        if (CheckUnique(value.username)) {
+
+        if (a1) {
             setUsernameError("")
-            console.log("true")
+            console.log("true ,validate")
         }
-
         else if (value.username === "") {
             setUsernameError("لا يمكن ترك اسم المستخدم فارغا")
         }
-        else if (!CheckUnique(value.username)) {
+        else if (CheckUnique(value.username)) {
             setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
-            console.log("false")
+            console.log("false,validate")
         }
     }
 
+    const validatPass2 = () => {
+
+        if (value.password === value.password2) {
+            setPass2Error("");
+        }
+        else if (value.password2 === "") {
+            setPass2Error("لا يمكن ترك الرقم السري فارغا")
+        }
+        else if (value.password != value.password2) {
+            setPass2Error("no match")
+            console.log("pass false")
+        }
+    }
     async function signUp() {
         if (
             value.firstname === "" ||
@@ -231,6 +247,7 @@ export default function UserSignUp({ navigation }) {
             value.phone === "" ||
             value.username === "" ||
             value.password === "" ||
+            value.password2 === "" ||
 
             value.maroof === "" ||
             checkFirstName(value.firstname) === false ||
@@ -248,19 +265,10 @@ export default function UserSignUp({ navigation }) {
             validatPhone();
             validatLastName();
             validatMaroof();
+            validatUsername();
+            validatPass2();
 
-            if (CheckUnique(value.username)) {
-                setUsernameError("")
-                console.log("true")
-            }
 
-            else if (value.username === "") {
-                setUsernameError("لا يمكن ترك اسم المستخدم فارغا")
-            }
-            else if (!CheckUnique(value.username)) {
-                setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
-                console.log("false")
-            }
 
         }
         else {
@@ -371,15 +379,20 @@ export default function UserSignUp({ navigation }) {
             return false;
         }
     };
+
     let CheckUnique = async () => {
         const q = query(
             collection(db, "Admin_users"),
             where("username", "==", value.username)
         );
         const snapshot = await getDocs(q);
-        console.log(snapshot.empty, "username")
-        return snapshot.empty;
 
+        if (snapshot.empty) {
+            console.log(snapshot.empty, "true2 check uniq")
+            return true;
+        }
+        console.log(snapshot.empty, "false2 check uniq")
+        return false;
     };
 
     return (
@@ -585,7 +598,24 @@ export default function UserSignUp({ navigation }) {
                             underlineColorAndroid="transparent"
                         />
                     </View>
-
+                    <Text style={styles.lable}>  تأكيد كلمة المرور</Text>
+                    <View style={{ alignContent: "center", alignItems: "center" }}>
+                        <Text
+                            style={{
+                                color: "red",
+                                marginLeft: 10,
+                            }}
+                        >
+                            {Pass2Error}
+                        </Text>
+                        <TextInput
+                            style={styles.body}
+                            secureTextEntry={true}
+                            placeholder="*تأكيد الرقم السري"
+                            onChangeText={(text) => setValue({ ...value, password2: text })}
+                            underlineColorAndroid="transparent"
+                        />
+                    </View>
                     <View style={styles.buttonCont}>
                         <Button
                             title="إنشاء حساب"

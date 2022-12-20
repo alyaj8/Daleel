@@ -265,7 +265,7 @@ export default function Tourist_Home({ navigation }) {
     return (
         <SafeAreaView
             style={{
-                backgroundColor: "#5398a1",
+                backgroundColor: "",
                 flex: 1,
             }}
         >
@@ -327,7 +327,7 @@ export default function Tourist_Home({ navigation }) {
                             <TextInput
                                 style={[
                                     styles.body,
-                                    { borderColor: !Error.firstname ? "red" : "green" },
+                                    { borderColor: Error.firstname ? "red" : "#5398a0" },
                                 ]}
                                 placeholder={value.firstname}
                                 placeholderTextColor="black"
@@ -345,7 +345,7 @@ export default function Tourist_Home({ navigation }) {
                             <TextInput
                                 style={[
                                     styles.body,
-                                    { borderColor: !Error.lastname ? "red" : "green" },
+                                    { borderColor: Error.phone ? "red" : "#5398a0" },
                                 ]}
                                 placeholder={value.phone}
                                 value={value.phone}
@@ -426,7 +426,7 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         paddingLeft: 20,
         paddingRight: 20,
-        borderColor: "green",
+        borderColor: "#5398a0",
     },
     buttonCont: {
         width: 180,
