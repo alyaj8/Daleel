@@ -208,21 +208,12 @@ export default function UserSignUp({ navigation }) {
 
 
     const validatUsername = () => {
-        seta1(CheckUnique(value.username));
-        console.log(a1)
 
-
-        if (a1) {
-            setUsernameError("")
-            console.log("true ,validate")
-        }
-        else if (value.username === "") {
+        if (value.username === "") {
             setUsernameError("لا يمكن ترك اسم المستخدم فارغا")
         }
-        else if (CheckUnique(value.username)) {
-            setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
-            console.log("false,validate")
-        }
+        else { CheckUnique(value.username) }
+
     }
 
     const validatPass2 = () => {
@@ -234,7 +225,7 @@ export default function UserSignUp({ navigation }) {
             setPass2Error("لا يمكن ترك الرقم السري فارغا")
         }
         else if (value.password != value.password2) {
-            setPass2Error("no match")
+            setPass2Error("sorry no match")
             console.log("pass false")
         }
     }
@@ -389,9 +380,10 @@ export default function UserSignUp({ navigation }) {
 
         if (snapshot.empty) {
             console.log(snapshot.empty, "true2 check uniq")
+            setUsernameError("")
             return true;
         }
-        console.log(snapshot.empty, "false2 check uniq")
+        setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
         return false;
     };
 
