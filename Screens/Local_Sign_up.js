@@ -149,9 +149,9 @@ export default function UserSignUp({ navigation }) {
 
     const validatName = () => {
         if (value.firstname === "") {
-            setNameError("لا يمكن ترك الإسم فارغا")
+            setNameError("لا يمكن ترك الإسم الأول فارغا")
         }
-        else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه") }
+        else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه") }
         else if (checkFirstName(value.firstname) && value.firstname !== "") {
             setNameError("")
         }
@@ -245,7 +245,9 @@ export default function UserSignUp({ navigation }) {
             checkFirstName(value.lastname) === false ||
             checkPass(value.password) === false ||
             checkEmail(value.email) === false ||
-            checkMaroof(value.maroof) === false
+            checkMaroof(value.maroof) === false ||
+            checkPhone(value.phone) == false
+
             //  value.city === ""
             //   value.poster === ""
 

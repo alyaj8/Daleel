@@ -89,7 +89,7 @@ export default function UserSignUp({ navigation }) {
     if (value.firstname === "") {
       setNameError("لا يمكن ترك الإسم فارغا")
     }
-    else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الرقم السري من احرف انجليزيه") }
+    else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم  من احرف انجليزيه") }
     else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("")
     }
@@ -148,7 +148,8 @@ export default function UserSignUp({ navigation }) {
       pass === false ||
       checkFirstName(value.firstname) === false ||
       checkPass(value.password) == false ||
-      checkEmail(value.email) == false
+      checkEmail(value.email) == false ||
+      checkPhone(value.phone) == false
       //value.error===""
       // checklastName(value.lastname) === false ||
       //     checkUserName(value.username) === false ||

@@ -32,13 +32,10 @@ import { db } from "../config/firebase";
 
 export default function Tourist_Home({ navigation }) {
 
-    const [infoList, setinfoList] = useState([]);
-    const [update, setupdate] = useState(true);
-    const [oldName, setOldName] = useState("");
-    const [oldEmail, setOldEmail] = useState("");
-    const [emailError, setEmailError] = useState("");
-    const [uid, setUid] = useState("");
 
+    const [NameError, setNameError] = useState("");
+    const [EmailError, setEmailError] = useState("");
+    const [PhoneError, setPhoneError] = useState("");
     const [value, setValue] = React.useState({
         email: "",
         firstname: "",
@@ -46,20 +43,23 @@ export default function Tourist_Home({ navigation }) {
         //lastname: "",
         // password: "",
         //username: "",
+        error: "",
+
     });
 
     function msg(error) {
         switch (error.code) {
             case "auth/invalid-email":
-                error.code = "Wrong email format";
+                error.code = "عنوان البريد الإلكتروني غير صحيح";
                 break;
 
             case "auth/email-already-in-use":
-                error.code = "This email is already used";
+                error.code =
+                    "البريد الإلكتروني قدم تم استخدامه من قبل";
                 break;
 
-            case "auth/requires-recent-login":
-                error.code = "this email is already used ";
+            case "auth/weak-password":
+                error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف";
                 break;
 
             default:
@@ -67,6 +67,7 @@ export default function Tourist_Home({ navigation }) {
         }
         return error.code;
     }
+
     const auth = getAuth();
     const user = auth.currentUser;
 
@@ -80,6 +81,7 @@ export default function Tourist_Home({ navigation }) {
             querySnapshot.forEach(async (doc) => {
                 const Acc = doc.data();
                 setValue(Acc);
+                //  setOldName(userdata.username);
 
             });
             //  setValue(Acc);
@@ -87,181 +89,106 @@ export default function Tourist_Home({ navigation }) {
             // console.log(infoList);
         }
     };
-    /*  const db = getFirestore();
-    const q = query(collection(db, "users"), where("uid", "==", user.uid));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-        const Acc = doc.data();
-    
-    });*/
-    /*let saveChanges = async () => {
+    let saveChanges = async () => {
         if (
             value.firstname === "" ||
-            // value.lastname === "" ||
-            //value.username === "" ||
+            value.phone === "" ||
             value.email === "" ||
-            // checkFirstName2(value.firstname) === false ||
             checkFirstName(value.firstname) === false ||
-            checklastName(value.lastname) === false ||
-            checkUserName(value.username) === false ||
-            (await CheckUnique(value.username)) === false
+            checkEmail(value.email) == false ||
+            checkPhone(value.phone) == false
         ) {
-            if (checkFirstName(value.firstname) && value.firstname !== "") {
-                Error.firstname = true;
-                setError(Error);
-                setupdate(!update);
-            }
-            if (value.firstname === "") {
-                Error.firstname2 = false;
-                setError(Error);
-                setupdate(!update);
-            } else {
-                if (!checkFirstName(value.firstname) || value.firstname === "") {
-                    Error.firstname = false;
-                    setError(Error);
-                    setupdate(!update);
-                }
-            }
+            validatName();
+            validatEmail();
+            validatPhone();
 
-            if (checklastName(value.lastname) && value.lastname !== "") {
-                Error.lastname = true;
-                setError(Error);
-                setupdate(!update);
-            }
-            if (value.lastname === "") {
-                Error.lastname2 = false;
-                setError(Error);
-                setupdate(!update);
-            } else {
-                if (!checklastName(value.lastname) || value.lastname === "") {
-                    Error.lastname = false;
-                    setError(Error);
-                    setupdate(!update);
-                }
-            }
 
-            if (checkUserName(value.username) && value.username !== "") {
-                Error.usernametype = true;
-                setError(Error);
-                setupdate(!update);
-            }
-            if (value.username === "") {
-                Error.usernametype2 = false;
-                setError(Error);
-                setupdate(!update);
-            } else {
-                if (!checkUserName(value.username) || value.username === "") {
-                    Error.usernametype = false;
-                    setError(Error);
-                    setupdate(!update);
-                }
-            }
-            if (value.email == "") {
-                Error.email2 = false;
-                setError(Error);
-                setupdate(!update);
-            }
-            if (await CheckUnique()) {
-                Error.usernameunique = true;
-                setError(Error);
-                setupdate(!update);
-            }
-            if (!(await CheckUnique())) {
-                Error.usernameunique = false;
-                setError(Error);
-                setupdate(!update);
-            }
         } else {
-            if (oldEmail === value.email) {
-                setEmailError("");
-                await setDoc(doc(db, "users", uid), value);
-                alert("Profile Updated Successfully");
-                setError({
-                    firstname: true,
-                    lastname: true,
-                    usernametype: true,
-                    usernameunique: true,
-                });
-                setOldName(value.username);
-                navigation.navigate("Account"); ///////////////
-            } else {
-                try {
-                    await updateEmail(user, value.email)
-                        .then(async () => {
-                            await setDoc(doc(db, "users", uid), value);
-                            //  navigation.navigate("Account"); ///////////////
-                            alert("Profile Updated Successfully");
-                            setEmailError("");
-                            setError({
-                                firstname: true,
-                                lastname: true,
-                                usernametype: true,
-                                usernameunique: true,
-                            });
-                            setOldName(value.username);
-                            if (oldEmail !== value.email) {
-                                navigation.navigate("Account"); ///////////////
-                            }
-                        })
-                        .catch((error) => {
-                            console.log(error.message);
-                            setEmailError(msg(error));
-                        });
-                } catch (error) {
-                    console.log(error);
-                }
+            try {
+                await updateEmail(user, value.email)
+                    .then(async () => {
+                        console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
+
+                        await setDoc(doc(db, "users", user.uid), value);
+                        await setDoc(doc(db, "Tourist_users", user.uid), value);
+                        alert("Profile Updated Successfully");
+                        setEmailError("");
+                        //  if (oldEmail !== value.email) {
+                        // navigation.navigate("Local_Home"); ///////////////
+                        //  }
+                    })
+                    .catch((error) => {
+                        console.log(error.message);
+                        setEmailError(msg(error));
+                    });
+            } catch (error) {
+                console.log(error);
             }
         }
-    };*/
-    /*let checkFirstName2 = (value) => {
-      // var letters = /^[A-Za-z]+$/;
-      if (value.length == 0) {
-        return true;
-      } else {
-        return false;
-      }
-    };*/
+    };
+
 
     let checkFirstName = (value) => {
         var letters = /^[A-Za-z]+$/;
-        if (value.match(letters) && value.length < 15) {
+        if (value.match(letters)) {
             return true;
         } else {
             return false;
         }
     };
-
-    let checklastName = (value) => {
-        var letters = /^[A-Za-z]+$/;
-        if (value.match(letters) && value.length < 26) {
+    let checkEmail = (value) => {
+        var letters = /^[A-Za-z0-9-_@.]+$/;
+        if (value.match(letters) && value.includes('@') && value.includes('.')) {
             return true;
         } else {
             return false;
         }
     };
-
-    let checkUserName = (value) => {
-        var letters = /^[0-9a-zA-Z-_]+$/;
-        if (value.match(letters) && value.length < 26) {
+    let checkPhone = (value) => {
+        var letters = /^[0-9]+$/;
+        // console.log(value.length);
+        if (value.match(letters) && value.length == 9) {
             return true;
         } else {
             return false;
         }
     };
-
-    let CheckUnique = async () => {
-        if (oldName === value.username) {
+    let checkPhone2 = (value) => {
+        if (value.length == 9) {
             return true;
         } else {
-            const q = query(
-                collection(db, "users"),
-                where("username", "==", value.username)
-            );
-            const snapshot = await getDocs(q);
-            return snapshot.empty;
+            return false;
         }
     };
+    const validatName = () => {
+        if (value.firstname === "") {
+            setNameError("لا يمكن ترك الإسم فارغا")
+        }
+        else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم  من احرف انجليزيه") }
+        else if (checkFirstName(value.firstname) && value.firstname !== "") {
+            setNameError("")
+        }
+    }
 
+    const validatEmail = () => {
+        setEmailError("");
+        if (value.email === "") {
+            setEmailError("لا يمكن ترك البريد الإلكتروني فارغا")
+        }
+        else if (!checkEmail(value.email)) {
+            setEmailError("عنوان البريد الإلكتروني غير صحيح")
+        }
+    }
+
+    const validatPhone = () => {
+        if (checkPhone(value.phone)) { setPhoneError("") }
+
+        else if (value.phone === "") {
+            setPhoneError("لا يمكن ترك رقم الجوال فارغا")
+        }
+        else if (!checkPhone2(value.phone))
+            setPhoneError("يجب ان يتكون الرقم السري من ٩ ارقام  ")
+    }
     return (
         <SafeAreaView
             style={{
@@ -324,11 +251,17 @@ export default function Tourist_Home({ navigation }) {
                             <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                                 الإسم
                             </Text>
+                            <Text
+                                style={{
+                                    color: "red",
+                                    marginLeft: 10,
+                                }}
+                            >
+                                {NameError}
+                            </Text>
                             <TextInput
-                                style={[
-                                    styles.body,
-                                    { borderColor: Error.firstname ? "red" : "#5398a0" },
-                                ]}
+                                style={styles.body}
+
                                 placeholder={value.firstname}
                                 placeholderTextColor="black"
                                 value={value.firstname}
@@ -341,12 +274,17 @@ export default function Tourist_Home({ navigation }) {
                             <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                                 {"\n"}رقم الجوال
                             </Text>
-
+                            <Text
+                                style={{
+                                    color: "red",
+                                    marginLeft: 10,
+                                }}
+                            >
+                                {PhoneError}
+                            </Text>
                             <TextInput
-                                style={[
-                                    styles.body,
-                                    { borderColor: Error.phone ? "red" : "#5398a0" },
-                                ]}
+                                style={styles.body}
+
                                 placeholder={value.phone}
                                 value={value.phone}
                                 placeholderTextColor="black"
@@ -361,7 +299,14 @@ export default function Tourist_Home({ navigation }) {
                                 {"\n"}البريد الإلكتروني
                             </Text>
 
-
+                            <Text
+                                style={{
+                                    color: "red",
+                                    marginLeft: 10,
+                                }}
+                            >
+                                {EmailError}
+                            </Text>
                             <TextInput
                                 style={styles.body}
                                 placeholder={value.email}
@@ -369,8 +314,7 @@ export default function Tourist_Home({ navigation }) {
                                 placeholderTextColor="black"
                                 onChangeText={(text) => setValue({ ...value, email: text })}
                                 underlineColorAndroid="transparent"
-                            //  titl
-                            // value={user.email}
+
                             />
                         </View>
 
