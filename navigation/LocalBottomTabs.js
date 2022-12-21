@@ -6,8 +6,7 @@ import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LocalHomeStack from "./LocalHomeStack";
 import PostTour from "../Screens/Local/PostTour";
-
-import { images } from "/Users/reem/Documents/GitHub/Daleel/config/Constant.js";
+import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {
   apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
@@ -72,7 +71,7 @@ function BottomTab() {
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
-                source={images.location}
+                source={images.chat}
                 style={{
                   width: 20,
                   height: 20,

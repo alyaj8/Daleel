@@ -6,7 +6,7 @@ import "firebase/auth";
 import { LogBox } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Tourist_Home from "/Users/reem/Documents/GitHub/Daleel/Screens/Tourist_Home"
+import Tourist_Home from "../Screens/Tourist_Home.js"
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
   apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
