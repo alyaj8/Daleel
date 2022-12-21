@@ -39,8 +39,8 @@ function TouristBottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused? "#5398a0":  "black",
-                fontSize:focused? 14: 12,
+                color: focused ? "#5398a0" : "black",
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
               }}
             >
@@ -52,7 +52,7 @@ function TouristBottomTab() {
             <View style={{ ...Styles.iconView }}>
               <Image
                 source={images.mark}
-                style={{ width: 20, height: 20, resizeMode: "contain", tintColor: focused? "#5398a0":  "black",  }}
+                style={{ width: 20, height: 20, resizeMode: "contain", tintColor: focused ? "#5398a0" : "black", }}
               />
             </View>
           ),
@@ -66,8 +66,8 @@ function TouristBottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused? "#5398a0":  "black",
-                fontSize: focused? 14: 12,
+                color: focused ? "#5398a0" : "black",
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
               }}
             >
@@ -84,7 +84,7 @@ function TouristBottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black",
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
@@ -94,14 +94,14 @@ function TouristBottomTab() {
         name="LocalHomeStack"
         component={TouristHomeStack}
       />
-      
+
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused? "#5398a0":  "black",
-                fontSize:focused? 14: 12,
+                color: focused ? "#5398a0" : "black",
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
               }}
             >
@@ -118,7 +118,7 @@ function TouristBottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black",
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
@@ -133,8 +133,8 @@ function TouristBottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused? "#5398a0":  "black",
-                fontSize:focused? 14: 12,
+                color: focused ? "#5398a0" : "black",
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
               }}
             >
@@ -151,7 +151,7 @@ function TouristBottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black",
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
@@ -166,7 +166,7 @@ function TouristBottomTab() {
 }
 export default TouristBottomTab;
 const Styles = StyleSheet.create({
-  
+
   bg: {
     width: 60,
     height: 60,

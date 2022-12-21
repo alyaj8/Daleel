@@ -7,7 +7,7 @@ import { LogBox } from "react-native";
 import { UserProvider } from "../config/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Local_Home from "../Screens/Local_Home";
+import Local_Account from "../Screens/Local/Local_Account";
 
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
@@ -32,8 +32,8 @@ function App() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Local_Home" component={Local_Home} />
-      
+      <Stack.Screen name="Local_Account" component={Local_Account} />
+
     </Stack.Navigator>
   );
 }

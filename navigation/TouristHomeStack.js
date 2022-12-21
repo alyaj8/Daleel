@@ -6,7 +6,7 @@ import "firebase/auth";
 import { LogBox } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Tourist_Home from "../Screens/Tourist_Home.js"
+import Tourist_Account from "../Screens/Tourist_Account.js"
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
   apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
@@ -26,9 +26,9 @@ function App() {
   }, []);
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Tourist_Home" component={Tourist_Home} />
+      <Stack.Screen name="Tourist_Account" component={Tourist_Account} />
 
-      
+
     </Stack.Navigator>
   );
 }

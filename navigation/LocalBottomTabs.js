@@ -6,6 +6,9 @@ import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import LocalHomeStack from "./LocalHomeStack";
 import PostTour from "../Screens/Local/PostTour";
+import Local_Account from "../Screens/Local/Local_Account";
+import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
+
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {
@@ -34,7 +37,7 @@ function BottomTab() {
             <Text
               style={{
                 color: "black",
-                fontSize:focused? 14: 12,
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
                 color: focused ? "#5398a0" : "black",
               }}
@@ -46,7 +49,7 @@ function BottomTab() {
             <View style={{ ...Styles.iconView }}>
               <Image
                 source={images.mark}
-                style={{ width: 20, height: 20, resizeMode: "contain" , tintColor: focused? "#5398a0":  "black", }}
+                style={{ width: 20, height: 20, resizeMode: "contain", tintColor: focused ? "#5398a0" : "black", }}
               />
             </View>
           ),
@@ -60,7 +63,7 @@ function BottomTab() {
             <Text
               style={{
                 color: "black",
-                fontSize:focused? 14: 12,
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
                 color: focused ? "#5398a0" : "black",
               }}
@@ -76,7 +79,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black", 
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
@@ -85,14 +88,14 @@ function BottomTab() {
         name="PostTour"
         component={PostTour}
       />
-      
+
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
                 color: "black",
-                fontSize:focused? 14: 12 , 
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
                 color: focused ? "#5398a0" : "black",
               }}
@@ -105,10 +108,10 @@ function BottomTab() {
               <Image
                 source={images.chat}
                 style={{
-                  width:  20,
+                  width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black", 
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
@@ -123,9 +126,9 @@ function BottomTab() {
             <Text
               style={{
                 color: "black",
-                fontSize: focused? 14: 12,
+                fontSize: focused ? 14 : 12,
                 fontWeight: focused ? "900" : "normal",
-                color: focused? "#5398a0":  "black", 
+                color: focused ? "#5398a0" : "black",
               }}
             >
               ملفي
@@ -139,14 +142,14 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused? "#5398a0":  "black", 
+                  tintColor: focused ? "#5398a0" : "black",
                 }}
               />
             </View>
           ),
         }}
         name="profile"
-        component={PostTour}
+        component={Local_Manage_Account}
       />
     </Tab.Navigator>
   );
