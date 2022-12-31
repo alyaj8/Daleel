@@ -8,6 +8,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  Pressable
 } from "react-native";
 import React, { useState, useRef } from "react";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
@@ -23,7 +24,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { upload, insertRequest, getUserId } from "../../network/ApiService";
 import Loader from "../../component/Loaders/Loader";
 
-export default function PostTour({ navigation }) {
+export default function EditTour({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState(null);
   const [time, setTime] = useState(new Date());
@@ -124,8 +125,13 @@ export default function PostTour({ navigation }) {
           source={images.backgroundImg}
           resizeMode="cover"
         >
+                 <Pressable
+                        onPress={() => navigation.goBack()}
+                        style={{ position: 'absolute', margin: 15 }}>
+                        <Image source={images.arrow} style={[styles.arrowIcon]} />
+                    </Pressable>
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30,{fontWeight:'bold'}]}>نشر جولة</Text>
+            <Text style={[text.white, text.text30]}>جولاتي</Text>
           </View>
           {filePath ? (
             <View
@@ -182,7 +188,7 @@ export default function PostTour({ navigation }) {
               editable={false}
               setValue={setDate}
             />
-            {showDatePicker && (
+            {/* {showDatePicker && (
               <DateTimePicker
                 minimumDate={new Date()}
                 value={new Date()}
@@ -192,10 +198,10 @@ export default function PostTour({ navigation }) {
                 onChange={onSelectDate}
                 style={styles.datePicker}
               />
-            )}
+            )} */}
           </TouchableOpacity>
           <View style={[styles.timeFlex]}>
-            <TouchableOpacity
+          <TouchableOpacity
               onPress={() => setShowTimePicker(true)}
               style={[styles.alignCenter, {}]}
             >
@@ -213,6 +219,7 @@ export default function PostTour({ navigation }) {
                 editable={false}
                 setValue={setTime}
                 style={{width:screenWidth.width40}}
+
               />
               {showTimePicker && (
                 <DateTimePicker
@@ -244,7 +251,6 @@ export default function PostTour({ navigation }) {
                 editable={false}
                 setValue={setTime}
                 style={{width:screenWidth.width40}}
-
               />
               {showTimePicker && (
                 <DateTimePicker
@@ -258,6 +264,7 @@ export default function PostTour({ navigation }) {
                 />
               )}
             </TouchableOpacity>
+        
 
           </View>
 
@@ -358,7 +365,7 @@ export default function PostTour({ navigation }) {
           <View
             style={[styles.alignCenter, { marginTop: 20, marginBottom: 70 }]}
           >
-            <Button disabled={disabled} title={"نشر"} onpress={toggleModal} />
+            <Button disabled={disabled} title={"تحديث "} onpress={toggleModal} />
           </View>
           <StatusBar style="auto" />
           <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
@@ -472,5 +479,11 @@ const styles = StyleSheet.create({
     alignItems:'center',
     justifyContent:'space-between',
     marginHorizontal:20
-  }
+  },
+  arrowIcon:{
+    width:30,
+    height:30,
+    resizeMode:'contain',
+    tintColor:'#fff'
+  },
 });

@@ -76,7 +76,7 @@ export const colors = {
   blueBeryline: "#33CEDA",
   border: "#A7AFC4",
   inactive: "#9EB8CF",
-  grey: "#737478",
+  grey: "#a6a6a6",
   facebook: "#2672CB",
   apple: "#050708",
   blue: "blue",
@@ -115,6 +115,10 @@ export const images = {
   child: require("../assets/child.png"),
   user: require("../assets/user.png"),
   cart: require("../assets/cart.png"),
+  arrow: require("../assets/back.png"),
+  send: require("../assets/send.png"),
+
+
 };
 
 export const navThemeConstants = {

@@ -4,9 +4,8 @@ import * as React from "react";
 import { initializeApp } from "firebase/app";
 import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import LocalHomeStack from "../navigation/LocalHomeStack";
-import TouristHomeStack from "../navigation/TouristHomeStack";
-
+import TouristHomeStack from "./TouristHomeStack";
+import Tourist_Account from "../Screens/Tourist_Account";
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {
@@ -19,16 +18,11 @@ const firebaseConfig = {
   measurementId: "G-56DGNG2KLW",
 };
 initializeApp(firebaseConfig);
-/*const PUBLISHABLE_KEY =
-  "pk_test_51Ll5efFetd1JSL8vQ1WpbGvxBewQSJi8ZUzB6WD0i19CUUkzdnaHAQzja4LNFMZpUWAZKUPTdSklL2KZSI1k9Qfy00MZ31WOSr";*/
-function TouristBottomTab() {
+function BottomTab() {
   return (
     <Tab.Navigator
       screenOptions={{
-        // tabBarActiveTintColor: '#002733',
         headerShown: false,
-        // tabBarShowLabel:false,
-
         tabBarStyle: {
           tabBarHideOnKeyboard: true,
         },
@@ -39,26 +33,31 @@ function TouristBottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#5398a0" : "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               طلباتی
             </Text>
           ),
-
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
                 source={images.mark}
-                style={{ width: 20, height: 20, resizeMode: "contain", tintColor: focused ? "#5398a0" : "black", }}
+                style={{
+                   width: 20,
+                    height: 20, 
+                    resizeMode: "contain",
+                  tintColor:focused? '#03989e': "black",
+
+
+                   }}
               />
             </View>
           ),
-          // tabBarButton
         }}
-        name="TouristHomeStack"
+        name="Home"
         component={TouristHomeStack}
       />
       <Tab.Screen
@@ -66,111 +65,140 @@ function TouristBottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#5398a0" : "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               جولاتي
             </Text>
           ),
-
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
-              {/* <Tab col={focused ? '#0118B5' : 'white'} /> */}
               <Image
                 source={images.location}
                 style={{
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
                 }}
               />
             </View>
           ),
-          // tabBarButton
         }}
-        name="LocalHomeStack"
+        name="TourStack"
         component={TouristHomeStack}
       />
-
+        <Tab.Screen
+        options={{
+          tabBarLabel: ({ focused, color, size }) => (
+            <Text
+              style={{
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
+              }}
+            >
+            
+            </Text>
+          ),
+          tabBarIcon: ({ focused }) => (
+            <View style={[Styles.plusTab,{ ...Styles.iconView }]}>
+              <Image
+                source={images.add}
+                style={{
+                  width: 40,
+                  height: 40,
+                  tintColor: "#03989e",
+                }}
+              />
+            </View>
+          ),
+        }}
+        name="PostSearch"
+        component={Tourist_Account}
+      />
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#5398a0" : "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               رسائلي
             </Text>
           ),
-
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
-              {/* <Tab col={focused ? '#0118B5' : 'white'} /> */}
               <Image
                 source={images.chat}
                 style={{
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
+
                 }}
               />
             </View>
           ),
-          // tabBarButton
         }}
-        name="Chat"
-        component={TouristHomeStack}
+        name="ChatMenu"
+        component={Tourist_Account}
       />
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#5398a0" : "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
+                color: focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               ملفي
             </Text>
           ),
-
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
-              {/* <Tab col={focused ? '#0118B5' : 'white'} /> */}
               <Image
                 source={images.profile}
                 style={{
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
+
                 }}
               />
             </View>
           ),
-          // tabBarButton
         }}
-        name="profile"
-        component={TouristHomeStack}
+        name="Tourist_Account"
+        component={Tourist_Account}
       />
     </Tab.Navigator>
   );
 }
-export default TouristBottomTab;
+export default BottomTab;
 const Styles = StyleSheet.create({
-
   bg: {
     width: 60,
     height: 60,
     alignItems: "center",
     justifyContent: "center",
   },
+  plusTab:{
+    width:55,
+    height:55,
+    backgroundColor:'#fff',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:50,
+    marginBottom:30,
+  }
 });
