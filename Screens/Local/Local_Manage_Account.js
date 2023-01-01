@@ -23,16 +23,16 @@ export default function Local_Manage_Account({ navigation }) {
 
     const showAlert = () =>
         Alert.alert(
-            "Loging out ",
-            "Are sure you want to log out?",
+            "تسجيل خروج ",
+            "هل أنت متأكد من الخروج",
             [
                 {
-                    text: "Cancel",
+                    text: "لا",
                     //  onPress: () => Alert.alert("Cancel Pressed"),
                     style: "cancel",
                 },
                 {
-                    text: "Yes",
+                    text: "تعم",
                     style: "cancel",
                     onPress: async () => {
                         const auth = getAuth();
@@ -92,7 +92,7 @@ export default function Local_Manage_Account({ navigation }) {
                 <View style={{ alignItems: "center" }}>
 
                     <Text style={{ fontSize: 23, fontWeight: "bold", padding: 10 }}>
-                        HELLO WELCOME,
+                        أهلا مرحبا بك,
                     </Text>
                     <Text style={{ fontSize: 29, fontWeight: "bold" }}>{fname}</Text>
                     <Text
@@ -117,7 +117,7 @@ export default function Local_Manage_Account({ navigation }) {
                         }}
                     >
                         <Icon name="person-outline" size={30} style={{ marginRight: 10 }} />
-                        <Text style={{ fontSize: 16, marginTop: 7 }}>Edit my details</Text>
+                        <Text style={{ fontSize: 16, marginTop: 7 }}>تعديل بياناتي</Text>
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("Local_ChangePass")}>
@@ -141,7 +141,7 @@ export default function Local_Manage_Account({ navigation }) {
                             size={30}
                             style={{ marginRight: 10 }}
                         />
-                        <Text style={{ fontSize: 16, marginTop: 7 }}>Change password</Text>
+                        <Text style={{ fontSize: 16, marginTop: 7 }}>تغيير الرقم السري</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -150,7 +150,7 @@ export default function Local_Manage_Account({ navigation }) {
                     style={{
                         alignSelf: "center",
                         flexDirection: "row",
-                        justifyContent: "flex-start",
+                        justifyContent: "flex-end",
                         backgroundColor: "#fff",
                         width: "90%",
                         padding: 20,
@@ -162,8 +162,27 @@ export default function Local_Manage_Account({ navigation }) {
                         marginBottom: 19,
                     }}
                 >
-                    <Icon name="log-out-outline" size={30} style={{ marginRight: 10 }} />
-                    <Text style={{ fontSize: 16, marginTop: 7 }}>Log-out</Text>
+                    <Icon name="log-out-outline" size={30} style={{ marginRight: 90 }} />
+                    <Text style={{ fontSize: 16, marginTop: 7 }}>تسجيل الخروج</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={showAlert}
+                    style={{
+                        alignSelf: "center",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        backgroundColor: "#fff",
+                        width: "90%",
+                        padding: 20,
+                        paddingBottom: 22,
+                        borderRadius: 10,
+                        shadowOpacity: 0.3,
+                        elevation: 15,
+                        marginTop: 20,
+                        marginBottom: 19,
+                    }}
+                >
+                    <Text style={{ fontSize: 16, marginTop: 7 }}>  حسابي</Text>
                 </TouchableOpacity>
             </ScrollView>
         </View>

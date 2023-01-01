@@ -77,7 +77,6 @@ export default function Local_ChangePass({ navigation }) {
     return (
         <SafeAreaView
             style={{
-                backgroundColor: "#EDF5F0",
                 flex: 1,
             }}
         >
@@ -98,7 +97,7 @@ export default function Local_ChangePass({ navigation }) {
 
             <View
                 style={{
-                    backgroundColor: "#00a46c",
+                    backgroundColor: "#5398a0",
                     height: "13%",
                     borderBottomLeftRadius: 20,
                     borderBottomRightRadius: 20,
@@ -130,8 +129,7 @@ export default function Local_ChangePass({ navigation }) {
                             alignSelf: "center",
                         }}
                     >
-                        Change password
-                    </Text>
+                        تغيير الرقم السري                    </Text>
                 </View>
             </View>
 
@@ -158,8 +156,8 @@ export default function Local_ChangePass({ navigation }) {
                 </Text>
                 <View style={{ marginTop: 40, marginLeft: -10 }}>
                     <View>
-                        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                            Current password
+                        <Text style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}>
+                            الرقم السري الحالي
                         </Text>
                         <TextInput
                             style={styles.body}
@@ -172,8 +170,8 @@ export default function Local_ChangePass({ navigation }) {
                         />
                     </View>
                     <View>
-                        <Text style={{ fontWeight: "bold", fontSize: 20 }}>
-                            {"\n"}New password
+                        <Text style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}>
+                            {"\n"}الرقم السري الجديد
                         </Text>
                         <TextInput
                             style={styles.body}
@@ -187,7 +185,7 @@ export default function Local_ChangePass({ navigation }) {
 
                     <View style={styles.buttonCont}>
                         <TouchableOpacity onPress={() => savePass()}>
-                            <Text style={styles.savechanges}>Save password</Text>
+                            <Text style={styles.savechanges}>حفظ التغيرات</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -214,13 +212,13 @@ const styles = StyleSheet.create({
         height: 42,
         paddingLeft: 20,
         paddingRight: 20,
-        borderColor: "green",
+        borderColor: "#5398a0",
     },
     buttonCont: {
         width: 180,
         height: 50,
         borderRadius: 50,
-        backgroundColor: "#00a46c",
+        backgroundColor: "#5398a0",
         marginTop: 30,
         paddingLeft: 10,
         alignSelf: "center",
