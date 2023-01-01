@@ -124,8 +124,8 @@ export default function PostTour({ navigation }) {
           source={images.backgroundImg}
           resizeMode="cover"
         >
-          <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30,{fontWeight:'bold'}]}>نشر جولة</Text>
+          <View style={[styles.alignCenter, { marginTop: 55 }]}>
+            <Text style={[text.white, text.text30, { fontWeight: 'bold' }]}>نشر جولة</Text>
           </View>
           {filePath ? (
             <View
@@ -212,7 +212,7 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 setValue={setTime}
-                style={{width:screenWidth.width40}}
+                style={{ width: screenWidth.width40 }}
               />
               {showTimePicker && (
                 <DateTimePicker
@@ -243,7 +243,7 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 setValue={setTime}
-                style={{width:screenWidth.width40}}
+                style={{ width: screenWidth.width40 }}
 
               />
               {showTimePicker && (
@@ -417,7 +417,7 @@ export default function PostTour({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
+    // marginTop: screenWidth.width10,
   },
   alignCenter: {
     alignItems: "center",
@@ -467,10 +467,10 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 10,
   },
-  timeFlex:{
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'space-between',
-    marginHorizontal:20
+  timeFlex: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginHorizontal: 20
   }
 });
