@@ -13,6 +13,7 @@ import { images, screenWidth, REQUEST_TABLE } from "../config/Constant";
 import LocalBooingDetailCard from "../component/card/DetailCard";
 import { getUserId } from "../network/ApiService";
 import Loader from "../component/Loaders/Loader";
+
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import Button from "../component/button/Button";

@@ -80,7 +80,7 @@ function BottomTab() {
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              جولاتي
+         الجولات
             </Text>
           ),
           tabBarIcon: ({ focused }) => (

@@ -55,7 +55,7 @@ export default function Input({
               />
             </View>
             <View style={{ alignSelf: 'center' }}>
-              <ButtonComponent buttonSelection={true} buttonDefault={false} title={'Pay'}
+              <ButtonComponent buttonSelection={true} buttonDefault={false} title={'الدفع'}
               onpress={onpressAccepted}
                 style={{ backgroundColor: '#9cd644' }}
               />
