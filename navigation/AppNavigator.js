@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import "firebase/auth";
 import { LogBox } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import LocalbottomTabs from "./LocalBottomTabs";
+import bottomTabs from "./LocalBottomTabs";
 import TouristBottomTabs from "./TouristBottomTabs";
 import Tourist_Sign_up from "../Screens/Tourist_Sign_up";
 import Local_Sign_up from "../Screens/Local_Sign_up";
@@ -13,9 +13,6 @@ import Sign_up from "../Screens/Sign_up";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account"
 import Local_Account from "../Screens/Local/Local_Account";
 import Local_ChangePass from "../Screens/Local/Local_ChangePass";
-
-
-
 const Stack = createNativeStackNavigator();
 
 function App() {
@@ -27,8 +24,8 @@ function App() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Log_in2" component={Log_in2} />
-      <Stack.Screen name="LocalbottomTabs" component={LocalbottomTabs} />
       <Stack.Screen name="TouristBottomTabs" component={TouristBottomTabs} />
+      <Stack.Screen name="bottomTabs" component={bottomTabs} />
       <Stack.Screen name="Sign_up" component={Sign_up} />
       <Stack.Screen name="Tourist_Sign_up" component={Tourist_Sign_up} />
       <Stack.Screen name="Local_Sign_up" component={Local_Sign_up} />

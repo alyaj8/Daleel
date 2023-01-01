@@ -1,34 +1,47 @@
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
   View,
-  Image,
-  TextInput,
   TouchableOpacity,
+  Pressable
 } from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 export default function Button({
-  navigation,
   title,
   onpress,
   disabled = false,
+  buttonSelection = false,
+  buttonDefault = true,
+  style,
 }) {
   return (
     <View>
-      <TouchableOpacity
-        disabled={disabled}
-        onPress={onpress}
-        style={[
-          styles.btn,
-          { backgroundColor: disabled ? "rgba(83, 152, 160, 0.5)" : "#5398a0" },
-        ]}
-      >
-        <Text style={[text.white, text.text20]}>{title}</Text>
-      </TouchableOpacity>
+      {
+        buttonDefault &&
+        <Pressable
+          disabled={disabled}
+          onPress={onpress}
+          style={[
+            styles.btn,
+            { backgroundColor: disabled ? "rgba(83, 152, 160, 0.5)" : "#5398a0" ,...style},
+          ]}
+        >
+          <Text style={[text.white, text.text20]}>{title}</Text>
+        </Pressable>
+      }
+      {buttonSelection &&
+        <Pressable
+          onPress={onpress}
+          style={[
+            styles.btnSecondary,
+            { backgroundColor: "#80cc28", ...style },
+          ]}
+        >
+          <Text style={[text.white, text.text18]}>{title}</Text>
+        </Pressable>
+      }
     </View>
   );
 }
@@ -42,5 +55,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  btnSecondary: {
+    width: screenWidth.width35,
+    paddingVertical: 5,
+    backgroundColor: "#80cc28",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+
+  }
 
 });

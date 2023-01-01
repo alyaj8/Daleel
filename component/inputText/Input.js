@@ -13,6 +13,7 @@ export default function Input({
   value,
   editable = true,
   onChangeText,
+  style,
 }) {
   const changeHandler = inputText => {
     if (onChangeText) onChangeText();
@@ -22,7 +23,7 @@ export default function Input({
     <View style={styles.container}>
       <View style={{ justifyContent: "center" }}>
         <TextInput
-          style={[styles.InputStyle]}
+          style={[styles.InputStyle,{...style}]}
           multiline={multiline}
           setValue={setValue}
           value={value}
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     borderColor: "#5398a0",
     borderRadius: 20,
     paddingHorizontal: 20,
-    textAlign: "right",
+    textAlign: "center",
   },
   icon: {
     width: 20,

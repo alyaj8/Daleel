@@ -8,7 +8,6 @@ import LocalHomeStack from "./LocalHomeStack";
 import PostTour from "../Screens/Local/PostTour";
 import Local_Account from "../Screens/Local/Local_Account";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
-
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {
@@ -36,10 +35,9 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
-                color: focused ? "#5398a0" : "black",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               طلباتی
@@ -49,7 +47,14 @@ function BottomTab() {
             <View style={{ ...Styles.iconView }}>
               <Image
                 source={images.mark}
-                style={{ width: 20, height: 20, resizeMode: "contain", tintColor: focused ? "#5398a0" : "black", }}
+                style={{
+                   width: 20,
+                    height: 20, 
+                    resizeMode: "contain",
+                  tintColor:focused? '#03989e': "black",
+
+
+                   }}
               />
             </View>
           ),
@@ -62,10 +67,9 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
-                color: focused ? "#5398a0" : "black",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               جولاتي
@@ -74,30 +78,57 @@ function BottomTab() {
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
-                source={images.chat}
+                source={images.location}
                 style={{
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
                 }}
               />
             </View>
           ),
         }}
-        name="PostTour"
+        name="TourStack"
         component={PostTour}
       />
-
+        <Tab.Screen
+        options={{
+          tabBarLabel: ({ focused, color, size }) => (
+            <Text
+              style={{
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
+              }}
+            >
+              نشر
+            </Text>
+          ),
+          tabBarIcon: ({ focused }) => (
+            <View style={[Styles.plusTab,{ ...Styles.iconView }]}>
+              <Image
+                source={images.add}
+                style={{
+                  width: 40,
+                  height: 40,
+                  tintColor: "#03989e",
+                }}
+              />
+            </View>
+          ),
+        }}
+        name="PostSearch"
+        component={PostTour}
+      />
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
-                color: focused ? "#5398a0" : "black",
+                color:focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               رسائلي
@@ -111,13 +142,14 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
+
                 }}
               />
             </View>
           ),
         }}
-        name="Chat"
+        name="ChatMenu"
         component={PostTour}
       />
       <Tab.Screen
@@ -125,10 +157,9 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: "black",
-                fontSize: focused ? 14 : 12,
-                fontWeight: focused ? "900" : "normal",
-                color: focused ? "#5398a0" : "black",
+                color: focused? '#03989e': "black",
+                fontSize: 12,
+                fontWeight: focused ? "bold" : "normal",
               }}
             >
               ملفي
@@ -142,13 +173,14 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#5398a0" : "black",
+                  tintColor:focused? '#03989e': "black",
+
                 }}
               />
             </View>
           ),
         }}
-        name="profile"
+        name="Local_Manage_Account"
         component={Local_Manage_Account}
       />
     </Tab.Navigator>
@@ -162,4 +194,13 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
+  plusTab:{
+    width:55,
+    height:55,
+    backgroundColor:'#fff',
+    alignItems:'center',
+    justifyContent:'center',
+    borderRadius:50,
+    marginBottom:30,
+  }
 });

@@ -8,7 +8,7 @@ import { UserProvider } from "../config/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Local_Account from "../Screens/Local/Local_Account";
-
+import EditTour from "../Screens/Local/EditTour";
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
   apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
@@ -32,7 +32,8 @@ function App() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Local_Account" component={Local_Account} />
+       <Stack.Screen name="Local_Account" component={Local_Account} />
+      <Stack.Screen name="EditTour" component={EditTour} />
 
     </Stack.Navigator>
   );
