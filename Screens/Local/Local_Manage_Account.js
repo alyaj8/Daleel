@@ -8,6 +8,7 @@ import {
     Text,
     TouchableOpacity,
     View,
+
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { db } from "../../config/firebase";
@@ -82,23 +83,39 @@ export default function Local_Manage_Account({ navigation }) {
 
     return (
         <View >
-            <ScrollView>
-                <View style={{ padding: 10, width: "100%", height: 150 }}>
-                    <TouchableOpacity>
+            <View style={{ padding: 10, width: "100%", height: 150 }}>
+                <View style={{
+                    shadowColor: "black",
+                    shadowOffset: { height: 5, width: 0 },
+                    shadowOpacity: 0.5,
+                    shadowRadius: 0.5
+                }}>
+                    <Image
+                        source={require("../../assets/Account_manage.jpg")}
+                        style={{
+                            resizeMode: 'cover', opacity: 0.6,
+                            width: 390, height: 250, marginTop: -13, marginLeft: -10,
 
-                    </TouchableOpacity>
+                        }}
+                    ></Image>
+
                 </View>
-
                 <View style={{ alignItems: "center" }}>
+                    <Image
+                        source={require("../../assets/tabIcons/account.png")}
+                        style={{
+                            width: 140,
+                            height: 140,
+                            borderRadius: 90,
+                            marginTop: -200,
+                        }}
+                    ></Image>
 
-                    <Text style={{ fontSize: 23, fontWeight: "bold", padding: 10 }}>
-                        أهلا مرحبا بك,
-                    </Text>
-                    <Text style={{ fontSize: 29, fontWeight: "bold" }}>{fname}</Text>
-                    <Text
-                        style={{ fontSize: 15, fontWeight: "bold", color: "grey" }}
-                    ></Text>
+                    <Text style={{ fontSize: 35, fontWeight: "bold", padding: 35, marginTop: -30 }}>{fname}</Text>
                 </View>
+            </View>
+
+            <View style={{ marginTop: 120, }}>
 
                 <TouchableOpacity onPress={() => navigation.navigate("Local_Account")}>
                     <View
@@ -188,7 +205,8 @@ export default function Local_Manage_Account({ navigation }) {
                     <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تسجيل الخروج</Text>
                     <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
                 </TouchableOpacity>
-            </ScrollView>
+
+            </View>
         </View>
     );
 }
