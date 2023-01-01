@@ -5,7 +5,17 @@ import { initializeApp } from "firebase/app";
 import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import TouristHomeStack from "./TouristHomeStack";
+import TourStack from "./TouristTourStack";
+
+
+import PostTour from "../Screens/Local/PostTour";
+import TouristDetail from "../Screens/tourist/TouristDetail";
+import TourDetail from "../Screens/Local/TourDetail";
 import Tourist_Account from "../Screens/Tourist_Account";
+
+
+
+
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 const firebaseConfig = {
@@ -88,7 +98,7 @@ function BottomTab() {
           ),
         }}
         name="TourStack"
-        component={TouristHomeStack}
+        component={TourStack}
       />
         <Tab.Screen
         options={{
@@ -178,7 +188,7 @@ function BottomTab() {
             </View>
           ),
         }}
-        name="Tourist_Account"
+        name="Profile"
         component={Tourist_Account}
       />
     </Tab.Navigator>

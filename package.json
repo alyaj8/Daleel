@@ -27,6 +27,7 @@
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-animated-spinkit": "^1.5.2",
+    "react-native-image-picker": "^4.10.3",
     "react-native-modal": "^13.0.1",
     "react-native-raw-bottom-sheet": "^2.2.0"
   },

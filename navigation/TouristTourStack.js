@@ -4,10 +4,13 @@ import * as React from "react";
 import { initializeApp } from "firebase/app";
 import "firebase/auth";
 import { LogBox } from "react-native";
+import { UserProvider } from "../config/UserContext";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Tourist_Home from "../Screens/Tourist_Home";
-import BookingDetail from "../Screens/Local/BookingDetail";
-
+import Local_Home from "../Screens/Local_Home";
+import TouristTour from "../Screens/tourist/TouristTour";
+import TouristTourDetailedInformation from "../Screens/tourist/TouristDetailedInformation";
+import EditTour from "../Screens/Local/EditTour";
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
   apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
@@ -19,21 +22,23 @@ const firebaseConfig = {
   measurementId: "G-56DGNG2KLW",
 };
 initializeApp(firebaseConfig);
-function App() {
+/*const PUBLISHABLE_KEY =
+  "pk_test_51Ll5efFetd1JSL8vQ1WpbGvxBewQSJi8ZUzB6WD0i19CUUkzdnaHAQzja4LNFMZpUWAZKUPTdSklL2KZSI1k9Qfy00MZ31WOSr";*/
+function TourStack() {
+  // hide logbox warning
   React.useEffect(() => {
     LogBox.ignoreLogs([
       "Warning: Async Storage has been extracted from react-native core",
     ]);
   }, []);
+
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Tourist_Home" component={Tourist_Home} />
+      <Stack.Screen name="TourDetail" component={TouristTour} />
+      <Stack.Screen name="TourDetailedInformation" component={TouristTourDetailedInformation} />
 
-      <Stack.Screen
-        name="BookingDetail"
-        component={BookingDetail}
-      />
     </Stack.Navigator>
   );
 }
-export default App;
+
+export default TourStack;
