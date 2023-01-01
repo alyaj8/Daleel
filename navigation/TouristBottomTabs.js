@@ -9,9 +9,11 @@ import TourStack from "./TouristTourStack";
 
 
 import PostTour from "../Screens/Local/PostTour";
-import TouristDetail from "../Screens/tourist/TouristDetail";
+import TouristDetail from "../Screens/Tourist/TouristDetail";
 import TourDetail from "../Screens/Local/TourDetail";
 import Tourist_Account from "../Screens/Tourist_Account";
+import ChatMenu from "../Screens/chatScreen/ChatMenu";
+
 
 
 
@@ -158,7 +160,7 @@ function BottomTab() {
           ),
         }}
         name="ChatMenu"
-        component={Tourist_Account}
+        component={ChatMenu}
       />
       <Tab.Screen
         options={{
