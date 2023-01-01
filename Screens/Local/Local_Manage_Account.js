@@ -141,7 +141,8 @@ export default function Local_Manage_Account({ navigation }) {
 
 
                 <TouchableOpacity
-                    onPress={showAlert}
+                    onPress={() => navigation.navigate("Local_profile")}
+
                     style={{
                         alignSelf: "center",
                         flexDirection: "row",

@@ -13,6 +13,8 @@ import Sign_up from "../Screens/Sign_up";
 import Local_Account from "../Screens/Local/Local_Account";
 import Local_ChangePass from "../Screens/Local/Local_ChangePass";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
+import Local_profile from "../Screens/Local/Local_profile";
+
 
 
 const Stack = createNativeStackNavigator();
@@ -37,6 +39,7 @@ function App() {
       <Stack.Screen name="Local_Manage_Account" component={Local_Manage_Account} />
       <Stack.Screen name="Local_Account" component={Local_Account} />
       <Stack.Screen name="Local_ChangePass" component={Local_ChangePass} />
+      <Stack.Screen name="Local_profile" component={Local_profile} />
 
     </Stack.Navigator>
   );
