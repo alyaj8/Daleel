@@ -116,10 +116,32 @@ export default function Local_Manage_Account({ navigation }) {
                             marginTop: 1,
                         }}
                     >
-                        <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تعديل بياناتي</Text>
+                        <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>المعلومات الشخصية </Text>
                         <Icon name="person-outline" size={33} style={{ marginRight: 10 }} />
 
                     </View>
+                </TouchableOpacity>
+
+
+                <TouchableOpacity
+                    onPress={showAlert}
+                    style={{
+                        alignSelf: "center",
+                        flexDirection: "row",
+                        justifyContent: "flex-end",
+                        backgroundColor: "#fff",
+                        width: "90%",
+                        padding: 20,
+                        paddingBottom: 22,
+                        borderRadius: 10,
+                        shadowOpacity: 0.3,
+                        elevation: 15,
+                        marginTop: 20,
+                        marginBottom: 10,
+                    }}
+                >
+                    <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}> الملف الشخصي</Text>
+                    <Icon name="person-circle-outline" size={35} style={{ marginRight: 5 }} />
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("Local_ChangePass")}>
                     <View
@@ -146,7 +168,6 @@ export default function Local_Manage_Account({ navigation }) {
                         />
                     </View>
                 </TouchableOpacity>
-
                 <TouchableOpacity
                     onPress={showAlert}
                     style={{
@@ -166,28 +187,6 @@ export default function Local_Manage_Account({ navigation }) {
                 >
                     <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تسجيل الخروج</Text>
                     <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={showAlert}
-                    style={{
-                        alignSelf: "center",
-                        flexDirection: "row",
-                        justifyContent: "flex-end",
-                        backgroundColor: "#fff",
-                        width: "90%",
-                        padding: 20,
-                        paddingBottom: 22,
-                        borderRadius: 10,
-                        shadowOpacity: 0.3,
-                        elevation: 15,
-                        marginTop: 20,
-                        marginBottom: 19,
-                    }}
-                >
-                    <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>  حسابي</Text>
-                    <Icon name="person-outline" size={33} style={{ marginRight: 5 }} />
-
-
                 </TouchableOpacity>
             </ScrollView>
         </View>

@@ -42,7 +42,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color:focused? '#03989e': "black",
+                color: focused ? '#03989e' : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -55,13 +55,13 @@ function BottomTab() {
               <Image
                 source={images.mark}
                 style={{
-                   width: 20,
-                    height: 20, 
-                    resizeMode: "contain",
-                  tintColor:focused? '#03989e': "black",
+                  width: 20,
+                  height: 20,
+                  resizeMode: "contain",
+                  tintColor: focused ? '#03989e' : "black",
 
 
-                   }}
+                }}
               />
             </View>
           ),
@@ -74,7 +74,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color:focused? '#03989e': "black",
+                color: focused ? '#03989e' : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -90,7 +90,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor:focused? '#03989e': "black",
+                  tintColor: focused ? '#03989e' : "black",
                 }}
               />
             </View>
@@ -99,12 +99,12 @@ function BottomTab() {
         name="TourStack"
         component={TourStack}
       />
-        <Tab.Screen
+      <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color:focused? '#03989e': "black",
+                color: focused ? '#03989e' : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -113,7 +113,7 @@ function BottomTab() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <View style={[Styles.plusTab,{ ...Styles.iconView }]}>
+            <View style={[Styles.plusTab, { ...Styles.iconView }]}>
               <Image
                 source={images.add}
                 style={{
@@ -133,7 +133,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color:focused? '#03989e': "black",
+                color: focused ? '#03989e' : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -149,7 +149,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor:focused? '#03989e': "black",
+                  tintColor: focused ? '#03989e' : "black",
 
                 }}
               />
@@ -164,12 +164,12 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused? '#03989e': "black",
+                color: focused ? '#03989e' : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              ملفي
+              حسابي
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
@@ -180,7 +180,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor:focused? '#03989e': "black",
+                  tintColor: focused ? '#03989e' : "black",
 
                 }}
               />
@@ -201,13 +201,13 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  plusTab:{
-    width:55,
-    height:55,
-    backgroundColor:'#fff',
-    alignItems:'center',
-    justifyContent:'center',
-    borderRadius:50,
-    marginBottom:30,
+  plusTab: {
+    width: 55,
+    height: 55,
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    marginBottom: 30,
   }
 });

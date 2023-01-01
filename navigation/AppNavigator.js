@@ -10,6 +10,10 @@ import Tourist_Sign_up from "../Screens/Tourist_Sign_up";
 import Local_Sign_up from "../Screens/Local_Sign_up";
 import Log_in2 from "../Screens/Log_in2";
 import Sign_up from "../Screens/Sign_up";
+import Local_Account from "../Screens/Local/Local_Account";
+import Local_ChangePass from "../Screens/Local/Local_ChangePass";
+import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -25,10 +29,15 @@ function App() {
       <Stack.Screen name="TouristBottomTabs" component={TouristBottomTabs} />
       <Stack.Screen name="bottomTabs" component={bottomTabs} />
       <Stack.Screen name="Sign_up" component={Sign_up} />
-      
+
 
       <Stack.Screen name="Tourist_Sign_up" component={Tourist_Sign_up} />
       <Stack.Screen name="Local_Sign_up" component={Local_Sign_up} />
+
+      <Stack.Screen name="Local_Manage_Account" component={Local_Manage_Account} />
+      <Stack.Screen name="Local_Account" component={Local_Account} />
+      <Stack.Screen name="Local_ChangePass" component={Local_ChangePass} />
+
     </Stack.Navigator>
   );
 }

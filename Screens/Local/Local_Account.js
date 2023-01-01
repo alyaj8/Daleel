@@ -509,6 +509,28 @@ export default function Local_Account({ navigation }) {
                 </Text>
               </TouchableOpacity>
             </View>
+            <View>
+              <TouchableOpacity onPress={() => saveChanges()}
+
+                style={{
+                  backgroundColor: "red",
+                  padding: 20,
+                  borderRadius: 10,
+                  marginBottom: 30,
+                  marginTop: -15,
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: "700",
+                    fontSize: 18,
+                    color: "white",
+                  }}
+                >
+                  حذف الحساب                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
