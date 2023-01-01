@@ -287,7 +287,6 @@ export default function Local_Account({ navigation }) {
   return (
     <SafeAreaView
       style={{
-        backgroundColor: "",
         flex: 1,
       }}
     >
