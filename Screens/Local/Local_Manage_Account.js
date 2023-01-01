@@ -81,7 +81,7 @@ export default function Local_Manage_Account({ navigation }) {
     };
 
     return (
-        <View style={{ backgroundColor: "#EDF5F0" }}>
+        <View >
             <ScrollView>
                 <View style={{ padding: 10, width: "100%", height: 150 }}>
                     <TouchableOpacity>
@@ -105,7 +105,7 @@ export default function Local_Manage_Account({ navigation }) {
                         style={{
                             alignSelf: "center",
                             flexDirection: "row",
-                            justifyContent: "flex-start",
+                            justifyContent: "flex-end",
                             backgroundColor: "#fff",
                             width: "90%",
                             padding: 20,
@@ -116,8 +116,9 @@ export default function Local_Manage_Account({ navigation }) {
                             marginTop: 1,
                         }}
                     >
-                        <Icon name="person-outline" size={30} style={{ marginRight: 10 }} />
-                        <Text style={{ fontSize: 16, marginTop: 7 }}>تعديل بياناتي</Text>
+                        <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تعديل بياناتي</Text>
+                        <Icon name="person-outline" size={33} style={{ marginRight: 10 }} />
+
                     </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => navigation.navigate("Local_ChangePass")}>
@@ -125,7 +126,7 @@ export default function Local_Manage_Account({ navigation }) {
                         style={{
                             alignSelf: "center",
                             flexDirection: "row",
-                            justifyContent: "flex-start",
+                            justifyContent: "flex-end",
                             backgroundColor: "#fff",
                             width: "90%",
                             padding: 20,
@@ -136,12 +137,13 @@ export default function Local_Manage_Account({ navigation }) {
                             marginTop: 17,
                         }}
                     >
+
+                        <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تغيير الرقم السري</Text>
                         <Icon
                             name="lock-closed-outline"
-                            size={30}
+                            size={33}
                             style={{ marginRight: 10 }}
                         />
-                        <Text style={{ fontSize: 16, marginTop: 7 }}>تغيير الرقم السري</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -162,8 +164,8 @@ export default function Local_Manage_Account({ navigation }) {
                         marginBottom: 19,
                     }}
                 >
-                    <Icon name="log-out-outline" size={30} style={{ marginRight: 90 }} />
-                    <Text style={{ fontSize: 16, marginTop: 7 }}>تسجيل الخروج</Text>
+                    <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تسجيل الخروج</Text>
+                    <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={showAlert}
@@ -182,7 +184,10 @@ export default function Local_Manage_Account({ navigation }) {
                         marginBottom: 19,
                     }}
                 >
-                    <Text style={{ fontSize: 16, marginTop: 7 }}>  حسابي</Text>
+                    <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>  حسابي</Text>
+                    <Icon name="person-outline" size={33} style={{ marginRight: 5 }} />
+
+
                 </TouchableOpacity>
             </ScrollView>
         </View>
