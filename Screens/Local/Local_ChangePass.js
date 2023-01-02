@@ -68,10 +68,10 @@ export default function Local_ChangePass({ navigation }) {
                         setError(error.message);
                     });
             } else {
-                setError("Current Password is not correct");
+                setError(" الرقم السري غير صحيح");
             }
         } else {
-            setError("Password will be more than 7 character");
+            setError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
         }
     };
     return (
