@@ -42,7 +42,7 @@ function msg(error) {
 
         case "auth/email-already-in-use":
             error.code =
-                "البريد الإلكتروني قدم تم استخدامه من قبل";
+                "هذا البريد الإلكتروني قدم تم استخدامه من قبل";
             break;
 
         case "auth/weak-password":
@@ -149,18 +149,18 @@ export default function UserSignUp({ navigation }) {
 
     const validatName = () => {
         if (value.firstname === "") {
-            setNameError("لا يمكن ترك الإسم الأول فارغا")
+            setNameError("الرجاء إدخال اسمك الأول")
         }
-        else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه") }
+        else if (!checkFirstName(value.firstname)) { setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف") }
         else if (checkFirstName(value.firstname) && value.firstname !== "") {
             setNameError("")
         }
     }
     const validatLastName = () => {
         if (value.lastname === "") {
-            setLastNameError("لا يمكن ترك الإسم الأخير فارغا")
+            setLastNameError("الرجاء إدخال اسمك الأخير")
         }
-        else if (!checkFirstName(value.lastname)) { setLastNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه") }
+        else if (!checkFirstName(value.lastname)) { setLastNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف") }
         else if (checkFirstName(value.lastname) && value.lastname !== "") {
             setLastNameError("")
         }
@@ -169,16 +169,17 @@ export default function UserSignUp({ navigation }) {
     const validatPass = () => {
         if (checkPass(value.password)) { setPassError("") }
         else if (value.password === "") {
-            setPassError("لا يمكن ترك الرقم السري فارغا")
+            setPassError("الرجاء إدخال الرقم السري")
         }
         else if (!checkPass(value.password))
-            setPassError("يجب ان يتكون الرقم السري من ٨ احرف على الأقل")
+            setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف")
     }
 
     const validatEmail = () => {
         setEmailError("");
         if (value.email === "") {
-            setEmailError("لا يمكن ترك البريد الإلكتروني فارغا")
+            setEmailError(" الرجاء إدخال البريد الإلكتروني")
+
         }
         else if (!checkEmail(value.email)) {
             setEmailError("عنوان البريد الإلكتروني غير صحيح")
@@ -189,20 +190,20 @@ export default function UserSignUp({ navigation }) {
         if (checkPhone(value.phone)) { setPhoneError("") }
 
         else if (value.phone === "") {
-            setPhoneError("لا يمكن ترك رقم الجوال فارغا")
+            setPhoneError("الرجاء إدخال رقم الجوال")
         }
         else if (!checkPhone2(value.phone))
-            setPhoneError("يجب ان يتكون الرقم الجوال من ٩ ارقام  ")
+            setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ")
     }
 
     const validatMaroof = () => {
         if (checkMaroof(value.maroof)) { setMaroofError("") }
 
         else if (value.maroof === "") {
-            setMaroofError("لا يمكن ترك رقم معروف فارغا")
+            setMaroofError("الرجاء إدخال رقم معروف")
         }
         else if (!checkMaroof(value.maroof))
-            setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ")
+            setMaroofError("يجب ان يتكون رقم معروف من 5 او 6 ارقام  ")
     }
 
 
@@ -210,7 +211,7 @@ export default function UserSignUp({ navigation }) {
     const validatUsername = () => {
 
         if (value.username === "") {
-            setUsernameError("لا يمكن ترك اسم المستخدم فارغا")
+            setUsernameError("الرجاء إدخال اسم المستخدم")
         }
         else { CheckUnique(value.username) }
 
@@ -225,7 +226,7 @@ export default function UserSignUp({ navigation }) {
             setPass2Error("لا يمكن ترك الرقم السري فارغا")
         }
         else if (value.password != value.password2) {
-            setPass2Error("sorry no match")
+            setPass2Error("هذا الرقم السري لايتوافق مع الرقم السري المُدخل سابقاً")
             console.log("pass false")
         }
     }
@@ -311,7 +312,7 @@ export default function UserSignUp({ navigation }) {
     };
     let checkFirstName = (value) => {
         var letters = /^[A-Za-z]+$/;
-        if (value.match(letters) && value.length < 15) {
+        if (value.match(letters) && value.length < 21) {
             return true;
         } else {
             return false;
@@ -345,7 +346,7 @@ export default function UserSignUp({ navigation }) {
         }
     };
     let checkPhone2 = (value) => {
-        if (value.length == 9) {
+        if (value.length == 8) {
             return true;
         } else {
             return false;
@@ -385,7 +386,7 @@ export default function UserSignUp({ navigation }) {
             setUsernameError("")
             return true;
         }
-        setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
+        setUsernameError("هذا الاسم قدم تم استخدامه من قبل")
         return false;
     };
 
@@ -470,7 +471,7 @@ export default function UserSignUp({ navigation }) {
                         <Text
                             style={{
                                 color: "red",
-                                marginLeft: 10,
+                                textAlign: "right"
                             }}
                         >
                             {NameError}
@@ -487,7 +488,7 @@ export default function UserSignUp({ navigation }) {
                         <Text
                             style={{
                                 color: "red",
-                                marginLeft: 10,
+                                textAlign: "right"
                             }}
                         >
                             {LastNameError}
@@ -548,7 +549,7 @@ export default function UserSignUp({ navigation }) {
                         </Text>
                         <TextInput
                             style={styles.body}
-                            placeholder="*رقم الجوال"
+                            placeholder="966-05XXXXXXXXX "
                             onChangeText={(text) => setValue({ ...value, phone: text })}
                             underlineColorAndroid="transparent"
                             keyboardType="numeric"
