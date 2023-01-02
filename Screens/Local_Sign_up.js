@@ -172,7 +172,7 @@ export default function UserSignUp({ navigation }) {
             setPassError("الرجاء إدخال الرقم السري")
         }
         else if (!checkPass(value.password))
-            setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف")
+            setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف")
     }
 
     const validatEmail = () => {
@@ -223,7 +223,7 @@ export default function UserSignUp({ navigation }) {
             setPass2Error("");
         }
         else if (value.password2 === "") {
-            setPass2Error("لا يمكن ترك الرقم السري فارغا")
+            setPass2Error(" الرجاء إدخال الرقم السري مرةاخرى للتأكيد")
         }
         else if (value.password != value.password2) {
             setPass2Error("هذا الرقم السري لايتوافق مع الرقم السري المُدخل سابقاً")
