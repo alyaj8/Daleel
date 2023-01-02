@@ -97,6 +97,20 @@ export default function Local_Account({ navigation }) {
       // console.log(infoList);
     }
   };
+
+  const deleteUserFunc = async () => {
+    await deleteAccount();
+  }
+  async function deleteAccount() {
+    // const uid = auth().currentUser.uid;
+    user.delete().then(() => {
+      // db.collection('users').doc(user.uid).delete()
+      db.collection('Admin_users').doc(user.uid).delete()
+    }).catch((error) => {
+      console.log(error, "error")
+    })
+  }
+
   let saveChanges = async () => {
     if (
       value.firstname === "" ||
@@ -343,8 +357,7 @@ export default function Local_Account({ navigation }) {
           <View style={{ marginTop: 40, marginLeft: -10 }}>
             <View style={styles.InputContainer}>
               <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                الإسم
-              </Text>
+                الاسم الأول              </Text>
               <Text
                 style={{
                   color: "red",
@@ -366,7 +379,7 @@ export default function Local_Account({ navigation }) {
 
             <View style={styles.InputContainer}>
               <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                last الإسم
+                الاسم الأخير
               </Text>
               <Text
                 style={{
@@ -413,7 +426,7 @@ export default function Local_Account({ navigation }) {
 
             <View style={styles.InputContainer}>
               <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                {"\n"}username
+                {"\n"}اسم المستخدم
               </Text>
 
               <Text
@@ -460,7 +473,7 @@ export default function Local_Account({ navigation }) {
 
             <View style={styles.InputContainer}>
               <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                {"\n"}maroof
+                {"\n"}رقم معروف
 
               </Text>
 
@@ -510,7 +523,7 @@ export default function Local_Account({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => saveChanges()}
+              <TouchableOpacity onPress={() => deleteAccount()}
 
                 style={{
                   backgroundColor: "red",

@@ -1,4 +1,4 @@
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 import {
     Button,
     StyleSheet,
@@ -8,10 +8,14 @@ import {
     TextInput,
     SafeAreaView,
     TouchableOpacity,
+    LogBox,
+
 } from "react-native";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { registerForPushNotificationsAsync } from "../util/Notifcations";
+
 function msg(error) {
     switch (error.code) {
         case "auth/invalid-email":
@@ -36,6 +40,13 @@ function msg(error) {
     return error.code;
 }
 export default function Log_in2({ navigation }) {
+    const [push_token, setPushToken] = useState("");
+    useEffect(() => {
+        registerForPushNotificationsAsync().then((token) => {
+            setPushToken(token === undefined ? "" : token);
+        });
+    }, []);
+
     const [value, setValue] = React.useState({
         email: "",
         password: "",
@@ -79,8 +90,16 @@ export default function Log_in2({ navigation }) {
                 error: "",
             });
             if (docSnap.data().isTourist) {
+                if (push_token) {
+                    await updateDoc(doc(db, "users", user.uid), { push_token });
+                    await updateDoc(doc(db, "Admin_users", user.uid), { push_token });
+                }
                 navigation.navigate("TouristBottomTabs");
             } else {
+                if (push_token) {
+                    await updateDoc(doc(db, "users", user.uid), { push_token });
+                    await updateDoc(doc(db, "Tourist_users", user.uid), { push_token });
+                }
                 navigation.navigate("bottomTabs");
             }
         } catch (er) {
@@ -91,7 +110,11 @@ export default function Log_in2({ navigation }) {
             });
         }
     }
-
+    useEffect(() => {
+        LogBox.ignoreLogs([
+            "Warning: Async Storage has been extracted from react-native core",
+        ]);
+    }, []);
     return (
         <SafeAreaView
             style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}

@@ -12,6 +12,8 @@ import {
     date,
     TouchableHighlight,
     TouchableOpacity,
+    LogBox,
+
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
@@ -24,9 +26,10 @@ import {
     setDoc,
     where,
     getFirestore,
+
 } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
-//import { registerForPushNotificationsAsync } from "../../util/Notifcations";
+import { registerForPushNotificationsAsync } from "../util/Notifcations";
 
 import { Entypo } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -57,9 +60,16 @@ function msg(error) {
 
 
 export default function UserSignUp({ navigation }) {
+    const [push_token, setPushToken] = useState("");
+    useEffect(() => {
+        registerForPushNotificationsAsync().then((token) => {
+            //  setPushToken(token === undefined ? "" : token);
+            setPushToken(token);
+
+        });
+    }, []);
     const [image, setImage] = useState(null);
     const [update, setupdate] = useState(true);
-    const [push_token, setPushToken] = useState("");
 
     const [NameError, setNameError] = useState("");
     const [PassError, setPassError] = useState("");
@@ -73,11 +83,6 @@ export default function UserSignUp({ navigation }) {
     const [a1, seta1] = useState(false);
 
 
-    /* useEffect(() => {
-       registerForPushNotificationsAsync().then((token) => {
-         setPushToken(token === undefined ? "" : token);
-       });
-     }, []);*/
 
     ///////////////////////////////image
     const options = {
@@ -231,7 +236,9 @@ export default function UserSignUp({ navigation }) {
         }
     }
     async function signUp() {
+        console.log("user333");
         if (
+
             value.firstname === "" ||
             value.lastname === "" ||
 
@@ -264,6 +271,8 @@ export default function UserSignUp({ navigation }) {
 
 
 
+
+
         }
         else {
             try {
@@ -272,7 +281,7 @@ export default function UserSignUp({ navigation }) {
                     value.email,
                     value.password
                 );
-                console.log("user", user.uid);
+                console.log("user1111");
 
                 const data = {
                     firstname: value.firstname,
@@ -339,7 +348,7 @@ export default function UserSignUp({ navigation }) {
     let checkPhone = (value) => {
         var letters = /^[0-9]+$/;
         // console.log(value.length);
-        if (value.match(letters) && value.length == 9) {
+        if (value.match(letters) && value.length == 8) {
             return true;
         } else {
             return false;
@@ -389,7 +398,11 @@ export default function UserSignUp({ navigation }) {
         setUsernameError("هذا الاسم قدم تم استخدامه من قبل")
         return false;
     };
-
+    useEffect(() => {
+        LogBox.ignoreLogs([
+            "Warning: Async Storage has been extracted from react-native core",
+        ]);
+    }, []);
     return (
         <SafeAreaView
             style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}

@@ -10,23 +10,26 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
+  LogBox,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
-//import { registerForPushNotificationsAsync } from "../../util/Notifcations";
+import { registerForPushNotificationsAsync } from "../util/Notifcations";
 
 
 export default function UserSignUp({ navigation }) {
   const [push_token, setPushToken] = useState("");
+  useEffect(() => {
+    registerForPushNotificationsAsync().then((token) => {
+      //  setPushToken(token === undefined ? "" : token);
+      setPushToken(token);
+
+    });
+  }, []);
   const [pass, setpass] = useState(true);
 
-  /* useEffect(() => {
-     registerForPushNotificationsAsync().then((token) => {
-       setPushToken(token === undefined ? "" : token);
-     });
-   }, []);*/
   const [value, setValue] = React.useState({
     email: "",
     password: "",
@@ -274,7 +277,11 @@ export default function UserSignUp({ navigation }) {
     return snapshot.empty;
 
   };
-
+  useEffect(() => {
+    LogBox.ignoreLogs([
+      "Warning: Async Storage has been extracted from react-native core",
+    ]);
+  }, []);
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
