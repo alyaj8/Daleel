@@ -28,24 +28,70 @@ import {
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { withUser } from "../../config/UserContext";
-
 export default function Local_profile({ navigation }) {
 
-    useEffect(() => {
-        getData();
-    }, []);
 
-    const getData = async () => {
-        const colRef = doc(db, "users", user.uid);
-        const snapshot = await getDoc(colRef);
-        let userdata = snapshot.data();
-    };
 
 
 
     return (
-        <View><Text>profile</Text></View>
+        <SafeAreaView
+            style={{
+                flex: 1,
+            }}
+        >
 
+
+            <View
+                style={{
+                    backgroundColor: "#5398a0",
+                    height: "13%",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                    paddingHorizontal: 20,
+                    marginBottom: 15,
+                }}
+            >
+                <Icon
+                    name="arrow-back-outline"
+                    size={45}
+                    style={{ color: "black", marginTop: 35, marginLeft: -15 }}
+                    onPress={() => navigation.goBack()}
+                />
+                <View
+                    style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: -10,
+                        width: "100%",
+                    }}
+                >
+                    <Text
+                        style={{
+                            marginLeft: 60,
+                            marginTop: -35,
+                            fontSize: 29,
+                            color: "#FFF",
+                            fontWeight: "bold",
+                            alignSelf: "center",
+                        }}
+                    >
+                        تغيير الرقم السري                    </Text>
+                </View>
+            </View>
+            <TouchableOpacity style={{ backgroundColor: "lightgrey" }}>
+                <Text>Add photo</Text>
+            </TouchableOpacity>
+
+            <View style={{ backgroundColor: "lightgrey", borderRadius: 15, marginHorizontal: 5 }}>
+                <ScrollView>
+                    <Text>jhugyf</Text>
+                    <Text>jhugyf</Text>
+                    <Text>jhugyf</Text>
+                    <Text>jhugyf</Text>
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     );
 }
 const styles = StyleSheet.create({
@@ -69,5 +115,21 @@ const styles = StyleSheet.create({
         paddingRight: 20,
         borderColor: "#5398a0",
     },
-
+    buttonCont: {
+        width: 180,
+        height: 50,
+        borderRadius: 50,
+        backgroundColor: "#5398a0",
+        marginTop: 30,
+        paddingLeft: 10,
+        alignSelf: "center",
+    },
+    savechanges: {
+        fontSize: 18,
+        fontWeight: "bold",
+        alignSelf: "center",
+        marginTop: 10,
+        marginBottom: 10,
+        marginRight: 18,
+    },
 });

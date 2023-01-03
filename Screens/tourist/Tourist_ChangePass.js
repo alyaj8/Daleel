@@ -59,7 +59,7 @@ export default function Local_ChangePass({ navigation }) {
                 updatePassword(user, newPass)
                     .then(async () => {
                         await updateDoc(doc(db, "users", user.uid), { password: newPass });
-                        await updateDoc(doc(db, "Admin_users", user.uid), { password: newPass });
+                        await updateDoc(doc(db, "Tourist_users", user.uid), { password: newPass });
                         setError("");
                         alert("تم تغيير الرقم السري بنجاح ");
                         navigation.goBack();

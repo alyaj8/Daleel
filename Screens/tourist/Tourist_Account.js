@@ -28,7 +28,7 @@ import {
     getDocs,
     updateDoc,
 } from "firebase/firestore";
-import { db } from "../config/firebase";
+import { db } from "../../config/firebase";
 
 export default function Tourist_Account({ navigation }) {
 

@@ -78,6 +78,8 @@ export default function Local_Account({ navigation }) {
 
   const auth = getAuth();
   const user = auth.currentUser;
+  console.log(user.uid);
+
 
   useEffect(() => {
     getData();
@@ -89,7 +91,7 @@ export default function Local_Account({ navigation }) {
       querySnapshot.forEach(async (doc) => {
         const Acc = doc.data();
         setValue(Acc);
-        //  setOldName(userdata.username);
+        console.log(value.email);
 
       });
       //  setValue(Acc);
@@ -102,10 +104,18 @@ export default function Local_Account({ navigation }) {
     await deleteAccount();
   }
   async function deleteAccount() {
-    // const uid = auth().currentUser.uid;
+    const auth = getAuth();
+    const user = auth.currentUser;
+    console.log(user.uid);
+    db.collection('Admin_users').doc(user.uid).delete();
+    db.collection('users').doc(user.uid).delete();
+
     user.delete().then(() => {
+      console.log("2");
       // db.collection('users').doc(user.uid).delete()
       db.collection('Admin_users').doc(user.uid).delete()
+      console.log("3")
+
     }).catch((error) => {
       console.log(error, "error")
     })
@@ -523,7 +533,7 @@ export default function Local_Account({ navigation }) {
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => deleteAccount()}
+              <TouchableOpacity onPress={() => deleteUserFunc()}
 
                 style={{
                   backgroundColor: "red",
