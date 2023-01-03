@@ -32,10 +32,10 @@ export default function ChatMenu({ navigation }) {
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
             <View style={{marginHorizontal:20,marginTop:screenWidth.width10}}>
-            <LeftChat msg={'Hi Shatha'}/>
+            <LeftChat msg={'Hi Mashael'}/>
             </View>
             <View style={{marginHorizontal:20}}>
-            <RightChat msg={'Hi Sam'}/>
+            <RightChat msg={'Hi Jon'}/>
             </View>
         </ScrollView>
         <View >

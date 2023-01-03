@@ -26,10 +26,10 @@ export default function ChatMenu({ navigation }) {
           <View style={{
            marginTop:screenWidth.width10
           }}>
-            <ChatOption  Name={'Jon'} about={'React Native'}
+            <ChatOption  Name={'Jon'} about={'جولة بلدة العلا القديمة'}
             onPress={()=>navigation.navigate('Chat')} 
             />
-            <ChatOption  Name={'A1'} about={'React Native'}
+            <ChatOption  Name={'Jon'} about={'جولة بلدة العلا القديمة'}
             onPress={()=>navigation.navigate('Chat')} 
             />
 

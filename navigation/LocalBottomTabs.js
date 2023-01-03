@@ -9,7 +9,7 @@ import TourStack from "./TourStack";
 
 
 import PostTour from "../Screens/Local/PostTour";
-import TouristDetail from "../Screens/tourist/TouristDetail";//"../Screens/Tourist/TouristDetail";
+import TouristDetail from "../Screens/Tourist/TouristDetail";//"../Screens/Tourist/TouristDetail";
 import TourDetail from "../Screens/Local/TourDetail";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 

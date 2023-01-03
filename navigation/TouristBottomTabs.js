@@ -9,10 +9,10 @@ import TourStack from "./TouristTourStack";
 
 
 import PostTour from "../Screens/Local/PostTour";
-import TouristDetail from "../Screens/tourist/TouristDetail";
+import TouristDetail from "../Screens/Tourist/TouristDetail";
 import TourDetail from "../Screens/Local/TourDetail";
 import ChatMenu from "../Screens/chatScreen/ChatMenu";
-import Tourist_Manage_Account from "../Screens/tourist/Tourist_Manage_Account"
+import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account"
 
 
 
