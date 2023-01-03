@@ -39,7 +39,7 @@ export default function PostTour({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const status = 0;
-  let ages = ["10 - 20", "20 - 30", "30 - 40"];
+  let ages = ["الكل", "صغار", "كبار"];
 
   const disabled =
     !name ||
@@ -328,7 +328,7 @@ export default function PostTour({ navigation }) {
               <View style={[styles.alignCenter]}>
                 <View style={{ marginVertical: 10 }}>
                   <Text style={[text.themeDefault, text.text14]}>
-                    الحد العمري
+                    الفئة العمرية
                   </Text>
                 </View>
                 <TouchableOpacity
@@ -346,7 +346,7 @@ export default function PostTour({ navigation }) {
 
             <View style={[styles.alignCenter]}>
               <View style={{ marginVertical: 10 }}>
-                <Text style={[text.themeDefault, text.text14]}>عدد السياح</Text>
+                <Text style={[text.themeDefault, text.text14]}>أعلى عدد للسياح</Text>
               </View>
               <SmallInput
                 keyboardType={"numeric"}
@@ -456,8 +456,8 @@ const styles = StyleSheet.create({
   InputStyle: {
     width: screenWidth.width25,
     padding: 5,
-    borderWidth: 1,
-    borderColor: "#5398a0",
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
     borderRadius: 20,
     paddingHorizontal: 10,
 

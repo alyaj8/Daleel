@@ -65,7 +65,7 @@ export const screenWidth = {
 
 //colors
 export const colors = {
-  themeDefault: "#5398a0",
+  themeDefault: "#4F6367",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
   placeholder: "#CBCBCB",
