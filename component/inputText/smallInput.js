@@ -44,8 +44,8 @@ const styles = StyleSheet.create({
   InputStyle: {
     width: screenWidth.width25,
     padding: 5,
-    borderWidth: 1,
-    borderColor: "#5398a0",
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
     borderRadius: 20,
     paddingHorizontal: 10,
 
