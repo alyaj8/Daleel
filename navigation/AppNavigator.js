@@ -17,9 +17,9 @@ import Local_profile from "../Screens/Local/Local_profile";
 import Chat from "../Screens/chatScreen/Chat";
 
 
-import Tourist_Account from "../Screens/Tourist/Tourist_Account";
-import Tourist_ChangePass from "../Screens/Tourist/Tourist_ChangePass"
-import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account"
+import Tourist_Account from "../Screens/tourist/Tourist_Account";
+import Tourist_ChangePass from "../Screens/tourist/Tourist_ChangePass"
+import Tourist_Manage_Account from "../Screens/tourist/Tourist_Manage_Account"
 
 const Stack = createNativeStackNavigator();
 

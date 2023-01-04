@@ -32,6 +32,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import Modal from "react-native-modal";
 
 export default function Local_Account({ navigation }) {
 
@@ -44,6 +45,7 @@ export default function Local_Account({ navigation }) {
   const [PhoneError, setPhoneError] = useState("");
   const [MaroofError, setMaroofError] = useState("");
 
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const [value, setValue] = React.useState({
     firstname: "",
@@ -103,6 +105,38 @@ export default function Local_Account({ navigation }) {
     }
   };
 
+  const toggleModal = () => {
+    console.log(isModalVisible)
+    setModalVisible(prev => !prev);
+    console.log(isModalVisible, "22")
+
+
+  };
+  let saveChanges2 = async () => {
+    try {
+      console.log(isModalVisible)
+      setModalVisible(prev => !prev);
+      console.log(isModalVisible, "22")
+
+      await updateEmail(user, value.email)
+        .then(async () => {
+          console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
+
+          await setDoc(doc(db, "users", user.uid), value);
+          await setDoc(doc(db, "Admin_users", user.uid), value);
+          setEmailError("");
+          //  if (oldEmail !== value.email) {
+          navigation.goBack()          //  }
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setEmailError(msg(error));
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   const deleteUserFunc = async () => {
     await deleteAccount();
   }
@@ -147,26 +181,10 @@ export default function Local_Account({ navigation }) {
       validatUsername();
 
     } else {
-      try {
-        await updateEmail(user, value.email)
-          .then(async () => {
-            console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
+      console.log(isModalVisible)
+      setModalVisible(prev => !prev);
+      console.log(isModalVisible, "22")
 
-            await setDoc(doc(db, "users", user.uid), value);
-            await setDoc(doc(db, "Admin_users", user.uid), value);
-            alert("Profile Updated 111Successfully");
-            setEmailError("");
-            //  if (oldEmail !== value.email) {
-            // navigation.navigate("Local_Home"); ///////////////
-            //  }
-          })
-          .catch((error) => {
-            console.log(error.message);
-            setEmailError(msg(error));
-          });
-      } catch (error) {
-        console.log(error);
-      }
     }
   };
   let checkFirstName = (value) => {
@@ -514,8 +532,7 @@ export default function Local_Account({ navigation }) {
 
 
             <View>
-              <TouchableOpacity onPress={() => saveChanges()}
-
+              <TouchableOpacity onPress={saveChanges}
                 style={{
                   backgroundColor: "#5398a0",
                   padding: 20,
@@ -534,7 +551,9 @@ export default function Local_Account({ navigation }) {
                 >
                   حفظ التغيرات
                 </Text>
+
               </TouchableOpacity>
+
             </View>
             <View>
               <TouchableOpacity onPress={() => deleteUserFunc()}
@@ -558,6 +577,40 @@ export default function Local_Account({ navigation }) {
                   حذف الحساب                </Text>
               </TouchableOpacity>
             </View>
+
+            <Modal isVisible={isModalVisible}>
+              <View style={[styles.modalView]}>
+                <View style={[styles.main]}>
+                  <View style={{ marginVertical: 20 }}>
+                    <Text
+                      style={{ textAlign: "center", }}
+                    >
+                      هل أنت متأكد من نشر هذه الجولة؟
+                    </Text>
+                    <Icon
+                      name="arrow-back-outline"
+                      size={45}
+                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+                      onPress={() => navigation.goBack()}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <View style={{}}>
+                      <Button title="نشر" onPress={saveChanges2} />
+                    </View>
+                    <View style={{}}>
+                      <Button title="الغاء" onPress={toggleModal} />
+
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
       </ScrollView>
@@ -602,5 +655,16 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     marginRight: 18,
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  main: {
+    backgroundColor: "#fff",
+    width: screenWidth.width80,
+    padding: 20,
+    borderRadius: 20,
   },
 });
