@@ -166,7 +166,6 @@ export default function Local_ChangePass({ navigation }) {
                             // onChangeText={(text) => setValue({ ...value, firstname: text })}
                             underlineColorAndroid="transparent"
                             onChangeText={(text) => setOldPass(text)}
-                            secureTextEntry={true}
                         />
                     </View>
                     <View>
@@ -179,7 +178,6 @@ export default function Local_ChangePass({ navigation }) {
                             //   placeholderTextColor="black" //     onChangeText={(text) => setValue({ ...value, lastname: text })}
                             underlineColorAndroid="transparent"
                             onChangeText={(text) => setNewPass(text)}
-                            secureTextEntry={true}
                         />
                     </View>
 

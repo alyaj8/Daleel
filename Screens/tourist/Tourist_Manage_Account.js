@@ -91,7 +91,7 @@ export default function Local_Manage_Account({ navigation }) {
                     shadowRadius: 0.5
                 }}>
                     <Image
-                        source={require("../../assets/Account_manage.jpg")}
+                        source={require("../../assets/a1.jpg")}
                         style={{
                             resizeMode: 'cover', opacity: 0.6,
                             width: 390, height: 250, marginTop: -13, marginLeft: -10,

@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   View,
   Button,
+  ImageBackground,
+
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -29,6 +31,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 
 export default function Local_Account({ navigation }) {
 
@@ -309,14 +312,14 @@ export default function Local_Account({ navigation }) {
 
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-      }}
+
+    <ImageBackground
+      style={{ flex: 1 }}
+      source={images.backgroundImg}
+      resizeMode="cover"
     >
       <View
         style={{
-          backgroundColor: "#5398a0",
           height: "13%",
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
@@ -337,19 +340,20 @@ export default function Local_Account({ navigation }) {
             alignItems: "center",
             marginTop: -10,
             width: "100%",
+            marginLeft: 11
           }}
         >
           <Text
             style={{
               marginLeft: 100,
-              marginTop: -35,
+              marginTop: -40,
               fontSize: 29,
               color: "#FFF",
               fontWeight: "bold",
               alignSelf: "center",
             }}
           >
-            معلوماتي                    </Text>
+            معلوماتي</Text>
         </View>
       </View>
       <ScrollView>
@@ -557,7 +561,7 @@ export default function Local_Account({ navigation }) {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </ImageBackground>
   );
 }
 const styles = StyleSheet.create({
