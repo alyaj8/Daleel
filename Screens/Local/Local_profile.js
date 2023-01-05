@@ -8,6 +8,7 @@ import {
     ScrollView,
     TouchableOpacity,
     Alert,
+    FlatList
 } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
@@ -23,7 +24,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { upload, insertRequest, getUserId } from "../../network/ApiService";
 import Loader from "../../component/Loaders/Loader";
 import Icon from "react-native-vector-icons/Ionicons";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where, addDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { getAuth, signOut } from "firebase/auth";
 
@@ -54,11 +55,19 @@ export default function Local_profile({ navigation }) {
         });
         if (!result.canceled) {
             setFilePath(result.assets[0].uri);
+            const data = {
+                poster: result.assets[0].uri,
+            };
+            const xx = result.assets[0].uri;
+
+            await addDoc(collection(db, "test"), data);
+
         }
     };
 
     const toggleModal = () => {
-        setModalVisible(!isModalVisible);
+        setModalVisible(prev => !prev);
+        console.log("11")
     };
 
 
@@ -104,12 +113,32 @@ export default function Local_profile({ navigation }) {
 
                 myData.push(userinfo2);
             });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        getData2();
+    }, []);
+
+    const getData2 = async () => {
+        try {
+            const colRef = query(
+                collection(db, "test"),
+            );
+            const snapshot = await getDocs(colRef);
+            var myData = [];
+            //store the data in an array myData
+            snapshot.forEach((doc) => {
+                let userinfo2 = doc.data();
+                userinfo2.id = doc.id;
+                myData.push(userinfo2);
+            });
             setinfoList(myData);
         } catch (error) {
             console.log(error);
         }
     };
-
     return (
         <ImageBackground
             style={{ flex: 1 }}
@@ -138,9 +167,9 @@ export default function Local_profile({ navigation }) {
                             borderBottomLeftRadius: 20,
                             borderBottomRightRadius: 20,
                             paddingHorizontal: 20,
-                            marginTop: 10,
+                            marginTop: 7,
                             textAlign: "center",
-                            fontSize: 30,
+                            fontSize: 37,
                             fontWeight: "bold"
 
                         }}>
@@ -150,76 +179,120 @@ export default function Local_profile({ navigation }) {
                 <Icon
                     name="arrow-back-outline"
                     size={45}
-                    style={{ color: "black", marginTop: -20, marginLeft: -15 }}
+                    style={{ color: "black", marginTop: -29, marginLeft: -15 }}
                     onPress={() => navigation.goBack()}
                 />
             </View>
             <View style={{
-                borderBottomLeftRadius: 20,
-                borderBottomRightRadius: 20,
-                paddingHorizontal: 20,
+                // backgroundColor: "red" 
+            }}>
+
+                <Image source={images.photo} style={{
+                    alignSelf: "center", width: 170,
+                    height: 180,
+                    borderRadius: 150,
+                    resizeMode: "center",
+                    borderWidth: 3,
+                    borderColor: "grey"
+                }} />
+
+            </View>
+            <View style={{
+                borderRadius: 20,
                 marginBottom: 15,
-                marginTop: 11,
+                marginTop: 15,
                 backgroundColor: "lightgrey",
-                alignItems: "center"
+                alignItems: "center",
+                marginHorizontal: 5
             }}>
                 <Icon
                     name="add-outline"
                     size={45}
                     style={{ color: "black" }}
-                    onPress={() => navigation.goBack()}
+                    onPress={() => toggleModal()}
                 />
             </View>
-            < View>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    {filePath ? (
-                        <View
-                            style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
-                        >
-                            <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
+
+
+            <View style={{ marginBottom: -9, }}>
+
+                <FlatList
+                    columnWrapperStyle={{ justifyContent: "space-between" }}
+                    numColumns={3}
+                    data={infoList}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => (
+                        <View>
+                            <Icon
+                                name="close-circle-outline"
+                                size={30}
+                                style={{
+                                    color: "black",
+                                    marginTop: 9,
+                                    marginLeft: 80,
+                                    position: "absolute",
+                                    left: 10,
+                                    zIndex: 1,
+                                    color: "red"
+                                }}
+                            /*  onPress={() =>
+                                  DeleteFunc()
+                                }   */
+                            />
+                            <TouchableOpacity
+                                // onPress={() =>
+                                //  navigation.navigate({
+                                // key: "step_1",
+                                // params: item,
+                                //   })
+                                //  }
+                                style={{
+                                    backgroundColor: "lightgrey",
+                                    marginHorizontal: 5,
+                                    borderRadius: 10,
+                                    marginVertical: 7
+                                }}
+                            >
+
+                                <Image source={{ uri: item.poster }} style={[styles.dummyImg]} />
+
+                            </TouchableOpacity>
                         </View>
-                    ) : (
-                        <TouchableOpacity
-                            onPress={() => pickImage()}
-                            style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
-                        >
-                            <Image source={images.photo} style={[styles.dummyImg]} />
-                        </TouchableOpacity>
                     )}
-                    <Modal isVisible={isModalVisible}>
-                        <View style={[styles.modalView]}>
-                            <View style={[styles.main]}>
-                                <View style={{ marginVertical: 20 }}>
-                                    <Text
-                                        style={[
-                                            text.themeDefault,
-                                            text.text22,
-                                            { textAlign: "center" },
-                                        ]}
-                                    >
-                                        هل أنت متأكد من نشر هذه الجولة؟
-                                    </Text>
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
-                                    }}
-                                >
-                                    <View style={{}}>
-                                        <Button title="نشر" onpress={submitRequest} />
-                                    </View>
-                                    <View style={{}}>
-                                        <Button title="الغاء" onpress={toggleModal} />
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal>
-                </ScrollView>
+                />
             </View>
+            <Modal isVisible={isModalVisible}>
+                <View style={[styles.modalView]}>
+                    <View style={[styles.main]}>
 
+                        < View>
 
+                            {filePath ? (
+                                <View
+                                    style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
+                                >
+                                    <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
+                                </View>
+                            ) : (
+                                <TouchableOpacity
+                                    onPress={() => pickImage()}
+                                    style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
+                                >
+                                    <Image source={images.photo} style={[styles.dummyImg]} />
+                                </TouchableOpacity>
+                            )}
+
+                        </View>
+                        <View style={{ margin: 9 }}>
+                            <Button title="next" onpress={() => navigation.goBack()} />
+                        </View>
+                        <View >
+                            <Button title="الغاء" onpress={() => toggleModal()} />
+
+                        </View>
+                    </View>
+                </View>
+            </Modal>
         </ImageBackground>
     );
 }
@@ -233,10 +306,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     dummyImg: {
-        width: screenWidth.width50,
-        height: screenWidth.width50,
-        resizeMode: "contain",
-        opacity: 0.7,
+        width: 120,
+        height: 140,
     },
     alignRight: {
         alignSelf: "flex-end",
@@ -282,5 +353,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         marginHorizontal: 20
-    }
+    },
+    card: {
+        height: "60%",
+        backgroundColor: "lightgrey",
+        marginHorizontal: 5,
+        borderRadius: 10,
+        borderColor: "#00a46c",
+        borderWidth: 0.2,
+        marginVertical: 10
+    },
 });

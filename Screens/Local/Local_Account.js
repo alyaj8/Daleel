@@ -9,7 +9,6 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  Button,
   ImageBackground,
 
 } from "react-native";
@@ -18,6 +17,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   updateEmail,
+  auth,
+  signOut
 } from "firebase/auth";
 import {
   collection,
@@ -29,10 +30,12 @@ import {
   where,
   getDocs,
   updateDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 import Modal from "react-native-modal";
+import Button from "../../component/button/Button";
 
 export default function Local_Account({ navigation }) {
 
@@ -46,6 +49,7 @@ export default function Local_Account({ navigation }) {
   const [MaroofError, setMaroofError] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isModalVisible2, setModalVisible2] = useState(false);
 
   const [value, setValue] = React.useState({
     firstname: "",
@@ -136,26 +140,28 @@ export default function Local_Account({ navigation }) {
       console.log(error);
     }
   }
-
+  const toggleModalDelet = () => {
+    console.log(isModalVisible2)
+    setModalVisible2(prev => !prev);
+    console.log(isModalVisible2, "22")
+  };
   const deleteUserFunc = async () => {
     await deleteAccount();
   }
   async function deleteAccount() {
+
     const auth = getAuth();
-    const user = auth.currentUser;
-    console.log(user.uid);
-    db.collection('Admin_users').doc(user.uid).delete();
-    db.collection('users').doc(user.uid).delete();
 
-    user.delete().then(() => {
-      console.log("2");
-      // db.collection('users').doc(user.uid).delete()
-      db.collection('Admin_users').doc(user.uid).delete()
-      console.log("3")
+    let user1 = auth.currentUser;
+    user1.delete().then(() => console.log("acount deleteeee"))
+      .catch(() => console.log("account delete error"))
 
-    }).catch((error) => {
-      console.log(error, "error")
-    })
+    deleteDoc(doc(db, "Admin_users", user.uid));
+    //db.collection('users').doc(user1.uid).delete();
+
+    console.log("acount deleteeee22222")
+    navigation.navigate("Log_in2");
+
   }
 
   let saveChanges = async () => {
@@ -556,7 +562,7 @@ export default function Local_Account({ navigation }) {
 
             </View>
             <View>
-              <TouchableOpacity onPress={() => deleteUserFunc()}
+              <TouchableOpacity onPress={toggleModalDelet}
 
                 style={{
                   backgroundColor: "red",
@@ -601,10 +607,43 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="نشر" onPress={saveChanges2} />
+                      <Button title="نشر" onpress={saveChanges2} />
                     </View>
                     <View style={{}}>
-                      <Button title="الغاء" onPress={toggleModal} />
+                      <Button title="الغاء" onpress={toggleModal} />
+
+                    </View>
+                  </View>
+                </View>
+              </View>
+            </Modal>
+            <Modal isVisible={isModalVisible2}>
+              <View style={[styles.modalView]}>
+                <View style={[styles.main]}>
+                  <View style={{ marginVertical: 20 }}>
+                    <Text
+                      style={{ textAlign: "center", }}
+                    >
+                      هل أنت متأكد من delete هذه الجولة؟
+                    </Text>
+                    <Icon
+                      name="arrow-back-outline"
+                      size={45}
+                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+                      onPress={() => navigation.goBack()}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    <View style={{}}>
+                      <Button title="delete" onpress={() => deleteUserFunc()} />
+                    </View>
+                    <View style={{}}>
+                      <Button title="الغاء" onpress={toggleModalDelet} />
 
                     </View>
                   </View>
