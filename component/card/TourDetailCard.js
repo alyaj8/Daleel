@@ -17,6 +17,7 @@ import ButtonComponent from "../button/Button";
 export default function Input({
     onpress,
     source,
+    title
 }) {
     return (
         <View style={styles.container}>
@@ -28,7 +29,7 @@ export default function Input({
                         <Image source={source} style={[styles.img]} />
                     </View>
                         <View style={{ flex: 1,marginLeft:10 }}>
-                            <Text style={[text.themeDefault, text.text20, { textAlign: 'center', fontWeight: 'bold' }]}>جولة بلدة العلا القديمةبلدة العلا القدي</Text>
+                            <Text style={[text.themeDefault, text.text20, { textAlign: 'center', fontWeight: 'bold' }]}>{title}</Text>
                         </View>
                 </View>
             </TouchableOpacity>

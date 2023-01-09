@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import React, { useState, useEffect } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
@@ -59,7 +60,7 @@ export default function BookingDetail({ navigation, route }) {
     }
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
           style={{ flex: 1 }}
@@ -258,10 +259,10 @@ export default function BookingDetail({ navigation, route }) {
                   }}
                 >
                   <View style={{}}>
-                    <Button title="قبول" onpress={()=>updateRequestStatus(1)} />
+                    <Button title="قبول" onpress={() => updateRequestStatus(1)} />
                   </View>
                   <View style={{}}>
-                    <Button title="الغاء" onpress={()=>updateRequestStatus(2)} />
+                    <Button title="الغاء" onpress={() => updateRequestStatus(2)} />
                   </View>
                 </View>
               </View>
@@ -269,14 +270,13 @@ export default function BookingDetail({ navigation, route }) {
           </Modal>
         </ImageBackground>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
     backgroundColor: "#fff",
   },
   alignCenter: {

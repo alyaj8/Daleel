@@ -32,6 +32,19 @@ export function getFormattedDateForGraph(dateTime) {
   return formattedDate;
 }
 
+
+export function convertSecondsIntoTime(dateTime) {
+    
+  var date = new Date(dateTime);
+  var time = date.getTime();
+  var updateTime = new Date(time);
+  var hours = updateTime.getHours();
+  var minutes = '0' + updateTime.getMinutes();
+  var formattedTime = hours + ':' + minutes.substr(-2);
+  return formattedTime;
+}
+
+
 export function getDateTime(dateTime) {
     
   var date = new Date(dateTime);

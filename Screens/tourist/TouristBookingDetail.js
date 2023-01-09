@@ -6,15 +6,18 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+
   TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import { images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 
 export default function TouristBookingDetail({ navigation }) {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
           style={{ flex: 1 }}
@@ -158,14 +161,14 @@ export default function TouristBookingDetail({ navigation }) {
           <StatusBar style="auto" />
         </ImageBackground>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
+
     backgroundColor: "#fff",
   },
   alignCenter: {
