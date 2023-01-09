@@ -18,7 +18,7 @@ export default function Input({
   onpressAccepted,
   onpressRejected,
   source,
-  title='',
+  title,
   booked
 }) {
   return (
@@ -28,10 +28,11 @@ export default function Input({
           <View style={{marginHorizontal:20}}>
             <Image source={source} style={[styles.img]} />
           </View>
-        
           <View style={{marginHorizontal:10}}>
-              <View style={{ marginVertical:10 }}>
-                <Text style={[text.themeDefault, text.text18, { textAlign: 'center', fontWeight: 'bold' }]}>جولة بلدة العلا القديمة</Text>
+          <View style={{ width:screenWidth.width50, }}>
+                <Text style={[text.themeDefault, text.text18, { textAlign: 'right', fontWeight: 'bold',marginRight:20 }]}>
+                  {title}
+                  </Text>
               </View>
               {booked &&
                  <View style={[styles.flexDirection,{alignSelf:'center'}]}>
@@ -43,7 +44,6 @@ export default function Input({
                  </View>
                </View>
               }
-           
               <View style={{ alignSelf:'center' ,marginVertical:20}}>
               <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوضة'}
               onpress={onpressRejected}
@@ -52,9 +52,6 @@ export default function Input({
               />
             </View>
             </View>
-          
-    
-
         </View>
       </View>
     </View>
@@ -68,6 +65,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
+    
   },
   flexDirection: {
     flexDirection: "row",

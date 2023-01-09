@@ -14,14 +14,10 @@ import text from "../../style/text";
 import { getDateTime } from "../../util/DateHelper";
 import ButtonComponent from "../button/Button";
 
-export default function Input({
-  onpressAccepted,
-  onpressRejected,
+export default function TouristCard({
+  onpress,
   source,
-  price,
-  acceptButton=true,
-  rejectButton=true,
-  bookeBy=true
+  title
 }) {
   return (
     <View style={styles.container}>
@@ -30,28 +26,19 @@ export default function Input({
           <View style={{marginHorizontal:20}}>
             <Image source={source} style={[styles.img]} />
           </View>
-        
-            <View style={{marginHorizontal:10}}>
-              <View style={{  }}>
-                <Text style={[text.themeDefault, text.text18, { textAlign: 'center', fontWeight: 'bold' }]}>جولة بلدة العلا القديمة</Text>
+            <View style={{paddingHorizontal:10}}>
+              <View style={{ width:screenWidth.width50, }}>
+                <Text style={[text.themeDefault, text.text18, { textAlign: 'right', fontWeight: 'bold',marginRight:20 }]}>
+                  {title}
+                  </Text>
               </View>
-            
-           
-              {rejectButton &&
                 <View style={{alignSelf:'center',marginTop:30}}>
-                <ButtonComponent buttonSelection={true} buttonDefault={false} title={'Rejected'}
-                onpress={onpressRejected}
-                  style={{ backgroundColor: '#c6302c' }}
+                <ButtonComponent buttonSelection={true} buttonDefault={false} title={'تحت الإنتظار'}
+                onpress={onpress}
+                  style={{ backgroundColor: '#b2e5e4' }}
                 />
               </View>
-              }
-            
-       
-          
             </View>
-          
-        
-
         </View>
       </View>
     </View>
@@ -64,11 +51,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
-    paddingVertical:20
+    paddingVertical:20,
+    marginVertical:15
   },
   flexDirection: {
     flexDirection: "row",
-    // alignItems:'center',
   },
   img: {
     width: screenWidth.width25,

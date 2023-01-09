@@ -6,16 +6,23 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import text from "../../style/text";
 export default function ChatOption({
   navigation,
-  msg
+  msg,
+  date='10.46 AM'
 
 }) {
 
   return (
-      <View style={[styles.chatDiv]}>
+    <View>
+        <View style={[styles.chatDiv]}>
         <View style={[styles.textDiv]}>
             <Text style={[text.black,text.text14,{flex:1}]}>{msg}</Text>
         </View>
       </View>
+       <View style={{alignSelf:'flex-end',marginRight:20}}>
+            <Text style={[text.grey,text.text14,{}]}>{date}</Text>
+        </View>
+    </View>
+    
   );
 }
 

@@ -21,7 +21,8 @@ export default function Input({
   price,
   acceptButton=true,
   rejectButton=true,
-  bookeBy=true
+  bookeBy=true,
+  title
 }) {
   return (
     <View style={styles.container}>
@@ -32,16 +33,18 @@ export default function Input({
           </View>
         
             <View style={{marginHorizontal:10}}>
-              <View style={{ marginBottom:10 }}>
-                <Text style={[text.themeDefault, text.text18, { textAlign: 'center', fontWeight: 'bold' }]}>جولة بلدة العلا القديمة</Text>
+            <View style={{ width:screenWidth.width50, }}>
+                <Text style={[text.themeDefault, text.text18, { textAlign: 'right', fontWeight: 'bold',marginRight:20 }]}>
+                  {title}
+                  </Text>
               </View>
               {bookeBy &&
                  <View style={[styles.flexDirection,{alignSelf:'center'}]}>
                  <View style={{ }}>
-                   <Text style={[text.themeDefault, text.text16]}>Booked By: </Text>
+                   <Text style={[text.themeDefault, text.text15]}>Booked By: </Text>
                  </View>
                  <View style={{ }}>
-                   <Text style={[text.themeDefault, text.text16]}>{price}</Text>
+                   <Text style={[text.themeDefault, text.text15]}>{price}</Text>
                  </View>
                </View>
               
