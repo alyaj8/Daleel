@@ -1,5 +1,5 @@
-import * as Notifications from "expo-notifications";
-import * as Device from "expo-device";
+//import * as Notifications from "expo-notifications";
+//import * as Device from "expo-device";
 
 export async function sendPushNotification(notifications) {
     await fetch("https://exp.host/--/api/v2/push/send", {
