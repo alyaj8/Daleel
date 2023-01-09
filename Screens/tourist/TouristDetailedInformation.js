@@ -16,7 +16,11 @@ import Modal from "react-native-modal";
 import { useFocusEffect } from "@react-navigation/native";
 import { upload, insertRequest, getUserId } from "../../network/ApiService";
 import { images, screenWidth, TOURS_REQUEST, REQUEST_TABLE } from "../../config/Constant";
+<<<<<<< HEAD
 //import DatePicker from "react-native-date-picker";
+=======
+import DatePicker from "react-native-date-picker";
+>>>>>>> 1d79cdf15a776f2affa360df7047e7f053001460
 
 export default function BookingDetail({ navigation, route }) {
     const [isModalVisible, setModalVisible] = useState(false);
