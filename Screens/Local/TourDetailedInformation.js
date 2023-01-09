@@ -9,28 +9,99 @@ import {
     TouchableOpacity,
     Pressable
 } from "react-native";
-import React, { useState, useEffect } from "react";
-import { images, screenWidth } from "../../config/Constant";
+import React, { useState, useEffect, useCallback } from "react";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import { useFocusEffect } from "@react-navigation/native";
 import text from "../../style/text";
 import Button from "../../component/button/Button";
 import Modal from "react-native-modal";
+import { SafeAreaView } from "react-native-safe-area-context";
+import {
+    collection,
+    query,
+    where,
+    getFirestore,
+    onSnapshot,
+} from "firebase/firestore";
+import {
+    getUserId,
+    deleteRequest,
+} from "../../network/ApiService";
 export default function BookingDetail({ navigation, route }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [dateString, setDateString] = useState(null);
+    const [startTimeString, setStartTimeString] = useState(null);
+    const [endTimeString, setEndTimeString] = useState(null);
 
+    const [tourId, setTourId] = useState(null);
+    const db = getFirestore();
 
-
+    const [data, setData] = useState(null);
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
     const toggleModalAccept = () => {
         setModalVisibleAccept(!isModalVisibleAccept);
     };
-
-
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getTourDetail();
+        });
+        return unsubscribe;
+    }, [navigation]);
+    useFocusEffect(
+        useCallback(() => {
+            getLocalGuideRequests();
+        }, [navigation]),
+    );
+    const getTourDetail = async () => {
+        let tourDetail = route.params;
+        setData(tourDetail)
+        const date = tourDetail?.date;
+        const startTime = tourDetail?.startTime;
+        const endTime = tourDetail?.endTime;
+        const DateSet = new Date(date)
+        const StartTimeSet = new Date(startTime)
+        const EndTimeSet = new Date(endTime)
+        const dateShow = DateSet.toLocaleDateString()
+        const startTimeShow = StartTimeSet.toTimeString()
+        const endTimeShow = EndTimeSet.toTimeString()
+        setDateString(dateShow)
+        setStartTimeString(startTimeShow)
+        setEndTimeString(endTimeShow)
+        console.log('tourDetail', startTimeShow)
+    };
+    const deleteTour = async () => {
+        setDeleteModalVisible(!isDeleteModalVisible);
+        setIsLoading(true);
+        const response = await deleteRequest(tourId);
+        console.log("response", response);
+        setIsLoading(false);
+        if (response) {
+            alert("Tour Deleted Successfully");
+            navigation.navigate('TourDetail');
+        }
+    };
+    const getLocalGuideRequests = async () => {
+        const uid = await getUserId();
+        const data = [];
+        const q = query(
+            collection(db, REQUEST_TABLE),
+            where("requestBy", "==", uid)
+        );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                data.push(doc.data());
+                setTourId(doc.id);
+            });
+        });
+    };
+    // console.log('userId', tourId)
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <ImageBackground
                     style={{ flex: 1 }}
@@ -48,7 +119,7 @@ export default function BookingDetail({ navigation, route }) {
                     <View style={[styles.card]}>
                         <View style={[styles.alignCenter, {}]}>
                             <Image
-                                source={images.photo}
+                                source={{ uri: data?.imageUrl }}
                                 style={[styles.dummyImg]}
                             />
                         </View>
@@ -56,13 +127,12 @@ export default function BookingDetail({ navigation, route }) {
                             <Text
                                 style={[text.themeDefault, text.text20, { fontWeight: "bold" }]}
                             >
-                                جولة بلدة العلا القديمة
-
+                                {data?.title}
                             </Text>
                         </View>
                         <View style={{ alignSelf: "center", marginVertical: 5 }}>
                             <Text style={[text.themeDefault, text.text18, {}]}>
-                                Rs. 70
+                                SAR {data?.price}
                             </Text>
                         </View>
                         <View
@@ -74,14 +144,16 @@ export default function BookingDetail({ navigation, route }) {
                             <View style={{}}>
                                 <Text style={[text.themeDefault, text.text14]}>
                                     {/* {getFormattedDate(data?.date)} */}
-                                    12/12/12
+                                    {startTimeString}{'\n'}
+                                    {endTimeString}
+
                                 </Text>
 
                             </View>
                             <View style={{}}>
                                 <Text style={[text.themeDefault, text.text14]}>
                                     {/* {convertUnixIntoTime(data?.time)} */}
-                                    20:14 P.M
+                                    {dateString}
                                 </Text>
                             </View>
                         </View>
@@ -97,13 +169,20 @@ export default function BookingDetail({ navigation, route }) {
                         >
                             <View style={{ marginHorizontal: 10 }}>
                                 <Text style={[text.themeDefault, text.text16]}>
-                                    {/* {data?.location} */}
-                                    مركز زوار بلدة العلا القديمة
+                                    {data?.location}
                                 </Text>
+                                {/* <Text style={[text.themeDefault, text.text16]}>
+                                    {data?.city}
+                                </Text> */}
                             </View>
                             <View>
                                 <Image source={images.location} style={[styles.icon]} />
                             </View>
+                        </View>
+                        <View style={{ marginHorizontal: 5 }}>
+                            <Text style={[text.themeDefault, text.text18, text.right]}>
+                                {data?.description}
+                            </Text>
                         </View>
                         <View
                             style={[
@@ -113,9 +192,9 @@ export default function BookingDetail({ navigation, route }) {
                                 },
                             ]}
                         >
-                            <View style={{ marginHorizontal: 10 }}>
-                                <Text style={[text.themeDefault, text.text20]}>
-                                    امام الجبل
+                            <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+                                <Text style={[text.themeDefault, text.text20, { fontWeight: 'bold' }]}>
+                                    {data?.meetingPoint}
                                 </Text>
                             </View>
                         </View>
@@ -134,7 +213,7 @@ export default function BookingDetail({ navigation, route }) {
                                             { fontWeight: "bold" },
                                         ]}
                                     >
-                                        10-20
+                                        {data?.age}
                                     </Text>
                                 </View>
                                 <View style={{ marginHorizontal: 10 }}>
@@ -152,7 +231,7 @@ export default function BookingDetail({ navigation, route }) {
                             >
                                 <View style={{ marginHorizontal: 10 }}>
                                     <Text style={[text.themeDefault, text.text20]}>
-                                        8
+                                        {data?.qty}
                                     </Text>
                                 </View>
                                 <View>
@@ -160,12 +239,8 @@ export default function BookingDetail({ navigation, route }) {
                                 </View>
                             </View>
                         </View>
-                        <View style={{ marginHorizontal: 5 }}>
-                            <Text style={[text.themeDefault, text.text18, text.right]}>
-                                سيحتاج الضيوف إلى التواجد في مركز زوار بلدة العلا القديمة قبل 15 دقيقة من موعد بدء الجولة.
-                            </Text>
-                        </View>
-                        
+
+
                         <View
                             style={[
                                 styles.flexRow,
@@ -177,7 +252,7 @@ export default function BookingDetail({ navigation, route }) {
                             ]}
                         >
                             <Button title={"تحديث"}
-                                onpress={() => navigation.navigate('EditTour')}
+                                onpress={() => navigation.navigate('EditTour', { data })}
                             />
                             <Button title={"حذف"} onpress={toggleModal} />
                         </View>
@@ -185,42 +260,7 @@ export default function BookingDetail({ navigation, route }) {
                     </View>
 
                     <StatusBar style="auto" />
-                    {/* <Modal isVisible={isModalVisibleAccept}>
-                        <View style={[styles.modalView]}>
-                            <View style={[styles.main]}>
-                                <View style={{ marginVertical: 40 }}>
-                                    <Text
-                                        style={[
-                                            text.themeDefault,
-                                            text.text22,
-                                            { textAlign: "center", fontWeight: "bold" },
-                                        ]}
-                                    >
-                                        هل أنت متأكد من نشر هذه الجولة؟
-                                    </Text>
-                                </View>
-                                <View
-                                    style={{
-                                        flexDirection: "row",
-                                        justifyContent: "space-between",
-                                    }}
-                                >
-                                    <View style={{}}>
-                                        <Button title="تحديث "
-                                            style={{ backgroundColor: '#9cd644' }}
-                                            onpress={() => navigation.navigate('EditTour')}
-                                        />
-                                    </View>
-                                    <View style={{}}>
-                                        <Button title="الغاء"
-                                            style={{ backgroundColor: '#a5d5db' }}
-                                            onpress={toggleModalAccept}
-                                        />
-                                    </View>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal> */}
+
                     <Modal isVisible={isModalVisible}>
                         <View style={[styles.modalView]}>
                             <View style={[styles.main]}>
@@ -232,7 +272,7 @@ export default function BookingDetail({ navigation, route }) {
                                             { textAlign: "center", fontWeight: "bold" },
                                         ]}
                                     >
-                                        هل أنت متأكد من نشر هذه الجولة؟
+                                        هل أنت متأكد أنك تريد حذف هذه الجولة؟
                                     </Text>
                                 </View>
                                 <View
@@ -244,7 +284,8 @@ export default function BookingDetail({ navigation, route }) {
                                     <View style={{}}>
                                         <Button title="حذف"
                                             style={{ backgroundColor: '#c6302c' }}
-                                            onpress={toggleModal}
+                                            onpress={deleteTour}
+
                                         />
                                     </View>
                                     <View style={{}}>
@@ -259,14 +300,13 @@ export default function BookingDetail({ navigation, route }) {
                     </Modal>
                 </ImageBackground>
             </ScrollView>
-        </View>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: screenWidth.width10,
         backgroundColor: "#fff",
     },
     alignCenter: {
@@ -319,10 +359,10 @@ const styles = StyleSheet.create({
         height: 40,
         tintColor: "#5398a0",
     },
-    arrowIcon:{
-        width:30,
-        height:30,
-        resizeMode:'contain',
-        tintColor:'#fff'
-      },
+    arrowIcon: {
+        width: 30,
+        height: 30,
+        resizeMode: 'contain',
+        tintColor: '#fff'
+    },
 });
