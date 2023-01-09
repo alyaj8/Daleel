@@ -10,7 +10,12 @@ import {
   Alert,
 } from "react-native";
 import React, { useState, useRef } from "react";
-import { images, screenWidth, REQUEST_TABLE, cities } from "../../config/Constant";
+import {
+  images,
+  screenWidth,
+  REQUEST_TABLE,
+  cities,
+} from "../../config/Constant";
 import text from "../../style/text";
 import Input from "../../component/inputText/Input";
 import SmallInput from "../../component/inputText/smallInput";
@@ -23,7 +28,6 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import { insertRequest, getUserId } from "../../network/ApiService";
 import Loader from "../../component/Loaders/Loader";
 import { SafeAreaView } from "react-native-safe-area-context";
-
 
 import {
   getDownloadURL,
@@ -40,10 +44,16 @@ export default function PostTour({ navigation }) {
 
   const [location, setLocation] = useState(null);
   const [city, setCity] = useState(null);
+  const [isReserved, setIsReserved] = useState(null);
+
 
   const [description, setDescription] = useState(null);
   const [filePath, setFilePath] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState('date');
+  const [startTimeMode, setStartTimeMode] = useState('time');
+
+  const [show, setShow] = useState(false);
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
 
@@ -70,12 +80,7 @@ export default function PostTour({ navigation }) {
   ];
 
   const disabled =
-    !title ||
-    !meetingPoint ||
-    !location ||
-    !description ||
-    !price ||
-    !qty;
+    !title || !meetingPoint || !location || !description || !price || !qty;
   const modalizeRefAge = useRef(null);
 
   const pickImage = async () => {
@@ -83,7 +88,7 @@ export default function PostTour({ navigation }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -126,8 +131,8 @@ export default function PostTour({ navigation }) {
           saveData = false;
           getDownloadURL(storageRef).then((url) => {
             const imageUrl = url;
-            setImageUrl(imageUrl)
-            // console.log('image donwload url',imageUrl)
+            setImageUrl(imageUrl);
+            console.log('image donwload url', imageUrl)
           });
         }
       }
@@ -138,8 +143,8 @@ export default function PostTour({ navigation }) {
     } catch (e) {
       console.error(e);
     }
-  }
-  console.log('image------------->', imageUrl)
+  };
+  // console.log('image------------->', imageUrl)
 
   const submitRequest = async () => {
     setModalVisible(!isModalVisible);
@@ -147,32 +152,58 @@ export default function PostTour({ navigation }) {
     const requestBy = await getUserId();
     upload(filePath);
     console.log("imageurl in screen", imageUrl)
-    // if (imageUrl) {
-    const data = {
-      imageUrl,
-      title,
-      date,
-      startTime,
-      endTime,
-      qty,
-      location,
-      description,
-      city,
-      meetingPoint,
-      age,
-      price,
-      status,
-      requestBy,
-      dateCreated: Date.now(),
-      dateUpdated: Date.now(),
-    };
-    console.log(data)
-    await insertRequest(data, REQUEST_TABLE);
-    setIsLoading(false);
-    navigation.goBack();
-    // return;
-    // }
+    if (imageUrl) {
+      const data = {
+        imageUrl,
+        title,
+        date,
+        startTime,
+        endTime,
+        qty,
+        location,
+        description,
+        city,
+        meetingPoint,
+        age,
+        price,
+        status,
+        requestBy,
+        isReserved:false,
+        dateCreated: Date.now(),
+        dateUpdated: Date.now(),
+      };
+      console.log(data);
+      await insertRequest(data, REQUEST_TABLE);
+      setIsLoading(false);
+      navigation.goBack();
+      return;
+    }
+  };
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+  const onChangeStartTime = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setStartTime(currentDate);
+  };
+  const onChangeEndTime = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setEndTime(currentDate);
+  };
+  const showMode = (currentMode) => {
+    if (Platform.OS === 'android') {
+      setShow(false);
+      // for iOS, add a button that closes the picker
+    }
+    setMode(currentMode);
+  };
 
+  const showDatepicker = () => {
+    showMode('date');
   };
   const modalizeRef = useRef(null);
   const onShowCity = () => {
@@ -204,11 +235,13 @@ export default function PostTour({ navigation }) {
             </Text>
           </View>
           {filePath ? (
-            <View
+            <TouchableOpacity
+              onPress={() => pickImage()}
+
               style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
             >
               <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
-            </View>
+            </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={() => pickImage()}
@@ -217,6 +250,7 @@ export default function PostTour({ navigation }) {
               <Image source={images.photo} style={[styles.dummyImg]} />
             </TouchableOpacity>
           )}
+
 
           <View style={[styles.alignCenter]}>
             <View
@@ -240,9 +274,7 @@ export default function PostTour({ navigation }) {
             </View>
             <Input setValue={setDescription} onChangeText={onChangeText} />
           </View>
-          <TouchableOpacity
-            style={[styles.alignCenter]}
-          >
+          <TouchableOpacity style={[styles.alignCenter]}>
             <View
               style={[
                 styles.alignRight,
@@ -254,23 +286,25 @@ export default function PostTour({ navigation }) {
 
             <TouchableOpacity
               onPress={() => setShowDatePicker(true)}
-              style={[]}>
+              style={[]}
+            >
               <Input
                 icon={true}
                 value={date}
                 source={images.calendar}
                 editable={false}
-              // setValue={setDate}
+                setValue={setDate}
               />
             </TouchableOpacity>
             {showDatePicker && (
               <DateTimePicker
                 minimumDate={new Date()}
-                value={new Date()}
+                value={date}
                 display={Platform.OS === "ios" ? "calendar" : "default"}
                 is24Hour={true}
-                onChange={onSelectDate}
+                onChange={onChange}
                 style={styles.datePicker}
+                mode={mode}
               />
             )}
           </TouchableOpacity>
@@ -294,17 +328,17 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 value={endTime}
-                // setValue={setEndTime}
+                setValue={setEndTime}
                 style={{ width: screenWidth.width40 }}
               />
               {showEndTimePicker && (
                 <DateTimePicker
                   maximumDate={new Date()}
                   value={endTime}
-                  mode={"default"}
+                  mode={'default'}
                   display={Platform.OS === "ios" ? "compact" : "default"}
                   is24Hour={true}
-                  onChange={onSelectEndTime}
+                  onChange={onChangeEndTime}
                   style={[styles.datePicker, { marginRight: 20 }]}
                 />
               )}
@@ -338,7 +372,7 @@ export default function PostTour({ navigation }) {
                   mode={"default"}
                   display={Platform.OS === "ios" ? "compact" : "default"}
                   is24Hour={true}
-                  onChange={onSelectStartTime}
+                  onChange={onChangeStartTime}
                   style={[styles.datePicker, { marginRight: 20 }]}
                 />
               )}
@@ -373,7 +407,9 @@ export default function PostTour({ navigation }) {
               onPress={() => onShowCity()}
               style={[styles.InputStyleModal]}
             >
-              <Text style={[text.black, text.text15, { textAlign: 'right' }]}>{city}</Text>
+              <Text style={[text.black, text.text15, { textAlign: "right" }]}>
+                {city}
+              </Text>
             </TouchableOpacity>
           </View>
           <RBSheet ref={modalizeRef} height={screenWidth.width80}>
@@ -461,7 +497,9 @@ export default function PostTour({ navigation }) {
           >
             <Button
               // disabled={disabled}
-              title={"نشر"} onpress={toggleModal} />
+              title={"نشر"}
+              onpress={toggleModal}
+            />
           </View>
           <StatusBar style="auto" />
           <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
@@ -520,7 +558,6 @@ export default function PostTour({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
   },
   alignCenter: {
     alignItems: "center",

@@ -22,6 +22,8 @@ import { getUserId } from "../../network/ApiService";
 import Loader from "../../component/Loaders/Loader";
 export default function Local_Home({ navigation }) {
     const [data, setData] = useState([]);
+    const [tourId, setTourId] = useState(null);
+
     const db = getFirestore();
     useFocusEffect(
         useCallback(() => {
@@ -41,12 +43,15 @@ export default function Local_Home({ navigation }) {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 data.push(doc.data());
+                setTourId(doc.id);
+
             });
             setData(data);
             console.log('data', data)
 
         });
     };
+    console.log('tour id',tourId)
     return (
         <View style={styles.container}>
             <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
@@ -64,7 +69,7 @@ export default function Local_Home({ navigation }) {
                                 return (
                                     <View key={index} style={{ marginVertical: 20 }}>
                                         <TourDetailCard
-                                            source={{uri:item?.imageUrl}}
+                                            source={{ uri: item?.imageUrl }}
                                             title={item?.title}
                                             onpress={() => navigation.navigate('TourDetailedInformation', item)}
                                         />

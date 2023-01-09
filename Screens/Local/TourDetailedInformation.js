@@ -10,16 +10,35 @@ import {
     Pressable
 } from "react-native";
 import React, { useState, useEffect, useCallback } from "react";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 import { useFocusEffect } from "@react-navigation/native";
 import text from "../../style/text";
 import Button from "../../component/button/Button";
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
-
+import {
+    collection,
+    query,
+    where,
+    getFirestore,
+    onSnapshot,
+} from "firebase/firestore";
+import {
+    getUserId,
+    deleteRequest,
+} from "../../network/ApiService";
 export default function BookingDetail({ navigation, route }) {
     const [isModalVisible, setModalVisible] = useState(false);
     const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
+    const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [dateString, setDateString] = useState(null);
+    const [startTimeString, setStartTimeString] = useState(null);
+    const [endTimeString, setEndTimeString] = useState(null);
+
+    const [tourId, setTourId] = useState(null);
+    const db = getFirestore();
+
     const [data, setData] = useState(null);
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -27,17 +46,60 @@ export default function BookingDetail({ navigation, route }) {
     const toggleModalAccept = () => {
         setModalVisibleAccept(!isModalVisibleAccept);
     };
+    React.useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', () => {
+            getTourDetail();
+        });
+        return unsubscribe;
+    }, [navigation]);
     useFocusEffect(
         useCallback(() => {
-            getTourDetail();
+            getLocalGuideRequests();
         }, [navigation]),
     );
     const getTourDetail = async () => {
         let tourDetail = route.params;
         setData(tourDetail)
-        console.log('tourDetail', tourDetail)
+        const date = tourDetail?.date;
+        const startTime = tourDetail?.startTime;
+        const endTime = tourDetail?.endTime;
+        const DateSet = new Date(date)
+        const StartTimeSet = new Date(startTime)
+        const EndTimeSet = new Date(endTime)
+        const dateShow = DateSet.toLocaleDateString()
+        const startTimeShow = StartTimeSet.toTimeString()
+        const endTimeShow = EndTimeSet.toTimeString()
+        setDateString(dateShow)
+        setStartTimeString(startTimeShow)
+        setEndTimeString(endTimeShow)
+        console.log('tourDetail', startTimeShow)
     };
-
+    const deleteTour = async () => {
+        setDeleteModalVisible(!isDeleteModalVisible);
+        setIsLoading(true);
+        const response = await deleteRequest(tourId);
+        console.log("response", response);
+        setIsLoading(false);
+        if (response) {
+            alert("Tour Deleted Successfully");
+            navigation.navigate('TourDetail');
+        }
+    };
+    const getLocalGuideRequests = async () => {
+        const uid = await getUserId();
+        const data = [];
+        const q = query(
+            collection(db, REQUEST_TABLE),
+            where("requestBy", "==", uid)
+        );
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+            querySnapshot.forEach((doc) => {
+                data.push(doc.data());
+                setTourId(doc.id);
+            });
+        });
+    };
+    // console.log('userId', tourId)
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -57,7 +119,7 @@ export default function BookingDetail({ navigation, route }) {
                     <View style={[styles.card]}>
                         <View style={[styles.alignCenter, {}]}>
                             <Image
-                                source={{uri:data?.imageUrl}}
+                                source={{ uri: data?.imageUrl }}
                                 style={[styles.dummyImg]}
                             />
                         </View>
@@ -82,14 +144,16 @@ export default function BookingDetail({ navigation, route }) {
                             <View style={{}}>
                                 <Text style={[text.themeDefault, text.text14]}>
                                     {/* {getFormattedDate(data?.date)} */}
-                                    20:14 P.M-20:20 P.M
+                                    {startTimeString}{'\n'}
+                                    {endTimeString}
+
                                 </Text>
 
                             </View>
                             <View style={{}}>
                                 <Text style={[text.themeDefault, text.text14]}>
                                     {/* {convertUnixIntoTime(data?.time)} */}
-                                    12/12/12 Saturday
+                                    {dateString}
                                 </Text>
                             </View>
                         </View>
@@ -220,7 +284,8 @@ export default function BookingDetail({ navigation, route }) {
                                     <View style={{}}>
                                         <Button title="حذف"
                                             style={{ backgroundColor: '#c6302c' }}
-                                            onpress={toggleModal}
+                                            onpress={deleteTour}
+
                                         />
                                     </View>
                                     <View style={{}}>
@@ -301,4 +366,3 @@ const styles = StyleSheet.create({
         tintColor: '#fff'
     },
 });
-

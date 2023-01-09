@@ -54,6 +54,7 @@ export default function EditTour({ navigation, route }) {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [meetingPoint, setMeetingPoint] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
 
   const [location, setLocation] = useState(null);
   const [description, setDescription] = useState(null);
@@ -71,6 +72,9 @@ export default function EditTour({ navigation, route }) {
 
   const [showStartTimePicker, setShowStartTimePicker] = useState(false);
   const [showEndTimePicker, setShowEndTimePicker] = useState(false);
+  const [dateString, setDateString] = useState(null);
+  const [startTimeString, setStartTimeString] = useState(null);
+  const [endTimeString, setEndTimeString] = useState(null);
 
   const status = 0;
   let ages = [
@@ -88,6 +92,7 @@ export default function EditTour({ navigation, route }) {
     useCallback(() => {
       getTourDetail();
       getTourRequests();
+      dateFormat();
     }, [navigation])
   );
   const getTourDetail = async () => {
@@ -96,6 +101,7 @@ export default function EditTour({ navigation, route }) {
 
     console.log("tour", id);
     setTitle(tour?.title);
+    setImageUrl(tour?.imageUrl);
     setDescription(tour?.description);
     setAge(tour?.age);
     setLocation(tour?.location);
@@ -105,6 +111,23 @@ export default function EditTour({ navigation, route }) {
     setCity(tour?.city);
     setMeetingPoint(tour?.meetingPoint);
   };
+
+  const dateFormat = async () => {
+    let tourDetail = route.params.data;
+    const date = tourDetail?.date;
+    const startTime = tourDetail?.startTime;
+    const endTime = tourDetail?.endTime;
+    const DateSet = new Date(date)
+    const StartTimeSet = new Date(startTime)
+    const EndTimeSet = new Date(endTime)
+    const dateShow = DateSet.toLocaleDateString()
+    const startTimeShow = StartTimeSet.toTimeString()
+    const endTimeShow = EndTimeSet.toTimeString()
+    setDateString(dateShow)
+    setStartTimeString(startTimeShow)
+    setEndTimeString(endTimeShow)
+    console.log('tourDetail', startTimeShow)
+  }
   const db = getFirestore();
 
   const getTourRequests = async () => {
@@ -117,7 +140,7 @@ export default function EditTour({ navigation, route }) {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
-        // console.log("doc", doc.id);
+        console.log("doc", doc.id);
         setTourId(doc.id);
       });
     });
@@ -141,17 +164,17 @@ export default function EditTour({ navigation, route }) {
     setDeleteModalVisible(!isDeleteModalVisible);
   };
   const onSelectDate = (event, value) => {
-    setDate(value?.getTime());
+    setDateString(value?.getTime());
     console.log(value?.getTime());
     // setShowDatePicker(false);
   };
   const onSelectEndTime = (event, value) => {
     // setShowTimePicker(false);
-    setEndTime(value);
+    setEndTimeString(value);
   };
   const onSelectStartTime = (event, value) => {
     // setShowTimePicker(false);
-    setStartTime(value);
+    setStartTimeString(value);
   };
 
   const updateTour = async () => {
@@ -166,8 +189,8 @@ export default function EditTour({ navigation, route }) {
     if (title) {
       params["title"] = title;
     }
-    if (date) {
-      params["date"] = date;
+    if (dateString) {
+      params["date"] = dateString;
     }
     if (qty) {
       params["qty"] = qty;
@@ -194,13 +217,13 @@ export default function EditTour({ navigation, route }) {
     //   params["endTime"] = endTime;
     // }
 
-    console.log("data----------------->", params,tourId);
+    console.log("data----------------->", params, tourId);
     const updated = await updateRequest(tourId, params);
     console.log("updated--------->", updated);
     setIsLoading(false);
     if (updated) {
       alert("Tour Updated");
-      navigation.goBack();
+      navigation.navigate('TourDetail');
     }
   };
   const deleteTour = async () => {
@@ -214,7 +237,6 @@ export default function EditTour({ navigation, route }) {
       navigation.navigate('TourDetail');
     }
   };
-
   const selectAge = (age) => {
     setAge(age);
     modalizeRefAge.current?.close();
@@ -231,6 +253,7 @@ export default function EditTour({ navigation, route }) {
     setCity(city);
     modalizeRef.current?.close();
   };
+  console.log(imageUrl)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -249,12 +272,14 @@ export default function EditTour({ navigation, route }) {
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
             <Text style={[text.white, text.text30]}>جولاتي</Text>
           </View>
-          {filePath ? (
-            <View
+          {imageUrl ? (
+            <TouchableOpacity
+              onPress={() => pickImage()}
+
               style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
             >
-              <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
-            </View>
+              <Image source={{ uri: imageUrl }} style={[styles.dummyImg]} />
+            </TouchableOpacity>
           ) : (
             <TouchableOpacity
               onPress={() => pickImage()}
@@ -309,10 +334,10 @@ export default function EditTour({ navigation, route }) {
             >
               <Input
                 icon={true}
-                value={date}
+                value={dateString}
                 source={images.calendar}
                 editable={false}
-              // setValue={setDate}
+                setValue={setDateString}
               />
             </TouchableOpacity>
             {showDatePicker && (
@@ -326,7 +351,7 @@ export default function EditTour({ navigation, route }) {
               />
             )}
           </TouchableOpacity>
-          <View style={[styles.timeFlex]}>
+          <View style={[]}>
             <TouchableOpacity
               onPress={() => setShowEndTimePicker(true)}
               style={[styles.alignCenter, {}]}
@@ -334,7 +359,7 @@ export default function EditTour({ navigation, route }) {
               <View
                 style={[
                   styles.alignRight,
-                  { marginHorizontal: 10, marginVertical: 10 },
+                  { marginHorizontal: 40, marginVertical: 10 },
                 ]}
               >
                 <Text style={[text.themeDefault, text.text15]}>
@@ -345,9 +370,9 @@ export default function EditTour({ navigation, route }) {
                 icon={true}
                 source={images.timer}
                 editable={false}
-                value={endTime}
-                // setValue={setEndTime}
-                style={{ width: screenWidth.width40 }}
+                value={endTimeString}
+                setValue={setEndTimeString}
+                style={{ width: screenWidth.width90 }}
               />
               {showEndTimePicker && (
                 <DateTimePicker
@@ -368,7 +393,7 @@ export default function EditTour({ navigation, route }) {
               <View
                 style={[
                   styles.alignRight,
-                  { marginHorizontal: 10, marginVertical: 10 },
+                  { marginHorizontal: 40, marginVertical: 10 },
                 ]}
               >
                 <Text style={[text.themeDefault, text.text15]}>
@@ -379,9 +404,9 @@ export default function EditTour({ navigation, route }) {
                 icon={true}
                 source={images.timer}
                 editable={false}
-                setValue={setStartTime}
-                value={startTime}
-                style={{ width: screenWidth.width40 }}
+                setValue={setStartTimeString}
+                value={startTimeString}
+                style={{ width: screenWidth.width90 }}
               />
               {showStartTimePicker && (
                 <DateTimePicker
@@ -518,8 +543,8 @@ export default function EditTour({ navigation, route }) {
           </View>
           <View
             style={[
-              styles.timeFlex,
-              { marginHorizontal: 50, marginVertical: 40 },
+
+              { marginVertical: 40, alignSelf: 'center' },
             ]}
           >
             <Button
@@ -527,12 +552,12 @@ export default function EditTour({ navigation, route }) {
               title={"تحديث "}
               onpress={toggleModal}
             />
-            <Button
+            {/* <Button
               // disabled={disabled}
               style={{ backgroundColor: "#a5d5db" }}
               title={"حذف"}
               onpress={toggleModalDelete}
-            />
+            /> */}
           </View>
           <StatusBar style="auto" />
           <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
@@ -714,4 +739,3 @@ const styles = StyleSheet.create({
     tintColor: "#fff",
   },
 });
-
