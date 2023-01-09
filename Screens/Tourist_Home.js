@@ -6,18 +6,21 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
+  ImageBackground
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import text from "../style/text";
-import { images, screenWidth, REQUEST_TABLE } from "../config/Constant";
-import TouristCard from "../component/card/TouristCard";
+import { images, screenWidth, REQUEST_TABLE, TOURS_REQUEST } from "../config/Constant";
+import TouristPendingCard from "../component/card/TouristPendingCard";
+import TouristRejectedCard from "../component/card/touristRejectCard";
+import TouristAcceptedCard from "../component/card/TouristAcceptCard";
+import AcceptedBooking from "../component/bookings/AcceptedBooking";
 import { getUserId } from "../network/ApiService";
 import Loader from "../component/Loaders/Loader";
 import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import Button from "../component/button/Button";
-
-// import MenuTab from '../component/menuTab/TabMenu';
 import {
   collection,
   query,
@@ -26,12 +29,14 @@ import {
   addDoc,
   onSnapshot,
 } from "firebase/firestore";
-import AcceptedBookings from "../component/bookings/AcceptedBooking";
-import RejectedBookings from "../component/bookings/RejectedBookings";
+import AcceptedBookings from "../component/bookings/touristBooking/acceptCard";
+import RejectedBookings from "../component/bookings/touristBooking/rejectCard";
 
 export default function Local_Home({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [requestStatus, setRequestStatus] = useState([]);
+
   const [isModalVisibleAccepted, setModalVisibleAccepted] = useState(false);
   const [isModalVisibleRejected, setModalVisibleRejected] = useState(false);
   const menuTab = [
@@ -56,30 +61,50 @@ export default function Local_Home({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       getAllRequests();
+      getTourRequests();
     }, [navigation])
   );
 
   const getAllRequests = async () => {
     getLocalGuideRequests();
   };
-
   const getLocalGuideRequests = async () => {
     const uid = await getUserId();
     const data = [];
     const q = query(
       collection(db, REQUEST_TABLE),
-      where("requestBy", "==", uid)
+      where("status", "==", 0)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
       });
       setData(data);
+      console.log('data', data)
     });
+  };
+  const getTourRequests = async () => {
+    const uid = await getUserId();
+    const data = [];
+    const q = query(
+      collection(db, TOURS_REQUEST),
+      where("touristId", "==", uid)
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        data.push(doc.data());
+      });
+      // const requests= data[]
+      setRequestStatus(data);
+      console.log('requestStatus------------------->', data)
+    });
+  };
+  const onPressChat = (request) => {
+    navigation.navigate("Chat", { params: request });
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
           <Text style={[text.white, text.text30]}>طلباتي</Text>
@@ -111,29 +136,97 @@ export default function Local_Home({ navigation }) {
         <ScrollView style={{}} showsVerticalScrollIndicator={false}>
           {selectedMenu == 0 && (
             <View>
-              <View
-                style={[styles.cardDiv, { marginTop: screenWidth.width10 }]}
-              >
-                <TouristCard
-                  source={images.photo}
-                  title={'جولة بلدة العلا القديمة'}
-                />
-              </View>
+              {requestStatus?.length ? (
+                requestStatus?.map((item, index) => {
+                  return (
+                    <View>
+
+                      {item?.status == 0 &&
+                        <View
+                          style={[styles.cardDiv, {}]}
+                        >
+                          <TouristPendingCard
+                            source={{ uri: item?.imageUrl }}
+                            title={item?.title}
+                            s
+
+                          />
+                        </View>
+                      }
+                    </View>
+                  );
+                })
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <Text style={[text.text12, text.themeDefault]}>
+                    No message found
+                  </Text>
+                </View>
+              )}
             </View>
           )}
           {selectedMenu == 2 && (
-            <AcceptedBookings
-              source={images.photo}
-              booked={'Shatha'}
-              title="جولة بلدة العلا القديمة"
-              onpressAccepted={() => navigation.navigate("ChatMenu")}
-            />
+            <View>
+              {requestStatus?.length ? (
+                requestStatus?.map((item, index) => {
+                  return (
+                    <View>
+                      {item?.status == 1 &&
+                        <View
+                          style={[styles.cardDiv, {}]}
+                        >
+                          <AcceptedBooking
+                            source={{ uri: item?.imageUrl }}
+                            booked={'Shatha'}
+                            title={item?.title}
+                            onpressAccepted={()=> onPressChat(item)}
+                            // onpressAccepted={() => navigation.navigate("ChatMenu")}
+                          />
+                        </View>
+                      }
+                    </View>
+                  );
+                })
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <Text style={[text.text12, text.themeDefault]}>
+                    No message found
+                  </Text>
+                </View>
+              )}
+            </View>
+
           )}
           {selectedMenu == 1 && (
-            <TouristCard
-              source={images.photo}
-              title={"جولة بلدة العلا القديمة"}
-            />
+
+            <View>
+              {requestStatus?.length ? (
+                requestStatus?.map((item, index) => {
+                  console.log('status', item?.status)
+                  return (
+                    <View>
+                      {item?.status == 2 &&
+                        <View
+                          style={[styles.cardDiv, {}]}
+                        >
+                          <TouristRejectedCard
+                            source={{ uri: item?.imageUrl }}
+                            title={item?.title}
+
+                          />
+                        </View>
+                      }
+                    </View>
+                  );
+                })
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <Text style={[text.text12, text.themeDefault]}>
+                    No message found
+                  </Text>
+                </View>
+              )}
+            </View>
           )}
           <View style={{ marginBottom: screenWidth.width20 }}></View>
           <Modal isVisible={isModalVisibleAccepted}>
@@ -216,14 +309,14 @@ export default function Local_Home({ navigation }) {
       </ImageBackground>
 
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
+
     backgroundColor: "#fff",
   },
   alignCenter: {

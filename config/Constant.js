@@ -65,7 +65,7 @@ export const screenWidth = {
 
 //colors
 export const colors = {
-  themeDefault: "#4F6367",
+  themeDefault: "#5398a0",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
   placeholder: "#CBCBCB",
@@ -101,7 +101,6 @@ export const colors = {
 //Images
 export const images = {
   //splash
-
   location: require("../assets/tabIcons/pin.png"),
   add: require("../assets/tabIcons/add.png"),
   mark: require("../assets/tabIcons/qMark.png"),
@@ -117,8 +116,7 @@ export const images = {
   cart: require("../assets/cart.png"),
   arrow: require("../assets/back.png"),
   send: require("../assets/send.png"),
-
-
+  search: require("../assets/search.png"),
 };
 
 export const navThemeConstants = {
@@ -194,5 +192,16 @@ export const Method = {
 
 export const places = ["", "Home", "Bar", "Other", "Other"];
 
-export const REQUEST_TABLE = "requests"
+export const USERS = "users"
+export const REQUEST_TABLE = "tours"
+export const REQUESTS = "requests"
+export const CHATS_TABLE = "chat"
+export const CHATS_ROOM = "chat_rooms"
+export const TOURS_REQUEST  = "requests"
+
+export const cities = [
+  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'سلطانة', 'الدمام', 'الطائف', 'تبوك',
+  'الخرج', 'بريدة', 'خميس مشيط', 'الهفوف', 'المبرز', 'حفر الباطن', 'حائل', 'نجران',
+  'الجبيل', 'أبها', 'ينبع', 'الخبر', 'عنيزة', 'عرار', 'سكاكا', 'جازان', 'القريات', 'الظهران', 'القطيف', 'الباحة'
+]
 

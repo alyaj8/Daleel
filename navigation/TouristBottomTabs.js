@@ -102,7 +102,7 @@ function BottomTab() {
         name="TourStack"
         component={TourStack}
       />
-      <Tab.Screen
+  <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
@@ -116,20 +116,24 @@ function BottomTab() {
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <View style={[Styles.plusTab, { ...Styles.iconView }]}>
-              <Image
-                source={images.add}
-                style={{
-                  width: 40,
-                  height: 40,
-                  tintColor: "#03989e",
-                }}
-              />
+            <View style={[Styles.plusTabDiv,{ ...Styles.iconView }]}>
+              <View style={[Styles.plusTab, { ...Styles.iconView }]}>
+                <Image
+                  source={images.search}
+                  style={{
+                    width: 30,
+                    height: 30,
+                    tintColor: "white",
+                  }}
+                />
+
+              </View>
+
             </View>
           ),
         }}
         name="PostSearch"
-        component={ChatMenu}
+        component={TourStack}
       />
       <Tab.Screen
         options={{

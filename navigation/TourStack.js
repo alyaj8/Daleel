@@ -31,10 +31,10 @@ function TourStack() {
       "Warning: Async Storage has been extracted from react-native core",
     ]);
   }, []);
-
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="TourDetail" component={TourDetail} />
+
       <Stack.Screen name="TourDetailedInformation" component={TourDetailedInformation} />
       <Stack.Screen name="EditTour" component={EditTour} />
 

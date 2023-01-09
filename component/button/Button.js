@@ -3,7 +3,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  Pressable
+  Pressable,
 } from "react-native";
 import * as React from "react";
 import { screenWidth } from "../../config/Constant";
@@ -18,20 +18,22 @@ export default function Button({
 }) {
   return (
     <View>
-      {
-        buttonDefault &&
+      {buttonDefault && (
         <Pressable
           disabled={disabled}
           onPress={onpress}
           style={[
             styles.btn,
-            { backgroundColor: disabled ? "rgba(83, 152, 160, 0.5)" : "#5398a0" ,...style},
+            {
+              backgroundColor: disabled ? "rgba(83, 152, 160, 0.5)" : "#5398a0",
+              ...style,
+            },
           ]}
         >
           <Text style={[text.white, text.text20]}>{title}</Text>
         </Pressable>
-      }
-      {buttonSelection &&
+      )}
+      {buttonSelection && (
         <Pressable
           onPress={onpress}
           style={[
@@ -41,7 +43,7 @@ export default function Button({
         >
           <Text style={[text.white, text.text18]}>{title}</Text>
         </Pressable>
-      }
+      )}
     </View>
   );
 }
@@ -62,7 +64,5 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
-
-  }
-
+  },
 });
