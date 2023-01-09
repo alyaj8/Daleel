@@ -44,11 +44,11 @@ const styles = StyleSheet.create({
   InputStyle: {
     width: screenWidth.width90,
     paddingVertical: 12,
-    borderWidth: 3,
-    borderColor: "#BDBDBD",
+    borderWidth: 1,
+    borderColor: "#5398a0",
     borderRadius: 20,
     paddingHorizontal: 20,
-    textAlign: "center",
+    textAlign: "right",
   },
   icon: {
     width: 20,

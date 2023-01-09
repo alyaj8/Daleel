@@ -8,7 +8,6 @@ import Input from '../../component/inputText/Input';
 import SmallInput from '../../component/inputText/smallInput';
 import Button from '../../component/button/Button';
 import Modal from "react-native-modal";
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import * as ImagePicker from "expo-image-picker";
 
 export default function BookingDetail({ navigation }) {
@@ -40,67 +39,64 @@ export default function BookingDetail({ navigation }) {
         setModalVisible(!isModalVisible);
     };
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <ImageBackground style={{ flex: 1 }}
                     source={images.backgroundImg} resizeMode="cover">
                     <View style={[styles.alignCenter, { marginTop: 20 }]}>
                         <Text style={[text.white, text.text30]}>جولاتي</Text>
                     </View>
-                <View style={[styles.card]}>
-                <View style={[styles.alignCenter, { }]}>
+                    <View style={[styles.card]}>
+                        <View style={[styles.alignCenter, {}]}>
                             <Image source={images.photo} style={[styles.dummyImg]} />
                         </View>
-                        <View style={{alignSelf:'center'}}>
-                            <Text style={[text.black, text.text40,{fontWeight:'bold'}]}>
-                            جولة بلدة 
+                        <View style={{ alignSelf: 'center' }}>
+                            <Text style={[text.black, text.text40, { fontWeight: 'bold' }]}>
+                                جولة بلدة
                             </Text>
                         </View>
-                        <View style={{alignSelf:'center'}}>
-                            <Text style={[text.black, text.text20,{fontWeight:'bold'}]}>
-                            جولة بلدة العلا القديمة
+                        <View style={{ alignSelf: 'center' }}>
+                            <Text style={[text.black, text.text20, { fontWeight: 'bold' }]}>
+                                جولة بلدة العلا القديمة
                             </Text>
                         </View>
-                     
-                             <View style={{ alignSelf:'flex-end',marginVertical:10}}>
+
+                        <View style={{ alignSelf: 'flex-end', marginVertical: 10 }}>
                             <Text style={[text.black, text.text14]}>
-                            السبت 4:00 - 5:00 مساء
+                                السبت 4:00 - 5:00 مساء
                             </Text>
                         </View>
-                     
-                      
-                     
-                        <View style={{ margin:5}}>
-                            <Text style={[text.black, text.text18,text.right]}>
-                            مخصصة للاسترخاء بتصميم عصري ومريح ندعوك لاستكشاف أشهر التكوينات الصخرية في العلاء مع فرصة مميزة لتأمل عظمة هذه التحفة الطبيعية الخالدة من موقع مثالي
+                        <View style={{ margin: 5 }}>
+                            <Text style={[text.black, text.text18, text.right]}>
+                                مخصصة للاسترخاء بتصميم عصري ومريح ندعوك لاستكشاف أشهر التكوينات الصخرية في العلاء مع فرصة مميزة لتأمل عظمة هذه التحفة الطبيعية الخالدة من موقع مثالي
                             </Text>
                         </View>
-                          <View style={{ margin:5}}>
-                            <Text style={[text.black, text.text18,text.right]}>
-                            مخصصة للاسترخاء بتصميم عصري ومريح ندعوك لاستكشاف أشهر التكوينات الصخرية في العلاء مع فرصة مميزة لتأمل عظمة هذه التحفة الطبيعية الخالدة من موقع مثالي
+                        <View style={{ margin: 5 }}>
+                            <Text style={[text.black, text.text18, text.right]}>
+                                مخصصة للاسترخاء بتصميم عصري ومريح ندعوك لاستكشاف أشهر التكوينات الصخرية في العلاء مع فرصة مميزة لتأمل عظمة هذه التحفة الطبيعية الخالدة من موقع مثالي
                             </Text>
                         </View>
-                       
-                     <TouchableOpacity
-                     onPress={toggleModal}
-                     style={[styles.btnDiv]}>
-                        <Image style={[styles.icon,{tintColor:'#fff'}]} source={images.cart} /> 
-                     <Text style={[text.white,text.text18]}> أحجز الرحلة الآن</Text>
-                     <Text style={[text.white,text.text25]}>|</Text>
-                        <Text style={[text.white,text.text18]}> ريال 70</Text>
-                     </TouchableOpacity>
-                </View>
-                  
+
+                        <TouchableOpacity
+                            onPress={toggleModal}
+                            style={[styles.btnDiv]}>
+                            <Image style={[styles.icon, { tintColor: '#fff' }]} source={images.cart} />
+                            <Text style={[text.white, text.text18]}> أحجز الرحلة الآن</Text>
+                            <Text style={[text.white, text.text25]}>|</Text>
+                            <Text style={[text.white, text.text18]}> ريال 70</Text>
+                        </TouchableOpacity>
+                    </View>
+
                     <StatusBar style="auto" />
                     <Modal isVisible={isModalVisible}>
                         <View style={[styles.modalView]}>
                             <View style={[styles.main]}>
                                 <View style={{ marginVertical: 40, }}>
-                                    <Text style={[text.themeDefault, text.text22, { textAlign: 'center' ,fontWeight:'bold'}]}>
-                                    هل أنت متأكد من حجز هذه الرحلة ؟
+                                    <Text style={[text.themeDefault, text.text22, { textAlign: 'center', fontWeight: 'bold' }]}>
+                                        هل أنت متأكد من حجز هذه الرحلة ؟
                                     </Text>
                                 </View>
-                                <View style={{ flexDirection: 'row',justifyContent:'space-between' }}>
+                                <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                                     <View style={{}}>
                                         <Button title="حجز" onpress={toggleModal} />
                                     </View>
@@ -114,7 +110,7 @@ export default function BookingDetail({ navigation }) {
                 </ImageBackground>
             </ScrollView>
 
-        </View>
+        </SafeAreaView>
 
     );
 }
@@ -122,8 +118,8 @@ export default function BookingDetail({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop:screenWidth.width10,
-        backgroundColor:'#fff'
+        marginTop: screenWidth.width10,
+        backgroundColor: '#fff'
 
     },
     alignCenter: {
@@ -163,31 +159,31 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         // marginVertical:50
     },
-    icon:{
-        width:25,
-        height:25,
-        tintColor:'#5398a0'
+    icon: {
+        width: 25,
+        height: 25,
+        tintColor: '#5398a0'
     },
-    flexRow:{
-        flexDirection:'row',
-        alignItems:'center',
-      
+    flexRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+
     },
-    iconLg:{
-        width:40,
-        height:40,
-        tintColor:'#5398a0'
-        
+    iconLg: {
+        width: 40,
+        height: 40,
+        tintColor: '#5398a0'
+
     },
-    btnDiv:{
-        backgroundColor:'#5398a0',
-        borderRadius:10,
-        padding:10,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        paddingHorizontal:20,
-        marginVertical:40
+    btnDiv: {
+        backgroundColor: '#5398a0',
+        borderRadius: 10,
+        padding: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        marginVertical: 40
     }
 
 });

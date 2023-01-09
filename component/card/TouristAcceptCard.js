@@ -13,14 +13,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import text from "../../style/text";
 import { getDateTime } from "../../util/DateHelper";
 import ButtonComponent from "../button/Button";
-import { getConversationId } from "../../util/CustomHelper";
 
-export default function AcceptedBooking({
-  onpressAccepted,
-  source,
-  title = "",
-  booked,
-}) {
+export default function AcceptedBooking({ onpressAccepted, source, title = "", booked }) {
+
+
+  const onPressChat = () =>{
+
+    console.log('chat button pressed')
+
+  }
+
+
   return (
     <View style={styles.container}>
       <View style={[styles.card]}>
@@ -41,7 +44,21 @@ export default function AcceptedBooking({
                   {title}
                 </Text>
               </View>
-            
+              <View
+                style={[
+                  styles.flexDirection,
+                  { alignSelf: "center", marginTop: 5 },
+                ]}
+              >
+                <View style={{}}>
+                  <Text style={[text.themeDefault, text.text16]}>
+                    Booked By:{" "}
+                  </Text>
+                </View>
+                <View style={{}}>
+                  <Text style={[text.themeDefault, text.text16]}>{booked}</Text>
+                </View>
+              </View>
             </View>
 
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
@@ -55,7 +72,7 @@ export default function AcceptedBooking({
                 buttonSelection={true}
                 buttonDefault={false}
                 title={"ذهاب لدردشة "}
-                onpress={onpressAccepted}
+                onpress={onPressChat}
                 style={{ backgroundColor: "#9cd644" }}
               />
             </View>
@@ -64,7 +81,7 @@ export default function AcceptedBooking({
                 buttonSelection={true}
                 buttonDefault={false}
                 title={"مدفوعة"}
-           
+                onpress={onpressAccepted}
                 style={{ backgroundColor: "#9cd644" }}
               />
             </View>
@@ -76,17 +93,12 @@ export default function AcceptedBooking({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-  },
   card: {
     width: screenWidth.width90,
     paddingVertical: 20,
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
-    marginVertical:15
-
   },
   flexDirection: {
     flexDirection: "row",

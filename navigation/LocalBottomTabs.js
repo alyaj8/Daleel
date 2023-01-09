@@ -12,8 +12,7 @@ import PostTour from "../Screens/Local/PostTour";
 import TouristDetail from "../Screens/tourist/TouristDetail";//"../Screens/Tourist/TouristDetail";
 import TourDetail from "../Screens/Local/TourDetail";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
-
-
+import ChatMenu from "../Screens/chatScreen/ChatMenu";
 
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
@@ -157,7 +156,7 @@ function BottomTab() {
           ),
         }}
         name="ChatMenu"
-        component={PostTour}
+        component={ChatMenu}
       />
       <Tab.Screen
         options={{
