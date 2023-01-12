@@ -20,6 +20,8 @@ export default function AcceptedBooking({
   source,
   title = "",
   booked,
+  date,
+  time,
 }) {
   return (
     <View style={styles.container}>
@@ -45,10 +47,10 @@ export default function AcceptedBooking({
             </View>
 
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
-              <Text style={[text.themeDefault, text.text14]}>29-02-2022</Text>
+              <Text style={[text.themeDefault, text.text14]}>{date}</Text>
             </View>
             <View style={{ alignSelf: "center" }}>
-              <Text style={[text.themeDefault, text.text14]}>12:00 P.M</Text>
+              <Text style={[text.themeDefault, text.text14]}>{time}</Text>
             </View>
             <View style={{ marginVertical: 10, alignSelf: "center" }}>
               <ButtonComponent
