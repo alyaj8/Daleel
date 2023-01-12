@@ -48,8 +48,8 @@ export default function Log_in2({ navigation }) {
     }, []);
 
     const [value, setValue] = React.useState({
-        email: "",
-        password: "",
+        email: "aloj@hotmail.com",
+        password: "12345678",
         error: "",
     });
 

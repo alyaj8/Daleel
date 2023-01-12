@@ -15,7 +15,7 @@ import Local_ChangePass from "../Screens/Local/Local_ChangePass";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 import Local_profile from "../Screens/Local/Local_profile";
 import Chat from "../Screens/chatScreen/Chat";
-
+import StripeApp from "../Screens/tourist/StripeApp";
 
 import Tourist_Account from "../Screens/tourist/Tourist_Account";
 import Tourist_ChangePass from "../Screens/tourist/Tourist_ChangePass"
@@ -48,6 +48,7 @@ function App() {
       <Stack.Screen name="Tourist_Manage_Account" component={Tourist_Manage_Account} />
       <Stack.Screen name="Tourist_Account" component={Tourist_Account} />
       <Stack.Screen name="Tourist_ChangePass" component={Tourist_ChangePass} />
+      <Stack.Screen name="StripeApp" component={StripeApp} />
 
 
     </Stack.Navigator>
