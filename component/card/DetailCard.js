@@ -21,7 +21,7 @@ export default function Input({
   price,
   acceptButton=true,
   rejectButton=true,
-  bookeBy=true,
+  bookedBy=true,
   title
 }) {
   return (
@@ -38,13 +38,13 @@ export default function Input({
                   {title}
                   </Text>
               </View>
-              {bookeBy &&
+              {bookedBy &&
                  <View style={[styles.flexDirection,{alignSelf:'center'}]}>
                  <View style={{ }}>
                    <Text style={[text.themeDefault, text.text15]}>Booked By: </Text>
                  </View>
                  <View style={{ }}>
-                   <Text style={[text.themeDefault, text.text15]}>{price}</Text>
+                   <Text style={[text.themeDefault, text.text15]}>{bookedBy}</Text>
                  </View>
                </View>
               

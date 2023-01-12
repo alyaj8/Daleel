@@ -69,7 +69,6 @@ export default function Local_Home({ navigation }) {
     getLocalGuideRequests();
   };
   const getLocalGuideRequests = async () => {
-    const uid = await getUserId();
     const data = [];
     const q = query(
       collection(db, REQUEST_TABLE),
@@ -77,7 +76,9 @@ export default function Local_Home({ navigation }) {
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        let obj = doc.data()
+        obj['id'] = doc.id;
+        data.push(obj);
       });
       setData(data);
       console.log('data', data)
@@ -92,11 +93,12 @@ export default function Local_Home({ navigation }) {
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        let obj = doc.data()
+        obj['id'] = doc.id;
+        data.push(obj);
       });
       // const requests= data[]
       setRequestStatus(data);
-      console.log('requestStatus------------------->', data)
     });
   };
   const onPressChat = (request) => {
@@ -148,7 +150,7 @@ export default function Local_Home({ navigation }) {
                           <TouristPendingCard
                             source={{ uri: item?.imageUrl }}
                             title={item?.title}
-                            s
+                            
 
                           />
                         </View>
@@ -169,6 +171,10 @@ export default function Local_Home({ navigation }) {
             <View>
               {requestStatus?.length ? (
                 requestStatus?.map((item, index) => {
+                  const date = new Date(item?.dateCreated)
+                  const setDate= date.toDateString()
+                  const setTime= date.toTimeString()
+                  console.log('date',setDate)
                   return (
                     <View>
                       {item?.status == 1 &&
@@ -179,6 +185,8 @@ export default function Local_Home({ navigation }) {
                             source={{ uri: item?.imageUrl }}
                             booked={'Shatha'}
                             title={item?.title}
+                            date={setDate}
+                            time={setTime}
                             onpressAccepted={()=> onPressChat(item)}
                             // onpressAccepted={() => navigation.navigate("ChatMenu")}
                           />
