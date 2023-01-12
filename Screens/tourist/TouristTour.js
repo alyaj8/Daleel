@@ -10,6 +10,8 @@ import {
 import text from "../../style/text";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 import TourDetailCard from "../../component/card/TourDetailCard";
+
+
 import {
     collection,
     query,
@@ -18,7 +20,7 @@ import {
     onSnapshot,
 } from "firebase/firestore";
 import { useFocusEffect } from "@react-navigation/native";
-import { getUserId } from "../../network/ApiService";
+import { getUserId ,getUserObj} from "../../network/ApiService";
 import Loader from "../../component/Loaders/Loader";
 export default function TouristTour({ navigation }) {
     const [data, setData] = useState([]);
@@ -34,6 +36,8 @@ export default function TouristTour({ navigation }) {
     };
     const getLocalGuideRequests = async () => {
         const uid = await getUserId();
+        const userdata = await getUserObj()
+     
         const data = [];
         const q = query(
             collection(db, REQUEST_TABLE),
@@ -42,14 +46,14 @@ export default function TouristTour({ navigation }) {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 data.push(doc.data());
-                // console.log('doc',doc.id)
                 setTourId(doc.id)
             });
             setData(data);
-            console.log('data------------->',data)
+            console.log('data------------->',userdata)
         });
     };
-    console.log(data[0]?.date)
+
+   
     return (
         <View style={styles.container}>
             <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>

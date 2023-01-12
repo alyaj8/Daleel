@@ -14,9 +14,9 @@ import text from "../../style/text";
 import Button from "../../component/button/Button";
 import Modal from "react-native-modal";
 import { useFocusEffect } from "@react-navigation/native";
-import { upload, insertRequest, getUserId } from "../../network/ApiService";
+import { upload, insertRequest, getUserId ,getUserObj} from "../../network/ApiService";
 import { images, screenWidth, TOURS_REQUEST, REQUEST_TABLE } from "../../config/Constant";
-//import DatePicker from "react-native-date-picker";
+
 
 export default function BookingDetail({ navigation, route }) {
     const [isModalVisible, setModalVisible] = useState(false);
@@ -24,6 +24,8 @@ export default function BookingDetail({ navigation, route }) {
     const [dateString, setDateString] = useState(null);
     const [startTimeString, setStartTimeString] = useState(null);
     const [endTimeString, setEndTimeString] = useState(null);
+    const [userName, setUserName] = useState(null);
+
 
 
 
@@ -43,21 +45,27 @@ export default function BookingDetail({ navigation, route }) {
         const date = tourDetail?.date;
         const startTime = tourDetail?.startTime;
         const endTime = tourDetail?.endTime;
-        const DateSet = new Date(date)
-        const StartTimeSet = new Date(startTime)
-        const EndTimeSet = new Date(endTime)
-        const dateShow = DateSet.toLocaleDateString()
+        const DateSet = new Date(date * 1000)
+        const StartTimeSet = new Date(startTime * 1000)
+        const EndTimeSet = new Date(endTime * 1000)
+        const dateShow = DateSet.toDateString()
         const startTimeShow = StartTimeSet.toTimeString()
         const endTimeShow = EndTimeSet.toTimeString()
         setDateString(dateShow)
         setStartTimeString(startTimeShow)
         setEndTimeString(endTimeShow)
-        // console.log('starttime', startTimeShow)
+        console.log('response-----------------.>',dateShow) 
+
+     
     };
+    
     const onReserveTour = async () => {
+       
+
         setModalVisible(!isModalVisible);
         let tourId = route.params.tourId;
         setIsLoading(true);
+        const userData = await getUserObj()
         const touristId = await getUserId();
         const params = {
             localId: data?.requestBy,
@@ -66,11 +74,12 @@ export default function BookingDetail({ navigation, route }) {
             status: 0,
             title: data?.title,
             imageUrl: data?.imageUrl,
+            touristName:userData?.firstname,
             dateCreated: Date.now(),
         };
         console.log(params)
         const response = await insertRequest(params, TOURS_REQUEST);
-        // console.log('response-----------------.>',response) 
+        // console.log('response-----------------.>',userdata) 
         setIsLoading(false);
         navigation.goBack()
     }
