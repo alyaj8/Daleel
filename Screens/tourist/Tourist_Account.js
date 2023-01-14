@@ -107,14 +107,13 @@ export default function Tourist_Account({ navigation }) {
             try {
                 await updateEmail(user, value.email)
                     .then(async () => {
-                        console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
 
                         await setDoc(doc(db, "users", user.uid), value);
                         await setDoc(doc(db, "Tourist_users", user.uid), value);
-                        alert("Profile Updated Successfully");
+                        alert("تم تحديث  البيانات بنجاح");
                         setEmailError("");
                         //  if (oldEmail !== value.email) {
-                        // navigation.navigate("Local_Home"); ///////////////
+                        navigation.goBack();
                         //  }
                     })
                     .catch((error) => {
@@ -147,14 +146,14 @@ export default function Tourist_Account({ navigation }) {
     let checkPhone = (value) => {
         var letters = /^[0-9]+$/;
         // console.log(value.length);
-        if (value.match(letters) && value.length == 9) {
+        if (value.match(letters) && value.length == 8) {
             return true;
         } else {
             return false;
         }
     };
     let checkPhone2 = (value) => {
-        if (value.length == 9) {
+        if (value.length == 8) {
             return true;
         } else {
             return false;

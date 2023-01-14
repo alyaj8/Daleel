@@ -15,7 +15,7 @@ app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
 
-/*app.post("/create-payment-intent", async (req, res) => {
+app.post("/create-payment-intent", async (req, res) => {
     try {
         const paymentIntent = await stripe.paymentIntents.create({
             amount: 1099, //lowest denomination of particular currency
@@ -32,4 +32,4 @@ app.listen(port, () => {
         console.log(e.message);
         res.json({ error: e.message });
     }
-});*/
+}); 

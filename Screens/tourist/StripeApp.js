@@ -140,47 +140,71 @@ const StripeApp = ({ navigation }) => {
                         أتمم عملية الشراء</Text>
                 </View>
             </View>
-            <View>
-                <Text>show</Text>
-                <Text>tour name</Text>
-                <Text>tour price</Text>
 
+
+            <View style={styles.dd}>
+                <Image
+                    style={{ height: 30, width: 40, borderRadius: 10, marginTop: 60, marginLeft: 19 }}
+                    source={require("../../assets/IMG_3821.jpg")}
+                />
+
+                <CardField
+                    postalCodeEnabled={true}
+                    cardStyle={{
+                        placeholderColor: cardError ? "#ff0000" : "#0000",
+                    }}
+                    style={styles.cardContainer}
+                    onCardChange={(cardDetails) => {
+                        setCardError(false);
+                        setCardDetails(cardDetails);
+                    }}
+                />
+                {loading ? (
+                    <ActivityIndicator size={"large"} color="blue" />
+                ) : (
+                    <View>
+                        <TouchableOpacity
+                            onPress={handlePayPress}
+                            style={styles.fixToText}
+                            color="black"
+                        >
+                            <Text style={styles.buyit}>ادفع الان</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </View>
+
+            <View
+                style={{
+                    backgroundColor: "white",
+                    height: 440,
+                    borderRadius: 30,
+                    marginHorizontal: 4,
+                    paddingHorizontal: 20,
+                    marginBottom: 60,
+                    paddingBottom: 10,
+                    marginTop: -51,
+                    borderColor: "black",
+                    borderWidth: 0.5
+                }}
+            >
+                <ScrollView>
+                    <View>
+                        <Text style={{ textAlign: "center", fontSize: 25, fontWeight: "bold", marginTop: 15 }}>عرض الطلبية</Text>
+                        <Text style={{ textAlign: "right", fontSize: 20, fontWeight: "bold", marginTop: 16 }}>عنوان الجولة: </Text>
+
+                        <Text style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}>القاهره </Text>
+                        <Text style={{ textAlign: "right", fontSize: 20, fontWeight: "bold", marginTop: 5 }}>سعر الجولة:</Text>
+                        <Text style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}>10 ريال </Text>
+
+                    </View>
+
+                </ScrollView>
 
             </View>
-            <ScrollView>
 
-                <View style={styles.dd}>
-                    <Image
-                        style={{ height: 30, width: 40, borderRadius: 10, marginTop: 60, marginLeft: 19 }}
-                        source={require("../../assets/IMG_3821.jpg")}
-                    />
 
-                    <CardField
-                        postalCodeEnabled={true}
-                        cardStyle={{
-                            placeholderColor: cardError ? "#ff0000" : "#0000",
-                        }}
-                        style={styles.cardContainer}
-                        onCardChange={(cardDetails) => {
-                            setCardError(false);
-                            setCardDetails(cardDetails);
-                        }}
-                    />
-                    {loading ? (
-                        <ActivityIndicator size={"large"} color="blue" />
-                    ) : (
-                        <View>
-                            <TouchableOpacity
-                                onPress={handlePayPress}
-                                style={styles.fixToText}
-                                color="black"
-                            >
-                                <Text style={styles.buyit}>ادفع الان</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                </View>
-            </ScrollView>
+
         </ImageBackground>);
 };
 export default StripeApp;
@@ -223,7 +247,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#5398a0",
         marginTop: 19,
         paddingLeft: 10,
-        marginBottom: 4,
+        marginBottom: 10,
         alignSelf: "center",
     },
     dd: {
@@ -231,12 +255,17 @@ const styles = StyleSheet.create({
         borderColor: "black",
         borderWidth: 0.7,
         justifyContent: "center",
-        marginTop: 200,
         borderWidth: 0.9,
         flex: 1,
         paddingBottom: 8,
         borderRadius: 30,
-        marginHorizontal: 9
+        marginHorizontal: 9,
+        marginBottom: 60,
+
+        shadowColor: "lightgrey",
+        shadowOffset: { height: 5, width: 5 },
+        shadowOpacity: 0.2,
+        shadowRadius: 0.2,
     },
     aa: {
         alignSelf: "center",

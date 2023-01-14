@@ -41,11 +41,11 @@ function msg(error) {
 }
 export default function Log_in2({ navigation }) {
     const [push_token, setPushToken] = useState("");
-    useEffect(() => {
-        registerForPushNotificationsAsync().then((token) => {
-            setPushToken(token === undefined ? "" : token);
-        });
-    }, []);
+    /* useEffect(() => {
+         registerForPushNotificationsAsync().then((token) => {
+             setPushToken(token === undefined ? "" : token);
+         });
+     }, []);*/
 
     const [value, setValue] = React.useState({
         email: "aloj@hotmail.com",
