@@ -9,7 +9,8 @@ import {
     TextInput,
     TouchableOpacity,
     View,
-    Button,
+    ImageBackground,
+
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -29,9 +30,14 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import Modal from "react-native-modal";
+import Button from "../../component/button/Button";
 
 export default function Tourist_Account({ navigation }) {
 
+    const [isModalVisible, setModalVisible] = useState(false);
+    const [isModalVisible2, setModalVisible2] = useState(false);
 
     const [NameError, setNameError] = useState("");
     const [EmailError, setEmailError] = useState("");
@@ -71,6 +77,33 @@ export default function Tourist_Account({ navigation }) {
     const auth = getAuth();
     const user = auth.currentUser;
 
+    const toggleModal = () => {
+        console.log(isModalVisible)
+        setModalVisible(prev => !prev);
+        console.log(isModalVisible, "22")
+    };
+    const toggleModalDelet = () => {
+        console.log(isModalVisible2)
+        setModalVisible2(prev => !prev);
+        console.log(isModalVisible2, "22")
+    };
+    const deleteUserFunc = async () => {
+        await deleteAccount();
+    }
+
+    async function deleteAccount() {
+        const auth = getAuth();
+        let user1 = auth.currentUser;
+        user1.delete().then(() => console.log("acount deleteeee"))
+            .catch(() => console.log("account delete error"))
+        deleteDoc(doc(db, "Tourist_users", user.uid));
+        //db.collection('users').doc(user1.uid).delete();
+        console.log("acount deleteeee22222")
+        navigation.navigate("Log_in2");
+    }
+
+
+
     useEffect(() => {
         getData();
     }, []);
@@ -104,29 +137,36 @@ export default function Tourist_Account({ navigation }) {
 
 
         } else {
-            try {
-                await updateEmail(user, value.email)
-                    .then(async () => {
-                        console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
+            console.log(isModalVisible)
+            setModalVisible(prev => !prev);
+            console.log(isModalVisible, "22")
 
-                        await setDoc(doc(db, "users", user.uid), value);
-                        await setDoc(doc(db, "Tourist_users", user.uid), value);
-                        alert("Profile Updated Successfully");
-                        setEmailError("");
-                        //  if (oldEmail !== value.email) {
-                        // navigation.navigate("Local_Home"); ///////////////
-                        //  }
-                    })
-                    .catch((error) => {
-                        console.log(error.message);
-                        setEmailError(msg(error));
-                    });
-            } catch (error) {
-                console.log(error);
-            }
         }
     };
+    let saveChanges2 = async () => {
+        try {
+            console.log(isModalVisible)
+            setModalVisible(prev => !prev);
+            console.log(isModalVisible, "22")
 
+            await updateEmail(user, value.email)
+                .then(async () => {
+                    console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
+
+                    await setDoc(doc(db, "users", user.uid), value);
+                    await setDoc(doc(db, "Tourist_users", user.uid), value);
+                    setEmailError("");
+                    //  if (oldEmail !== value.email) {
+                    navigation.goBack()          //  }
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                    setEmailError(msg(error));
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     let checkFirstName = (value) => {
         var letters = /^[A-Za-z]+$/;
@@ -147,14 +187,14 @@ export default function Tourist_Account({ navigation }) {
     let checkPhone = (value) => {
         var letters = /^[0-9]+$/;
         // console.log(value.length);
-        if (value.match(letters) && value.length == 9) {
+        if (value.match(letters) && value.length == 8) {
             return true;
         } else {
             return false;
         }
     };
     let checkPhone2 = (value) => {
-        if (value.length == 9) {
+        if (value.length == 8) {
             return true;
         } else {
             return false;
@@ -187,18 +227,16 @@ export default function Tourist_Account({ navigation }) {
             setPhoneError("لا يمكن ترك رقم الجوال فارغا")
         }
         else if (!checkPhone2(value.phone))
-            setPhoneError("يجب ان يتكون الرقم السري من ٩ ارقام  ")
+            setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ")
     }
     return (
-        <SafeAreaView
-            style={{
-                backgroundColor: "",
-                flex: 1,
-            }}
+        <ImageBackground
+            style={{ flex: 1 }}
+            source={images.backgroundImg}
+            resizeMode="cover"
         >
             <View
                 style={{
-                    backgroundColor: "#5398a0",
                     height: "13%",
                     borderBottomLeftRadius: 20,
                     borderBottomRightRadius: 20,
@@ -219,19 +257,20 @@ export default function Tourist_Account({ navigation }) {
                         alignItems: "center",
                         marginTop: -10,
                         width: "100%",
+                        marginLeft: 11
                     }}
                 >
                     <Text
                         style={{
                             marginLeft: 100,
-                            marginTop: -35,
+                            marginTop: -40,
                             fontSize: 29,
                             color: "#FFF",
                             fontWeight: "bold",
                             alignSelf: "center",
                         }}
                     >
-                        معلوماتي                    </Text>
+                        معلوماتي</Text>
                 </View>
             </View>
             <ScrollView>
@@ -317,13 +356,8 @@ export default function Tourist_Account({ navigation }) {
 
                             />
                         </View>
-
-
-
-
                         <View>
-                            <TouchableOpacity onPress={() => saveChanges()}
-
+                            <TouchableOpacity onPress={saveChanges}
                                 style={{
                                     backgroundColor: "#5398a0",
                                     padding: 20,
@@ -342,12 +376,93 @@ export default function Tourist_Account({ navigation }) {
                                 >
                                     حفظ التغيرات
                                 </Text>
+
+                            </TouchableOpacity>
+
+                        </View>
+                        <View>
+                            <TouchableOpacity onPress={toggleModalDelet}
+
+                                style={{
+                                    backgroundColor: "red",
+                                    padding: 20,
+                                    borderRadius: 10,
+                                    marginBottom: 30,
+                                    marginTop: -15,
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        textAlign: "center",
+                                        fontWeight: "700",
+                                        fontSize: 18,
+                                        color: "white",
+                                    }}
+                                >
+                                    حذف الحساب                </Text>
                             </TouchableOpacity>
                         </View>
+
+                        <Modal isVisible={isModalVisible}>
+                            <View style={[styles.modalView]}>
+                                <View style={[styles.main]}>
+                                    <View style={{ marginVertical: 20 }}>
+                                        <Text
+                                            style={{ textAlign: "center", }}
+                                        >
+                                            هل أنت متأكد من حفظ التغيرات؟
+                                        </Text>
+
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <View style={{}}>
+                                            <Button title="حفظ" onpress={saveChanges2} />
+                                        </View>
+                                        <View style={{}}>
+                                            <Button title="الغاء" onpress={toggleModal} />
+
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
+                        <Modal isVisible={isModalVisible2}>
+                            <View style={[styles.modalView]}>
+                                <View style={[styles.main]}>
+                                    <View style={{ marginVertical: 20 }}>
+                                        <Text
+                                            style={{ textAlign: "center", }}
+                                        >
+                                            هل أنت متأكد من حذف الحساب؟
+                                        </Text>
+
+                                    </View>
+                                    <View
+                                        style={{
+                                            flexDirection: "row",
+                                            justifyContent: "space-between",
+                                        }}
+                                    >
+                                        <View style={{}}>
+                                            <Button title="حذف" onpress={() => deleteUserFunc()} />
+                                        </View>
+                                        <View style={{}}>
+                                            <Button title="الغاء" onpress={toggleModalDelet} />
+
+                                        </View>
+                                    </View>
+                                </View>
+                            </View>
+                        </Modal>
                     </View>
                 </View>
             </ScrollView>
-        </SafeAreaView>
+        </ImageBackground>
     );
 }
 const styles = StyleSheet.create({
@@ -388,5 +503,16 @@ const styles = StyleSheet.create({
         marginTop: 10,
         marginBottom: 10,
         marginRight: 18,
+    },
+    modalView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    main: {
+        backgroundColor: "#fff",
+        width: screenWidth.width80,
+        padding: 20,
+        borderRadius: 20,
     },
 });

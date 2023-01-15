@@ -76,7 +76,7 @@ export default function Local_Account({ navigation }) {
         break;
 
       case "auth/weak-password":
-        error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف";
+        error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف";
         break;
 
       default:
@@ -202,15 +202,6 @@ export default function Local_Account({ navigation }) {
     }
   };
 
-  let checkPass = (value) => {
-    //  var letters = /^[A-Za-z]+$/;
-    console.log(value.length);
-    if (value.length > 7) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   let checkEmail = (value) => {
     var letters = /^[A-Za-z0-9-_@.]+$/;
     if (value.match(letters) && value.includes('@') && value.includes('.')) {
@@ -222,14 +213,14 @@ export default function Local_Account({ navigation }) {
   let checkPhone = (value) => {
     var letters = /^[0-9]+$/;
     // console.log(value.length);
-    if (value.match(letters) && value.length == 9) {
+    if (value.match(letters) && value.length == 8) {
       return true;
     } else {
       return false;
     }
   };
   let checkPhone2 = (value) => {
-    if (value.length == 9) {
+    if (value.length == 8) {
       return true;
     } else {
       return false;
@@ -238,7 +229,7 @@ export default function Local_Account({ navigation }) {
   let checkMaroof = (value) => {
     var letters = /^[0-9]+$/;
     if (value.match(letters)) {
-      if (value.length == 5 || value.length == 5) {
+      if (value.length == 5 || value.length == 6) {
         return true;
       }
       else {
@@ -310,7 +301,7 @@ export default function Local_Account({ navigation }) {
       setPhoneError("لا يمكن ترك رقم الجوال فارغا")
     }
     else if (!checkPhone2(value.phone))
-      setPhoneError("يجب ان يتكون الرقم الجوال من ٩ ارقام  ")
+      setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ")
   }
 
   const validatMaroof = () => {

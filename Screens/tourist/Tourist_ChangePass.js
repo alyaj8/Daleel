@@ -8,8 +8,9 @@ import {
     ScrollView,
     TouchableOpacity,
     SafeAreaView,
-    Button,
     FlatList,
+    ImageBackground,
+
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import {
@@ -28,6 +29,8 @@ import {
 import { doc, getFirestore, setDoc } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { withUser } from "../../config/UserContext";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import Button from "../../component/button/Button";
 
 export default function Local_ChangePass({ navigation }) {
 
@@ -75,40 +78,26 @@ export default function Local_ChangePass({ navigation }) {
         }
     };
     return (
-        <SafeAreaView
-            style={{
-                flex: 1,
-            }}
-        >
-            <FlatList
-                columnWrapperStyle={{ justifyContent: "space-between" }}
-                numColumns={2}
-                data={infoList}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                    <View>
-                        {setFname(item.firstname)} {setemail(item.email)}
-                        {setLname(item.lastname)}
-                        {setUsername(item.username)}
-                        {setPassword(item.password)}
-                    </View>
-                )}
-            />
 
+        <ImageBackground
+            style={{ flex: 1 }}
+            source={images.backgroundImg}
+            resizeMode="cover"
+        >
             <View
                 style={{
-                    backgroundColor: "#5398a0",
                     height: "13%",
                     borderBottomLeftRadius: 20,
                     borderBottomRightRadius: 20,
                     paddingHorizontal: 20,
                     marginBottom: 15,
+                    marginTop: 9,
                 }}
             >
                 <Icon
                     name="arrow-back-outline"
                     size={45}
-                    style={{ color: "black", marginTop: 35, marginLeft: -15 }}
+                    style={{ color: "black", marginTop: 30, marginLeft: -15 }}
                     onPress={() => navigation.goBack()}
                 />
                 <View
@@ -117,19 +106,20 @@ export default function Local_ChangePass({ navigation }) {
                         alignItems: "center",
                         marginTop: -10,
                         width: "100%",
+                        marginLeft: 11
                     }}
                 >
                     <Text
                         style={{
-                            marginLeft: 60,
-                            marginTop: -35,
+                            marginLeft: 70,
+                            marginTop: -40,
                             fontSize: 29,
                             color: "#FFF",
                             fontWeight: "bold",
                             alignSelf: "center",
                         }}
                     >
-                        تغيير الرقم السري                    </Text>
+                        تغيير الرقم السري </Text>
                 </View>
             </View>
 
@@ -181,14 +171,33 @@ export default function Local_ChangePass({ navigation }) {
                         />
                     </View>
 
-                    <View style={styles.buttonCont}>
-                        <TouchableOpacity onPress={() => savePass()}>
-                            <Text style={styles.savechanges}>حفظ التغيرات</Text>
+                    <View>
+                        <TouchableOpacity onPress={savePass}
+                            style={{
+                                backgroundColor: "#5398a0",
+                                padding: 20,
+                                borderRadius: 10,
+                                marginBottom: 30,
+                                marginTop: 15,
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    fontWeight: "700",
+                                    fontSize: 18,
+                                    color: "white",
+                                }}
+                            >
+                                حفظ التغيرات
+                            </Text>
+
                         </TouchableOpacity>
+
                     </View>
                 </View>
             </View>
-        </SafeAreaView>
+        </ImageBackground>
     );
 }
 const styles = StyleSheet.create({

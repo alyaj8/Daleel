@@ -186,7 +186,7 @@ export default function UserSignUp({ navigation }) {
         };
         setDoc(doc(db, "Tourist_users", user.uid), data)
         setDoc(doc(db, "users", user.uid), data).then(() => {
-          alert("User Created please Login");
+          alert("تم إنشاء الحساب بنجاح الرجاء تسجيل الدخول");
           navigation.navigate("Log_in2");
 
         })
@@ -256,18 +256,22 @@ export default function UserSignUp({ navigation }) {
 
 
 
-  /*let CheckUnique = async () => {
-    if (oldName === value.username) {
+  let CheckUnique2 = async () => {
+    const q = query(
+      collection(db, "Tourist_users"),
+      where("email", "==", value.email)
+    );
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+      console.log(snapshot.empty, "true2 check email")
+      setEmailError("")
       return true;
-    } else {
-      const q = query(
-        collection(db, "users"),
-        where("email", "==", value.email)
-      );
-      const snapshot = await getDocs(q);
-      return snapshot.empty;
     }
-  };*/
+    setEmailError("هذا البريد الالكتروني قدم تم استخدامه من قبل")
+    console.log("not check email")
+    return false;
+  };
   let CheckUnique = async () => {
     const q = query(
       collection(db, "users"),
