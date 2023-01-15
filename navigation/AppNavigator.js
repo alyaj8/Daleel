@@ -16,8 +16,8 @@ import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 import Local_profile from "../Screens/Local/Local_profile";
 import Chat from "../Screens/chatScreen/Chat";
 import ChatMenu from "../Screens/chatScreen/ChatMenu";
-import StripeApp from "../Screens/Tourist/StripeApp";
 
+import StripeApp from "../Screens/Tourist/StripeApp";
 import Tourist_Account from "../Screens/Tourist/Tourist_Account";
 import Tourist_ChangePass from "../Screens/Tourist/Tourist_ChangePass"
 import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account"
