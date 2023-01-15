@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import AppNavigator from "./navigation/AppNavigator";
 import { initializeApp, getApps } from "firebase/app";
 import { StripeProvider } from "@stripe/stripe-react-native";
-import StripeApp from "./Screens/tourist/StripeApp";
+import StripeApp from "./Screens/Tourist/StripeApp";
 
 import "firebase/storage";
 

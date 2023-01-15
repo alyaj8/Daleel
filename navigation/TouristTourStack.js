@@ -8,8 +8,8 @@ import { UserProvider } from "../config/UserContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Local_Home from "../Screens/Local_Home";
-import TouristTour from "../Screens/tourist/TouristTour";
-import TouristTourDetailedInformation from "../Screens/tourist/TouristDetailedInformation";
+import TouristTour from "../Screens/Tourist/TouristTour";
+import TouristTourDetailedInformation from "../Screens/Tourist/TouristDetailedInformation";
 import EditTour from "../Screens/Local/EditTour";
 const Stack = createNativeStackNavigator();
 const firebaseConfig = {
