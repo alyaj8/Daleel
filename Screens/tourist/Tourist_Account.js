@@ -151,13 +151,11 @@ export default function Tourist_Account({ navigation }) {
 
             await updateEmail(user, value.email)
                 .then(async () => {
-                    console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
-
                     await setDoc(doc(db, "users", user.uid), value);
                     await setDoc(doc(db, "Tourist_users", user.uid), value);
                     setEmailError("");
-                    //  if (oldEmail !== value.email) {
-                    navigation.goBack()          //  }
+                    alert("تم تحديث  البيانات بنجاح");
+                    navigation.goBack()
                 })
                 .catch((error) => {
                     console.log(error.message);

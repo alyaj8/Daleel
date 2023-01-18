@@ -36,6 +36,7 @@ import { db } from "../../config/firebase";
 import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 import Modal from "react-native-modal";
 import Button from "../../component/button/Button";
+import { getDataFromStorage } from "../../util/Storage";
 
 export default function Local_Account({ navigation }) {
 
@@ -85,9 +86,8 @@ export default function Local_Account({ navigation }) {
     return error.code;
   }
 
-  const auth = getAuth();
-  const user = auth.currentUser;
-  console.log(user.uid);
+  const user = getDataFromStorage("loggedInUser");
+  console.log(user);
 
 
   useEffect(() => {
@@ -124,13 +124,11 @@ export default function Local_Account({ navigation }) {
 
       await updateEmail(user, value.email)
         .then(async () => {
-          console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid)
-
           await setDoc(doc(db, "users", user.uid), value);
           await setDoc(doc(db, "Admin_users", user.uid), value);
           setEmailError("");
-          //  if (oldEmail !== value.email) {
-          navigation.goBack()          //  }
+          alert("تم تحديث  البيانات بنجاح");
+          navigation.goBack()
         })
         .catch((error) => {
           console.log(error.message);

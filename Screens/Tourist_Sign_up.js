@@ -239,7 +239,7 @@ export default function UserSignUp({ navigation }) {
     }
   };
   let checkPhone2 = (value) => {
-    if (value.length == 9) {
+    if (value.length == 8) {
       return true;
     } else {
       return false;

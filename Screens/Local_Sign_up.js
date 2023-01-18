@@ -364,7 +364,7 @@ export default function UserSignUp({ navigation }) {
     let checkMaroof = (value) => {
         var letters = /^[0-9]+$/;
         if (value.match(letters)) {
-            if (value.length == 5 || value.length == 5) {
+            if (value.length == 5 || value.length == 6) {
                 return true;
             }
             else {
