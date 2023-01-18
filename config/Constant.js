@@ -68,6 +68,9 @@ export const colors = {
   themeDefault: "#5398a0",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
+
+  grayBg: "#e6e6e6",
+
   placeholder: "#CBCBCB",
   black: "#000",
   white: "#fff",
@@ -192,16 +195,81 @@ export const Method = {
 
 export const places = ["", "Home", "Bar", "Other", "Other"];
 
-export const USERS = "users"
-export const REQUEST_TABLE = "tours"
-export const REQUESTS = "requests"
-export const CHATS_TABLE = "chat"
-export const CHATS_ROOM = "chat_rooms"
-export const TOURS_REQUEST  = "requests"
+export const USERS = "users";
+export const REQUEST_TABLE = "tours";
+export const REQUESTS = "requests";
+export const CHATS_TABLE = "chat";
+export const CHATS_ROOM = "chat_rooms";
+export const TOURS_REQUEST = "requests";
 
 export const cities = [
-  'الرياض', 'جدة', 'مكة المكرمة', 'المدينة المنورة', 'سلطانة', 'الدمام', 'الطائف', 'تبوك',
-  'الخرج', 'بريدة', 'خميس مشيط', 'الهفوف', 'المبرز', 'حفر الباطن', 'حائل', 'نجران',
-  'الجبيل', 'أبها', 'ينبع', 'الخبر', 'عنيزة', 'عرار', 'سكاكا', 'جازان', 'القريات', 'الظهران', 'القطيف', 'الباحة'
-]
+  "الرياض",
+  "جدة",
+  "مكة المكرمة",
+  "المدينة المنورة",
+  "سلطانة",
+  "الدمام",
+  "الطائف",
+  "تبوك",
+  "الخرج",
+  "بريدة",
+  "خميس مشيط",
+  "الهفوف",
+  "المبرز",
+  "حفر الباطن",
+  "حائل",
+  "نجران",
+  "الجبيل",
+  "أبها",
+  "ينبع",
+  "الخبر",
+  "عنيزة",
+  "عرار",
+  "سكاكا",
+  "جازان",
+  "القريات",
+  "الظهران",
+  "القطيف",
+  "الباحة",
+];
 
+const brdrWidth = 1;
+
+export const highlights = {
+  brdr1: {
+    borderWidth: brdrWidth,
+    borderColor: colors.red,
+  },
+  brdr2: {
+    borderWidth: brdrWidth,
+    borderColor: colors.blue,
+  },
+  brdr3: {
+    borderWidth: brdrWidth,
+    borderColor: colors.green,
+  },
+  brdr4: {
+    borderWidth: brdrWidth,
+    borderColor: colors.orange,
+  },
+  brdr5: {
+    borderWidth: brdrWidth,
+    borderColor: colors.grey,
+  },
+  brdr6: {
+    borderWidth: brdrWidth,
+    borderColor: colors.greyLight,
+  },
+  brdr7: {
+    borderWidth: brdrWidth,
+    borderColor: colors.greyDark,
+  },
+  brdr8: {
+    borderWidth: brdrWidth,
+    borderColor: colors.blueDark,
+  },
+  brdr9: {
+    borderWidth: brdrWidth,
+    borderColor: colors.blueBeryline,
+  },
+};

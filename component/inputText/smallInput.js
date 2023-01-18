@@ -1,34 +1,32 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
-import text from "../../style/text";
+import { Image, StyleSheet, TextInput, View } from "react-native";
+import { screenWidth } from "../../config/Constant";
 export default function SmallInput({
   navigation,
   icon = false,
   source,
   multiline = false,
   onChangeText,
-  setValue,
   value,
-  editable=true,
+  editable = true,
   keyboardType,
-
+  style,
+  ...props
 }) {
-    const changeHandler = inputText => {
-        if (onChangeText) onChangeText();
-        setValue(inputText);
-      };
+  const changeHandler = (inputText) => {
+    onChangeText(inputText);
+  };
   return (
     <View style={styles.container}>
       <View style={{ justifyContent: "center" }}>
-        <TextInput style={[styles.InputStyle]} multiline={multiline} 
+        <TextInput
+          style={[styles.InputStyle, style]}
+          multiline={multiline}
           onChangeText={changeHandler}
-          setValue={setValue}
           value={value}
           editable={editable}
-            keyboardType={keyboardType}
+          keyboardType={keyboardType}
+          {...props}
         />
         {icon && (
           <View style={[styles.position]}>

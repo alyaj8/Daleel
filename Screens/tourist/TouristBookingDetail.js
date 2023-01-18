@@ -222,4 +222,3 @@ const styles = StyleSheet.create({
     tintColor: "#5398a0",
   },
 });
-

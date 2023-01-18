@@ -1,138 +1,224 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
+import React, { useReducer, useState } from "react";
 import {
+  ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
-  ScrollView,
-  ImageBackground,
+  View,
 } from "react-native";
-import text from "../style/text";
-import {
-  images,
-  screenWidth,
-  REQUEST_TABLE,
-  REQUESTS,
-} from "../config/Constant";
-import LocalBooingDetailCard from "../component/card/DetailCard";
-import { getUserId, updateRequest, updateStatus } from "../network/ApiService";
-import Loader from "../component/Loaders/Loader";
-import { useFocusEffect } from "@react-navigation/native";
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-import Button from "../component/button/Button";
+import LocalBooingDetailCard from "../component/card/DetailCard";
+import { images, screenWidth } from "../config/Constant";
 import {
-  collection,
-  query,
-  where,
-  getFirestore,
-  addDoc,
-  onSnapshot,
-} from "firebase/firestore";
+  acceptRequest,
+  getUserId,
+  updateRequest,
+  updateTour,
+} from "../network/ApiService";
+import text from "../style/text";
+
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AcceptedBookings from "../component/bookings/AcceptedBooking";
 import RejectedBookings from "../component/bookings/RejectedBookings";
-import { auth } from "../config/firebase";
-import { getDataFromStorage } from "../util/Storage";
+import Button from "../component/button/Button";
+import { db } from "../config/firebase";
 
 export default function Local_Home({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({
+    all: [],
+    accepted: [],
+    rejected: [],
+  });
   const [ui, setuid] = useState(null);
+
+  // force update use reducer
+  const [update, forceUpdate] = useReducer((s) => s + 1, 0);
+
   const [requestId, setRequestId] = useState(null);
+  const [tourId, setTourId] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   const [isModalVisibleAccepted, setModalVisibleAccepted] = useState(false);
   const [isModalVisibleRejected, setModalVisibleRejected] = useState(false);
   const menuTab = [
     { title: "الكل", selected: false },
-    { title: "مرفوضة ", selected: false },
     { title: "مقبولة", selected: false },
+    { title: "مرفوضة ", selected: false },
   ];
   const [selectedMenu, setSelectedMenu] = useState(0);
 
-  const onPressTab = (index) => {
-    setSelectedMenu(index);
+  // get user id
+  // useEffect(() => {
+  //   (async () => {
+  //     const uid = await getUserId();
+  //     console.log("🚀 ~ Local> uid", uid);
+
+  //     setCurrentUserId(uid);
+  //   })();
+  // }, []);
+
+  const Asyced = () => {
+    getUserId().then((currentUserIdLoc) => {
+      const q = query(
+        collection(db, "requests"),
+        where("localId", "==", currentUserIdLoc)
+      );
+
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        let newRequest = [];
+        querySnapshot.forEach((doc) => {
+          newRequest.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+
+        const unique = newRequest.filter((thing, index, self) => {
+          return (
+            index ===
+            self.findIndex((t) => {
+              return t.id === thing.id;
+            })
+          );
+        });
+
+        const all = unique.filter((item) => item.status == 0);
+        const accepted = unique.filter((item) => item.status === 1);
+        const rejected = unique.filter((item) => item.status === 2);
+
+        setData({ all, accepted, rejected });
+      });
+    });
   };
 
-  const toggleModalAccepted = () => {
-    setModalVisibleAccepted(!isModalVisibleAccepted);
-  };
-  const toggleModalRejected = () => {
-    setModalVisibleRejected(!isModalVisibleRejected);
-  };
-  const db = getFirestore();
+  React.useEffect(() => {
+    Asyced();
+  }, []);
 
-  useFocusEffect(
-    useCallback(() => {
-      getLocalGuideRequests();
-    }, [navigation])
-  );
+  // get all requests
+  // useEffect(() => {
+  //   console.log("fetchRequests");
+
+  //   const bag = [];
+  //   const q = query(
+  //     collection(db, REQUESTS),
+  //     where("localId", "==", currentUserId)
+  //   );
+
+  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
+  //     querySnapshot.docs.forEach((doc) => {
+  //       bag.push({ ...doc.data(), id: doc.id });
+  //     });
+
+  //     const unique = bag.filter((thing, index, self) => {
+  //       return (
+  //         index ===
+  //         self.findIndex((t) => {
+  //           return t.id === thing.id;
+  //         })
+  //       );
+  //     });
+
+  //     const all = unique.filter((item) => item.status == 0);
+  //     const accepted = unique.filter((item) => item.status === 1);
+  //     const rejected = unique.filter((item) => item.status === 2);
+
+  //     setData({ all, accepted, rejected });
+  //   });
+
+  //   return unsubscribe;
+  // }, []);
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     getLocalGuideRequests();
+  //   }, [])
+  // );
 
   // const getAllRequests = async () => {
   //   getLocalGuideRequests();
   // };
 
-  const getLocalGuideRequests = async () => {
-    let user = await getDataFromStorage("user");
-    let uid = user?.uid;
-    const data = [];
-    const requests = query(
-      collection(db, REQUESTS),
-      where("localId", "==", uid)
-    );
-    const unsubscribe = onSnapshot(requests, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let obj = doc.data()
-        obj['id'] = doc.id;
-        data.push(obj);
-        setRequestId(doc.id)
-      });
-      setData(data);
-      console.log('data', data)
-      setuid(uid);
-    });
-  };
-  const acceptRequest = async (status) => {
+  // const getLocalGuideRequests = async () => {
+  //   let user = await getDataFromStorage("loggedInUser");
+  //   let uid = user?.uid;
+  //   const data = [];
+  //   const requests = query(
+  //     collection(db, REQUESTS),
+  //     where("localId", "==", uid)
+  //   );
+  //   const unsubscribe = onSnapshot(requests, (querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       data.push(doc.data());
+  //       setRequestId(doc.id);
+  //     });
+  //     setData(data);
+  //     // console.log("data", data);
+  //     setuid(uid);
+  //   });
+  // };
+
+  const onAcceptionReq = async () => {
+    console.log("Accept> reqId: ");
     setModalVisibleAccepted(!isModalVisibleAccepted);
-    const currentUserId = await getUserId();
-    const params = {
-      status: status,
-      acceptedBy: currentUserId,
-    };
-    const updated = await updateStatus(requestId, params);
-    console.log('response', params)
-    let message =
-      updated == 1 ? "Request accepted successfully." : "Request rejected.";
-    if (updated) {
-      alert(message);
-    }
-  }
-  const rejectRequest = async (status) => {
+
+    await acceptRequest(requestId, tourId);
+    forceUpdate();
+  };
+
+  const rejectRequest = async () => {
+    console.log("Reject> reqId: ");
+
     setModalVisibleRejected(!isModalVisibleRejected);
-    const currentUserId = await getUserId();
-    const params = {
-      status: status,
-      rejectedBy: currentUserId,
+    const DataToUpdate = {
+      status: 2,
+      acceptedAt: new Date(),
     };
-    const updated = await updateStatus(requestId, params);
-    console.log('response', updated)
-    let message =
-      status == 2 ? "Request rejected successfully." : "Request rejected.";
-    if (updated) {
-      alert(message);
-    }
-  }
+    console.log("🚀 ~ DataToUpdate", DataToUpdate);
+
+    // TODO: update request status
+    const updatedReq = await updateRequest(requestId, DataToUpdate);
+
+    // TODO: update tour status
+    const updatedTour = await updateTour(tourId, DataToUpdate);
+
+    forceUpdate();
+  };
+
   const onPressChat = (request) => {
     navigation.navigate("Chat", { params: request });
   };
 
+  const onPressTab = (index) => {
+    setSelectedMenu(index);
+  };
+
+  const toggleModalAccepted = (req) => {
+    setRequestId(req.id);
+    setTourId(req.tourId);
+
+    setModalVisibleAccepted(!isModalVisibleAccepted);
+  };
+
+  const toggleModalRejected = (req) => {
+    setRequestId(req.id);
+    setTourId(req.tourId);
+
+    setModalVisibleRejected(!isModalVisibleRejected);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+        {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
           <Text style={[text.white, text.text30]}>طلباتي</Text>
         </View>
+
+        {/* Top Tabs */}
         <View>
           <View style={[styles.flexDirection, styles.tabColor]}>
             {menuTab.map((menu, index) => {
@@ -157,162 +243,154 @@ export default function Local_Home({ navigation }) {
             })}
           </View>
         </View>
-        <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-          {selectedMenu == 0 && (
-            <View>
-              {data?.length ? (
-                data?.map((item, index) => {
-                  console.log("item", item?.touristName);
-                  return (
-                    <View key={index}>
-                      {item?.status == 0 &&
-                        <View key={index} style={[styles.cardDiv, {}]}>
-                          <LocalBooingDetailCard
-                            source={{ uri: item?.imageUrl }}
-                            title={item?.title}
-                            bookedBy={item?.touristName}
-                            onpressAccepted={toggleModalAccepted}
-                            onpressRejected={toggleModalRejected}
-                          />
-                          <Modal isVisible={isModalVisibleAccepted}>
-                            <View style={[styles.modalView]}>
-                              <View style={[styles.main]}>
-                                <View style={{ marginVertical: 20 }}>
-                                  <Text
-                                    style={[
-                                      text.themeDefault,
-                                      text.text22,
-                                      { textAlign: "center" },
-                                    ]}
-                                  >
-                                    هل أنت متأكد أنك تريد قبول هذه الجولة؟
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <View style={{}}>
-                                    <Button
-                                      title="قبول"
-                                      onpress={() => acceptRequest(1)}
-                                      style={{ backgroundColor: "#80cc28" }}
-                                    />
-                                  </View>
-                                  <View style={{}}>
-                                    <Button
-                                      title="الغاء"
-                                      onpress={toggleModalAccepted}
 
-                                      style={{ backgroundColor: "#a5d5db" }}
-                                    />
-                                  </View>
-                                </View>
-                              </View>
-                            </View>
-                          </Modal>
-                          <Modal isVisible={isModalVisibleRejected}>
-                            <View style={[styles.modalView]}>
-                              <View style={[styles.main]}>
-                                <View style={{ marginVertical: 20 }}>
-                                  <Text
-                                    style={[
-                                      text.themeDefault,
-                                      text.text22,
-                                      { textAlign: "center" },
-                                    ]}
-                                  >
-                                    هل أنت متأكد أنك تريد رفض هذه الجولة؟
-                                  </Text>
-                                </View>
-                                <View
-                                  style={{
-                                    flexDirection: "row",
-                                    justifyContent: "space-between",
-                                  }}
-                                >
-                                  <View style={{}}>
-                                    <Button
-                                      title="رفض"
-                                      onpress={() => rejectRequest(2)}
-                                      style={{ backgroundColor: "#c6302c" }}
-                                    />
-                                  </View>
-                                  <View style={{}}>
-                                    <Button
-                                      title="الغاء"
-                                      onpress={toggleModalRejected}
-                                      style={{ backgroundColor: "#a5d5db" }}
-                                    />
-                                  </View>
-                                </View>
-                              </View>
-                            </View>
-                          </Modal>
-                        </View>
+        {/* Body */}
 
-                      }
-                    </View>
-                  );
-                })
-              ) : (
-                <View style={{}}>
-                </View>
-              )}
-            </View>
-          )}
-          {selectedMenu == 2 && data?.length ? (
-            data?.map((item, index) => {
-              const date = new Date(item?.dateCreated)
-              const setDate= date.toDateString()
-              const setTime= date.toTimeString()
-              console.log('date',setDate)
-              return (
-                <View key={index}>
-                  {item?.status == 1 &&
-                    <AcceptedBookings
+        <ScrollView
+          style={{
+            flex: 1,
+          }}
+          showsVerticalScrollIndicator={false}
+        >
+          {/* All */}
+          {selectedMenu == 0 ? (
+            <View
+              style={{
+                flex: 1,
+              }}
+            >
+              {data.all.map((item, index) => {
+                return (
+                  <View key={index} style={[styles.cardDiv]}>
+                    <LocalBooingDetailCard
                       source={{ uri: item?.imageUrl }}
-                      booked={item?.touristName}
                       title={item?.title}
-                      date={setDate}
-                      time={setTime}
-                      onpressAccepted={() => onPressChat(item)}
+                      bookedBy={item?.touristName}
+                      onpressAccepted={() => toggleModalAccepted(item)}
+                      onpressRejected={() => toggleModalRejected(item)}
                     />
-                  }
-                </View>
-              );
-            })
-          ) : (
-            <View style={{}}>
-              {/* <Text style={[text.text12, text.themeDefault]}>No request</Text> */}
+                  </View>
+                );
+              })}
             </View>
-          )}
+          ) : null}
 
-          {selectedMenu == 1 && data?.length ? (
-            data?.map((request, index) => {
-              return (
-                <View key={index}>
-                  {request?.status == 2 &&
-                    <RejectedBookings
-                      source={{ uri: request?.imageUrl }}
-                      booked={request?.touristName}
-                      title={request?.title}
-                    />
-                  }
-                </View>
-              );
-            })
-          ) : (
-            <View style={{}}>
-              {/* <Text style={[text.text12, text.themeDefault]}>No request</Text> */}
-            </View>
-          )}
+          {/* Accepted */}
+          {selectedMenu == 1
+            ? data.accepted.map((item, index) => {
+                const date = new Date(item?.dateCreated);
+                const setDate = date.toDateString();
+                const setTime = date.toTimeString();
+                return (
+                  <AcceptedBookings
+                    key={index}
+                    source={{ uri: item?.imageUrl }}
+                    booked={item?.touristName}
+                    title={item?.title}
+                    date={setDate}
+                    time={setTime}
+                    onpressAccepted={() => onPressChat(item)}
+                  />
+                );
+              })
+            : null}
+
+          {/* Rejected */}
+          {selectedMenu == 2
+            ? data.rejected.map((request, index) => {
+                return (
+                  <RejectedBookings
+                    key={index}
+                    source={{ uri: request?.imageUrl }}
+                    booked={request?.touristName}
+                    title={request?.title}
+                  />
+                );
+              })
+            : null}
+
           <View style={{ marginBottom: screenWidth.width20 }}></View>
-
-
         </ScrollView>
+
+        {/* Modal Accepted */}
+        <Modal isVisible={isModalVisibleAccepted}>
+          <View style={[styles.modalView]}>
+            <View style={[styles.main]}>
+              <View style={{ marginVertical: 20 }}>
+                <Text
+                  style={[
+                    text.themeDefault,
+                    text.text22,
+                    { textAlign: "center" },
+                  ]}
+                >
+                  هل أنت متأكد أنك تريد قبول هذه الجولة؟
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{}}>
+                  <Button
+                    title="قبول"
+                    onpress={() => onAcceptionReq()}
+                    style={{ backgroundColor: "#80cc28" }}
+                  />
+                </View>
+                <View style={{}}>
+                  <Button
+                    title="الغاء"
+                    onpress={toggleModalAccepted}
+                    style={{ backgroundColor: "#a5d5db" }}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+        {/* Modal Rejected */}
+        <Modal isVisible={isModalVisibleRejected}>
+          <View style={[styles.modalView]}>
+            <View style={[styles.main]}>
+              <View style={{ marginVertical: 20 }}>
+                <Text
+                  style={[
+                    text.themeDefault,
+                    text.text22,
+                    { textAlign: "center" },
+                  ]}
+                >
+                  هل أنت متأكد أنك تريد رفض هذه الجولة؟
+                </Text>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{}}>
+                  <Button
+                    title="رفض"
+                    onpress={() => rejectRequest(2)}
+                    style={{ backgroundColor: "#c6302c" }}
+                  />
+                </View>
+                <View style={{}}>
+                  <Button
+                    title="الغاء"
+                    onpress={toggleModalRejected}
+                    style={{ backgroundColor: "#a5d5db" }}
+                  />
+                </View>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </ImageBackground>
 
       <StatusBar style="auto" />
@@ -338,7 +416,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   main: {
-    backgroundColor: "#fff",
+    // backgroundColorwith opacity
+    backgroundColor: "rgba(255,255,255,1)",
     width: screenWidth.width80,
     padding: 20,
     borderRadius: 20,

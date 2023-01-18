@@ -1,24 +1,22 @@
 import { StatusBar } from "expo-status-bar";
+import React, { useEffect, useState } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
   Image,
   ImageBackground,
   ScrollView,
-  TouchableOpacity,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { images, screenWidth } from "../../config/Constant";
-import text from "../../style/text";
-import Button from "../../component/button/Button";
 import Modal from "react-native-modal";
-import { getUserId, updateRequest } from "../../network/ApiService";
-import { getUserObj } from "../../network/ApiService";
-import { getFormattedDate, convertUnixIntoTime } from "../../util/DateHelper";
+import Button from "../../component/button/Button";
+import { images, screenWidth } from "../../config/Constant";
+import { getUserId, getUserObj, updateTour } from "../../network/ApiService";
+import text from "../../style/text";
 import { getRequestStatus } from "../../util/CustomHelper";
+import { convertUnixIntoTime, getFormattedDate } from "../../util/DateHelper";
 
 export default function BookingDetail({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -51,7 +49,7 @@ export default function BookingDetail({ navigation, route }) {
       status: status,
       acceptedBy: currentUserId,
     };
-    const updated = await updateRequest(data?.id, params);
+    const updated = await updateTour(data?.id, params);
     let message =
       status == 1 ? "Request accepted successfully." : "Request rejected.";
     if (updated) {
@@ -72,10 +70,14 @@ export default function BookingDetail({ navigation, route }) {
           </View>
           <View style={[styles.card]}>
             <View style={[styles.alignCenter, {}]}>
-              <Image
-                source={{ uri: data?.imageUrl }}
-                style={[styles.dummyImg]}
-              />
+              {data.imageUrl ? (
+                <Image
+                  source={{ uri: data?.imageUrl }}
+                  style={[styles.dummyImg]}
+                />
+              ) : (
+                <Image source={images.photo} style={[styles.dummyImg]} />
+              )}
             </View>
             <View style={{ alignSelf: "center" }}>
               <Text
@@ -259,10 +261,16 @@ export default function BookingDetail({ navigation, route }) {
                   }}
                 >
                   <View style={{}}>
-                    <Button title="قبول" onpress={() => updateRequestStatus(1)} />
+                    <Button
+                      title="قبول"
+                      onpress={() => updateRequestStatus(1)}
+                    />
                   </View>
                   <View style={{}}>
-                    <Button title="الغاء" onpress={() => updateRequestStatus(2)} />
+                    <Button
+                      title="الغاء"
+                      onpress={() => updateRequestStatus(2)}
+                    />
                   </View>
                 </View>
               </View>

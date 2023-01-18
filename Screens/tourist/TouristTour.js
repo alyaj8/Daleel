@@ -1,120 +1,175 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import React, { useState } from "react";
 import {
-    StyleSheet,
-    Text,
-    View,
-    ScrollView,
-    ImageBackground,
+  FlatList,
+  ImageBackground,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
 } from "react-native";
-import text from "../../style/text";
-import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
 import TourDetailCard from "../../component/card/TourDetailCard";
-
-
-import {
-    collection,
-    query,
-    where,
-    getFirestore,
-    onSnapshot,
-} from "firebase/firestore";
-import { useFocusEffect } from "@react-navigation/native";
-import { getUserId ,getUserObj} from "../../network/ApiService";
-import Loader from "../../component/Loaders/Loader";
+import { images, screenWidth } from "../../config/Constant";
+import { db } from "../../config/firebase";
+import { getUserId } from "../../network/ApiService";
+import text from "../../style/text";
 export default function TouristTour({ navigation }) {
-    const [data, setData] = useState([]);
-    const [tourId, setTourId] = useState(null);
-    const db = getFirestore();
-    useFocusEffect(
-        useCallback(() => {
-            getAllRequests();
-        }, [navigation])
-    );
-    const getAllRequests = async () => {
-        getLocalGuideRequests();
-    };
-    const getLocalGuideRequests = async () => {
-        const uid = await getUserId();
-        const userdata = await getUserObj()
-     
-        const data = [];
-        const q = query(
-            collection(db, REQUEST_TABLE),
-            where("status", "==", 0)
+  const [data, setData] = useState([]);
+  const [refreshing, setRefreshing] = useState(false);
+  const [tourId, setTourId] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  React.useEffect(() => {
+    const bag = [];
+    const q = query(collection(db, "tours"), where("status", "==", 0));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        // build the data array
+        const info = {
+          id: doc.id,
+          ...doc.data(),
+        };
+
+        bag.push(info);
+      });
+
+      // clear duplicate data by check if the id is added before
+      const unique = bag.filter((thing, index, self) => {
+        return (
+          index ===
+          self.findIndex((t) => {
+            return t.id === thing.id;
+          })
         );
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                data.push(doc.data());
-                setTourId(doc.id)
-            });
-            setData(data);
-            console.log('data------------->',userdata)
-        });
-    };
+      });
 
-   
-    return (
-        <View style={styles.container}>
-            <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
-                <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-                    <Text style={[text.white, text.text30]}>جولاتي</Text>
-                </View>
-                <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-                    <View
-                        style={[styles.cardDiv, { marginTop: screenWidth.width15 }]}
-                    >
+      setData(unique);
+    });
+  }, []);
 
-                        {data?.length ? (
-                            data?.map((item, index) => {
-                                // console.log('item', item.title)
-                                return (
-                                    <View key={index} style={{ marginVertical: 20 }}>
-                                        <TourDetailCard
-                                            source={{ uri: item?.imageUrl }}
-                                            title={item?.title}
-                                            onpress={() => navigation.navigate('TourDetailedInformation', { item, tourId })}
-                                        />
-                                    </View>
-                                );
-                            })
-                        ) : (
-                            <View style={{ marginTop: 200, alignItems: "center" }}>
-                                <Text style={[text.text12, text.themeDefault]}>
-                                    No message found
-                                </Text>
-                            </View>
-                        )}
-                    </View>
-                </ScrollView>
-            </ImageBackground>
-            <StatusBar style="auto" />
+  React.useEffect(() => {
+    (async () => {
+      const uid = await getUserId();
+      console.log("🚀 ~ Tousit uid", uid);
+      setCurrentUserId(uid);
+    })();
+  }, []);
+
+  // when pull down to refresh, it will update the data
+  const onRefresh = React.useCallback(() => {
+    console.log("refreshing");
+    setRefreshing(true);
+    getLocalGuideRequests().then(() => setRefreshing(false));
+  }, []);
+
+  const rendersItem = ({ item }) => (
+    <FlatList
+      data={data}
+      keyExtractor={(item, index) => index.toString()}
+      renderItem={({ item, index }) => (
+        <View key={index} style={{ marginVertical: 20 }}>
+          <TourDetailCard
+            key={index}
+            source={{ uri: item?.imageUrl }}
+            title={item?.title}
+            onpress={() =>
+              navigation.navigate("TourDetailedInformation", {
+                item,
+                tourId: item.id,
+              })
+            }
+          />
         </View>
-    );
+      )}
+      ListEmptyComponent={
+        <View style={{ marginTop: 200, alignItems: "center" }}>
+          <Text style={[text.text12, text.themeDefault]}>No message found</Text>
+        </View>
+      }
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+    />
+  );
+
+  return (
+    <View style={styles.container}>
+      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+        <View style={[styles.alignCenter, { marginVertical: 10 }]}>
+          <Text
+            style={[
+              {
+                // flex: 1,
+                width: "100%",
+                textAlign: "center",
+              },
+              text.white,
+              text.text30,
+            ]}
+          >
+            الجولات
+          </Text>
+        </View>
+        <ScrollView
+          style={[styles.cardDiv, { marginTop: screenWidth.width15 }]}
+        >
+          {data.length > 0 ? (
+            <>
+              {data.map((item, index) => {
+                return (
+                  <View key={index} style={{ marginVertical: 20 }}>
+                    <TourDetailCard
+                      key={index}
+                      source={{ uri: item?.imageUrl }}
+                      title={item?.title}
+                      onpress={() =>
+                        navigation.navigate("TourDetailedInformation", {
+                          item,
+                          tourId: item.id,
+                        })
+                      }
+                    />
+                  </View>
+                );
+              })}
+            </>
+          ) : (
+            <View style={{ marginTop: 200, alignItems: "center" }}>
+              <Text style={[text.text12, text.themeDefault]}>
+                No message found
+              </Text>
+            </View>
+          )}
+        </ScrollView>
+      </ImageBackground>
+      <StatusBar style="auto" />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        marginTop: screenWidth.width10,
-        backgroundColor: "#fff",
-    },
-    alignCenter: {
-        alignItems: "center",
-    },
-    cardDiv: {
-        marginTop: 20,
-    },
-    modalView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    main: {
-        backgroundColor: "#fff",
-        width: screenWidth.width80,
-        padding: 20,
-        borderRadius: 20,
-    },
-
+  container: {
+    flex: 1,
+    marginTop: screenWidth.width10,
+    backgroundColor: "#fff",
+  },
+  alignCenter: {
+    alignItems: "center",
+  },
+  cardDiv: {
+    marginTop: 20,
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  main: {
+    backgroundColor: "#fff",
+    width: screenWidth.width80,
+    padding: 20,
+    borderRadius: 20,
+  },
 });

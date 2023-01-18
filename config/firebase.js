@@ -1,7 +1,13 @@
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
+import { getApp, getApps, initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+
+import {
+  getReactNativePersistence,
+  initializeAuth,
+} from "firebase/auth/react-native";
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getStorage, ref } from "firebase/storage";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -20,14 +26,14 @@ const firebaseConfig = {
   measurementId: "G-56DGNG2KLW",
 };
 
-export const setPassword = (email) => {
-  return firebase.auth().sendPasswordResetEmail(email);
-};
-
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+
 const db = getFirestore(app);
-const auth = getAuth(app);
+
+const auth = initializeAuth(app, {
+  persistence: getReactNativePersistence(AsyncStorage),
+});
 const storage = getStorage(app);
 const storageRef = ref(storage);
 
