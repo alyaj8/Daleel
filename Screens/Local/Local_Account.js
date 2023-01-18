@@ -85,9 +85,9 @@ export default function Local_Account({ navigation }) {
     }
     return error.code;
   }
-
-  const user = getDataFromStorage("loggedInUser");
-  console.log(user);
+  const auth = getAuth();
+  const user = auth.currentUser;
+  console.log(user.uid);
 
 
   useEffect(() => {
@@ -580,14 +580,9 @@ export default function Local_Account({ navigation }) {
                     <Text
                       style={{ textAlign: "center", }}
                     >
-                      هل أنت متأكد من نشر هذه الجولة؟
+                      هل أنت متأكد من حفظ التغيرات؟
                     </Text>
-                    <Icon
-                      name="arrow-back-outline"
-                      size={45}
-                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
-                      onPress={() => navigation.goBack()}
-                    />
+
                   </View>
                   <View
                     style={{
@@ -596,7 +591,7 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="نشر" onpress={saveChanges2} />
+                      <Button title="حفظ" onpress={saveChanges2} />
                     </View>
                     <View style={{}}>
                       <Button title="الغاء" onpress={toggleModal} />
@@ -613,14 +608,9 @@ export default function Local_Account({ navigation }) {
                     <Text
                       style={{ textAlign: "center", }}
                     >
-                      هل أنت متأكد من delete هذه الجولة؟
+                      هل أنت متأكد من حذف الحساب؟
                     </Text>
-                    <Icon
-                      name="arrow-back-outline"
-                      size={45}
-                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
-                      onPress={() => navigation.goBack()}
-                    />
+
                   </View>
                   <View
                     style={{
@@ -629,7 +619,7 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="delete" onpress={() => deleteUserFunc()} />
+                      <Button title="حذف" onpress={() => deleteUserFunc()} />
                     </View>
                     <View style={{}}>
                       <Button title="الغاء" onpress={toggleModalDelet} />
