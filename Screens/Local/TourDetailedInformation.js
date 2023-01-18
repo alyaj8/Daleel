@@ -288,7 +288,7 @@ export default function BookingDetail({ navigation, route }) {
                   </Text>
                 </View>
                 <View style={{ marginHorizontal: 10 }}>
-                  <Text style={[text.themeDefault, text.text20]}>سنة</Text>
+                  <Text style={[text.themeDefault, text.text20]}></Text>
                 </View>
               </View>
 
