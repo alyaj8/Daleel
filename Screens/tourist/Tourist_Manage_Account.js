@@ -186,7 +186,9 @@ export default function Local_Manage_Account({ navigation }) {
                     <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8 }}>تسجيل الخروج</Text>
                     <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
                 </TouchableOpacity>
-
+                <TouchableOpacity onPress={() => navigation.navigate("StripeApp")}>
+                    <Text>.</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
