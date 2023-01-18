@@ -6,3 +6,11 @@ export function getRequestStatus(status) {
     return "قبول";
   }
 }
+export function getConversationId(currentUserId, chatUserId) {
+
+  if (currentUserId < chatUserId) {
+    return currentUserId + '_' + chatUserId;
+  } else {
+    return chatUserId + '_' + currentUserId;
+  }
+}

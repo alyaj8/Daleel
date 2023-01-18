@@ -1,35 +1,15 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
-import * as React from "react";
-import { initializeApp } from "firebase/app";
-import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
 import TourStack from "./TouristTourStack";
 
-
-import PostTour from "../Screens/Local/PostTour";
-import TouristDetail from "../Screens/Tourist/TouristDetail";
-import TourDetail from "../Screens/Local/TourDetail";
 import ChatMenu from "../Screens/chatScreen/ChatMenu";
-import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account"
-
-
-
-
+import Tourist_Manage_Account from "../Screens/tourist/Tourist_Manage_Account";
 
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
-const firebaseConfig = {
-  apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
-  authDomain: "daleel-db.firebaseapp.com",
-  projectId: "daleel-db",
-  storageBucket: "daleel-db.appspot.com",
-  messagingSenderId: "602896000538",
-  appId: "1:602896000538:web:478f3d40b90af9caf093a3",
-  measurementId: "G-56DGNG2KLW",
-};
-initializeApp(firebaseConfig);
+
 function BottomTab() {
   return (
     <Tab.Navigator
@@ -40,12 +20,13 @@ function BottomTab() {
         },
       }}
     >
+      {/* طلباتي */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -61,9 +42,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -72,12 +51,14 @@ function BottomTab() {
         name="Home"
         component={TouristHomeStack}
       />
+
+      {/* الجولات */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -93,7 +74,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -102,45 +83,45 @@ function BottomTab() {
         name="TourStack"
         component={TourStack}
       />
-  <Tab.Screen
+
+      {/* البحث */}
+      <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
-            >
-
-            </Text>
+            ></Text>
           ),
           tabBarIcon: ({ focused }) => (
-            <View style={[Styles.plusTabDiv,{ ...Styles.iconView }]}>
+            <View style={[Styles.plusTabDiv, { ...Styles.iconView }]}>
               <View style={[Styles.plusTab, { ...Styles.iconView }]}>
                 <Image
                   source={images.search}
                   style={{
                     width: 30,
                     height: 30,
-                    tintColor: "white",
+                    tintColor: "black",
                   }}
                 />
-
               </View>
-
             </View>
           ),
         }}
         name="PostSearch"
         component={TourStack}
       />
+
+      {/* رسائلي */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -156,8 +137,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -166,12 +146,14 @@ function BottomTab() {
         name="ChatMenu"
         component={ChatMenu}
       />
+
+      {/* حسابي */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -187,8 +169,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -211,10 +192,10 @@ const Styles = StyleSheet.create({
   plusTab: {
     width: 55,
     height: 55,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 50,
     marginBottom: 30,
-  }
+  },
 });

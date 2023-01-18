@@ -1,44 +1,37 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import { getDateTime } from "../../util/DateHelper";
-import ButtonComponent from "../button/Button";
+import NewAppButton from "../AppButton";
 
-export default function TouristCard({
-  onpress,
-  source,
-  title
-}) {
+export default function TouristCard({ onpress, source, title }) {
   return (
-    <View style={styles.container}>
-      <View style={[styles.card]}>
-        <View style={[styles.flexDirection]}>
-          <View style={{marginHorizontal:20}}>
-            <Image source={source} style={[styles.img]} />
-          </View>
-            <View style={{paddingHorizontal:10}}>
-              <View style={{ width:screenWidth.width50, }}>
-                <Text style={[text.themeDefault, text.text18, { textAlign: 'right', fontWeight: 'bold',marginRight:20 }]}>
-                  {title}
-                  </Text>
-              </View>
-                <View style={{alignSelf:'center',marginTop:30}}>
-                <ButtonComponent buttonSelection={true} buttonDefault={false} title={'تحت الإنتظار'}
-                onpress={onpress}
-                  style={{ backgroundColor: '#b2e5e4' }}
-                />
-              </View>
-            </View>
+    <View style={[styles.card, styles.flexDirection]}>
+      {/* Image */}
+      <View style={{ marginHorizontal: 5 }}>
+        <Image source={source} style={[styles.img]} />
+      </View>
+      {/* Rest */}
+      <View style={{ paddingHorizontal: 10 }}>
+        <View style={{ width: screenWidth.width50 }}>
+          <Text
+            style={[
+              text.themeDefault,
+              text.text18,
+              { textAlign: "right", fontWeight: "bold", marginRight: 20 },
+            ]}
+          >
+            {title}
+          </Text>
+        </View>
+        <View style={{ alignSelf: "center", marginTop: 30 }}>
+          <NewAppButton
+            buttonSelection={true}
+            buttonDefault={false}
+            title={"تحت الإنتظار"}
+            onpress={onpress}
+            style={{ backgroundColor: "#b2e5e4" }}
+          />
         </View>
       </View>
     </View>
@@ -51,14 +44,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
-    paddingVertical:20,
-    marginVertical:15
+    paddingVertical: 20,
+    marginVertical: 15,
   },
   flexDirection: {
     flexDirection: "row",
   },
   img: {
-    width: screenWidth.width25,
-    height: screenWidth.width25,
+    width: screenWidth.width30,
+    height: screenWidth.width30,
   },
 });

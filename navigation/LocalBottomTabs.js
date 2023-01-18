@@ -1,31 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image } from "react-native";
-import * as React from "react";
-import { initializeApp } from "firebase/app";
-import "firebase/auth";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as React from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
 import LocalHomeStack from "./LocalHomeStack";
 import TourStack from "./TourStack";
 
-
-import PostTour from "../Screens/Local/PostTour";
-import TouristDetail from "../Screens/Tourist/TouristDetail";//"../Screens/Tourist/TouristDetail";
-import TourDetail from "../Screens/Local/TourDetail";
-import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 import ChatMenu from "../Screens/chatScreen/ChatMenu";
+import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
+import PostTour from "../Screens/Local/PostTour";
 
 import { images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
-const firebaseConfig = {
-  apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
-  authDomain: "daleel-db.firebaseapp.com",
-  projectId: "daleel-db",
-  storageBucket: "daleel-db.appspot.com",
-  messagingSenderId: "602896000538",
-  appId: "1:602896000538:web:478f3d40b90af9caf093a3",
-  measurementId: "G-56DGNG2KLW",
-};
-initializeApp(firebaseConfig);
+
 function BottomTab() {
   return (
     <Tab.Navigator
@@ -41,7 +26,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -57,9 +42,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -73,7 +56,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -89,7 +72,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -103,7 +86,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -132,7 +115,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -148,8 +131,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -163,7 +145,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? '#03989e' : "black",
+                color: focused ? "#03989e" : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -179,8 +161,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? '#03989e' : "black",
-
+                  tintColor: focused ? "#03989e" : "black",
                 }}
               />
             </View>
@@ -203,10 +184,10 @@ const Styles = StyleSheet.create({
   plusTab: {
     width: 55,
     height: 55,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 50,
     marginBottom: 30,
-  }
+  },
 });

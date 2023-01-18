@@ -27,7 +27,7 @@ import {
   REQUEST_TABLE,
   screenWidth,
 } from "../../config/Constant";
-import { getUserId, insertTour } from "../../network/ApiService";
+import { getUserId, updateTour } from "../../network/ApiService";
 import text from "../../style/text";
 
 import {
@@ -37,28 +37,29 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
+import ActivityCard from "../../component/activityComponents/ActivityCard";
 import ActivityForm from "../../component/forms/ActivityForm";
+import MIcon from "../../component/MIcon";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import { getDataFromStorage } from "../../util/Storage";
-import ActivityCard from "./../../component/activityComponents/ActivityCard";
 
-export default function PostTour({ navigation }) {
+export default function EditTourV2({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const modalizeRef = useRef(null);
   const [showPicker, setShowPicker] = useState(false);
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
-  const [isLoading, setIsLoading] = useState(false);
-  const modalizeRef = useRef(null);
 
+  const [tourId, setTourId] = useState(null);
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState("=");
   const [city, setCity] = useState("");
   const [qty, setQty] = useState("");
-  const [meetingPoint, setMeetingPoint] = useState(" ");
+  const [meetingPoint, setMeetingPoint] = useState("");
   const [age, setAge] = useState("");
   // const [price, setPrice] = useState(100);
-  const [description, setDescription] = useState(
-    ""
-  );
+  const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [filePath, setFilePath] = useState(null);
 
@@ -71,15 +72,15 @@ export default function PostTour({ navigation }) {
 
   const [activity, setActivity] = useState({
     id: null,
-    title: "",
+    title: "الجولة السياحية اليومية",
     description:
-      "",
-    location: "",
+      "في هذه الجولة سوف نقوم بزيارة العديد من المعالم السياحية في القاهرة والتعرف على تاريخها ومعالمها السياحية",
+    location: "القاهرة",
     date: new Date(),
     //yesterday
     startTime: new Date("2021-08-01T10:00:00"),
     endTime: new Date("2021-08-05T15:00:00"),
-    price: "",
+    price: 50,
     imageUrl: null,
   });
 
@@ -89,13 +90,74 @@ export default function PostTour({ navigation }) {
   const status = 0;
 
   let ages = [
-    "عائلية",
-    "كبار",
-    
+    "0 - 10",
+    "10 - 20",
+    "20 - 30",
+    "30 - 40",
+    "40 - 50",
+    "50 - 60",
+    "60 - 70",
   ];
 
   const disabled = !title || !meetingPoint || !location || !description || !qty;
   const modalizeRefAge = useRef(null);
+
+  const getTourRequests = async () => {
+    const uid = await getUserId();
+    const data = [];
+    const q = query(
+      collection(db, REQUEST_TABLE),
+      where("requestBy", "==", uid)
+    );
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      querySnapshot.forEach((doc) => {
+        data.push(doc.data());
+        // console.log("doc", doc.id);
+        setTourId(doc.id);
+      });
+    });
+  };
+
+  const deleteTour = async () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
+    setIsLoading(true);
+    const response = await deleteRequest(tourId);
+    console.log("response", response);
+    setIsLoading(false);
+    if (response) {
+      // alert("Tour Deleted Successfully");
+      navigation.navigate("TourDetail");
+    }
+  };
+
+  useEffect(() => {
+    let tour = route.params.data;
+    // logObj(tour, "tour");
+    setTitle(tour.title);
+    setLocation(tour.location);
+    setCity(tour.city);
+    setQty(tour.qty);
+    setMeetingPoint(tour.meetingPoint);
+    setAge(tour.age);
+    // setPrice(tour.price);
+    setDescription(tour.description);
+    setImageUrl(tour.imageUrl);
+    setActivities(tour.activities);
+    setTourId(tour.id);
+    setDate(() => {
+      // check if new Date() obj or firebase timestamp
+      if (tour.date.toDate) {
+        return tour.date.toDate();
+      } else {
+        return tour.date;
+      }
+    });
+    setStartTime(
+      tour.startTime.toDate ? tour.startTime.toDate() : tour.startTime
+    );
+    setEndTime(tour.endTime.toDate ? tour.endTime.toDate() : tour.endTime);
+    setActivitiesCustomizable(tour.activitiesCustomizable);
+  }, []);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -106,13 +168,16 @@ export default function PostTour({ navigation }) {
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
+      setImageUrl(result.assets[0].uri);
     }
   };
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
-
+  const toggleModalDelete = () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
+  };
   const uploadImage = async (path) => {
     try {
       const uri = Platform.OS === "ios" ? path.replace("file://", "") : path;
@@ -134,53 +199,61 @@ export default function PostTour({ navigation }) {
     }
   };
 
+  const isTourHasImage = filePath ? true : false;
+  console.log("🚀 ~ OUR> isTourHasImage", isTourHasImage);
+  console.log("🚀 ~ OUT> tour", route.params.data.imageUrl);
+
   const submitRequest = async () => {
     try {
       setIsLoading(true);
-      setModalVisible(!isModalVisible);
-      const isTourHasImage = filePath ? true : false;
+      // setModalVisible(!isModalVisible);
+      const isNewImg = filePath ? true : false;
 
-      let imageUrl = null;
-      if (isTourHasImage) {
-        imageUrl = await uploadImage(filePath);
-        // console.log("🚀 ~ imageUrl", imageUrl);
+      let localImg = null;
+
+      if (isNewImg) {
+        localImg = await uploadImage(filePath);
       }
 
       const userId = await getUserId();
-      const tourDone = isTourHasImage && !!imageUrl ? true : false;
-      if (tourDone || !isTourHasImage) {
-        const data = {
-          title,
-          description,
-          age,
-          imageUrl,
-          location,
-          city,
-          meetingPoint,
-          qty,
-          date,
-          startTime,
-          endTime,
-          status,
-          requestBy: userId,
-          dateCreated: Date.now(),
-          dateUpdated: null,
-          // activities:
-          activitiesCustomizable,
-          activities: activities,
-          requests: [],
-        };
-        // logObj(data);
-        await insertTour(data, REQUEST_TABLE);
+      const tourDone = isNewImg && !!localImg ? true : false;
+
+      const newTour = {
+        title,
+        location,
+        city,
+        qty,
+        meetingPoint,
+        age,
+        // price,
+        description,
+        imageUrl: isNewImg ? localImg : imageUrl,
+        activities,
+        date,
+        startTime,
+        endTime,
+        // status: tourDone ? "approved" : "pending",
+        dateUpdated: new Date(),
+        activitiesCustomizable: activitiesCustomizable,
+      };
+
+      console.log("🚀 ~ tour", route.params.data.imageUrl);
+      console.log("🚀 ~ newTour", newTour.imageUrl);
+
+      if (tourDone || !isNewImg) {
+        console.log("1");
+        await updateTour(tourId, newTour);
+        // alert("Tour Updated Successfully");
         setIsLoading(false);
         navigation.goBack();
       }
 
-      // setLoading(false);
+      // const response = await addRequest(newTour);
+      // console.log("🚀 ~ no condition met");
+      // setIsLoading(false);
       // navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
-      alert("حدث خطأ ما، الرجاء المحاولة مرة أخرى");
       console.log("error submitRequest", error);
     }
   };
@@ -202,20 +275,13 @@ export default function PostTour({ navigation }) {
     modalizeRefAge.current?.open();
   };
 
-  useEffect(() => {
-    getDataFromStorage("loggedInUser").then((data) => {
-      // console.log("user data", data.email);
-    });
-  }, []);
-
   const onShowPicker = (type) => {
     setPickerConfig(type);
     setShowPicker(true);
   };
 
   const onPickerChange = (event, value) => {
-    // const date = new Date(value?.getTime());
-    // console.log("🚀 ~ value", value);
+    // check if value is null
     setShowPicker(false);
     if (event.type === "set") {
       if (pickerConfig === "date") {
@@ -232,6 +298,35 @@ export default function PostTour({ navigation }) {
         setActivity({ ...activity, endTime: value });
       }
     }
+  };
+
+  const getPickerValue = () => {
+    const data =
+      pickerConfig === "date"
+        ? date || new Date()
+        : pickerConfig === "startTime"
+        ? startTime || new Date()
+        : pickerConfig === "endTime"
+        ? endTime || new Date()
+        : pickerConfig === "activityDate"
+        ? activity.date || new Date()
+        : pickerConfig === "activityStartTime"
+        ? activity.startTime || new Date()
+        : pickerConfig === "activityEndTime"
+        ? activity.endTime || new Date()
+        : null;
+
+    // check if data is null
+    if (data === null) {
+      return new Date();
+    }
+
+    // check if data is firestore timestamp
+    if (data.toDate) {
+      return data.toDate();
+    }
+
+    return data;
   };
 
   const onAddActivity = () => {
@@ -305,6 +400,7 @@ export default function PostTour({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
+      {/* Loading */}
       {isLoading && (
         <View
           style={{
@@ -337,21 +433,7 @@ export default function PostTour({ navigation }) {
                 ? "date"
                 : "time"
             }
-            value={
-              pickerConfig === "date"
-                ? date || new Date()
-                : pickerConfig === "startTime"
-                ? startTime || new Date()
-                : pickerConfig === "endTime"
-                ? endTime || new Date()
-                : pickerConfig === "activityDate"
-                ? activity.date || new Date()
-                : pickerConfig === "activityStartTime"
-                ? activity.startTime || new Date()
-                : pickerConfig === "activityEndTime"
-                ? activity.endTime || new Date()
-                : new Date()
-            }
+            value={getPickerValue()}
             display={Platform.OS === "ios" ? "calendar" : "default"}
             // is24Hour={true}
             onChange={onPickerChange}
@@ -366,20 +448,24 @@ export default function PostTour({ navigation }) {
         >
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
             <Text style={[text.white, text.text30, { fontWeight: "bold" }]}>
-              نشر جولة
+              تحديث جولة
             </Text>
           </View>
 
           {/* Image */}
-          {filePath ? (
+          {imageUrl ? (
             <TouchableOpacity
-              onPress={() => {
-                // remove image
-                setFilePath(null);
-              }}
+              onPress={() => pickImage()}
               style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
             >
-              <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
+              <Image source={{ uri: imageUrl }} style={[styles.dummyImg]} />
+            </TouchableOpacity>
+          ) : filePath ? (
+            <TouchableOpacity
+              onPress={() => pickImage()}
+              style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
+            >
+              <Image source={{ filePath }} style={[styles.dummyImg]} />
             </TouchableOpacity>
           ) : (
             <TouchableOpacity
@@ -419,9 +505,8 @@ export default function PostTour({ navigation }) {
             </View>
             <Input
               value={description}
-              placeholder="اكتب وصف الجولة"
               multiline
-             
+              placeholder="اكتب وصف الجولة"
               onChangeText={(text) => setDescription(text)}
             />
           </View>
@@ -441,10 +526,11 @@ export default function PostTour({ navigation }) {
               <Input
                 value={date ? getFormattedDate(date) : ""}
                 icon={true}
+                value={date ? getFormattedDate(date) : ""}
                 placeholder="اختر تاريخ الجولة"
                 source={images.calendar}
                 editable={false}
-                 //setValue={setDate}
+                // setValue={setDate}
               />
             </TouchableOpacity>
           </View>
@@ -471,7 +557,7 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 placeholder="اختر وقت نهاية"
-                
+                value={endTime ? getFormattedTime(endTime) : ""}
                 style={{ width: screenWidth.width40 }}
               />
             </TouchableOpacity>
@@ -494,7 +580,8 @@ export default function PostTour({ navigation }) {
                 value={startTime ? getFormattedTime(startTime) : ""}
                 icon={true}
                 source={images.timer}
-                editable={false}  
+                editable={false}
+                value={startTime ? getFormattedTime(startTime) : ""}
                 placeholder="اختر وقت بداية"
                 style={{ width: screenWidth.width40 }}
               />
@@ -512,13 +599,12 @@ export default function PostTour({ navigation }) {
               <Text style={[text.themeDefault, text.text15]}>نقطة اللقاء</Text>
             </View>
             <Input
-
               icon={true}
-              placeholder="اختر نقطة اللقاء"
               source={images.location}
               editable={true}
               onChangeText={(text) => setMeetingPoint(text)}
               value={meetingPoint}
+              placeholder="اختر نقطة اللقاء"
               // style={{ width: screenWidth.width80 }}
             />
           </View>
@@ -677,27 +763,17 @@ export default function PostTour({ navigation }) {
                   الأنشطة
                 </Text>
               </View>
-
-              {activities.length === 0 && (
-                <View style={{ marginVertical: 10 }}>
-                  <Text style={[text.grey, text.text20, text.center]}>
-                    لم يتم اضافة أي نشاط
-                  </Text>
-                </View>
-              )}
-              {
-                // Activity List
-                <View style={{ marginVertical: 10 }}>
-                  {activities.map((value, index) => (
-                    <ActivityCard
-                      key={index}
-                      activity={value}
-                      onEditActivity={onEditActivity}
-                      onRemoveActivity={onRemoveActivity}
-                    />
-                  ))}
-                </View>
-              }
+              {activities.map((value, index) => (
+                <ActivityCard
+                  key={index}
+                  onEditActivity={onEditActivity}
+                  onRemoveActivity={onRemoveActivity}
+                  activity={value}
+                  // item={item}
+                  // index={index}
+                  onShowPicker={onShowPicker}
+                />
+              ))}
             </SafeAreaView>
           </View>
 
@@ -724,10 +800,16 @@ export default function PostTour({ navigation }) {
               styles.alignCenter,
               {
                 flex: 1,
-                width: "100%",
+                // width: "100%",
                 // marginTop: 20,
                 alignItems: "flex-end",
                 // justifyContent: "center",
+                marginHorizontal: 30,
+                marginVertical: 10,
+                // backgroundColor: colors.white,
+                // transparent background color
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderRadius: 20,
               },
             ]}
           >
@@ -742,7 +824,7 @@ export default function PostTour({ navigation }) {
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={[text.grey, text.text14]}>
+                <Text style={[text.white, text.text14]}>
                   السماح للسائح بتخصيص أنشطة هذه الرحلة
                 </Text>
                 <Switch
@@ -756,14 +838,43 @@ export default function PostTour({ navigation }) {
             </View>
           </View>
 
-          {/* Post Button */}
+          {/* Buttons */}
           <View
-            style={[styles.alignCenter, { marginTop: 20, marginBottom: 70 }]}
+            style={{
+              flexDirection: "row",
+              // ...highlights.brdr1,
+              alignItems: "center",
+              justifyContent: "center",
+              marginVertical: 20,
+              marginBottom: 40,
+            }}
           >
             <Button
               // disabled={disabled}
-              title={"نشر"}
-              onpress={toggleModal}
+              title={"حفظ التغييرات"}
+              onpress={() => {
+                submitRequest();
+              }}
+            />
+            <View style={{ width: 10 }} />
+            <Button
+              // disabled={disabled}
+
+              style={{ backgroundColor: colors.red }}
+              title={"إلغاء التعديل"}
+              onpress={() => {
+                toggleModalDelete();
+              }}
+            />
+
+            <MIcon
+              name="delete"
+              size={30}
+              color={colors.red}
+              style={{ marginHorizontal: 10 }}
+              onPress={() => {
+                deleteTour();
+              }}
             />
           </View>
 
@@ -784,39 +895,83 @@ export default function PostTour({ navigation }) {
               ))}
             </ScrollView>
           </RBSheet>
+
+          {/* Modal */}
+          <Modal isVisible={isModalVisible}>
+            <View style={[styles.modalView]}>
+              <View style={[styles.main]}>
+                <View style={{ marginVertical: 20 }}>
+                  <Text
+                    style={[
+                      text.themeDefault,
+                      text.text22,
+                      { textAlign: "center" },
+                    ]}
+                  >
+                    هل أنت متأكد أنك تريد تحديث هذه الجولة؟
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{}}>
+                    <Button
+                      title="تحديث"
+                      onpress={() => {
+                        setModalVisible(!isModalVisible);
+                      }}
+                    />
+                  </View>
+                  <View style={{}}>
+                    <Button title="الغاء" onpress={toggleModal} />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
+          <Modal isVisible={isDeleteModalVisible}>
+            <View style={[styles.modalView]}>
+              <View style={[styles.main]}>
+                <View style={{ marginVertical: 20 }}>
+                  <Text
+                    style={[
+                      text.themeDefault,
+                      text.text22,
+                      { textAlign: "center" },
+                    ]}
+                  >
+                    هل أنت متأكد أنك تريد حذف هذه الجولة؟
+                  </Text>
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <View style={{}}>
+                    <Button
+                      title="حذف "
+                      onpress={deleteTour}
+                      style={{ backgroundColor: "#c6302c" }}
+                    />
+                  </View>
+                  <View style={{}}>
+                    <Button
+                      title="الغاء"
+                      onpress={toggleModalDelete}
+                      style={{ backgroundColor: "#a5d5db" }}
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+          </Modal>
         </ImageBackground>
       </ScrollView>
-      {/* Modal */}
-      <Modal isVisible={isModalVisible}>
-        <View style={[styles.modalView]}>
-          <View style={[styles.main]}>
-            <View style={{ marginVertical: 20 }}>
-              <Text
-                style={[
-                  text.themeDefault,
-                  text.text22,
-                  { textAlign: "center" },
-                ]}
-              >
-                هل أنت متأكد أنك تريد نشر هذه الجولة؟
-              </Text>
-            </View>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={{}}>
-                <Button title="نشر" onpress={submitRequest} />
-              </View>
-              <View style={{}}>
-                <Button title="الغاء" onpress={toggleModal} />
-              </View>
-            </View>
-          </View>
-        </View>
-      </Modal>
       {/* <Loader isLoading={loading} /> */}
     </SafeAreaView>
   );

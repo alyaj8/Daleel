@@ -1,34 +1,33 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
-import text from "../../style/text";
+import { Image, StyleSheet, TextInput, View } from "react-native";
+import { screenWidth } from "../../config/Constant";
 export default function Input({
   navigation,
   icon = false,
   source,
   multiline = false,
-  setValue,
   value,
   editable = true,
   onChangeText,
   style,
+
+  inputStyle,
+  ...props
 }) {
-  const changeHandler = inputText => {
-    if (onChangeText) onChangeText();
-    setValue(inputText);
+  const changeHandler = (inputText) => {
+    // console.log("inputText", inputText);
+    onChangeText(inputText);
   };
   return (
     <View style={styles.container}>
       <View style={{ justifyContent: "center" }}>
         <TextInput
-          style={[styles.InputStyle,{...style}]}
+          style={[styles.InputStyle, { ...style }]}
           multiline={multiline}
-          setValue={setValue}
           value={value}
           editable={editable}
           onChangeText={changeHandler}
+          {...props}
         />
         {icon && (
           <View style={[styles.position]}>

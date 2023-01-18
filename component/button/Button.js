@@ -1,11 +1,5 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Pressable,
-} from "react-native";
 import * as React from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 export default function Button({
@@ -24,13 +18,28 @@ export default function Button({
           onPress={onpress}
           style={[
             styles.btn,
+
             {
+              width: screenWidth.width30,
+              alignItems: "center",
+              justifyContent: "center",
               backgroundColor: disabled ? "rgba(83, 152, 160, 0.5)" : "#5398a0",
               ...style,
             },
           ]}
         >
-          <Text style={[text.white, text.text20]}>{title}</Text>
+          <Text
+            style={[
+              text.white,
+              text.text20,
+              text.center,
+              {
+                width: "100%",
+              },
+            ]}
+          >
+            {title}
+          </Text>
         </Pressable>
       )}
       {buttonSelection && (
@@ -38,10 +47,27 @@ export default function Button({
           onPress={onpress}
           style={[
             styles.btnSecondary,
-            { backgroundColor: "#80cc28", ...style },
+            {
+              width: screenWidth.width30,
+
+              backgroundColor: "#80cc28",
+              ...style,
+            },
           ]}
         >
-          <Text style={[text.white, text.text18]}>{title}</Text>
+          <Text
+            style={[
+              text.white,
+              text.text18,
+              text.center,
+
+              {
+                width: "100%",
+              },
+            ]}
+          >
+            {title}
+          </Text>
         </Pressable>
       )}
     </View>
