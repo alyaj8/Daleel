@@ -1,31 +1,45 @@
-import { updateEmail } from "firebase/auth";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  query,
-  setDoc,
-  where,
-} from "firebase/firestore";
+
 import React, { useEffect, useState } from "react";
 import {
-  ImageBackground,
+  FlatList,
+  SafeAreaView,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
+  ImageBackground,
+
 } from "react-native";
-import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  updateEmail,
+  auth,
+  signOut
+} from "firebase/auth";
+import {
+  collection,
+  doc,
+  getFirestore,
+  setDoc,
+  addDoc,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
+import { db } from "../../config/firebase";
+import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import Modal from "react-native-modal";
 import Button from "../../component/button/Button";
-import { images, screenWidth } from "../../config/Constant";
-import { auth, db } from "../../config/firebase";
 import { getDataFromStorage } from "../../util/Storage";
 
 export default function Local_Account({ navigation }) {
+
   const [NameError, setNameError] = useState("");
   const [LastNameError, setLastNameError] = useState("");
 
@@ -58,11 +72,12 @@ export default function Local_Account({ navigation }) {
         break;
 
       case "auth/email-already-in-use":
-        error.code = "البريد الإلكتروني قدم تم استخدامه من قبل";
+        error.code =
+          "البريد الإلكتروني قدم تم استخدامه من قبل";
         break;
 
       case "auth/weak-password":
-        error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن ١٠ حروف";
+        error.code = "الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف";
         break;
 
       default:
@@ -70,9 +85,10 @@ export default function Local_Account({ navigation }) {
     }
     return error.code;
   }
+  const auth = getAuth();
+  const user = auth.currentUser;
+  console.log(user.uid);
 
-  const user = getDataFromStorage("loggedInUser");
-  console.log(user);
 
   useEffect(() => {
     getData();
@@ -85,6 +101,7 @@ export default function Local_Account({ navigation }) {
         const Acc = doc.data();
         setValue(Acc);
         console.log(value.email);
+
       });
       //  setValue(Acc);
     } catch (error) {
@@ -93,25 +110,25 @@ export default function Local_Account({ navigation }) {
   };
 
   const toggleModal = () => {
-    console.log(isModalVisible);
-    setModalVisible((prev) => !prev);
-    console.log(isModalVisible, "22");
+    console.log(isModalVisible)
+    setModalVisible(prev => !prev);
+    console.log(isModalVisible, "22")
+
+
   };
   let saveChanges2 = async () => {
     try {
-      console.log(isModalVisible);
-      setModalVisible((prev) => !prev);
-      console.log(isModalVisible, "22");
+      console.log(isModalVisible)
+      setModalVisible(prev => !prev);
+      console.log(isModalVisible, "22")
 
       await updateEmail(user, value.email)
         .then(async () => {
-          console.log("jhiugyfxdfgfhcgjkhljhiufydtrsxdjfkgli;", user.uid);
-
           await setDoc(doc(db, "users", user.uid), value);
           await setDoc(doc(db, "Admin_users", user.uid), value);
           setEmailError("");
-          //  if (oldEmail !== value.email) {
-          navigation.goBack(); //  }
+          alert("تم تحديث  البيانات بنجاح");
+          navigation.goBack()
         })
         .catch((error) => {
           console.log(error.message);
@@ -120,33 +137,36 @@ export default function Local_Account({ navigation }) {
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   const toggleModalDelet = () => {
-    console.log(isModalVisible2);
-    setModalVisible2((prev) => !prev);
-    console.log(isModalVisible2, "22");
+    console.log(isModalVisible2)
+    setModalVisible2(prev => !prev);
+    console.log(isModalVisible2, "22")
   };
   const deleteUserFunc = async () => {
     await deleteAccount();
-  };
+  }
   async function deleteAccount() {
+
+    const auth = getAuth();
+
     let user1 = auth.currentUser;
-    user1
-      .delete()
-      .then(() => console.log("acount deleteeee"))
-      .catch(() => console.log("account delete error"));
+    user1.delete().then(() => console.log("acount deleteeee"))
+      .catch(() => console.log("account delete error"))
 
     deleteDoc(doc(db, "Admin_users", user.uid));
     //db.collection('users').doc(user1.uid).delete();
 
-    console.log("acount deleteeee22222");
+    console.log("acount deleteeee22222")
     navigation.navigate("Log_in2");
+
   }
 
   let saveChanges = async () => {
     if (
       value.firstname === "" ||
       value.lastname === "" ||
+
       value.email === "" ||
       value.phone === "" ||
       value.username === "" ||
@@ -163,10 +183,12 @@ export default function Local_Account({ navigation }) {
       validatLastName();
       validatMaroof();
       validatUsername();
+
     } else {
-      console.log(isModalVisible);
-      setModalVisible((prev) => !prev);
-      console.log(isModalVisible, "22");
+      console.log(isModalVisible)
+      setModalVisible(prev => !prev);
+      console.log(isModalVisible, "22")
+
     }
   };
   let checkFirstName = (value) => {
@@ -178,18 +200,9 @@ export default function Local_Account({ navigation }) {
     }
   };
 
-  let checkPass = (value) => {
-    //  var letters = /^[A-Za-z]+$/;
-    console.log(value.length);
-    if (value.length > 7) {
-      return true;
-    } else {
-      return false;
-    }
-  };
   let checkEmail = (value) => {
     var letters = /^[A-Za-z0-9-_@.]+$/;
-    if (value.match(letters) && value.includes("@") && value.includes(".")) {
+    if (value.match(letters) && value.includes('@') && value.includes('.')) {
       return true;
     } else {
       return false;
@@ -198,14 +211,14 @@ export default function Local_Account({ navigation }) {
   let checkPhone = (value) => {
     var letters = /^[0-9]+$/;
     // console.log(value.length);
-    if (value.match(letters) && value.length == 9) {
+    if (value.match(letters) && value.length == 8) {
       return true;
     } else {
       return false;
     }
   };
   let checkPhone2 = (value) => {
-    if (value.length == 9) {
+    if (value.length == 8) {
       return true;
     } else {
       return false;
@@ -214,9 +227,10 @@ export default function Local_Account({ navigation }) {
   let checkMaroof = (value) => {
     var letters = /^[0-9]+$/;
     if (value.match(letters)) {
-      if (value.length == 5 || value.length == 5) {
+      if (value.length == 5 || value.length == 6) {
         return true;
-      } else {
+      }
+      else {
         return false;
       }
     } else {
@@ -240,70 +254,78 @@ export default function Local_Account({ navigation }) {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      console.log(snapshot.empty, "true2 check uniq");
-      setUsernameError("");
-      s;
+      console.log(snapshot.empty, "true2 check uniq")
+      setUsernameError("")
+      s
       return true;
     }
-    setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
+    setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
     return false;
   };
 
   const validatName = () => {
     if (value.firstname === "") {
-      setNameError("لا يمكن ترك الإسم الأول فارغا");
-    } else if (!checkFirstName(value.firstname)) {
-      setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه");
-    } else if (checkFirstName(value.firstname) && value.firstname !== "") {
-      setNameError("");
+      setNameError("لا يمكن ترك الإسم الأول فارغا")
     }
-  };
+    else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه") }
+    else if (checkFirstName(value.firstname) && value.firstname !== "") {
+      setNameError("")
+    }
+  }
   const validatLastName = () => {
     if (value.lastname === "") {
-      setLastNameError("لا يمكن ترك الإسم الأخير فارغا");
-    } else if (!checkFirstName(value.lastname)) {
-      setLastNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه");
-    } else if (checkFirstName(value.lastname) && value.lastname !== "") {
-      setLastNameError("");
+      setLastNameError("لا يمكن ترك الإسم الأخير فارغا")
     }
-  };
+    else if (!checkFirstName(value.lastname)) { setLastNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه") }
+    else if (checkFirstName(value.lastname) && value.lastname !== "") {
+      setLastNameError("")
+    }
+  }
 
   const validatEmail = () => {
     setEmailError("");
     if (value.email === "") {
-      setEmailError("لا يمكن ترك البريد الإلكتروني فارغا");
-    } else if (!checkEmail(value.email)) {
-      setEmailError("عنوان البريد الإلكتروني غير صحيح");
+      setEmailError("لا يمكن ترك البريد الإلكتروني فارغا")
     }
-  };
+    else if (!checkEmail(value.email)) {
+      setEmailError("عنوان البريد الإلكتروني غير صحيح")
+    }
+  }
 
   const validatPhone = () => {
-    if (checkPhone(value.phone)) {
-      setPhoneError("");
-    } else if (value.phone === "") {
-      setPhoneError("لا يمكن ترك رقم الجوال فارغا");
-    } else if (!checkPhone2(value.phone))
-      setPhoneError("يجب ان يتكون الرقم الجوال من ٩ ارقام  ");
-  };
+    if (checkPhone(value.phone)) { setPhoneError("") }
+
+    else if (value.phone === "") {
+      setPhoneError("لا يمكن ترك رقم الجوال فارغا")
+    }
+    else if (!checkPhone2(value.phone))
+      setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ")
+  }
 
   const validatMaroof = () => {
-    if (checkMaroof(value.maroof)) {
-      setMaroofError("");
-    } else if (value.maroof === "") {
-      setMaroofError("لا يمكن ترك رقم معروف فارغا");
-    } else if (!checkMaroof(value.maroof))
-      setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ");
-  };
+    if (checkMaroof(value.maroof)) { setMaroofError("") }
+
+    else if (value.maroof === "") {
+      setMaroofError("لا يمكن ترك رقم معروف فارغا")
+    }
+    else if (!checkMaroof(value.maroof))
+      setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ")
+  }
+
+
 
   const validatUsername = () => {
+
     if (value.username === "") {
-      setUsernameError("لا يمكن ترك اسم المستخدم فارغا");
-    } else {
-      CheckUnique(value.username);
+      setUsernameError("لا يمكن ترك اسم المستخدم فارغا")
     }
-  };
+    else { CheckUnique(value.username) }
+
+  }
+
 
   return (
+
     <ImageBackground
       style={{ flex: 1 }}
       source={images.backgroundImg}
@@ -331,7 +353,7 @@ export default function Local_Account({ navigation }) {
             alignItems: "center",
             marginTop: -10,
             width: "100%",
-            marginLeft: 11,
+            marginLeft: 11
           }}
         >
           <Text
@@ -344,8 +366,7 @@ export default function Local_Account({ navigation }) {
               alignSelf: "center",
             }}
           >
-            معلوماتي
-          </Text>
+            معلوماتي</Text>
         </View>
       </View>
       <ScrollView>
@@ -362,11 +383,8 @@ export default function Local_Account({ navigation }) {
         >
           <View style={{ marginTop: 40, marginLeft: -10 }}>
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
-                الاسم الأول{" "}
-              </Text>
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
+                الاسم الأول              </Text>
               <Text
                 style={{
                   color: "red",
@@ -377,6 +395,7 @@ export default function Local_Account({ navigation }) {
               </Text>
               <TextInput
                 style={styles.body}
+
                 placeholder={value.firstname}
                 placeholderTextColor="black"
                 value={value.firstname}
@@ -386,9 +405,7 @@ export default function Local_Account({ navigation }) {
             </View>
 
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                 الاسم الأخير
               </Text>
               <Text
@@ -401,6 +418,7 @@ export default function Local_Account({ navigation }) {
               </Text>
               <TextInput
                 style={styles.body}
+
                 placeholder={value.lastname}
                 placeholderTextColor="black"
                 value={value.lastname}
@@ -410,9 +428,7 @@ export default function Local_Account({ navigation }) {
             </View>
 
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                 {"\n"}البريد الإلكتروني
               </Text>
 
@@ -431,13 +447,12 @@ export default function Local_Account({ navigation }) {
                 placeholderTextColor="black"
                 onChangeText={(text) => setValue({ ...value, email: text })}
                 underlineColorAndroid="transparent"
+
               />
             </View>
 
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                 {"\n"}اسم المستخدم
               </Text>
 
@@ -456,12 +471,11 @@ export default function Local_Account({ navigation }) {
                 placeholderTextColor="black"
                 onChangeText={(text) => setValue({ ...value, username: text })}
                 underlineColorAndroid="transparent"
+
               />
             </View>
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                 {"\n"}رقم الجوال
               </Text>
               <Text
@@ -474,6 +488,7 @@ export default function Local_Account({ navigation }) {
               </Text>
               <TextInput
                 style={styles.body}
+
                 placeholder={value.phone}
                 value={value.phone}
                 placeholderTextColor="black"
@@ -482,11 +497,11 @@ export default function Local_Account({ navigation }) {
               />
             </View>
 
+
             <View style={styles.InputContainer}>
-              <Text
-                style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
-              >
+              <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
                 {"\n"}رقم معروف
+
               </Text>
 
               <Text
@@ -504,12 +519,15 @@ export default function Local_Account({ navigation }) {
                 placeholderTextColor="black"
                 onChangeText={(text) => setValue({ ...value, maroof: text })}
                 underlineColorAndroid="transparent"
+
               />
             </View>
 
+
+
+
             <View>
-              <TouchableOpacity
-                onPress={saveChanges}
+              <TouchableOpacity onPress={saveChanges}
                 style={{
                   backgroundColor: "#5398a0",
                   padding: 20,
@@ -528,11 +546,13 @@ export default function Local_Account({ navigation }) {
                 >
                   حفظ التغيرات
                 </Text>
+
               </TouchableOpacity>
+
             </View>
             <View>
-              <TouchableOpacity
-                onPress={toggleModalDelet}
+              <TouchableOpacity onPress={toggleModalDelet}
+
                 style={{
                   backgroundColor: "red",
                   padding: 20,
@@ -549,8 +569,7 @@ export default function Local_Account({ navigation }) {
                     color: "white",
                   }}
                 >
-                  حذف الحساب{" "}
-                </Text>
+                  حذف الحساب                </Text>
               </TouchableOpacity>
             </View>
 
@@ -558,15 +577,12 @@ export default function Local_Account({ navigation }) {
               <View style={[styles.modalView]}>
                 <View style={[styles.main]}>
                   <View style={{ marginVertical: 20 }}>
-                    <Text style={{ textAlign: "center" }}>
-                      هل أنت متأكد من نشر هذه الجولة؟
+                    <Text
+                      style={{ textAlign: "center", }}
+                    >
+                      هل أنت متأكد من حفظ التغيرات؟
                     </Text>
-                    <Icon
-                      name="arrow-back-outline"
-                      size={45}
-                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
-                      onPress={() => navigation.goBack()}
-                    />
+
                   </View>
                   <View
                     style={{
@@ -575,10 +591,11 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="نشر" onpress={saveChanges2} />
+                      <Button title="حفظ" onpress={saveChanges2} />
                     </View>
                     <View style={{}}>
                       <Button title="الغاء" onpress={toggleModal} />
+
                     </View>
                   </View>
                 </View>
@@ -588,15 +605,12 @@ export default function Local_Account({ navigation }) {
               <View style={[styles.modalView]}>
                 <View style={[styles.main]}>
                   <View style={{ marginVertical: 20 }}>
-                    <Text style={{ textAlign: "center" }}>
-                      هل أنت متأكد من delete هذه الجولة؟
+                    <Text
+                      style={{ textAlign: "center", }}
+                    >
+                      هل أنت متأكد من حذف الحساب؟
                     </Text>
-                    <Icon
-                      name="arrow-back-outline"
-                      size={45}
-                      style={{ color: "black", marginTop: 30, marginLeft: -15 }}
-                      onPress={() => navigation.goBack()}
-                    />
+
                   </View>
                   <View
                     style={{
@@ -605,10 +619,11 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="delete" onpress={() => deleteUserFunc()} />
+                      <Button title="حذف" onpress={() => deleteUserFunc()} />
                     </View>
                     <View style={{}}>
                       <Button title="الغاء" onpress={toggleModalDelet} />
+
                     </View>
                   </View>
                 </View>
