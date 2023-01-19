@@ -14,7 +14,7 @@ import { images, REQUEST_TABLE, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
-export default function Local_Home({ navigation }) {
+export default function TourDetail({ navigation }) {
   const [data, setData] = useState([]);
   const [tourId, setTourId] = useState(null);
 

@@ -29,7 +29,7 @@ import text from "../../style/text";
 import { getDateFromSeconds } from "../../util/DateHelper";
 import Loading from "./../../component/Loading";
 
-export default function BookingDetail({ navigation, route }) {
+export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);

@@ -1,3 +1,4 @@
+import * as ImagePicker from "expo-image-picker";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import {
   collection,
@@ -7,6 +8,12 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
 import React, { useEffect, useState } from "react";
 import {
   Button,
@@ -16,28 +23,14 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableHighlight,
-  View, TouchableOpacity
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
-import { registerForPushNotificationsAsync } from "../util/Notifcations";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import {
-  cities,
-  colors,
-  images,
-  REQUEST_TABLE,
-  screenWidth,
-} from "../config/Constant";
-import { AntDesign } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
+import { images, screenWidth } from "../config/Constant";
 import { auth, db } from "../config/firebase";
+import { registerForPushNotificationsAsync } from "../util/Notifcations";
 
 function msg(error) {
   switch (error.code) {
@@ -59,14 +52,12 @@ function msg(error) {
   return error.code;
 }
 
-
-export default function UserSignUp({ navigation }) {
+export default function Local_Sign_up({ navigation }) {
   const [push_token, setPushToken] = useState("");
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
       //  setPushToken(token === undefined ? "" : token);
       setPushToken(token);
-
     });
   }, []);
   const [image, setImage] = useState(null);
@@ -83,8 +74,6 @@ export default function UserSignUp({ navigation }) {
   const [UsernameError, setUsernameError] = useState("");
   const [Pass2Error, setPass2Error] = useState("");
   const [a1, seta1] = useState(false);
-
-
 
   ///////////////////////////////image
   const options = {
@@ -117,7 +106,6 @@ export default function UserSignUp({ navigation }) {
              });
          }
      };*/
-
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -249,16 +237,13 @@ export default function UserSignUp({ navigation }) {
   async function signUp() {
     console.log("user333");
     if (
-
       value.firstname === "" ||
       value.lastname === "" ||
-
       value.email === "" ||
       value.phone === "" ||
       value.username === "" ||
       value.password === "" ||
       value.password2 === "" ||
-
       value.maroof === "" ||
       checkFirstName(value.firstname) === false ||
       checkFirstName(value.lastname) === false ||
@@ -269,7 +254,6 @@ export default function UserSignUp({ navigation }) {
 
       //  value.city === ""
       //   value.poster === ""
-
     ) {
       validatName();
       validatPass();
@@ -432,7 +416,6 @@ export default function UserSignUp({ navigation }) {
         </View>
         <View style={{ paddingHorizontal: 25, marginTop: 10 }}>
           <Text style={[styles.title]}> إنشاء حساب جديد</Text>
-
 
           {filePath ? (
             <TouchableOpacity
@@ -672,7 +655,8 @@ const styles = StyleSheet.create({
     height: screenWidth.width50,
     resizeMode: "contain",
     // opacity: 0.7,
-  }, alignCenter: {
+  },
+  alignCenter: {
     alignItems: "center",
   },
 });

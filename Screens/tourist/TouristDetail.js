@@ -16,7 +16,7 @@ import Button from "../../component/button/Button";
 import { images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 
-export default function BookingDetail({ navigation }) {
+export default function TouristDetail({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState(null);
   const [date, setDate] = useState(null);
