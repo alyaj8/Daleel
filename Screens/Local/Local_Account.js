@@ -254,9 +254,7 @@ export default function Local_Account({ navigation }) {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      console.log(snapshot.empty, "true2 check uniq")
       setUsernameError("")
-      s
       return true;
     }
     setUsernameError("اسم المستخدم قدم تم استخدامه من قبل")
