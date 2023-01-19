@@ -56,9 +56,7 @@ export default function PostTour({ navigation }) {
   const [meetingPoint, setMeetingPoint] = useState(" ");
   const [age, setAge] = useState("");
   // const [price, setPrice] = useState(100);
-  const [description, setDescription] = useState(
-    ""
-  );
+  const [description, setDescription] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
   const [filePath, setFilePath] = useState(null);
 
@@ -72,8 +70,7 @@ export default function PostTour({ navigation }) {
   const [activity, setActivity] = useState({
     id: null,
     title: "",
-    description:
-      "",
+    description: "",
     location: "",
     date: new Date(),
     //yesterday
@@ -88,11 +85,7 @@ export default function PostTour({ navigation }) {
 
   const status = 0;
 
-  let ages = [
-    "عائلية",
-    "كبار",
-    
-  ];
+  let ages = ["عائلية", "كبار"];
 
   const disabled = !title || !meetingPoint || !location || !description || !qty;
   const modalizeRefAge = useRef(null);
@@ -421,7 +414,6 @@ export default function PostTour({ navigation }) {
               value={description}
               placeholder="اكتب وصف الجولة"
               multiline
-             
               onChangeText={(text) => setDescription(text)}
             />
           </View>
@@ -444,7 +436,7 @@ export default function PostTour({ navigation }) {
                 placeholder="اختر تاريخ الجولة"
                 source={images.calendar}
                 editable={false}
-                 //setValue={setDate}
+                //setValue={setDate}
               />
             </TouchableOpacity>
           </View>
@@ -471,7 +463,6 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 placeholder="اختر وقت نهاية"
-                
                 style={{ width: screenWidth.width40 }}
               />
             </TouchableOpacity>
@@ -494,7 +485,7 @@ export default function PostTour({ navigation }) {
                 value={startTime ? getFormattedTime(startTime) : ""}
                 icon={true}
                 source={images.timer}
-                editable={false}  
+                editable={false}
                 placeholder="اختر وقت بداية"
                 style={{ width: screenWidth.width40 }}
               />
@@ -512,7 +503,6 @@ export default function PostTour({ navigation }) {
               <Text style={[text.themeDefault, text.text15]}>نقطة اللقاء</Text>
             </View>
             <Input
-
               icon={true}
               placeholder="اختر نقطة اللقاء"
               source={images.location}
@@ -817,7 +807,6 @@ export default function PostTour({ navigation }) {
           </View>
         </View>
       </Modal>
-      {/* <Loader isLoading={loading} /> */}
     </SafeAreaView>
   );
 }

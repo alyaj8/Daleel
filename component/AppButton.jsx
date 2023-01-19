@@ -60,8 +60,8 @@ const styles = StyleSheet.create({
     // width: "100%",
     marginHorizontal: 10,
     backgroundColor: colors.themeDefault,
-    borderRadius: 10,
-    padding: 2,
+    borderRadius: 7,
+    padding: 5,
   },
 
   disabled: {

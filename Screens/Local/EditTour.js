@@ -27,7 +27,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../component/button/Button";
 import Input from "../../component/inputText/Input";
 import SmallInput from "../../component/inputText/smallInput";
-import Loader from "../../component/Loaders/Loader";
 import {
   cities,
   images,
@@ -670,7 +669,6 @@ export default function EditTour({ navigation, route }) {
           </Modal>
         </ImageBackground>
       </ScrollView>
-      <Loader isLoading={isLoading} layout={"outside"} />
     </SafeAreaView>
   );
 }

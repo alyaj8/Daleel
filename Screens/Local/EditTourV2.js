@@ -972,7 +972,6 @@ export default function EditTourV2({ navigation, route }) {
           </Modal>
         </ImageBackground>
       </ScrollView>
-      {/* <Loader isLoading={loading} /> */}
     </SafeAreaView>
   );
 }
