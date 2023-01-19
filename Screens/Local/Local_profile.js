@@ -16,6 +16,14 @@ import Button from "../../component/button/Button";
 import { images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 import { upload } from "../../network/ApiService";
+import { doc, updateDoc } from "firebase/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { getUserId, insertTour } from "../../network/ApiService";
 
 export default function Local_profile({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -23,17 +31,16 @@ export default function Local_profile({ navigation }) {
   const [fname, setFname] = useState("");
   const [filePath, setFilePath] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [infoList, setinfoList] = useState([]);
-
+  const [aa, setaa] = useState([]);
+  const [pic, setpic] = useState("");
+  const [pic_array, setpic_array] = useState([]);
   const [value, setValue] = React.useState({
     username: "",
   });
 
   const user = auth.currentUser;
 
-  const modalizeRefAge = useRef(null);
-
-  const pickImage = async () => {
+  /*const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
@@ -49,29 +56,89 @@ export default function Local_profile({ navigation }) {
 
       await addDoc(collection(db, "test"), data);
     }
+  };*/
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    if (!result.canceled) {
+      setFilePath(result.assets[0].uri);
+    }
   };
+  const uploadImage = async (path) => {
+    try {
+      const uri = Platform.OS === "ios" ? path.replace("file://", "") : path;
+      const response = await fetch(uri);
+      const storage = getStorage();
 
+      const fileName = uri.substring(uri.lastIndexOf("/") + 1);
+      const blobFile = await response.blob();
+
+      const reference = ref(storage, `media/${fileName}`);
+
+      const result = await uploadBytesResumable(reference, blobFile);
+      const url = await getDownloadURL(result.ref);
+      // console.log("🚀 ~ url", url);
+
+      return url;
+    } catch (err) {
+      return Promise.reject(err);
+    }
+  };
   const toggleModal = () => {
     setModalVisible((prev) => !prev);
     // console.log("11");
   };
 
   const submitRequest = async () => {
-    setModalVisible(!isModalVisible);
-    setIsLoading(true);
-    const imageUrl = await upload(filePath);
-    // console.log("imageurl in screen", imageUrl);
-    if (imageUrl) {
-      const data = {
-        imageUrl,
-        by,
-      };
+    try {
+      setModalVisible(!isModalVisible);
+
+      const isTourHasImage = filePath ? true : false;
+      let imageUrl = null;
+      if (isTourHasImage) {
+        imageUrl = await uploadImage(filePath);
+      }
+      console.log("11777777", imageUrl);
+      const colRef = query(
+        collection(db, "Admin_users"),
+        where("uid", "==", user.uid)
+      );
+      const snapshot = await getDocs(colRef);
+      var myData = [];
+      //store the data in an array myData
+      snapshot.forEach((doc) => {
+        let userinfo2 = doc.data();
+        userinfo2.id = doc.id;
+        myData.push(userinfo2.pictures);
+        console.log("check", userinfo2.pictures);
+        setaa(userinfo2.pictures);
+        console.log("check2", aa);
+
+      });
+      let PArray = userinfo2.pictures ? userinfo2.pictures : [];
+      // console.log("jjjhh1", myData);
+      console.log("check3", userinfo2.pictures);
+
+      PArray.push(imageUrl);
+      console.log("parray", PArray);
+
+      //myData.pictures = PArray;
+
+      await updateDoc(doc(db, "Admin_users", user.uid), { pictures: PArray });
+      navigation.goBack();
+
+
+      // setLoading(false);
+      // navigation.navigate("Home");
+    } catch (error) {
       setIsLoading(false);
-      navigation.navigate("Local_Manage_Account");
-      return;
+      alert("حدث خطأ ما، الرجاء المحاولة مرة أخرى");
+      console.log("error submitRequest", error);
     }
-    setIsLoading(false);
-    alert("Error while saving data. Pls try again later.");
   };
 
   useEffect(() => {
@@ -81,7 +148,7 @@ export default function Local_profile({ navigation }) {
   const getData = async () => {
     try {
       const colRef = query(
-        collection(db, "users"),
+        collection(db, "Admin_users"),
         where("uid", "==", user.uid)
       );
       const snapshot = await getDocs(colRef);
@@ -91,35 +158,16 @@ export default function Local_profile({ navigation }) {
         let userinfo2 = doc.data();
 
         setFname(userinfo2.firstname);
-
+        setpic(userinfo2.poster);
+        setpic_array(userinfo2.pictures)
         userinfo2.id = doc.id;
-
         myData.push(userinfo2);
       });
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    getData2();
-  }, []);
 
-  const getData2 = async () => {
-    try {
-      const colRef = query(collection(db, "test"));
-      const snapshot = await getDocs(colRef);
-      var myData = [];
-      //store the data in an array myData
-      snapshot.forEach((doc) => {
-        let userinfo2 = doc.data();
-        userinfo2.id = doc.id;
-        myData.push(userinfo2);
-      });
-      setinfoList(myData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -166,14 +214,10 @@ export default function Local_profile({ navigation }) {
         />
       </View>
       <View
-        style={
-          {
-            // backgroundColor: "red"
-          }
-        }
+
       >
         <Image
-          source={images.photo}
+          source={pic ? { uri: pic } : images.photo}
           style={{
             alignSelf: "center",
             width: 170,
@@ -207,7 +251,7 @@ export default function Local_profile({ navigation }) {
         <FlatList
           columnWrapperStyle={{ justifyContent: "space-between" }}
           numColumns={3}
-          data={infoList}
+          data={pic_array}
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (
             <View>
@@ -223,9 +267,9 @@ export default function Local_profile({ navigation }) {
                   zIndex: 1,
                   color: "red",
                 }}
-                /*  onPress={() =>
-                                  DeleteFunc()
-                                }   */
+              /*  onPress={() =>
+                               DeleteFunc(item)
+                             }    */
               />
               <TouchableOpacity
                 // onPress={() =>
@@ -242,7 +286,7 @@ export default function Local_profile({ navigation }) {
                 }}
               >
                 <Image
-                  source={{ uri: item.poster }}
+                  source={{ uri: item }}
                   style={[styles.dummyImg]}
                 />
               </TouchableOpacity>
@@ -254,29 +298,20 @@ export default function Local_profile({ navigation }) {
         <View style={[styles.modalView]}>
           <View style={[styles.main]}>
             <View>
-              {filePath ? (
-                <View
-                  style={[
-                    styles.alignCenter,
-                    { marginTop: screenWidth.width20 },
-                  ]}
-                >
-                  <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
-                </View>
-              ) : (
-                <TouchableOpacity
-                  onPress={() => pickImage()}
-                  style={[
-                    styles.alignCenter,
-                    { marginTop: screenWidth.width20 },
-                  ]}
-                >
-                  <Image source={images.photo} style={[styles.dummyImg]} />
-                </TouchableOpacity>
-              )}
+
+              <TouchableOpacity
+                onPress={() => pickImage()}
+                style={[
+                  styles.alignCenter,
+                  { marginTop: screenWidth.width20 },
+                ]}
+              >
+                <Image source={images.photo} style={[styles.dummyImg]} />
+              </TouchableOpacity>
+
             </View>
             <View style={{ margin: 9 }}>
-              <Button title="next" onpress={() => navigation.goBack()} />
+              <Button title="حفظ" onpress={submitRequest} />
             </View>
             <View>
               <Button title="الغاء" onpress={() => toggleModal()} />

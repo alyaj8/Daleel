@@ -306,7 +306,7 @@ export default function UserSignUp({ navigation }) {
           maroof: value.maroof,
           city: value.city,
           poster: imageUrl,
-
+          pictures: [],
           uid: user.uid,
           isTourist: false,
           push_token: push_token || "",
