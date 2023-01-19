@@ -38,6 +38,7 @@ import {
 } from "firebase/storage";
 
 import ActivityForm from "../../component/forms/ActivityForm";
+import InputMap from "../../component/InputMap";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
@@ -382,6 +383,9 @@ export default function PostTour({ navigation }) {
               <Image source={images.photo} style={[styles.dummyImg]} />
             </TouchableOpacity>
           )}
+
+          {/* MapPicker */}
+          <InputMap />
 
           {/* Name */}
           <View style={[styles.alignCenter]}>
