@@ -17,13 +17,14 @@ import { getStorage, ref } from "firebase/storage";
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBmeUtWA3YfmlcB5YD6XArIhoOiFbtx9TI",
-  authDomain: "daleel-db.firebaseapp.com",
-  projectId: "daleel-db",
-  storageBucket: "daleel-db.appspot.com",
-  messagingSenderId: "602896000538",
-  appId: "1:602896000538:web:478f3d40b90af9caf093a3",
-  measurementId: "G-56DGNG2KLW",
+  apiKey: "AIzaSyDjm28EdyiBlBasDjMnKwX7IvemgWe-wug",
+  authDomain: "daleel-app-47289.firebaseapp.com",
+  databaseURL: "https://daleel-app-47289-default-rtdb.firebaseio.com",
+  projectId: "daleel-app-47289",
+  storageBucket: "daleel-app-47289.appspot.com",
+  messagingSenderId: "135173890004",
+  appId: "1:135173890004:web:97df8f1f87cc5fa11d4041",
+  measurementId: "G-GTFJNGMZMF",
 };
 
 // Initialize Firebase
