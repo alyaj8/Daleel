@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 import NewAppButton from "./../component/AppButton";
-
+import { images, screenWidth,colors } from "../config/Constant";
 function msg(error) {
   switch (error.code) {
     case "auth/invalid-email":
@@ -217,7 +217,7 @@ export default function Log_in2({ navigation }) {
           <TouchableOpacity
             onPress={signIn}
             style={{
-              backgroundColor: "#5398a0",
+              backgroundColor:colors.brown,
               padding: 20,
               borderRadius: 10,
               marginBottom: 30,
@@ -246,7 +246,7 @@ export default function Log_in2({ navigation }) {
           <TouchableOpacity onPress={() => navSignUP(value)}>
             <Text
               style={{
-                color: "#7A9E9F",
+                color:colors.lightBrown,
                 fontWeight: "800",
                 textDecorationLine: "underline",
               }}

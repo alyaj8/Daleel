@@ -5,9 +5,9 @@ import TouristHomeStack from "./TouristHomeStack";
 import TourStack from "./TouristTourStack";
 
 import ChatMenu from "../Screens/chatScreen/ChatMenu";
-import Tourist_Manage_Account from "../Screens/tourist/Tourist_Manage_Account";
+import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account";
 
-import { images } from "../config/Constant";
+import { images,colors } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 
 function BottomTab() {
@@ -26,7 +26,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -42,7 +42,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>
@@ -58,7 +58,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -74,7 +74,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>
@@ -90,11 +90,11 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
-            ></Text>
+            >البحث</Text>
           ),
           tabBarIcon: ({ focused }) => (
             <View style={[Styles.plusTabDiv, { ...Styles.iconView }]}>
@@ -104,7 +104,7 @@ function BottomTab() {
                   style={{
                     width: 30,
                     height: 30,
-                    tintColor: "black",
+                    tintColor: focused ? colors.brown :"black",
                   }}
                 />
               </View>
@@ -121,7 +121,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -137,7 +137,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>
@@ -153,7 +153,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -169,7 +169,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>

@@ -8,7 +8,7 @@ import ChatMenu from "../Screens/chatScreen/ChatMenu";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 import PostTour from "../Screens/Local/PostTour";
 
-import { images } from "../config/Constant";
+import { images,colors } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 
 function BottomTab() {
@@ -26,7 +26,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -42,7 +42,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>
@@ -56,7 +56,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -72,7 +72,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown  : "black",
                 }}
               />
             </View>
@@ -86,7 +86,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -101,7 +101,7 @@ function BottomTab() {
                 style={{
                   width: 40,
                   height: 40,
-                  tintColor: "#03989e",
+                  tintColor: focused ? colors.brown  : "black",
                 }}
               />
             </View>
@@ -115,7 +115,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -131,7 +131,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown : "black",
                 }}
               />
             </View>
@@ -145,7 +145,7 @@ function BottomTab() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? "#03989e" : "black",
+                color: focused ? colors.brown : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -161,7 +161,7 @@ function BottomTab() {
                   width: 20,
                   height: 20,
                   resizeMode: "contain",
-                  tintColor: focused ? "#03989e" : "black",
+                  tintColor: focused ? colors.brown  : "black",
                 }}
               />
             </View>

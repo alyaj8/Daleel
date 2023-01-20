@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth ,colors} from "../../config/Constant";
 import text from "../../style/text";
 
 export default function Input({ onpress, source, title }) {
@@ -20,9 +20,9 @@ export default function Input({ onpress, source, title }) {
           <View style={{ flex: 1, marginLeft: 10 }}>
             <Text
               style={[
-                text.themeDefault,
+                
                 text.text20,
-                { textAlign: "center", fontWeight: "bold" },
+                { textAlign: "center", fontWeight: "bold", color:colors.textHeadingColor },
               ]}
             >
               {title}
@@ -39,8 +39,13 @@ const styles = StyleSheet.create({
     width: screenWidth.width90,
     padding: 20,
     borderRadius: 10,
-    backgroundColor: "#ececec",
+    backgroundColor: "#fff",
     alignSelf: "center",
+      ///shadowEffect
+      shadowColor: '#171717',
+      shadowOffset: {width: -1, height: 4},
+      shadowOpacity: 0.3,
+      shadowRadius: 3, 
   },
   flexDirection: {
     flexDirection: "row",

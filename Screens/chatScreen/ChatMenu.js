@@ -8,7 +8,7 @@ import {
   ScrollView,
   ImageBackground,
 } from "react-native";
-import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import { images, screenWidth, REQUEST_TABLE,colors } from "../../config/Constant";
 import text from "../../style/text";
 import ChatOption from "../../component/chat/ChatOption";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -59,9 +59,22 @@ export default function ChatMenu({ navigation }) {
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex:1 }} source={images.backgroundImg}>
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30]}>رسائلي</Text>
+        <Text
+          style={[
+            styles.alignCenter,
+            text.white,
+            text.bold,
+            text.text30,
+            {
+              marginTop: 10,
+              width: "100%",
+              textAlign: "center",
+              //color:colors.Blue
+            },
+          ]}
+        >رسائلي</Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View

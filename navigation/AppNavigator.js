@@ -13,9 +13,9 @@ import Tourist_Sign_up from "../Screens/Tourist_Sign_up";
 import bottomTabs from "./LocalBottomTabs";
 import TouristBottomTabs from "./TouristBottomTabs";
 
-import Tourist_Account from "../Screens/tourist/Tourist_Account";
-import Tourist_ChangePass from "../Screens/tourist/Tourist_ChangePass";
-import Tourist_Manage_Account from "../Screens/tourist/Tourist_Manage_Account";
+import Tourist_Account from "../Screens/Tourist/Tourist_Account";
+import Tourist_ChangePass from "../Screens/Tourist/Tourist_ChangePass";
+import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account";
 
 const Stack = createNativeStackNavigator();
 

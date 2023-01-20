@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth,colors } from "../../config/Constant";
 import { SafeAreaView } from "react-native-safe-area-context";
 import text from "../../style/text";
 import { getDateTime } from "../../util/DateHelper";
@@ -23,18 +23,23 @@ export default function TouristCard({
     <View style={styles.container}>
       <View style={[styles.card]}>
         <View style={[styles.flexDirection]}>
-          <View style={{marginHorizontal:20}}>
+          <View style={{marginHorizontal:50}}>
             <Image source={source} style={[styles.img]} />
           </View>
             <View style={{marginHorizontal:10}}>
               <View style={{  }}>
                 <Text style={[text.themeDefault, text.text18, { textAlign: 'center', fontWeight: 'bold' }]}>{title}</Text>
               </View>
-                <View style={{alignSelf:'center',marginTop:30}}>
-                <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوض'}
+              <View style={{ alignSelf: "center", marginTop: 30 }}>
+          <Text style={[
+             
+              text.text18,
+              { textAlign: "right", fontWeight: "bold", marginRight: 20 ,color: colors.brown,},
+            ]}> طلبك مرفوض</Text>
+                {/* <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوض'}
                 onpress={onpress}
-                  style={{ backgroundColor: '#c6302c' }}
-                />
+                  style={{ backgroundColor: colors.brown ,borderRadius: 10, width: screenWidth.width40,}}
+                /> */}
               </View>
             </View>
         </View>
@@ -49,9 +54,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
-    paddingVertical:20,
-    marginVertical:15
-
+    paddingVertical: 20,
+    marginVertical: 15,
+    ///shadowEffect
+    shadowColor: '#171717',
+    shadowOffset: {width: -1, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   flexDirection: {
     flexDirection: "row",
