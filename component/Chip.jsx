@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../config/Constant";
 
 const Chip = ({ text }) => {
-  console.log("🚀 ~ text", text);
+  // console.log("🚀 ~ text", text);
   return (
     <View
       style={{

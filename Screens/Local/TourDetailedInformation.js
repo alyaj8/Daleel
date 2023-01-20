@@ -227,7 +227,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             >
               <View style={{ marginHorizontal: 10 }}>
                 <Text style={[text.themeDefault, text.text16]}>
-                  {data?.location}
+                  {data?.city}
                 </Text>
               </View>
               <View>

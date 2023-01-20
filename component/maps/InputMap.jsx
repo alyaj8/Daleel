@@ -6,7 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 import Feather from "react-native-vector-icons/Feather";
 import { colors } from "../../config/Constant";
 import { splitString } from "../../util/CustomHelper";
-import { logObj } from "../../util/DateHelper";
 import Chip from "../Chip";
 Feather.loadFont();
 
@@ -100,7 +99,14 @@ const ListItemComponent = ({ item, index }) => {
 };
 
 export const InputMap = memo(
-  ({ placeholder, value, onSelectLocation, onClearLocation }) => {
+  ({
+    placeholder,
+    value,
+    onSelectLocation,
+    onClearLocation,
+    style,
+    ...props
+  }) => {
     const [loading, setLoading] = useState(false);
     const [suggestionsList, setSuggestionsList] = useState(null);
     const [query, setQuery] = useState("");
@@ -163,7 +169,7 @@ export const InputMap = memo(
         };
       });
 
-      logObj(suggestions, "suggestions");
+      // logObj(suggestions, "suggestions");
 
       setSuggestionsList(suggestions);
       setLoading(false);
@@ -172,6 +178,7 @@ export const InputMap = memo(
     const onClearPress = useCallback(() => {
       setQuery("");
       setSuggestionsList(null);
+      onClearLocation && onClearLocation();
     }, []);
 
     const onOpenSuggestionsList = useCallback((isOpened) => {}, []);
@@ -182,6 +189,7 @@ export const InputMap = memo(
           style={[
             { flex: 1, flexDirection: "row", alignItems: "center" },
             Platform.select({ ios: { zIndex: 1 } }),
+            style,
           ]}
         >
           <AutocompleteDropdown
@@ -193,8 +201,12 @@ export const InputMap = memo(
             direction={Platform.select({ ios: "down" })}
             dataSet={suggestionsList}
             onChangeText={getSuggestions}
+            initialValue={value}
             onSelectItem={(item) => {
-              item && setSelectedItem(item);
+              if (item) {
+                setSelectedItem(item);
+                onSelectLocation && onSelectLocation(item);
+              }
             }}
             debounce={600}
             suggestionsListMaxHeight={Dimensions.get("window").height * 0.4}
@@ -287,6 +299,7 @@ export const InputMap = memo(
                 <Feather name="search" size={30} color={colors.themeDefault} />
               </View>
             }
+            {...props}
           />
           <View style={{ width: 10 }} />
         </View>

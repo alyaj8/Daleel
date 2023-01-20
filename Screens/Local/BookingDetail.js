@@ -120,7 +120,7 @@ export default function BookingDetail({ navigation, route }) {
             >
               <View style={{ marginHorizontal: 10 }}>
                 <Text style={[text.themeDefault, text.text16]}>
-                  {data?.location}
+                  {data?.city}
                 </Text>
               </View>
               <View>

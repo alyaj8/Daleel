@@ -96,6 +96,7 @@ const ActivityForm = ({
           <Input
             placeholder="اكتب اسم النشاط"
             value={activity.title}
+            placeholderTextColor={colors.grey}
             onChangeText={(text) => setActivity({ ...activity, title: text })}
             style={{ width: screenWidth.width80 }}
           />
@@ -111,6 +112,7 @@ const ActivityForm = ({
             <Text style={[text.themeDefault, text.text15]}>وصف النشاط</Text>
           </View>
           <Input
+            placeholderTextColor={colors.grey}
             placeholder="اكتب وصف النشاط"
             multiline
             value={activity.description}
@@ -131,6 +133,7 @@ const ActivityForm = ({
             <Text style={[text.themeDefault, text.text15]}>موقع النشاط</Text>
           </View>
           <Input
+            placeholderTextColor={colors.grey}
             placeholder="اختر موقع النشاط"
             multiline
             value={activity.location}
@@ -159,11 +162,12 @@ const ActivityForm = ({
             }}
           >
             <Input
+              placeholderTextColor={colors.grey}
               icon={true}
               value={activity.date ? getFormattedDate(activity.date) : ""}
               source={images.calendar}
               editable={false}
-              style={{ width: screenWidth.width80 }}
+              style={{ width: screenWidth.width80, color: colors.black }}
               placeholder="اختر تاريخ النشاط"
             />
           </TouchableOpacity>
@@ -200,12 +204,13 @@ const ActivityForm = ({
               </Text>
             </View>
             <Input
+              placeholderTextColor={colors.grey}
               icon={true}
               source={images.timer}
               editable={false}
               placeholder="اختر وقت نهاية"
               value={activity.endTime ? getFormattedTime(activity.endTime) : ""}
-              style={{ width: screenWidth.width38 }}
+              style={{ width: screenWidth.width38, color: colors.black }}
             />
           </TouchableOpacity>
 
@@ -229,6 +234,7 @@ const ActivityForm = ({
               </Text>
             </View>
             <Input
+              placeholderTextColor={colors.grey}
               icon={true}
               source={images.timer}
               editable={false}
@@ -236,7 +242,7 @@ const ActivityForm = ({
                 activity.startTime ? getFormattedTime(activity.startTime) : ""
               }
               placeholder="اختر وقت بداية"
-              style={{ width: screenWidth.width38 }}
+              style={{ width: screenWidth.width38, color: colors.black }}
             />
           </TouchableOpacity>
         </View>
@@ -263,6 +269,7 @@ const ActivityForm = ({
           >
             <Text style={[text.themeDefault, text.text15]}>سعر النشاط</Text>
             <Input
+              placeholderTextColor={colors.grey}
               placeholder="سعر النشاط"
               multiline
               value={activity?.price?.toString() || ""}

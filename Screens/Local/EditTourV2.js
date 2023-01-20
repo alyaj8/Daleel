@@ -53,7 +53,6 @@ export default function EditTourV2({ navigation, route }) {
 
   const [tourId, setTourId] = useState(null);
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("=");
   const [city, setCity] = useState("");
   const [qty, setQty] = useState("");
   const [meetingPoint, setMeetingPoint] = useState("");
@@ -99,7 +98,7 @@ export default function EditTourV2({ navigation, route }) {
     "60 - 70",
   ];
 
-  const disabled = !title || !meetingPoint || !location || !description || !qty;
+  const disabled = !title || !meetingPoint || !description || !qty;
   const modalizeRefAge = useRef(null);
 
   const getTourRequests = async () => {
@@ -1063,7 +1062,6 @@ const styles = StyleSheet.create({
   * description: "",
   * age: "",
   * imageUrl: "",
-  * location: "",
   * city: "",
   * meetingPoint: "",
   * qty: 0,

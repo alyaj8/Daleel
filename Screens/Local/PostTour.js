@@ -39,7 +39,11 @@ import {
 import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
-import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
+import {
+  getFormattedDate,
+  getFormattedTime,
+  logObj,
+} from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
 
@@ -53,7 +57,13 @@ export default function PostTour({ navigation }) {
   const [title, setTitle] = useState("");
   const [city, setCity] = useState("");
   const [qty, setQty] = useState("");
-  const [meetingPoint, setMeetingPoint] = useState(" ");
+  const [meetingPoint, setMeetingPoint] = useState("");
+
+  logObj(
+    meetingPoint,
+    "🚀 ~ file: PostTour.js ~ line 85 ~ PostTour ~ meetingPoint"
+  );
+
   const [age, setAge] = useState("");
   // const [price, setPrice] = useState(100);
   const [description, setDescription] = useState("");
@@ -160,7 +170,6 @@ export default function PostTour({ navigation }) {
           // activities:
           activitiesCustomizable,
           activities: activities,
-          requests: [],
         };
         // logObj(data);
         await insertTour(data, REQUEST_TABLE);
@@ -294,17 +303,6 @@ export default function PostTour({ navigation }) {
     });
   };
 
-  const onSelectTourLocation = (location) => {
-    const { id, title, full_name, address, category } = location;
-    setMeetingPoint({
-      id,
-      title,
-      full_name,
-      address,
-      category,
-    });
-  };
-
   const onRemoveTourLocation = () => {
     setMeetingPoint({});
   };
@@ -411,6 +409,7 @@ export default function PostTour({ navigation }) {
             <Input
               value={title}
               placeholder="اكتب اسم الجولة"
+              placeholderTextColor={colors.grey}
               onChangeText={(text) => setTitle(text)}
             />
           </View>
@@ -429,6 +428,7 @@ export default function PostTour({ navigation }) {
               value={description}
               placeholder="اكتب وصف الجولة"
               multiline
+              placeholderTextColor={colors.grey}
               onChangeText={(text) => setDescription(text)}
             />
           </View>
@@ -451,6 +451,7 @@ export default function PostTour({ navigation }) {
                 placeholder="اختر تاريخ الجولة"
                 source={images.calendar}
                 editable={false}
+                style={{ color: colors.black }}
                 //setValue={setDate}
               />
             </TouchableOpacity>
@@ -478,7 +479,7 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 placeholder="اختر وقت نهاية"
-                style={{ width: screenWidth.width40 }}
+                style={{ width: screenWidth.width40, color: colors.black }}
               />
             </TouchableOpacity>
 
@@ -502,7 +503,7 @@ export default function PostTour({ navigation }) {
                 source={images.timer}
                 editable={false}
                 placeholder="اختر وقت بداية"
-                style={{ width: screenWidth.width40 }}
+                style={{ width: screenWidth.width40, color: colors.black }}
               />
             </TouchableOpacity>
           </View>
@@ -523,15 +524,14 @@ export default function PostTour({ navigation }) {
               </Text>
             </View>
             {/* MapPicker */}
-            <InputMap />
-            <Input
-              icon={true}
+            <InputMap
               placeholder="اختر نقطة اللقاء"
-              source={images.location}
-              editable={true}
-              onChangeText={(text) => setMeetingPoint(text)}
               value={meetingPoint}
-              // style={{ width: screenWidth.width80 }}
+              onSelectLocation={(location) => setMeetingPoint(location)}
+              onClearLocation={() => setMeetingPoint("")}
+              style={{
+                marginHorizontal: 15,
+              }}
             />
           </View>
 
@@ -620,6 +620,7 @@ export default function PostTour({ navigation }) {
                         textAlign: "center",
                         color: age ? text.black.color : text.grey.color,
                         alignSelf: "center",
+                        fontWeight: "bold",
                       },
                     ]}
                   >
@@ -647,7 +648,6 @@ export default function PostTour({ navigation }) {
                 ]}
               >
                 <Text style={[text.themeDefault, text.text14]}>عدد السياح</Text>
-                {/* <Text style={[text.themeDefault, text.text14]}>(اختياري)</Text> */}
               </View>
               <SmallInput
                 value={qty}
@@ -660,6 +660,7 @@ export default function PostTour({ navigation }) {
                   width: screenWidth.width40,
                   height: screenWidth.width12,
                 }}
+                placeholderTextColor={colors.grey}
               />
             </View>
           </View>
@@ -920,7 +921,6 @@ const styles = StyleSheet.create({
   * description: "",
   * age: "",
   * imageUrl: "",
-  * location: "",
   * city: "",
   * meetingPoint: "",
   * qty: 0,

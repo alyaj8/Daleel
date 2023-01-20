@@ -43,7 +43,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
     status: null,
     touristId: null,
     price: null,
-    requests: [],
   });
 
   const [tourStatus, setTourStatus] = useState("notRequested");
