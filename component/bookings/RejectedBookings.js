@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth,colors } from "../../config/Constant";
 import { SafeAreaView } from "react-native-safe-area-context";
 import text from "../../style/text";
 import { getDateTime } from "../../util/DateHelper";
@@ -45,11 +45,16 @@ export default function Input({
                </View>
               }
               <View style={{ alignSelf:'center' ,marginVertical:20}}>
-              <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوضة'}
+              <Text style={[
+             
+             text.text18,
+             { textAlign: "right", fontWeight: "bold", marginRight: 20 ,color: colors.brown,},
+           ]}> تم رفض الطلب</Text>
+              {/* <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوضة'}
               onpress={onpressRejected}
                 style={{ backgroundColor: '#c6302c' }}
                 disabled={true}
-              />
+              /> */}
             </View>
             </View>
         </View>
@@ -61,10 +66,16 @@ export default function Input({
 const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
-    paddingVertical: 20,
     borderRadius: 10,
-    backgroundColor: "#ececec",
+    backgroundColor:"#ececec",
     alignSelf: "center",
+    paddingVertical: 20,
+    marginVertical: 15,
+    ///shadowEffect
+    shadowColor: '#171717',
+    shadowOffset: {width: -1, height: 4},
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
     
   },
   flexDirection: {

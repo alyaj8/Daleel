@@ -73,7 +73,7 @@ export default function AcceptedBooking({ onpressAccepted, source, title = "", b
                 buttonDefault={false}
                 title={"ذهاب لدردشة "}
                 onpress={onPressChat}
-                style={{ backgroundColor: "#9cd644" }}
+                style={{ backgroundColor: "#ff8656" }}
               />
             </View>
             <View style={{ alignSelf: "center" }}>
@@ -82,7 +82,7 @@ export default function AcceptedBooking({ onpressAccepted, source, title = "", b
                 buttonDefault={false}
                 title={"مدفوعة"}
                 onpress={onpressAccepted}
-                style={{ backgroundColor: "#9cd644" }}
+                style={{ backgroundColor:"#ff8656" }}
               />
             </View>
           </View>
@@ -95,10 +95,16 @@ export default function AcceptedBooking({ onpressAccepted, source, title = "", b
 const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
-    paddingVertical: 20,
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
+    paddingVertical: 20,
+    marginVertical: 15,
+    ///shadowEffect
+    shadowColor: '#171717',
+    shadowOffset: {width: -1, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   flexDirection: {
     flexDirection: "row",

@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import TouristTourDetailedInformation from "../Screens/tourist/TouristDetailedInformation";
-import TouristTour from "../Screens/tourist/TouristTour";
+import TouristTourDetailedInformation from "../Screens/Tourist/TouristDetailedInformation";
+import TouristTour from "../Screens/Tourist/TouristTour";
 const Stack = createNativeStackNavigator();
 
 /*const PUBLISHABLE_KEY =

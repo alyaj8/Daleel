@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { images, screenWidth } from "../config/Constant";
+import { colors, images, screenWidth } from "../config/Constant";
 import { getUserId } from "../network/ApiService";
 import text from "../style/text";
 import TouristHomeBody from "./../component/tourist_home/TouristHomeBody";
@@ -68,7 +68,7 @@ export default function Local_Home({ navigation }) {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        style={{ flex: 1, alignItems: "center" }}
+        style={{ alignItems: "center" }}
         source={images.backgroundImg}
       >
         {/* Header */}
@@ -76,11 +76,13 @@ export default function Local_Home({ navigation }) {
           style={[
             styles.alignCenter,
             text.white,
+            text.bold,
             text.text30,
             {
               marginTop: 20,
               width: "100%",
               textAlign: "center",
+              //color:colors.Blue
             },
           ]}
         >
@@ -109,7 +111,7 @@ export default function Local_Home({ navigation }) {
                       styles.headerTab,
                       {
                         backgroundColor:
-                          selectedMenu == index ? "#d9d9d9" : "#f1f1f1",
+                          selectedMenu == index ? "#c6c6c6" : "#e0e0e0",
                       },
                     ]}
                   >
@@ -153,8 +155,6 @@ export default function Local_Home({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-
-    backgroundColor: "#fff",
   },
   alignCenter: {
     alignItems: "center",
@@ -172,14 +172,14 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   headerTab: {
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#e0e0e0",
     borderRadius: 20,
     paddingVertical: 10,
     width: screenWidth.width30,
     alignItems: "center",
   },
   tabColor: {
-    backgroundColor: "#f1f1f1",
+    backgroundColor: "#e0e0e0",
     width: screenWidth.width90,
     alignSelf: "center",
     borderRadius: 20,

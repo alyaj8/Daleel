@@ -22,7 +22,7 @@ import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import Button from "../../component/button/Button";
-import { images, REQUESTS, screenWidth } from "../../config/Constant";
+import { images, REQUESTS, screenWidth,colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
@@ -367,10 +367,18 @@ export default function TourDetailedInformation({ navigation, route }) {
               ]}
             >
               <Button
-                title={"تحديث"}
+                title={" تحديث معلومات الجولة"}
                 onpress={() => navigation.navigate("EditTour", { data })}
+                style={{ backgroundColor:colors.Blue,
+                paddingVertical: 18,
+                marginVertical:10,
+                width: screenWidth.width90,}}
               />
-              <Button title={"حذف"} onpress={toggleModal} />
+              <Button title={" حذف الجولة"} onpress={toggleModal}
+              style={{ backgroundColor:colors.brown,
+                paddingVertical: 18,
+               
+                width: screenWidth.width90,}} />
             </View>
           </View>
 
@@ -397,18 +405,19 @@ export default function TourDetailedInformation({ navigation, route }) {
                     justifyContent: "space-between",
                   }}
                 >
+                  
                   <View style={{}}>
                     <Button
-                      title="حذف"
-                      style={{ backgroundColor: "#c6302c" }}
-                      onpress={onDeleteTour}
+                      title="الغاء"
+                      style={{ backgroundColor:colors.lightBrown }}
+                      onpress={toggleModal}
                     />
                   </View>
                   <View style={{}}>
                     <Button
-                      title="الغاء"
-                      style={{ backgroundColor: "#a5d5db" }}
-                      onpress={toggleModal}
+                      title="حذف"
+                      style={{ backgroundColor: colors.brown }}
+                      onpress={onDeleteTour}
                     />
                   </View>
                 </View>
@@ -468,7 +477,7 @@ const styles = StyleSheet.create({
     tintColor: "#5398a0",
   },
   flexRow: {
-    flexDirection: "row",
+    
     alignItems: "center",
   },
   iconLg: {

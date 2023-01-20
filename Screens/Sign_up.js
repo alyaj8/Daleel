@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 export default function Sign_up({ navigation }) {
     return (
         <ImageBackground style={{ flex: 1 }}
-            source={require("../assets/2.jpg")} resizeMode="cover">
+            source={require("../assets/2.png")} resizeMode="cover">
             <View
                 style={{
                     width: "100%",

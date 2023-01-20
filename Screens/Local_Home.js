@@ -11,7 +11,7 @@ import {
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LocalBooingDetailCard from "../component/card/DetailCard";
-import { images, screenWidth } from "../config/Constant";
+import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
   getUserId,
@@ -215,7 +215,7 @@ export default function Local_Home({ navigation }) {
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30]}>طلباتي</Text>
+          <Text style={[text.white, text.text30, text.bold]}>طلباتي</Text>
         </View>
 
         {/* Top Tabs */}
@@ -234,7 +234,7 @@ export default function Local_Home({ navigation }) {
                       },
                     ]}
                   >
-                    <Text style={[text.themeDefault, text.text20]}>
+                    <Text style={[text.themeDefault, text.text20, { textAlign: "center" },]}>
                       {menu?.title}
                     </Text>
                   </TouchableOpacity>
@@ -333,20 +333,21 @@ export default function Local_Home({ navigation }) {
                   justifyContent: "space-between",
                 }}
               >
+                 <View style={{}}>
+                  <Button
+                    title="الغاء"
+                    onpress={toggleModalAccepted}
+                    style={{ backgroundColor: colors.lightBrown}}
+                  />
+                </View>
                 <View style={{}}>
                   <Button
                     title="قبول"
                     onpress={() => onAcceptionReq()}
-                    style={{ backgroundColor: "#80cc28" }}
+                    style={{ backgroundColor: colors.Blue }}
                   />
                 </View>
-                <View style={{}}>
-                  <Button
-                    title="الغاء"
-                    onpress={toggleModalAccepted}
-                    style={{ backgroundColor: "#a5d5db" }}
-                  />
-                </View>
+               
               </View>
             </View>
           </View>
@@ -373,20 +374,21 @@ export default function Local_Home({ navigation }) {
                   justifyContent: "space-between",
                 }}
               >
+                 <View style={{}}>
+                  <Button
+                    title="الغاء"
+                    onpress={toggleModalRejected}
+                    style={{ backgroundColor: colors.lightBrown }}
+                  />
+                </View>
                 <View style={{}}>
                   <Button
                     title="رفض"
                     onpress={() => rejectRequest(2)}
-                    style={{ backgroundColor: "#c6302c" }}
+                    style={{ backgroundColor: colors.brown }}
                   />
                 </View>
-                <View style={{}}>
-                  <Button
-                    title="الغاء"
-                    onpress={toggleModalRejected}
-                    style={{ backgroundColor: "#a5d5db" }}
-                  />
-                </View>
+               
               </View>
             </View>
           </View>

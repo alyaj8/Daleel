@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import TourDetailCard from "../../component/card/TourDetailCard";
-import { images, screenWidth } from "../../config/Constant";
+import { colors, images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
@@ -97,23 +97,25 @@ export default function TouristTour({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
-        <View style={[styles.alignCenter, { marginVertical: 10 }]}>
+        <View style={[styles.alignCenter, { marginVertical: 20 }]}>
           <Text
             style={[
               {
                 // flex: 1,
                 width: "100%",
                 textAlign: "center",
+                //color: colors.Blue,
               },
               text.white,
               text.text30,
+              text.bold
             ]}
           >
             الجولات
           </Text>
         </View>
         <ScrollView
-          style={[styles.cardDiv, { marginTop: screenWidth.width15 }]}
+          style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}
         >
           {data.length > 0 ? (
             <>

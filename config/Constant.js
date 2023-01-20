@@ -65,11 +65,16 @@ export const screenWidth = {
 
 //colors
 export const colors = {
-  themeDefault: "#5398a0",
+  textHeadingColor: "#212121",
+  textColor:"#424242",
+  Blue:"#26495c",
+  lightBrown:"#c4a35a",
+  brown:"#c66b3d",
+  gray:"#e5e5dc",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
 
-  grayBg: "#e6e6e6",
+  grayBg: "#ececec",
 
   placeholder: "#CBCBCB",
   black: "#000",
@@ -109,7 +114,7 @@ export const images = {
   mark: require("../assets/tabIcons/qMark.png"),
   profile: require("../assets/tabIcons/account.png"),
   chat: require("../assets/tabIcons/chat.png"),
-  backgroundImg: require("../assets/2.jpg"),
+  backgroundImg: require("../assets/2.png"),
   timer: require("../assets/timer.png"),
   calendar: require("../assets/calendar.png"),
   photo: require("../assets/photo.png"),

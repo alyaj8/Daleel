@@ -53,7 +53,7 @@ export default function TourDetail({ navigation }) {
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30]}>جولاتي</Text>
+          <Text style={[text.white, text.text30,text.bold]}>جولاتي</Text>
         </View>
         <ScrollView style={{}} showsVerticalScrollIndicator={false}>
           <View style={[styles.cardDiv, { marginTop: screenWidth.width15 }]}>

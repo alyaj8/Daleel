@@ -189,7 +189,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30]}>جولاتي</Text>
+            <Text style={[text.text25,text.bold,{color:colors.white}]}>{data?.title}</Text>
           </View>
 
           {/* Body */}
@@ -206,23 +206,14 @@ export default function TouristDetailedInformation({ navigation, route }) {
               )}
             </View>
 
-            {/* Title */}
-            <View style={{ alignSelf: "center" }}>
-              <Text
-                style={[text.themeDefault, text.text20, { fontWeight: "bold" }]}
-              >
-                {data?.title}
-              </Text>
-            </View>
-
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
                 style={[
                   {
                     width: 100,
+                    color:colors.brown
                   },
-                  text.themeDefault,
                   text.text20,
                   {},
                 ]}
@@ -239,11 +230,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              <Text style={[{ width: "50%" }, text.themeDefault, text.text14]}>
+              <Text style={[{ width: "50%", color:colors.Blue },  text.text14]}>
                 {getFormattedTime(data?.startTime)} :{" "}
                 {getFormattedTime(data?.endTime)}
               </Text>
-              <Text style={[{ width: "50%" }, text.themeDefault, text.text14]}>
+              <Text style={[{ width: "50%",color:colors.Blue }, text.text14]}>
                 {getFormattedDate(data?.date)}
               </Text>
             </View>
@@ -360,10 +351,15 @@ export default function TouristDetailedInformation({ navigation, route }) {
           <View
             style={{
               marginHorizontal: 20,
-              backgroundColor: colors.grayBg,
+              backgroundColor: "#ececec",
               borderRadius: 10,
               padding: 10,
               marginVertical: 10,
+                ///shadowEffect
+              shadowColor: '#171717',
+              shadowOffset: {width: -1, height: 4},
+              shadowOpacity: 0.3,
+              shadowRadius: 3,
             }}
           >
             <View
@@ -376,8 +372,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
             >
               <Text
                 style={[
-                  text.themeDefault,
-                  text.text30,
+                  text.textHeadingColor,
+                  text.text20,
                   {
                     fontWeight: "bold",
                     //    ...highlights.brdr3
@@ -389,7 +385,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
               <NewAppButton
                 title={customizing ? "حفظ التخصيص" : "تخصيص الأنشطة"}
-                disabled={!isCustomizable}
+                disabled={!isCustomizable || tourStatus == "requested" }
+                style={{ backgroundColor:customizing ? colors.lightBrown : colors.brown}}
                 onPress={() => {
                   //   logObj(selectedActivities, "selectedActivities");
                   setCustomizing((prev) => {
@@ -425,7 +422,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 },
               ]}
             >
-              <Text style={[text.themeDefault, text.text20, text.right]}>
+              <Text style={[text.textColor, text.text20, text.right]}>
                 السعر الإجمالي للرحلة: {price}
               </Text>
             </View>
@@ -434,9 +431,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
           {/* Button */}
           <View style={{ alignSelf: "center", marginVertical: 30 }}>
             <AppButton
-              title={tourStatus == "requested" ? "تم الحجز" : "حجز "}
+              title={tourStatus == "requested" ? "تم الحجز" : " حجز الجولة"}
               disabled={tourStatus == "requested"}
               onpress={toggleModal}
+              style={{ backgroundColor: tourStatus == "requested" ? colors.gray : colors.Blue,
+              paddingVertical: 18,
+              width: screenWidth.width90,}}
             />
           </View>
 
@@ -466,14 +466,14 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   <View style={{}}>
                     <AppButton
                       title="حجز"
-                      style={{ backgroundColor: "#80cc28" }}
+                      style={{ backgroundColor: colors.Blue }}
                       onpress={onReserveTour}
                     />
                   </View>
                   <View style={{}}>
                     <AppButton
                       title="الغاء"
-                      style={{ backgroundColor: "#a5d5db" }}
+                      style={{ backgroundColor: colors.lightBrown }}
                       onpress={toggleModal}
                     />
                   </View>
@@ -528,6 +528,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#ececec",
     alignSelf: "center",
     marginVertical: 50,
+    ///shadowEffect
+    shadowColor: '#171717',
+    shadowOffset: {width: -2, height: 4},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
   icon: {
     width: 25,

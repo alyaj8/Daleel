@@ -41,10 +41,10 @@ const ActivityCard = ({
       style={[
         styles.container, // highlights.brdr2
         {
-          borderColor: selected ? colors.themeDefault : colors.lightGrey,
+          borderColor: selected ? colors.lightBrown : colors.gray,
           borderWidth: selected ? 2 : 1,
         },
-        isChecked && { borderColor: colors.red, borderWidth: 3 },
+        isChecked && { borderColor: colors.lightBrown, borderWidth: 3 },
       ]}
       onPress={() => {
         setChecked(!checked);

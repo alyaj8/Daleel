@@ -104,7 +104,7 @@ export default StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   bold: {
-    fontFamily: "Poppins-Bold",
+  fontWeight:"bold"
   },
   light: {
     fontFamily: "Poppins-Light",
