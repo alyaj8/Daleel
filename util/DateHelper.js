@@ -98,7 +98,7 @@ export const limitCharacters = (text, limit) => {
 };
 
 export const logObj = (obj, title = "") => {
-  console.log(title, JSON.stringify(obj, null, 4));
+  console.log(title, JSON.stringify(obj, null, 2));
 };
 
 // get date from {seconds, milliseconds}

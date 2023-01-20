@@ -1,14 +1,14 @@
-import {StyleSheet, Dimensions} from 'react-native';
-const {height, width} = Dimensions.get('window');
-import {
-  colors,
-  screenHeight,
-  screenWidth,
-  images,
-  fontSet,
-} from '../config/Constant';
+import { Dimensions, StyleSheet } from "react-native";
+import { colors } from "../config/Constant";
+const { height, width } = Dimensions.get("window");
 
 export default StyleSheet.create({
+  themeDefault: {
+    color: colors.themeDefault,
+    fontWeight: "bold",
+    width: "100%",
+    // ...highlights.brdr1,
+  },
   fontFamily: {
     // fontFamily:'serif',
   },
@@ -77,16 +77,16 @@ export default StyleSheet.create({
   },
 
   justify: {
-    textAlign: 'justify',
+    textAlign: "justify",
   },
   center: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   right: {
-    textAlign: 'right',
+    textAlign: "right",
   },
   left: {
-    textAlign: 'left',
+    textAlign: "left",
   },
   lineHeight: {
     lineHeight: 20,
@@ -95,45 +95,42 @@ export default StyleSheet.create({
   // font family
 
   regular: {
-    fontFamily: 'Poppins-Regular',
+    fontFamily: "Poppins-Regular",
   },
   medium: {
-    fontFamily: 'Poppins-Medium',
+    fontFamily: "Poppins-Medium",
   },
   semibold: {
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: "Poppins-SemiBold",
   },
   bold: {
-    fontFamily: 'Poppins-Bold',
+    fontFamily: "Poppins-Bold",
   },
   light: {
-    fontFamily: 'Poppins-Light',
+    fontFamily: "Poppins-Light",
   },
   heavy: {
-    fontFamily: 'Poppins-Black',
+    fontFamily: "Poppins-Black",
   },
-
-
 
   //font colors
   white: {
     color: colors.white,
   },
-  grey48:{
-    color: '#484848'
+  grey48: {
+    color: "#484848",
   },
   grey: {
     color: colors.grey,
   },
   greyDark: {
-    color: colors.greyDark
+    color: colors.greyDark,
   },
   black: {
     color: colors.black,
-
   },
   upperCase: {
-    textTransform: 'uppercase',
+    textTransform: "uppercase",
   },
   lightGrey: {
     color: colors.greyLight,
@@ -141,9 +138,7 @@ export default StyleSheet.create({
   lightBlue: {
     color: colors.lightBlue,
   },
-  themeDefault: {
-    color: colors.themeDefault,
-  },
+
   themeSecondary: {
     color: colors.themeSecondary,
   },
@@ -154,8 +149,8 @@ export default StyleSheet.create({
     color: colors.orange,
   },
   timeChatText: {
-    color: '#757575',
+    color: "#757575",
     fontSize: 13,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

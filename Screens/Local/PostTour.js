@@ -4,7 +4,6 @@ import * as ImagePicker from "expo-image-picker";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   ImageBackground,
   SafeAreaView,
@@ -38,7 +37,8 @@ import {
 } from "firebase/storage";
 
 import ActivityForm from "../../component/forms/ActivityForm";
-import InputMap from "../../component/InputMap";
+import Loading from "../../component/Loading";
+import InputMap from "../../component/maps/InputMap";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
@@ -51,7 +51,6 @@ export default function PostTour({ navigation }) {
   const modalizeRef = useRef(null);
 
   const [title, setTitle] = useState("");
-  const [location, setLocation] = useState("");
   const [city, setCity] = useState("");
   const [qty, setQty] = useState("");
   const [meetingPoint, setMeetingPoint] = useState(" ");
@@ -88,7 +87,7 @@ export default function PostTour({ navigation }) {
 
   let ages = ["عائلية", "كبار"];
 
-  const disabled = !title || !meetingPoint || !location || !description || !qty;
+  const disabled = !title || !meetingPoint || !description || !qty;
   const modalizeRefAge = useRef(null);
 
   const pickImage = async () => {
@@ -148,7 +147,6 @@ export default function PostTour({ navigation }) {
           description,
           age,
           imageUrl,
-          location,
           city,
           meetingPoint,
           qty,
@@ -296,32 +294,42 @@ export default function PostTour({ navigation }) {
     });
   };
 
+  const onSelectTourLocation = (location) => {
+    const { id, title, full_name, address, category } = location;
+    setMeetingPoint({
+      id,
+      title,
+      full_name,
+      address,
+      category,
+    });
+  };
+
+  const onRemoveTourLocation = () => {
+    setMeetingPoint({});
+  };
+
+  const onSelectActivityLocation = (location) => {
+    const { id, title, full_name, address, category } = location;
+    setActivity({
+      ...activity,
+      location: { id, title, full_name, address, category },
+    });
+  };
+
+  const onRemoveActivityLocation = () => {
+    setActivity({
+      ...activity,
+      location: {},
+    });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
-      {isLoading && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
 
-            zIndex: 999,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: colors.white, fontSize: 20, marginBottom: 10 }}>
-            Updating...
-          </Text>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      )}
+      <Loading text="جاري نشر الجولة..." visible={isLoading} />
+
       <ScrollView showsVerticalScrollIndicator={false}>
         {showPicker && (
           <DateTimePicker
@@ -359,7 +367,13 @@ export default function PostTour({ navigation }) {
           resizeMode="cover"
         >
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30, { fontWeight: "bold" }]}>
+            <Text
+              style={[
+                text.white,
+                text.text30,
+                { fontWeight: "bold", marginTop: 20 },
+              ]}
+            >
               نشر جولة
             </Text>
           </View>
@@ -383,9 +397,6 @@ export default function PostTour({ navigation }) {
               <Image source={images.photo} style={[styles.dummyImg]} />
             </TouchableOpacity>
           )}
-
-          {/* MapPicker */}
-          <InputMap />
 
           {/* Name */}
           <View style={[styles.alignCenter]}>
@@ -501,11 +512,18 @@ export default function PostTour({ navigation }) {
             <View
               style={[
                 styles.alignRight,
-                { marginHorizontal: 40, marginVertical: 10 },
+                {
+                  marginHorizontal: 40,
+                  marginVertical: 10,
+                },
               ]}
             >
-              <Text style={[text.themeDefault, text.text15]}>نقطة اللقاء</Text>
+              <Text style={[{}, text.themeDefault, text.text15]}>
+                نقطة اللقاء
+              </Text>
             </View>
+            {/* MapPicker */}
+            <InputMap />
             <Input
               icon={true}
               placeholder="اختر نقطة اللقاء"
