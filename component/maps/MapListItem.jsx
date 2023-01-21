@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableHighlight, View } from "react-native";
 import { createOpenLink } from "react-native-open-maps";
-import { colors, no_highlights } from "../../config/Constant";
+import { colors, highlights } from "../../config/Constant";
 import Chip from "../Chip";
 
 const MapListItem = ({ item, withMap }) => {
@@ -24,7 +24,7 @@ const MapListItem = ({ item, withMap }) => {
         borderRadius: 15,
         overflow: "hidden",
         padding: 5,
-        ...no_highlights.brdr2,
+        ...highlights.brdr02,
         width: "100%",
         flex: 1,
       }}
@@ -59,7 +59,7 @@ export default MapListItem;
 
 const styles = StyleSheet.create({
   container: {
-    ...no_highlights.brdr1,
+    ...highlights.brdr01,
     backgroundColor: colors.white,
     padding: 20,
     marginVertical: 10,
@@ -75,33 +75,33 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   row: {
-    ...no_highlights.brdr2,
+    ...highlights.brdr02,
 
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
   col: {
-    ...no_highlights.brdr6,
+    ...highlights.brdr06,
     flexDirection: "column",
     justifyContent: "space-between",
     alignItems: "flex-end",
   },
   title: {
-    ...no_highlights.brdr3,
+    ...highlights.brdr03,
 
     fontSize: 15,
     fontWeight: "bold",
     color: colors.black,
   },
   price: {
-    ...no_highlights.brdr4,
+    ...highlights.brdr04,
 
     fontSize: 12,
     color: colors.primary,
   },
   address: {
-    ...no_highlights.brdr5,
+    ...highlights.brdr05,
     fontSize: 10,
     color: colors.black,
   },

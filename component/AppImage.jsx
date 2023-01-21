@@ -6,12 +6,10 @@ import { colors } from "../config/Constant";
 
 const AppImage = ({ sourceURI, ...otherProps }) => {
   const name = sh.unique(sourceURI);
-  console.log("🚀 ~ name", name);
 
   return (
     <CachedImage
       source={{ uri: sourceURI }}
-      style={[styles.dummyImg]}
       cacheKey={name}
       placeholderContent={
         <View

@@ -53,7 +53,7 @@ export default function TouristTour({ navigation }) {
   React.useEffect(() => {
     (async () => {
       const uid = await getUserId();
-      console.log("🚀 ~ Tousit uid", uid);
+      // console.log("🚀 ~ Tousit uid", uid);
       setCurrentUserId(uid);
     })();
   }, []);
@@ -69,21 +69,25 @@ export default function TouristTour({ navigation }) {
     <FlatList
       data={data}
       keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item, index }) => (
-        <View key={index} style={{ marginVertical: 20 }}>
-          <TourDetailCard
-            key={index}
-            source={{ uri: item?.imageUrl }}
-            title={item?.title}
-            onpress={() =>
-              navigation.navigate("TourDetailedInformation", {
-                item,
-                tourId: item.id,
-              })
-            }
-          />
-        </View>
-      )}
+      renderItem={({ item, index }) => {
+        // console.log("🚀 ~ أههه");
+
+        return (
+          <View style={{ marginVertical: 20 }}>
+            <TourDetailCard
+              source={{ uri: item?.imageUrl }}
+              title={item?.title}
+              tour={item}
+              onpress={() =>
+                navigation.navigate("TouristDetailedInformation", {
+                  item,
+                  tourId: item.id,
+                })
+              }
+            />
+          </View>
+        );
+      }}
       ListEmptyComponent={
         <View style={{ marginTop: 200, alignItems: "center" }}>
           <Text style={[text.text12, text.themeDefault]}>No message found</Text>
@@ -122,11 +126,11 @@ export default function TouristTour({ navigation }) {
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
                     <TourDetailCard
-                      key={index}
                       source={{ uri: item?.imageUrl }}
                       title={item?.title}
+                      tour={item}
                       onpress={() =>
-                        navigation.navigate("TourDetailedInformation", {
+                        navigation.navigate("TouristDetailedInformation", {
                           item,
                           tourId: item.id,
                         })

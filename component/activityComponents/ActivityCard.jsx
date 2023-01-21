@@ -1,6 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors, images, screenWidth } from "../../config/Constant";
+import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 import {
   getFormattedDate,
@@ -8,6 +8,7 @@ import {
   limitCharacters,
 } from "../../util/DateHelper";
 import MIcon from "../MIcon";
+import AppImage from "./../AppImage";
 
 const ActivityCard = ({
   activity,
@@ -35,11 +36,19 @@ const ActivityCard = ({
   const [checked, setChecked] = React.useState(isChecked);
 
   const WrapperComponet = withChecklist ? TouchableOpacity : View;
+  // const { id, title, full_name, address, coordinates, category } = item;
+
+  let fakeLocation = {
+    full_name:
+      "مجمع الدمام الطبي، King Khaled Bin Abdulaziz Rd.، الدمام، السعودية",
+    title: "مجمع الدمام الطبي",
+  };
 
   return (
     <WrapperComponet
       style={[
-        styles.container, // no_highlights.brdr2
+        styles.container,
+        highlights.brdr01,
         {
           borderColor: selected ? colors.lightBrown : colors.gray,
           borderWidth: selected ? 2 : 1,
@@ -59,18 +68,14 @@ const ActivityCard = ({
           {
             justifyContent: "space-between",
           },
-          // no_highlights.brdr1,
+          highlights.brdr02,
         ]}
       >
         {/* #Left Side */}
         <View style={[styles.col]}>
           {/* #Upper Buttons */}
           {!display && (
-            <View
-              style={[
-                styles.row, // no_highlights.brdr4
-              ]}
-            >
+            <View style={[styles.row, highlights.brdr04]}>
               {withChecklist ? (
                 <MIcon
                   onPress={() => {
@@ -111,15 +116,27 @@ const ActivityCard = ({
           )}
 
           {/* Image */}
-          <Image
-            source={imageUrl ? { uri: imageUrl } : images.photo}
-            style={{
-              width: screenWidth.width25,
-              height: screenWidth.width25,
-              borderRadius: 10,
-              resizeMode: "contain",
-            }}
-          />
+          {imageUrl ? (
+            <AppImage
+              sourceURI={imageUrl}
+              style={{
+                width: screenWidth.width25,
+                height: screenWidth.width25,
+                borderRadius: 10,
+                resizeMode: "contain",
+              }}
+            />
+          ) : (
+            <Image
+              source={images.photo}
+              style={{
+                width: screenWidth.width25,
+                height: screenWidth.width25,
+                borderRadius: 10,
+                resizeMode: "contain",
+              }}
+            />
+          )}
         </View>
 
         {/* #Right Side */}
@@ -128,7 +145,7 @@ const ActivityCard = ({
             styles.col,
             styles.ROWxLeft_COLyTop,
             styles.ROWyButtom_COLxRight,
-            // no_highlights.brdr3,
+            highlights.brdr03,
             {
               flex: 1,
               width: screenWidth.width45,
@@ -141,12 +158,33 @@ const ActivityCard = ({
           {/* <View style={[styles.row, styles.ROWxLeft_COLyTop]}> */}
           <View style={[styles.col, styles.ROWxLeft_COLyTop]}>
             {/* Title */}
-            <Text style={[styles.title, text.text16]}>{title}</Text>
+            <Text
+              style={[
+                styles.title,
+                text.text18,
+                {
+                  fontWeight: "bold",
+                  marginBottom: 5,
+                  borderRightColor: colors.brown,
+                  borderRightWidth: 3,
+                  paddingRight: 5,
+                },
+              ]}
+            >
+              {title}
+            </Text>
 
             {/* Times & Date */}
             <View style={[styles.col, styles.ROWyButtom_COLxRight]}>
               <View style={[styles.row]}>
-                <Text style={[text.text12, text.themeDefault]}>
+                <Text
+                  style={[
+                    text.text12,
+                    {
+                      fontWeight: "bold",
+                    },
+                  ]}
+                >
                   {getFormattedDate(date)}
                 </Text>
                 <MIcon
@@ -157,7 +195,14 @@ const ActivityCard = ({
                 />
               </View>
               <View style={[styles.row]}>
-                <Text style={[text.text12, text.themeDefault]}>
+                <Text
+                  style={[
+                    text.text12,
+                    {
+                      fontWeight: "bold",
+                    },
+                  ]}
+                >
                   {getFormattedTime(startTime)} : {getFormattedTime(endTime)}
                 </Text>
                 <MIcon
@@ -198,22 +243,9 @@ const ActivityCard = ({
                 justifyContent: "space-around",
                 width: "100%",
               },
-              // no_highlights.brdr5,
+              highlights.brdr05,
             ]}
           >
-            {/* Location */}
-            <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
-              <MIcon
-                name="map-marker"
-                size={14}
-                color="black"
-                style={{ marginRight: 5 }}
-              />
-              <Text style={[text.text12, text.themeDefault]}>
-                {limitCharacters(location, 20)}
-              </Text>
-            </View>
-
             {/* Price */}
             <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
               <MIcon
@@ -225,14 +257,28 @@ const ActivityCard = ({
               <Text
                 style={[
                   text.text12,
-                  text.themeDefault,
+
                   {
                     width: screenWidth.width10,
                   },
                 ]}
               >
-                {Number(price)}
+                ريال {Number(price)}
               </Text>
+            </View>
+
+            {/* Location */}
+            <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
+              <Text style={[text.text12, { textAlign: "right" }]}>
+                {/* {limitCharacters(fakeLocation.full_name, 20)} */}
+                {limitCharacters(fakeLocation.title, 20)}
+              </Text>
+              <MIcon
+                name="map-marker"
+                size={14}
+                color="black"
+                style={{ marginRight: 5 }}
+              />
             </View>
           </View>
         </View>
@@ -255,6 +301,16 @@ const styles = StyleSheet.create({
     padding: 5,
 
     width: screenWidth.width80,
+
+    // shadow stuff
+    shadowColor: "#885d00",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 2,
   },
   innerForm: {
     flex: 1,
@@ -265,7 +321,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     // paddingHorizontal: 10,
 
-    // ...no_highlights.brdr1,
+    // ...highlights. brdr01,
   },
   title: {
     alignSelf: "flex-end",

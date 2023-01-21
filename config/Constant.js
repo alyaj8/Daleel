@@ -259,37 +259,65 @@ export const highlights = {
     borderWidth: brdrWidth,
     borderColor: colors.red,
   },
+  brdr01: {
+    borderWidth: no_brdrWidth,
+  },
   brdr2: {
     borderWidth: brdrWidth,
     borderColor: colors.blue,
   },
+  brdr02: {
+    borderWidth: no_brdrWidth,
+  },
+
   brdr3: {
     borderWidth: brdrWidth,
     borderColor: colors.green,
+  },
+  brdr03: {
+    borderWidth: no_brdrWidth,
   },
   brdr4: {
     borderWidth: brdrWidth,
     borderColor: colors.orange,
   },
+  brdr04: {
+    borderWidth: no_brdrWidth,
+  },
   brdr5: {
     borderWidth: brdrWidth,
     borderColor: colors.grey,
+  },
+  brdr05: {
+    borderWidth: no_brdrWidth,
   },
   brdr6: {
     borderWidth: brdrWidth,
     borderColor: colors.greyLight,
   },
+  brdr06: {
+    borderWidth: no_brdrWidth,
+  },
   brdr7: {
     borderWidth: brdrWidth,
     borderColor: colors.greyDark,
+  },
+  brdr07: {
+    borderWidth: no_brdrWidth,
   },
   brdr8: {
     borderWidth: brdrWidth,
     borderColor: colors.blueDark,
   },
+  brdr08: {
+    borderWidth: no_brdrWidth,
+  },
   brdr9: {
     borderWidth: brdrWidth,
     borderColor: colors.blueBeryline,
+  },
+  brdr09: {
+    borderWidth: no_brdrWidth,
   },
 };
 

@@ -65,7 +65,7 @@ export default function Tourist_Manage_Account({ navigation }) {
       //store the data in an array myData
       snapshot.forEach((doc) => {
         let userinfo2 = doc.data();
-        console.log("🚀 ~ userinfo2", userinfo2);
+        // console.log("🚀 ~ userinfo2", userinfo2);
 
         setFname(userinfo2.firstname);
         setLname(userinfo2.lastname);

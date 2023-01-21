@@ -179,7 +179,7 @@ export default function Local_Home({ navigation }) {
       status: 2,
       acceptedAt: new Date(),
     };
-    console.log("🚀 ~ DataToUpdate", DataToUpdate);
+    // console.log("🚀 ~ DataToUpdate", DataToUpdate);
 
     // TODO: update request status
     const updatedReq = await updateRequest(requestId, DataToUpdate);
@@ -215,9 +215,22 @@ export default function Local_Home({ navigation }) {
     <SafeAreaView style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
-        <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30, text.bold]}>طلباتي</Text>
-        </View>
+        <Text
+          style={[
+            styles.alignCenter,
+            text.white,
+            text.bold,
+            text.text30,
+            {
+              marginTop: 20,
+              width: "100%",
+              textAlign: "center",
+              //color:colors.Blue
+            },
+          ]}
+        >
+          طلباتي
+        </Text>
 
         {/* Top Tabs */}
         <View>

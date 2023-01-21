@@ -40,11 +40,7 @@ import {
 import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
-import {
-  getFormattedDate,
-  getFormattedTime,
-  logObj,
-} from "../../util/DateHelper";
+import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
 
@@ -60,10 +56,10 @@ export default function PostTour({ navigation }) {
   const [qty, setQty] = useState("");
   const [meetingPoint, setMeetingPoint] = useState("");
 
-  logObj(
-    meetingPoint,
-    "🚀 ~ file: PostTour.js ~ line 85 ~ PostTour ~ meetingPoint"
-  );
+  // logObj(
+  //   meetingPoint,
+  //   "🚀 ~ file: PostTour.js ~ line 85 ~ PostTour ~ meetingPoint"
+  // );
 
   const [age, setAge] = useState("");
   // const [price, setPrice] = useState(100);

@@ -12,9 +12,9 @@ function TouristTourStack() {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="TourDetail" component={TouristTour} />
+      <Stack.Screen name="TouristTour" component={TouristTour} />
       <Stack.Screen
-        name="TourDetailedInformation"
+        name="TouristDetailedInformation"
         component={TouristDetailedInformation}
       />
     </Stack.Navigator>

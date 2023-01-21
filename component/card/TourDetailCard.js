@@ -1,13 +1,16 @@
 import { Feather } from "@expo/vector-icons";
+import { useRoute } from "@react-navigation/native";
 import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import { logObj } from "../../util/DateHelper";
 import AppImage from "../AppImage";
 
 export default function TourDetailCard({ onpress, source, title, tour }) {
-  logObj(tour, "tour");
+  // logObj(tour, "tour");
+  const route = useRoute();
+  // console.log("route", route);
+
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onpress} style={[styles.card]}>
@@ -20,22 +23,37 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
             )}
           </View>
           <View style={{ flex: 1, marginLeft: 10 }}>
-            <Text
-              style={[
-                text.text20,
-                {
-                  textAlign: "center",
-                  fontWeight: "bold",
-                  color: colors.textHeadingColor,
-                },
-              ]}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                // width: "50%",
+              }}
             >
-              {title}
-            </Text>
-            {tour.activities.length > 0 && (
+              {/* activities */}
+              {tour?.activities.length > 0 && (
+                <Text
+                  style={[
+                    text.text16,
+                    {
+                      textAlign: "center",
+                      fontWeight: "bold",
+                      color: colors.textHeadingColor,
+                    },
+                  ]}
+                >
+                  {tour.activities.length > 0 && (
+                    <>
+                      <Feather name="activity" size={24} color="black" />
+                      <Text> {tour.activities.length} </Text>
+                    </>
+                  )}
+                </Text>
+              )}
               <Text
                 style={[
-                  text.text16,
+                  text.text20,
                   {
                     textAlign: "center",
                     fontWeight: "bold",
@@ -43,18 +61,14 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
                   },
                 ]}
               >
-                {tour.activities.length > 0 && (
-                  <>
-                    <Feather name="activity" size={24} color="black" />
-                    <Text> {tour.activities.length} </Text>
-                  </>
-                )}
+                {title}
               </Text>
-            )}
+            </View>
 
-            <Text>السن: {tour.age}</Text>
-            <Text>تستوعب: {tour.qty} فرد </Text>
-            <Text>مدينة: {tour.city} فرد </Text>
+            {/* <Text>السعر: {tour?.price} ريال</Text> */}
+            <Text>السن: {tour?.age}</Text>
+            <Text>تستوعب: {tour?.qty} فرد </Text>
+            <Text>مدينة: {tour?.city}</Text>
           </View>
         </View>
       </TouchableOpacity>

@@ -13,8 +13,10 @@ import {
 import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
+import AppImage from "../../component/AppImage";
 import Loading from "../../component/Loading";
-import { colors, images, screenWidth } from "../../config/Constant";
+import MapListItem from "../../component/maps/MapListItem";
+import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 import { getUserId, getUserObj, insertRequest } from "../../network/ApiService";
 import text from "../../style/text";
@@ -23,15 +25,22 @@ import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
 export default function TouristDetailedInformation({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
   const [dateString, setDateString] = useState(null);
   const [startTimeString, setStartTimeString] = useState(null);
   const [endTimeString, setEndTimeString] = useState(null);
   const [userName, setUserName] = useState(null);
-  const [customizing, setCustomizing] = useState(false);
   const [price, setPrice] = useState(0);
   // reducer force update
-  const [update, forceUpdate] = useReducer((x) => x + 1, 0);
+
+  const [customizing, setCustomizing] = useState(false);
+  const [tourStatus, setTourStatus] = useState("notRequested");
   const [selectedActivities, setSelectedActivities] = useState([]);
+
+  const currentUserId = auth?.currentUser?.uid;
+  const tourId = route.params.tourId;
+
+  const [update, forceUpdate] = useReducer((x) => x + 1, 0);
 
   const [data, setData] = useState({
     id: null,
@@ -43,26 +52,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
     touristId: null,
     price: null,
   });
-
-  const [tourStatus, setTourStatus] = useState("notRequested");
-
-  const currentUserId = auth?.currentUser?.uid;
-
-  // console.log("🚀 ~ requests", data?.requests, currentUserId);
-  // console.log("🚀 ~ status", data?.status);
-
-  // const tourDetail = route.params.item;
-  const tourId = route.params.tourId;
-
-  // logObj(data);
-  let temp = [];
-  let working2 = !!selectedActivities ? selectedActivities : [];
-
-  working2.forEach((activity) => {
-    temp.push(activity.id);
-  });
-
-  // console.log("🚀 ~ temp", temp);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -80,6 +69,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           ...snapshot.data(),
         });
         setSelectedActivities(snapshot.data()?.activities);
+        calculatePrice(snapshot.data()?.activities);
       },
       (error) => {
         console.log(error);
@@ -98,7 +88,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
         change.type === "added" && setTourStatus("requested");
         change.type === "removed" && setTourStatus("notRequested");
 
-        console.log("🚀 ~ change", change.type, change.doc.data().status);
+        // console.log("🚀 ~ change", change.type, change.doc.data().status);
       });
     });
 
@@ -118,7 +108,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
       // get user data
       const userData = await getUserObj();
       const touristId = await getUserId();
-      console.log("🚀 ~ userData", userData);
+      // console.log("🚀 ~ userData", userData);
 
       // get tour data
       const reqToAdd = {
@@ -145,10 +135,19 @@ export default function TouristDetailedInformation({ navigation, route }) {
     }
   };
 
-  const isCustomizable = data?.activitiesCustomizable;
+  const calculatePrice = (Activities) => {
+    let temp = 0;
+    selectedActivities.forEach((activity) => {
+      temp += Number(activity.price);
+    });
+    setPrice(temp);
+
+    return temp;
+  };
 
   const handlePressActivity = (item) => {
     let temp = selectedActivities;
+
     const selected = temp.find((activity) => activity.id === item.id);
     if (selected) {
       console.log("remove");
@@ -157,18 +156,18 @@ export default function TouristDetailedInformation({ navigation, route }) {
       console.log("add");
       temp.push(item);
     }
-    setSelectedActivities(temp);
 
+    setSelectedActivities(temp);
+    calculatePrice(temp);
+    // sd
     forceUpdate();
   };
 
+  const isCustomizable = data?.activitiesCustomizable;
+
   useEffect(() => {
-    let total = 0;
-    let working = !!selectedActivities ? selectedActivities : [];
-    working.forEach((activity) => {
-      total += Number(activity.price);
-    });
-    setPrice(total);
+    const res = calculatePrice(selectedActivities);
+    // console.log("🚀 ~ res", res);
   }, [selectedActivities]);
 
   return (
@@ -198,55 +197,77 @@ export default function TouristDetailedInformation({ navigation, route }) {
             {/* Image */}
             <View style={[styles.alignCenter, {}]}>
               {data?.imageUrl ? (
-                <Image
-                  source={{ uri: data.imageUrl }}
-                  style={[styles.dummyImg]}
-                />
+                <AppImage sourceURI={data.imageUrl} style={[styles.img]} />
               ) : (
                 <Image source={images.photo} style={[styles.dummyImg]} />
               )}
             </View>
-
+            {/* Title */}
+            <View style={{ alignSelf: "center" }}>
+              <Text
+                style={[text.themeDefault, text.text30, { fontWeight: "bold" }]}
+              >
+                {data?.title}
+              </Text>
+            </View>
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
                 style={[
-                  {
-                    width: 100,
-                    color: colors.brown,
-                  },
-                  text.text20,
-                  {},
+                  text.themeDefault,
+                  text.text18,
+                  { color: colors.brown },
                 ]}
               >
                 {price} SAR
               </Text>
             </View>
-
-            {/* Date */}
+            {/* Date & Time */}
             <View
               style={{
-                width: "100%",
                 flexDirection: "row",
                 justifyContent: "center",
+                alignItems: "center",
               }}
             >
-              <Text style={[{ width: "50%", color: colors.Blue }, text.text14]}>
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    flex: 1,
+                    color: colors.Blue,
+                    ...highlights.brdr0,
+                    fontWeight: "bold",
+                  },
+                  text.text14,
+                ]}
+              >
                 {getFormattedTime(data?.startTime)} :{" "}
                 {getFormattedTime(data?.endTime)}
               </Text>
-              <Text style={[{ width: "50%", color: colors.Blue }, text.text14]}>
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    flex: 1,
+                    color: colors.Blue,
+                    fontWeight: "bold",
+
+                    ...highlights.brdr0,
+                  },
+                  text.text14,
+                ]}
+              >
                 {getFormattedDate(data?.date)}
               </Text>
             </View>
-
             {/* Location */}
             <View
               style={[
                 styles.flexRow,
                 {
                   alignItems: "center",
-                  // ...no_highlights.brdr1,
+                  // ...no_highlights. brdr01,
                   justifyContent: "flex-end",
                 },
                 {
@@ -270,37 +291,58 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 <Image source={images.location} style={[styles.icon]} />
               </View>
             </View>
-
             {/* Description */}
             <View style={{ marginHorizontal: 5 }}>
-              <Text style={[text.themeDefault, text.text18, text.right]}>
+              <Text
+                style={[
+                  text.themeDefault,
+                  text.text14,
+                  text.right,
+                  {
+                    padding: 15,
+                  },
+                ]}
+              >
                 {data?.description}
               </Text>
             </View>
-
-            {/* Meeting Point */}
+            {/* meetingPoint */}
             <View
               style={[
                 {
                   alignSelf: "flex-end",
-                  marginVertical: 10,
+                  // marginVertical: 10,
+                  ...highlights.brdr01,
                 },
               ]}
             >
-              <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginTop: 10,
+                  ...highlights.brdr02,
+                }}
+              >
                 <Text
                   style={[
                     text.themeDefault,
                     text.text20,
-                    { fontWeight: "bold" },
+                    { fontWeight: "bold", ...highlights.brdr03 },
                   ]}
                 >
-                  {data?.meetingPoint}
+                  نقطة اللقاء
                 </Text>
               </View>
             </View>
-
-            {/* Age */}
+            <View
+              style={{
+                ...highlights.brdr04,
+                paddingHorizontal: 10,
+              }}
+            >
+              <MapListItem item={data.meetingPoint} withMap />
+            </View>
+            {/* Age & Qty */}
             <View
               style={[
                 styles.flexRow,
@@ -361,6 +403,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
               shadowOffset: { width: -1, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 3,
+              elevation: 5,
+              alignItems: "center",
             }}
           >
             <View
@@ -368,16 +412,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 flexDirection: "row-reverse",
                 justifyContent: "space-between",
                 alignItems: "center",
-                // ...no_highlights.brdr2,
+                width: "95%",
+                ...highlights.brdr02,
               }}
             >
               <Text
                 style={[
                   text.textHeadingColor,
-                  text.text20,
+                  text.text25,
                   {
                     fontWeight: "bold",
-                    //    ...no_highlights.brdr3
+                    //    ...no_highlights. brdr03
                   },
                 ]}
               >
@@ -423,12 +468,35 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View
               style={[
                 {
-                  marginRight: 20,
+                  // marginRight: 20,
+                  ...highlights.brdr02,
+                  alignSelf: "flex-end",
+                  width: "95%",
+                  flexDirection: "row-reverse",
                 },
               ]}
             >
-              <Text style={[text.textColor, text.text20, text.right]}>
-                السعر الإجمالي للرحلة: {price}
+              <Text
+                style={[
+                  text.textColor,
+                  text.text20,
+                  text.right,
+                  {
+                    fontWeight: "bold",
+                  },
+                ]}
+              >
+                السعر الإجمالي للرحلة:
+              </Text>
+              <Text
+                style={{
+                  color: colors.Blue,
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  marginHorizontal: 20,
+                }}
+              >
+                {price} ريال
               </Text>
             </View>
           </View>
@@ -510,6 +578,14 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     opacity: 0.7,
   },
+  img: {
+    width: screenWidth.width80,
+    height: screenWidth.width60,
+    resizeMode: "contain",
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+
   alignRight: {
     alignSelf: "flex-end",
   },
@@ -530,8 +606,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   card: {
-    width: screenWidth.width90,
-    padding: 30,
+    width: screenWidth.width95,
+    padding: 10,
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",

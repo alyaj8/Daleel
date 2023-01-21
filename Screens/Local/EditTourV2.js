@@ -4,7 +4,6 @@ import * as ImagePicker from "expo-image-picker";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
-  ActivityIndicator,
   Image,
   ImageBackground,
   SafeAreaView,
@@ -39,9 +38,12 @@ import {
 } from "firebase/storage";
 
 import ActivityCard from "../../component/activityComponents/ActivityCard";
+import AppButton from "../../component/AppButton";
 import ActivityForm from "../../component/forms/ActivityForm";
+import InputMap from "../../component/maps/InputMap";
 import MIcon from "../../component/MIcon";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
+import Loading from "./../../component/Loading";
 
 export default function EditTourV2({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -134,7 +136,6 @@ export default function EditTourV2({ navigation, route }) {
     let tour = route.params.data;
     // logObj(tour, "tour");
     setTitle(tour.title);
-    setLocation(tour.location);
     setCity(tour.city);
     setQty(tour.qty);
     setMeetingPoint(tour.meetingPoint);
@@ -199,12 +200,12 @@ export default function EditTourV2({ navigation, route }) {
   };
 
   const isTourHasImage = filePath ? true : false;
-  console.log("🚀 ~ OUR> isTourHasImage", isTourHasImage);
-  console.log("🚀 ~ OUT> tour", route.params.data.imageUrl);
+  // console.log("🚀 ~ OUR> isTourHasImage", isTourHasImage);
+  // console.log("🚀 ~ OUT> tour", route.params.data.imageUrl);
 
   const submitRequest = async () => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       // setModalVisible(!isModalVisible);
       const isNewImg = filePath ? true : false;
 
@@ -219,7 +220,6 @@ export default function EditTourV2({ navigation, route }) {
 
       const newTour = {
         title,
-        location,
         city,
         qty,
         meetingPoint,
@@ -236,8 +236,8 @@ export default function EditTourV2({ navigation, route }) {
         activitiesCustomizable: activitiesCustomizable,
       };
 
-      console.log("🚀 ~ tour", route.params.data.imageUrl);
-      console.log("🚀 ~ newTour", newTour.imageUrl);
+      // console.log("🚀 ~ tour", route.params.data.imageUrl);
+      // console.log("🚀 ~ newTour", newTour.imageUrl);
 
       if (tourDone || !isNewImg) {
         console.log("1");
@@ -249,7 +249,7 @@ export default function EditTourV2({ navigation, route }) {
 
       // const response = await addRequest(newTour);
       // console.log("🚀 ~ no condition met");
-      // setIsLoading(false);
+      setIsLoading(false);
       // navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
@@ -400,29 +400,8 @@ export default function EditTourV2({ navigation, route }) {
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
       {/* Loading */}
-      {isLoading && (
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
 
-            zIndex: 999,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(0,0,0,0.5)",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <Text style={{ color: colors.white, fontSize: 20, marginBottom: 10 }}>
-            Updating...
-          </Text>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
-      )}
+      <Loading visible={isLoading} text="تحديث الجولة..." />
       <ScrollView showsVerticalScrollIndicator={false}>
         {showPicker && (
           <DateTimePicker
@@ -592,19 +571,25 @@ export default function EditTourV2({ navigation, route }) {
             <View
               style={[
                 styles.alignRight,
-                { marginHorizontal: 40, marginVertical: 10 },
+                {
+                  marginHorizontal: 40,
+                  marginVertical: 10,
+                },
               ]}
             >
-              <Text style={[text.themeDefault, text.text15]}>نقطة اللقاء</Text>
+              <Text style={[{}, text.themeDefault, text.text15]}>
+                نقطة اللقاء
+              </Text>
             </View>
-            <Input
-              icon={true}
-              source={images.location}
-              editable={true}
-              onChangeText={(text) => setMeetingPoint(text)}
-              value={meetingPoint}
+            {/* MapPicker */}
+            <InputMap
               placeholder="اختر نقطة اللقاء"
-              // style={{ width: screenWidth.width80 }}
+              value={meetingPoint}
+              onSelectLocation={(location) => setMeetingPoint(location)}
+              onClearLocation={() => setMeetingPoint("")}
+              style={{
+                marginHorizontal: 20,
+              }}
             />
           </View>
 
@@ -788,8 +773,9 @@ export default function EditTourV2({ navigation, route }) {
               السعر الإجمالي للرحلة:{" "}
               {
                 // totalPrice
-                activities.reduce((a, b) => a + b.price, 0)
-              }
+                activities.reduce((a, b) => a + Number(b.price), 0)
+              }{" "}
+              ريال
             </Text>
           </View>
 
@@ -848,20 +834,20 @@ export default function EditTourV2({ navigation, route }) {
               marginBottom: 40,
             }}
           >
-            <Button
+            <AppButton
               // disabled={disabled}
               title={"حفظ التغييرات"}
-              onpress={() => {
+              style={{ backgroundColor: colors.brown }}
+              onPress={() => {
                 submitRequest();
               }}
             />
             <View style={{ width: 10 }} />
-            <Button
+            <AppButton
               // disabled={disabled}
-
               style={{ backgroundColor: colors.red }}
               title={"إلغاء التعديل"}
-              onpress={() => {
+              onPress={() => {
                 toggleModalDelete();
               }}
             />

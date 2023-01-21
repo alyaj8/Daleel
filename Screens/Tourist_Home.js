@@ -67,10 +67,7 @@ export default function Tourist_Home({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        style={{ alignItems: "center" }}
-        source={images.backgroundImg}
-      >
+      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
         <Text
           style={[

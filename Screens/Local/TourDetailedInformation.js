@@ -21,9 +21,11 @@ import {
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
+import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
 import {
   colors,
+  highlights,
   images,
   no_highlights,
   REQUESTS,
@@ -32,7 +34,7 @@ import {
 import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
-import { getDateFromSeconds } from "../../util/DateHelper";
+import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import Loading from "./../../component/Loading";
 import MapListItem from "./../../component/maps/MapListItem";
 
@@ -41,6 +43,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
+
   const [data, setData] = useState({
     title: null,
     description: null,
@@ -83,9 +86,9 @@ export default function TourDetailedInformation({ navigation, route }) {
   );
 
   const fetchTour = async () => {
-    console.log("🚀 ~ data.id", data.id);
+    // console.log("🚀 ~ data.id", data.id);
     const useId = data.id || route.params.id;
-    console.log("🚀 ~ useId", useId);
+    // console.log("🚀 ~ useId", useId);
 
     const docRef = doc(db, "tours", useId);
     try {
@@ -165,84 +168,108 @@ export default function TourDetailedInformation({ navigation, route }) {
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30]}>جولاتي</Text>
+            <Text style={[text.white, text.text30]}>{data?.title}</Text>
           </View>
 
           {/* Body */}
           <View style={[styles.card]}>
-            {/*  Image */}
+            {/* Image */}
             <View style={[styles.alignCenter, {}]}>
-              {data.imageUrl ? (
-                <Image
-                  source={{ uri: data?.imageUrl }}
-                  style={[styles.dummyImg]}
-                />
+              {data?.imageUrl ? (
+                <AppImage sourceURI={data.imageUrl} style={[styles.img]} />
               ) : (
                 <Image source={images.photo} style={[styles.dummyImg]} />
               )}
             </View>
-
             {/* Title */}
             <View style={{ alignSelf: "center" }}>
               <Text
-                style={[text.themeDefault, text.text20, { fontWeight: "bold" }]}
+                style={[text.themeDefault, text.text30, { fontWeight: "bold" }]}
               >
                 {data?.title}
               </Text>
             </View>
-
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
-              <Text style={[text.themeDefault, text.text18, {}]}>
-                {data?.price} SAR
+              <Text
+                style={[
+                  text.themeDefault,
+                  text.text18,
+                  { color: colors.brown },
+                ]}
+              >
+                {data.price} SAR
               </Text>
             </View>
-
             {/* Date & Time */}
             <View
-              style={[
-                styles.flexRow,
-                {
-                  // justifyContent: "space-between",
-                  marginVertical: 10,
-                },
-              ]}
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
             >
-              <View style={{}}>
-                <Text style={[text.themeDefault, text.text14]}>
-                  {getDateFromSeconds(data?.date)}
-                </Text>
-              </View>
-              <View style={{ marginHorizontal: 10 }} />
-              <View style={{}}>
-                <Text style={[text.themeDefault, text.text14]}>
-                  {getDateFromSeconds(data?.startTime, "time")} -{" "}
-                  {getDateFromSeconds(data?.endTime, "time")}
-                </Text>
-              </View>
-            </View>
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    flex: 1,
+                    color: colors.Blue,
+                    ...highlights.brdr0,
+                    fontWeight: "bold",
+                  },
+                  text.text14,
+                ]}
+              >
+                {getFormattedTime(data?.startTime)} :{" "}
+                {getFormattedTime(data?.endTime)}
+              </Text>
+              <Text
+                style={[
+                  {
+                    textAlign: "center",
+                    flex: 1,
+                    color: colors.Blue,
+                    fontWeight: "bold",
 
+                    ...highlights.brdr0,
+                  },
+                  text.text14,
+                ]}
+              >
+                {getFormattedDate(data?.date)}
+              </Text>
+            </View>
             {/* Location */}
             <View
               style={[
                 styles.flexRow,
                 {
-                  alignSelf: "flex-end",
+                  alignItems: "center",
+                  // ...no_highlights.brdr1,
+                  justifyContent: "flex-end",
+                },
+                {
+                  // alignSelf: "flex-end",
+
                   marginHorizontal: 10,
                   marginVertical: 10,
                 },
               ]}
             >
-              <View style={{ marginHorizontal: 10 }}>
-                <Text style={[text.themeDefault, text.text16]}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={[{}, text.themeDefault, text.text16]}>
                   {data?.city}
                 </Text>
-              </View>
-              <View>
                 <Image source={images.location} style={[styles.icon]} />
               </View>
             </View>
-
             {/* Description */}
             <View style={{ marginHorizontal: 5 }}>
               <Text style={[text.themeDefault, text.text18, text.right]}>
@@ -255,16 +282,23 @@ export default function TourDetailedInformation({ navigation, route }) {
               style={[
                 {
                   alignSelf: "flex-end",
-                  marginVertical: 10,
+                  // marginVertical: 10,
+                  ...highlights.brdr01,
                 },
               ]}
             >
-              <View style={{ marginHorizontal: 20, marginVertical: 10 }}>
+              <View
+                style={{
+                  marginHorizontal: 20,
+                  marginTop: 10,
+                  ...highlights.brdr02,
+                }}
+              >
                 <Text
                   style={[
                     text.themeDefault,
                     text.text20,
-                    { fontWeight: "bold" },
+                    { fontWeight: "bold", ...highlights.brdr03 },
                   ]}
                 >
                   نقطة اللقاء
@@ -273,8 +307,8 @@ export default function TourDetailedInformation({ navigation, route }) {
             </View>
             <View
               style={{
-                ...no_highlights.brdr5,
-                padding: 10,
+                ...highlights.brdr04,
+                paddingHorizontal: 10,
               }}
             >
               <MapListItem item={data.meetingPoint} withMap />
@@ -283,15 +317,17 @@ export default function TourDetailedInformation({ navigation, route }) {
             {/* Age & Qty */}
             <View
               style={[
-                styles.flexRow,
                 {
+                  flexDirection: "row",
+                  alignItems: "center",
                   justifyContent: "space-between",
-                  marginVertical: 10,
-                  marginHorizontal: 10,
+                  ...highlights.brdr05,
+                  // marginVertical: 10,
+                  // marginHorizontal: 10,
                 },
               ]}
             >
-              <View style={[styles.flexRow]}>
+              <View style={[{ flexDirection: "row" }]}>
                 <View>
                   <Text
                     style={[
@@ -303,6 +339,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     {data?.age}
                   </Text>
                 </View>
+
                 <View style={{ marginHorizontal: 10 }}>
                   <Text style={[text.themeDefault, text.text20]}></Text>
                 </View>
@@ -310,9 +347,10 @@ export default function TourDetailedInformation({ navigation, route }) {
 
               <View
                 style={[
-                  styles.flexRow,
                   {
+                    flexDirection: "row",
                     alignSelf: "flex-end",
+                    alignItems: "center",
                   },
                 ]}
               >
@@ -326,83 +364,86 @@ export default function TourDetailedInformation({ navigation, route }) {
                 </View>
               </View>
             </View>
+          </View>
 
-            {/* Activitys */}
+          {/* Activitys */}
+          <View
+            style={{
+              marginHorizontal: 20,
+              backgroundColor: "#ececec",
+              borderRadius: 10,
+              padding: 10,
+              marginVertical: 10,
+              ///shadowEffect
+              shadowColor: "#171717",
+              shadowOffset: { width: -1, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 3,
+              elevation: 5,
+              alignItems: "center",
+              // alignSelf: "center",
+              // justifyContent: "center",
+              ...highlights.brdr02,
+            }}
+          >
             <View
               style={{
-                marginVertical: 10,
-                flex: 1,
-                justifyContent: "center",
+                flexDirection: "row-reverse",
+                justifyContent: "space-between",
                 alignItems: "center",
-                // ...no_highlights.brdr1,
-                width: "100%",
+                // ...no_highlights.brdr2,
               }}
             >
               <Text
-                style={[text.themeDefault, text.text20, { fontWeight: "bold" }]}
-              >
-                الأنشطة
-              </Text>
-
-              <Text
                 style={[
-                  text.themeDefault,
-                  text.text18,
+                  text.textHeadingColor,
+                  text.text20,
                   {
-                    width: "100%",
+                    fontWeight: "bold",
+                    //    ...no_highlights.brdr3
                   },
                 ]}
               >
-                تخصيص الأنشطة: {data?.activitiesCustomizable ? "نعم" : "لا"}
+                الأنشطة
               </Text>
-
-              <View>
-                {data.activities.map((item, index) => {
-                  return (
-                    <ActivityCard
-                      key={index}
-                      activity={item}
-                      display
-                      // onEditActivity = {onEditActivity}
-                      // onRemoveActivity={onRemoveActivity}
-                    />
-                  );
-                })}
-              </View>
             </View>
+            {!!data?.activities &&
+              data?.activities.map((item, index) => {
+                return <ActivityCard key={index} activity={item} display />;
+              })}
+          </View>
 
-            {/* Buttons */}
-            <View
-              style={[
-                styles.flexRow,
-                {
-                  justifyContent: "space-between",
-                  marginVertical: 20,
-                  marginHorizontal: 20,
-                },
-              ]}
-            >
-              <Button
-                title={" تحديث معلومات الجولة"}
-                onpress={() => navigation.navigate("EditTour", { data })}
-                style={{
-                  backgroundColor: colors.Blue,
-                  paddingVertical: 18,
-                  marginVertical: 10,
-                  width: screenWidth.width90,
-                }}
-              />
-              <Button
-                title={" حذف الجولة"}
-                onpress={toggleModal}
-                style={{
-                  backgroundColor: colors.brown,
-                  paddingVertical: 18,
+          {/* Buttons */}
+          <View
+            style={[
+              styles.flexRow,
+              {
+                justifyContent: "space-between",
+                marginVertical: 20,
+                marginHorizontal: 20,
+              },
+            ]}
+          >
+            <Button
+              title={" تحديث معلومات الجولة"}
+              onpress={() => navigation.navigate("EditTour", { data })}
+              style={{
+                backgroundColor: colors.Blue,
+                paddingVertical: 18,
+                marginVertical: 10,
+                width: screenWidth.width90,
+              }}
+            />
+            <Button
+              title={" حذف الجولة"}
+              onpress={toggleModal}
+              style={{
+                backgroundColor: colors.brown,
+                paddingVertical: 18,
 
-                  width: screenWidth.width90,
-                }}
-              />
-            </View>
+                width: screenWidth.width90,
+              }}
+            />
           </View>
 
           <StatusBar style="auto" />
@@ -466,6 +507,13 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     opacity: 0.7,
   },
+  img: {
+    width: screenWidth.width80,
+    height: screenWidth.width60,
+    resizeMode: "contain",
+    borderRadius: 10,
+    marginBottom: 15,
+  },
   alignRight: {
     alignSelf: "flex-end",
   },
@@ -491,7 +539,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
-    marginVertical: 50,
+    marginTop: 50,
     ...no_highlights.brdr1,
   },
   icon: {
