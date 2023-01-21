@@ -48,6 +48,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 20,
     textAlign: "right",
+    backgroundColor: "#fff",
   },
   icon: {
     width: 20,

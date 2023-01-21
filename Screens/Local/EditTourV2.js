@@ -22,6 +22,7 @@ import SmallInput from "../../component/inputText/smallInput";
 import {
   cities,
   colors,
+  highlights,
   imagePickerConfig,
   images,
   REQUEST_TABLE,
@@ -44,6 +45,18 @@ import InputMap from "../../component/maps/InputMap";
 import MIcon from "../../component/MIcon";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import Loading from "./../../component/Loading";
+
+const initActivity = {
+  id: null,
+  title: "",
+  description: "",
+  location: "",
+  date: null,
+  startTime: null,
+  endTime: null,
+  price: null,
+  imageUrl: null,
+};
 
 export default function EditTourV2({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -337,14 +350,7 @@ export default function EditTourV2({ navigation, route }) {
       },
     ]);
 
-    // setActivity({
-    //   title: "",
-    //   description: "",
-    //   location: "",
-    //   date: null,
-    //   startTime: null,
-    //   endTime: null,
-    // });
+    // setActivity(initActivity);
   };
   // logObj(activities);
   const onRemoveActivity = () => {
@@ -361,39 +367,18 @@ export default function EditTourV2({ navigation, route }) {
     newActivities[index] = activity;
     setActivities(newActivities);
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   const onEditActivityCancel = () => {
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   const onRemoveActivitySubmit = () => {
     setActivities(activities.filter((a) => a.id !== activity.id));
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   return (
@@ -662,6 +647,8 @@ export default function EditTourV2({ navigation, route }) {
                   style={[
                     styles.InputStyle,
                     {
+                      backgroundColor: "#fff",
+
                       width: screenWidth.width40,
                       height: screenWidth.width12,
 
@@ -731,10 +718,13 @@ export default function EditTourV2({ navigation, route }) {
             setActivity={setActivity}
             onShowPicker={onShowPicker}
             mode={activitiesMode}
+            /*  */
             onAddActivity={onAddActivity}
+            //
             onRemoveActivity={onRemoveActivity}
-            onEditActivity={onEditActivity}
             onRemoveActivitySubmit={onRemoveActivitySubmit}
+            //
+            onEditActivity={onEditActivity}
             onEditActivitySubmit={onEditActivitySubmit}
             onEditActivityCancel={onEditActivityCancel}
           />
@@ -795,6 +785,7 @@ export default function EditTourV2({ navigation, route }) {
                 // transparent background color
                 backgroundColor: "rgba(0,0,0,0.3)",
                 borderRadius: 20,
+                // ...highlights.brdr1,
               },
             ]}
           >
@@ -809,7 +800,15 @@ export default function EditTourV2({ navigation, route }) {
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={[text.white, text.text14]}>
+                <Text
+                  style={[
+                    text.white,
+                    text.text14,
+                    {
+                      fontWeight: "bold",
+                    },
+                  ]}
+                >
                   السماح للسائح بتخصيص أنشطة هذه الرحلة
                 </Text>
                 <Switch
@@ -826,41 +825,66 @@ export default function EditTourV2({ navigation, route }) {
           {/* Buttons */}
           <View
             style={{
-              flexDirection: "row",
-              // ...no_highlights.brdr1,
-              alignItems: "center",
-              justifyContent: "center",
-              marginVertical: 20,
+              marginHorizontal: 30,
+              marginVertical: 10,
               marginBottom: 40,
             }}
           >
             <AppButton
-              // disabled={disabled}
+              disabled={
+                !title ||
+                !city ||
+                !qty ||
+                !meetingPoint ||
+                !description ||
+                !filePath ||
+                !date ||
+                !startTime ||
+                !endTime ||
+                !description ||
+                !age
+              }
               title={"حفظ التغييرات"}
-              style={{ backgroundColor: colors.brown }}
+              style={{
+                backgroundColor: colors.brown,
+                height: screenWidth.width15,
+              }}
               onPress={() => {
                 submitRequest();
               }}
             />
-            <View style={{ width: 10 }} />
-            <AppButton
-              // disabled={disabled}
-              style={{ backgroundColor: colors.red }}
-              title={"إلغاء التعديل"}
-              onPress={() => {
-                toggleModalDelete();
+            <View
+              style={{
+                marginTop: 10,
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                ...highlights.brdr01,
               }}
-            />
+            >
+              <AppButton
+                // disabled={disabled}
+                style={{
+                  backgroundColor: colors.green,
+                  width: screenWidth.width70,
+                  height: screenWidth.width12,
+                }}
+                title={"إلغاء التعديل"}
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              />
 
-            <MIcon
-              name="delete"
-              size={30}
-              color={colors.red}
-              style={{ marginHorizontal: 10 }}
-              onPress={() => {
-                deleteTour();
-              }}
-            />
+              <MIcon
+                name="delete"
+                size={45}
+                color={colors.red}
+                style={{ marginHorizontal: 10 }}
+                onPress={() => {
+                  toggleModalDelete();
+                }}
+              />
+            </View>
           </View>
 
           {/* Modal Sheet */}
@@ -964,15 +988,24 @@ export default function EditTourV2({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // ...highlights.brdr2,
   },
   alignCenter: {
     alignItems: "center",
   },
   dummyImg: {
-    width: screenWidth.width50,
-    height: screenWidth.width50,
+    width: screenWidth.width90,
+    height: screenWidth.width70,
     resizeMode: "contain",
-    // opacity: 0.7,
+    borderRadius: 10,
+    marginBottom: 15,
+  },
+  img: {
+    width: screenWidth.width80,
+    height: screenWidth.width60,
+    resizeMode: "contain",
+    borderRadius: 10,
+    marginBottom: 15,
   },
   alignRight: {
     alignSelf: "flex-end",
@@ -1022,6 +1055,7 @@ const styles = StyleSheet.create({
   },
   InputStyleModal: {
     width: screenWidth.width90,
+    backgroundColor: "#fff",
     paddingVertical: 12,
     borderWidth: 1,
     borderColor: "#5398a0",

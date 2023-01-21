@@ -43,6 +43,7 @@ import InputMap from "../../component/maps/InputMap";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
+import AppButton from "./../../component/AppButton";
 
 export default function PostTour({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -631,6 +632,7 @@ export default function PostTour({ navigation }) {
                     {
                       width: screenWidth.width40,
                       height: screenWidth.width12,
+                      backgroundColor: "#fff",
 
                       justifyContent: "center",
                     },
@@ -763,10 +765,16 @@ export default function PostTour({ navigation }) {
               styles.alignCenter,
               {
                 flex: 1,
-                width: "100%",
+                // width: "100%",
                 // marginTop: 20,
                 alignItems: "flex-end",
                 // justifyContent: "center",
+                marginHorizontal: 30,
+                marginVertical: 10,
+                // backgroundColor: colors.white,
+                // transparent background color
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderRadius: 20,
               },
             ]}
           >
@@ -781,7 +789,7 @@ export default function PostTour({ navigation }) {
               }}
             >
               <View style={{ flexDirection: "row", alignItems: "center" }}>
-                <Text style={[text.grey, text.text14]}>
+                <Text style={[text.white, text.text14]}>
                   السماح للسائح بتخصيص أنشطة هذه الرحلة
                 </Text>
                 <Switch
@@ -799,10 +807,26 @@ export default function PostTour({ navigation }) {
           <View
             style={[styles.alignCenter, { marginTop: 20, marginBottom: 70 }]}
           >
-            <Button
-              // disabled={disabled}
+            <AppButton
+              disabled={
+                !title ||
+                !city ||
+                !qty ||
+                !meetingPoint ||
+                !description ||
+                !filePath ||
+                !date ||
+                !startTime ||
+                !endTime ||
+                !description ||
+                !age
+              }
+              style={{
+                width: screenWidth.width90,
+                height: screenWidth.width17,
+              }}
               title={"نشر"}
-              onpress={toggleModal}
+              onPress={toggleModal}
             />
           </View>
 
@@ -939,6 +963,8 @@ const styles = StyleSheet.create({
   InputStyleModal: {
     width: screenWidth.width90,
     paddingVertical: 12,
+    backgroundColor: "#fff",
+
     borderWidth: 1,
     borderColor: "#5398a0",
     borderRadius: 20,

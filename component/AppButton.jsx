@@ -43,7 +43,7 @@ const AppButton = ({
               },
             ]}
           >
-            تخصيص الأنشطة
+            {title}
           </Text>
         </View>
       )}
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     // width: "100%",
     // marginHorizontal: 10,
-    backgroundColor: colors.blue,
+    backgroundColor: colors.brown,
     borderRadius: 7,
     padding: 5,
   },

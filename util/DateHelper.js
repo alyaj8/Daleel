@@ -91,10 +91,18 @@ export const getFormattedTime = (time, withSeconds = false) => {
 };
 
 export const limitCharacters = (text, limit) => {
-  if (text.length > limit) {
-    return text.substring(0, limit) + "...";
+  // if text is empty
+  if (!text) {
+    return "";
   }
-  return text;
+
+  // if text is less than limit
+  if (text.length <= limit) {
+    return text;
+  }
+
+  // if text is more than limit
+  return text.substring(0, limit) + "...";
 };
 
 export const logObj = (obj, title = "") => {

@@ -8,7 +8,6 @@ import {
   limitCharacters,
 } from "../../util/DateHelper";
 import MIcon from "../MIcon";
-import AppImage from "./../AppImage";
 
 const ActivityCard = ({
   activity,
@@ -117,8 +116,8 @@ const ActivityCard = ({
 
           {/* Image */}
           {imageUrl ? (
-            <AppImage
-              sourceURI={imageUrl}
+            <Image
+              source={{ uri: imageUrl }}
               style={{
                 width: screenWidth.width25,
                 height: screenWidth.width25,
@@ -271,7 +270,7 @@ const ActivityCard = ({
             <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
               <Text style={[text.text12, { textAlign: "right" }]}>
                 {/* {limitCharacters(fakeLocation.full_name, 20)} */}
-                {limitCharacters(fakeLocation.title, 20)}
+                {limitCharacters(location?.title, 20)}
               </Text>
               <MIcon
                 name="map-marker"

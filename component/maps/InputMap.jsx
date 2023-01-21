@@ -197,6 +197,8 @@ export const InputMap = memo(
           ]}
         >
           <AutocompleteDropdown
+            direction={"up"}
+            bottomOffset={Platform.select({ ios: 0, android: 100 })}
             ref={searchRef}
             controller={(controller) => {
               dropdownController.current = controller;
@@ -243,7 +245,7 @@ export const InputMap = memo(
               backgroundColor: "#fff",
               borderRadius: 20,
               borderWidth: 1,
-              borderColor: colors.themeDefault,
+              borderColor: "#5398a0",
               // ...no_highlights.brdr1,
             }}
             suggestionsListContainerStyle={{

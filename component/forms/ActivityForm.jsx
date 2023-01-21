@@ -15,9 +15,10 @@ import {
 } from "../../config/Constant";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import Button from "../button/Button";
 import Input from "../inputText/Input";
+import InputMap from "../maps/InputMap";
 import MIcon from "../MIcon";
+import AppButton from "./../AppButton";
 
 const ActivityForm = ({
   formTitle = "Activity Form",
@@ -46,6 +47,9 @@ const ActivityForm = ({
       allowsEditing: true,
 
       ...imagePickerConfig,
+      aspect: [1, 1],
+      maxHeight: 200,
+      maxWidth: 200,
     });
     if (!result.canceled) {
       uploadImage(result.assets[0].uri)
@@ -131,23 +135,27 @@ const ActivityForm = ({
         {/* Location */}
         <View
           style={{
+            flex: 1,
             alignItems: "center",
+            // ...highlights.brdr2,
           }}
         >
           <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
             <Text style={[text.themeDefault, text.text15]}>موقع النشاط</Text>
           </View>
-          <Input
-            placeholderTextColor={colors.grey}
+          {/* MapPicker */}
+          <InputMap
             placeholder="اختر موقع النشاط"
-            multiline
             value={activity.location}
-            onChangeText={(text) =>
-              setActivity({ ...activity, location: text })
+            onSelectLocation={(location) =>
+              setActivity({ ...activity, location })
             }
+            onClearLocation={() => setActivity({ ...activity, location: null })}
+            style={{
+              // ...highlights.brdr3,
+              marginHorizontal: 10,
+            }}
             style={{ width: screenWidth.width80 }}
-            source={images.location}
-            icon={true}
           />
         </View>
 
@@ -343,10 +351,17 @@ const ActivityForm = ({
         {/* Button */}
         <View style={{ marginTop: 20, marginBottom: 10, alignItems: "center" }}>
           {mode === "add" ? (
-            <Button
-              // disabled={disabled}
+            <AppButton
+              disabled={
+                !activity.name ||
+                !activity.description ||
+                !activity.price ||
+                !activity.imageUrl ||
+                !activity.startTime ||
+                !activity.endTime
+              }
               title={"إضافة النشاط"}
-              onpress={() => {
+              onPress={() => {
                 onAddActivity();
               }}
             />
@@ -359,20 +374,20 @@ const ActivityForm = ({
                 justifyContent: "center",
               }}
             >
-              <Button
+              <AppButton
                 // disabled={disabled}
                 title={"حفظ التغييرات"}
-                onpress={() => {
+                onPress={() => {
                   onEditActivitySubmit();
                 }}
               />
               <View style={{ width: 10 }} />
-              <Button
+              <AppButton
                 // disabled={disabled}
 
                 style={{ backgroundColor: colors.red }}
                 title={"إلغاء التعديل"}
-                onpress={() => {
+                onPress={() => {
                   onEditActivityCancel();
                 }}
               />

@@ -272,7 +272,16 @@ export default function TourDetailedInformation({ navigation, route }) {
             </View>
             {/* Description */}
             <View style={{ marginHorizontal: 5 }}>
-              <Text style={[text.themeDefault, text.text18, text.right]}>
+              <Text
+                style={[
+                  text.themeDefault,
+                  text.text14,
+                  text.right,
+                  {
+                    padding: 15,
+                  },
+                ]}
+              >
                 {data?.description}
               </Text>
             </View>
