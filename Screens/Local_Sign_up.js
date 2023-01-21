@@ -18,7 +18,6 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Image,
-  LogBox,
   ScrollView,
   StyleSheet,
   Text,
@@ -31,6 +30,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { images, screenWidth } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
+import Loading from "./../component/Loading";
 
 function msg(error) {
   switch (error.code) {
@@ -54,6 +54,7 @@ function msg(error) {
 
 export default function Local_Sign_up({ navigation }) {
   const [push_token, setPushToken] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
       //  setPushToken(token === undefined ? "" : token);
@@ -234,6 +235,7 @@ export default function Local_Sign_up({ navigation }) {
       console.log("pass false");
     }
   };
+
   async function signUp() {
     console.log("user333");
     if (
@@ -265,6 +267,7 @@ export default function Local_Sign_up({ navigation }) {
       validatPass2();
     } else {
       try {
+        setIsLoading(true);
         const { user } = await createUserWithEmailAndPassword(
           auth,
           value.email,
@@ -300,6 +303,7 @@ export default function Local_Sign_up({ navigation }) {
           alert("تم إنشاء الحساب بنجاح الرجاء تسجيل الدخول");
           navigation.navigate("Log_in2");
         });
+        setIsLoading(false);
       } catch (er) {
         console.log("====================================");
         console.log("er", er);
@@ -310,9 +314,11 @@ export default function Local_Sign_up({ navigation }) {
           error: er,
         });
         console.log(er);
+        setIsLoading(false);
       }
     }
   }
+
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
     if (value.match(letters) && value.length < 21) {
@@ -332,10 +338,13 @@ export default function Local_Sign_up({ navigation }) {
     }
   };
   let checkEmail = (value) => {
-    var letters = /^[A-Za-z0-9-_@.]+$/;
-    if (value.match(letters) && value.includes("@") && value.includes(".")) {
+    let regex = new RegExp("[a-z0-9]+@[a-z]+.[a-z]{2,3}");
+
+    if (regex.test(value) && value.includes("@") && value.includes(".")) {
+      console.log("email true");
       return true;
     } else {
+      console.log("email false");
       return false;
     }
   };
@@ -391,15 +400,12 @@ export default function Local_Sign_up({ navigation }) {
     setUsernameError("هذا الاسم قدم تم استخدامه من قبل");
     return false;
   };
-  useEffect(() => {
-    LogBox.ignoreLogs([
-      "Warning: Async Storage has been extracted from react-native core",
-    ]);
-  }, []);
+
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
     >
+      <Loading visible={isLoading} textContent={"جاري إنشاء الحساب..."} />
       <Icon
         name="arrow-back-outline"
         size={50}
@@ -523,7 +529,9 @@ export default function Local_Sign_up({ navigation }) {
             <TextInput
               style={styles.body}
               placeholder="*البريد الإلكتروني"
-              onChangeText={(text) => setValue({ ...value, email: text })}
+              onChangeText={(text) =>
+                setValue({ ...value, email: text.trim() })
+              }
               underlineColorAndroid="transparent"
             />
           </View>

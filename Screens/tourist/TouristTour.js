@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useState } from "react";
@@ -11,7 +12,7 @@ import {
   View,
 } from "react-native";
 import TourDetailCard from "../../component/card/TourDetailCard";
-import { colors, images, screenWidth } from "../../config/Constant";
+import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
@@ -108,15 +109,13 @@ export default function TouristTour({ navigation }) {
               },
               text.white,
               text.text30,
-              text.bold
+              text.bold,
             ]}
           >
             الجولات
           </Text>
         </View>
-        <ScrollView
-          style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}
-        >
+        <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
           {data.length > 0 ? (
             <>
               {data.map((item, index) => {
@@ -138,10 +137,27 @@ export default function TouristTour({ navigation }) {
               })}
             </>
           ) : (
-            <View style={{ marginTop: 200, alignItems: "center" }}>
-              <Text style={[text.text12, text.themeDefault]}>
-                No message found
+            <View
+              style={{
+                marginTop: 200,
+                alignItems: "center",
+                justifyContent: "center",
+                flexDirection: "row",
+              }}
+            >
+              <Text
+                style={[
+                  {
+                    marginRight: 10,
+                    fontWeight: "bold",
+                  },
+                  text.text20,
+                ]}
+              >
+                لا يوجد جولات
               </Text>
+              {/* Icon */}
+              <Feather name="alert-circle" size={24} color="black" />
             </View>
           )}
         </ScrollView>

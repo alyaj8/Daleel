@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -80,9 +81,32 @@ const TouristHomeBody = ({
             })
           ) : (
             <View style={{ marginTop: 200, alignItems: "center" }}>
-              <Text style={[text.text12, text.themeDefault]}>
-                No message found
-              </Text>
+              <View
+                style={{
+                  // marginTop: 200,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // flex: 1,
+                  // ...highlights.brdr1,
+                }}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginRight: 10,
+                    },
+                    text.text20,
+                  ]}
+                >
+                  لا يوجد طلبات
+                </Text>
+                {/* Icon */}
+                <Feather name="alert-circle" size={24} color="black" />
+              </View>
             </View>
           )}
         </View>
@@ -119,9 +143,32 @@ const TouristHomeBody = ({
             })
           ) : (
             <View style={{ marginTop: 200, alignItems: "center" }}>
-              <Text style={[text.text12, text.themeDefault]}>
-                No message found
-              </Text>
+              <View
+                style={{
+                  // marginTop: 200,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // flex: 1,
+                  // ...highlights.brdr1,
+                }}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginRight: 10,
+                    },
+                    text.text20,
+                  ]}
+                >
+                  لم يتم قبول اي طلب
+                </Text>
+                {/* Icon */}
+                <Feather name="alert-circle" size={24} color="black" />
+              </View>
             </View>
           )}
         </View>
@@ -148,9 +195,32 @@ const TouristHomeBody = ({
             })
           ) : (
             <View style={{ marginTop: 200, alignItems: "center" }}>
-              <Text style={[text.text12, text.themeDefault]}>
-                No message found
-              </Text>
+              <View
+                style={{
+                  // marginTop: 200,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // flex: 1,
+                  // ...highlights.brdr1,
+                }}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginRight: 10,
+                    },
+                    text.text20,
+                  ]}
+                >
+                  لم يتم رفض اي طلب
+                </Text>
+                {/* Icon */}
+                <Feather name="alert-circle" size={24} color="black" />
+              </View>
             </View>
           )}
         </View>

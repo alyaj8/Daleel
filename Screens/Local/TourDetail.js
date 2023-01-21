@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
@@ -53,10 +54,17 @@ export default function TourDetail({ navigation }) {
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30,text.bold]}>جولاتي</Text>
+          <Text style={[text.white, text.text30, text.bold]}>جولاتي</Text>
         </View>
-        <ScrollView style={{}} showsVerticalScrollIndicator={false}>
-          <View style={[styles.cardDiv, { marginTop: screenWidth.width15 }]}>
+        <ScrollView
+          style={{
+            flex: 1,
+          }}
+          showsVerticalScrollIndicator={false}
+        >
+          <View
+            style={[{}, styles.cardDiv, { marginTop: screenWidth.width15 }]}
+          >
             {data?.length ? (
               data?.map((item, index) => {
                 // console.log('item', item.title)
@@ -73,10 +81,31 @@ export default function TourDetail({ navigation }) {
                 );
               })
             ) : (
-              <View style={{ marginTop: 200, alignItems: "center" }}>
-                <Text style={[text.text12, text.themeDefault]}>
-                  No message found
+              <View
+                style={{
+                  marginTop: 200,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // flex: 1,
+                  // ...highlights.brdr1,
+                }}
+              >
+                <Text
+                  style={[
+                    {
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      textAlign: "center",
+                      marginRight: 10,
+                    },
+                    text.text20,
+                  ]}
+                >
+                  لا يوجد جولات
                 </Text>
+                {/* Icon */}
+                <Feather name="alert-circle" size={24} color="black" />
               </View>
             )}
           </View>

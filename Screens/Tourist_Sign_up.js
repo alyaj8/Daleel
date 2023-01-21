@@ -1,34 +1,32 @@
+import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
+import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
+  Image,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  Button,
-  View,
-  Alert,
-  Image,
-  ScrollView,
-  ActivityIndicator,
   TouchableOpacity,
-  LogBox,
+  View,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/Ionicons";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
+import Loading from "./../component/Loading";
 
-
-export default function UserSignUp({ navigation }) {
+export default function Tourist_Sign_up({ navigation }) {
   const [push_token, setPushToken] = useState("");
+
   useEffect(() => {
     registerForPushNotificationsAsync().then((token) => {
       //  setPushToken(token === undefined ? "" : token);
       setPushToken(token);
-
     });
   }, []);
+
   const [pass, setpass] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [value, setValue] = React.useState({
     email: "",
@@ -60,7 +58,6 @@ export default function UserSignUp({ navigation }) {
     phone: true,
     phone2: true,
 
-
     email: true,
     email2: true,
   });
@@ -71,8 +68,7 @@ export default function UserSignUp({ navigation }) {
         break;
 
       case "auth/email-already-in-use":
-        error.code =
-          "هذا البريد الإلكتروني قدم تم استخدامه من قبل";
+        error.code = "هذا البريد الإلكتروني قدم تم استخدامه من قبل";
         break;
 
       case "auth/weak-password":
@@ -90,57 +86,53 @@ export default function UserSignUp({ navigation }) {
 
   const validatName = () => {
     if (value.firstname === "") {
-      setNameError("الرجاء إدخال اسمك الأول")
+      setNameError("الرجاء إدخال اسمك الأول");
+    } else if (!checkFirstName(value.firstname)) {
+      setNameError(
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+      );
+    } else if (checkFirstName(value.firstname) && value.firstname !== "") {
+      setNameError("");
     }
-    else if (!checkFirstName(value.firstname)) { setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف") }
-    else if (checkFirstName(value.firstname) && value.firstname !== "") {
-      setNameError("")
-    }
-  }
-
+  };
 
   const validatPass = () => {
-    if (checkPass(value.password)) { setPassError("") }
-    else if (value.password === "") {
-      setPassError("الرجاء إدخال الرقم السري")
-    }
-    else if (!checkPass(value.password))
-      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف")
-  }
+    if (checkPass(value.password)) {
+      setPassError("");
+    } else if (value.password === "") {
+      setPassError("الرجاء إدخال الرقم السري");
+    } else if (!checkPass(value.password))
+      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+  };
 
   const validatEmail = () => {
     setEmailError("");
     if (value.email === "") {
-      setEmailError(" الرجاء إدخال البريد الإلكتروني")
+      setEmailError(" الرجاء إدخال البريد الإلكتروني");
+    } else if (!checkEmail(value.email)) {
+      setEmailError("عنوان البريد الإلكتروني غير صحيح");
     }
-    else if (!checkEmail(value.email)) {
-      setEmailError("عنوان البريد الإلكتروني غير صحيح")
-    }
-  }
+  };
 
   const validatPhone = () => {
-    if (checkPhone(value.phone)) { setPhoneError("") }
-
-    else if (value.phone === "") {
-      setPhoneError("الرجاء إدخال رقم الجوال")
-    }
-    else if (!checkPhone2(value.phone))
-      setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ")
-  }
+    if (checkPhone(value.phone)) {
+      setPhoneError("");
+    } else if (value.phone === "") {
+      setPhoneError("الرجاء إدخال رقم الجوال");
+    } else if (!checkPhone2(value.phone))
+      setPhoneError("يجب ان يتكون الرقم الجوال من 8 ارقام  ");
+  };
 
   const validatPass2 = () => {
-
     if (value.password === value.password2) {
       setPass2Error("");
+    } else if (value.password2 === "") {
+      setPass2Error(" الرجاء إدخال الرقم السري مرةاخرى للتأكيد");
+    } else if (value.password != value.password2) {
+      setPass2Error("هذا الرقم السري لايتوافق مع الرقم السري المُدخل سابقاً");
+      console.log("pass false");
     }
-    else if (value.password2 === "") {
-      setPass2Error(" الرجاء إدخال الرقم السري مرةاخرى للتأكيد")
-    }
-    else if (value.password != value.password2) {
-      setPass2Error("هذا الرقم السري لايتوافق مع الرقم السري المُدخل سابقاً")
-      console.log("pass false")
-    }
-  }
+  };
   async function signUp() {
     if (
       value.firstname === "" ||
@@ -163,11 +155,9 @@ export default function UserSignUp({ navigation }) {
       validatEmail();
       validatPhone();
       validatPass2();
-
-
-    }
-    else {
+    } else {
       try {
+        setIsLoading(true);
         const { user } = await createUserWithEmailAndPassword(
           auth,
           value.email,
@@ -184,24 +174,26 @@ export default function UserSignUp({ navigation }) {
           isTourist: true,
           push_token: push_token || "",
         };
-        setDoc(doc(db, "Tourist_users", user.uid), data)
+        setDoc(doc(db, "Tourist_users", user.uid), data);
         setDoc(doc(db, "users", user.uid), data).then(() => {
           alert("تم إنشاء الحساب بنجاح الرجاء تسجيل الدخول");
           navigation.navigate("Log_in2");
+        });
 
-        })
+        setIsLoading(false);
       } catch (er) {
         console.log("er", er);
-        console.log('====================================');
+        console.log("====================================");
         er = msg(er);
         setValue({
           ...value,
           error: er,
         });
         console.log(er);
+        setIsLoading(false);
       }
     }
-  };
+  }
 
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
@@ -223,7 +215,7 @@ export default function UserSignUp({ navigation }) {
   };
   let checkEmail = (value) => {
     var letters = /^[A-Za-z0-9-_@.]+$/;
-    if (value.match(letters) && value.includes('@') && value.includes('.')) {
+    if (value.match(letters) && value.includes("@") && value.includes(".")) {
       return true;
     } else {
       return false;
@@ -254,8 +246,6 @@ export default function UserSignUp({ navigation }) {
     }
   };
 
-
-
   let CheckUnique2 = async () => {
     const q = query(
       collection(db, "Tourist_users"),
@@ -264,32 +254,26 @@ export default function UserSignUp({ navigation }) {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      console.log(snapshot.empty, "true2 check email")
-      setEmailError("")
+      console.log(snapshot.empty, "true2 check email");
+      setEmailError("");
       return true;
     }
-    setEmailError("هذا البريد الالكتروني قدم تم استخدامه من قبل")
-    console.log("not check email")
+    setEmailError("هذا البريد الالكتروني قدم تم استخدامه من قبل");
+    console.log("not check email");
     return false;
   };
   let CheckUnique = async () => {
-    const q = query(
-      collection(db, "users"),
-      where("email", "==", value.email)
-    );
+    const q = query(collection(db, "users"), where("email", "==", value.email));
     const snapshot = await getDocs(q);
     return snapshot.empty;
-
   };
-  useEffect(() => {
-    LogBox.ignoreLogs([
-      "Warning: Async Storage has been extracted from react-native core",
-    ]);
-  }, []);
+
   return (
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
     >
+      <Loading visible={isLoading} textContent={"جاري إنشاء الحساب..."} />
+
       <ScrollView>
         <View
           style={{
@@ -297,7 +281,6 @@ export default function UserSignUp({ navigation }) {
             height: 40,
             paddingHorizontal: 5,
             marginTop: 30,
-
           }}
         >
           <Icon
@@ -316,9 +299,7 @@ export default function UserSignUp({ navigation }) {
         </View>
 
         <View style={{ paddingHorizontal: 25, marginTop: 10 }}>
-
           <Text style={[styles.title]}> إنشاء حساب جديد </Text>
-
 
           <Text style={styles.lable}> الاسم</Text>
 
@@ -326,7 +307,7 @@ export default function UserSignUp({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {NameError}
@@ -339,7 +320,6 @@ export default function UserSignUp({ navigation }) {
             />
           </View>
 
-
           <Text style={styles.lable}> البريد الإلكتروني</Text>
 
           <View style={{ alignContent: "center", alignItems: "center" }}>
@@ -351,7 +331,6 @@ export default function UserSignUp({ navigation }) {
             >
               {EmailError}
               <Text style={{ color: "red" }}>{value?.error}</Text>
-
             </Text>
             <TextInput
               style={styles.body}
@@ -374,11 +353,9 @@ export default function UserSignUp({ navigation }) {
             <TextInput
               style={styles.body}
               placeholder="966-05XXXXXXXXX "
-
               onChangeText={(text) => setValue({ ...value, phone: text })}
               underlineColorAndroid="transparent"
               keyboardType="numeric"
-
             />
           </View>
 
@@ -398,10 +375,9 @@ export default function UserSignUp({ navigation }) {
               placeholder="*الرقم السري"
               onChangeText={(text) => setValue({ ...value, password: text })}
               underlineColorAndroid="transparent"
-
             />
           </View>
-          <Text style={styles.lable}>  تأكيد كلمة المرور</Text>
+          <Text style={styles.lable}> تأكيد كلمة المرور</Text>
           <View style={{ alignContent: "center", alignItems: "center" }}>
             <Text
               style={{
@@ -426,7 +402,8 @@ export default function UserSignUp({ navigation }) {
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,
-              }} onPress={() => signUp()} //
+              }}
+              onPress={() => signUp()} //
             >
               <Text
                 style={{
@@ -437,9 +414,9 @@ export default function UserSignUp({ navigation }) {
                 }}
               >
                 إنشاء حساب
-              </Text></TouchableOpacity>
+              </Text>
+            </TouchableOpacity>
           </View>
-
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -466,7 +443,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
-    textAlign: "right"
+    textAlign: "right",
   },
   buttonCont: {
     backgroundColor: "#5398a0",

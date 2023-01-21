@@ -20,6 +20,7 @@ import {
 } from "../network/ApiService";
 import text from "../style/text";
 
+import { Feather } from "@expo/vector-icons";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AcceptedBookings from "../component/bookings/AcceptedBooking";
 import RejectedBookings from "../component/bookings/RejectedBookings";
@@ -234,7 +235,13 @@ export default function Local_Home({ navigation }) {
                       },
                     ]}
                   >
-                    <Text style={[text.themeDefault, text.text20, { textAlign: "center" },]}>
+                    <Text
+                      style={[
+                        text.themeDefault,
+                        text.text20,
+                        { textAlign: "center" },
+                      ]}
+                    >
                       {menu?.title}
                     </Text>
                   </TouchableOpacity>
@@ -253,61 +260,160 @@ export default function Local_Home({ navigation }) {
           showsVerticalScrollIndicator={false}
         >
           {/* All */}
-          {selectedMenu == 0 ? (
-            <View
-              style={{
-                flex: 1,
-              }}
-            >
-              {data.all.map((item, index) => {
-                return (
-                  <View key={index} style={[styles.cardDiv]}>
-                    <LocalBooingDetailCard
-                      source={{ uri: item?.imageUrl }}
-                      title={item?.title}
-                      bookedBy={item?.touristName}
-                      onpressAccepted={() => toggleModalAccepted(item)}
-                      onpressRejected={() => toggleModalRejected(item)}
-                    />
+          {selectedMenu == 0 && (
+            <View style={{}}>
+              {data.all.length > 0 ? (
+                <View
+                  style={{
+                    flex: 1,
+                  }}
+                >
+                  {data.all.map((item, index) => {
+                    return (
+                      <View key={index} style={[styles.cardDiv]}>
+                        <LocalBooingDetailCard
+                          source={{ uri: item?.imageUrl }}
+                          title={item?.title}
+                          bookedBy={item?.touristName}
+                          onpressAccepted={() => toggleModalAccepted(item)}
+                          onpressRejected={() => toggleModalRejected(item)}
+                        />
+                      </View>
+                    );
+                  })}
+                </View>
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                      // ...highlights.brdr1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لا يوجد طلبات مُعلقة
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
                   </View>
-                );
-              })}
+                </View>
+              )}
             </View>
-          ) : null}
+          )}
 
           {/* Accepted */}
-          {selectedMenu == 1
-            ? data.accepted.map((item, index) => {
-                const date = new Date(item?.dateCreated);
-                const setDate = date.toDateString();
-                const setTime = date.toTimeString();
-                return (
-                  <AcceptedBookings
-                    key={index}
-                    source={{ uri: item?.imageUrl }}
-                    booked={item?.touristName}
-                    title={item?.title}
-                    date={setDate}
-                    time={setTime}
-                    onpressAccepted={() => onPressChat(item)}
-                  />
-                );
-              })
-            : null}
+          {selectedMenu == 1 && (
+            <View>
+              {data.accepted.length > 0 ? (
+                data.accepted.map((item, index) => {
+                  const date = new Date(item?.dateCreated);
+                  const setDate = date.toDateString();
+                  const setTime = date.toTimeString();
+                  return (
+                    <AcceptedBookings
+                      key={index}
+                      source={{ uri: item?.imageUrl }}
+                      booked={item?.touristName}
+                      title={item?.title}
+                      date={setDate}
+                      time={setTime}
+                      onpressAccepted={() => onPressChat(item)}
+                    />
+                  );
+                })
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                      // ...highlights.brdr1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لم تقبل أي جولات بعد
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
 
           {/* Rejected */}
-          {selectedMenu == 2
-            ? data.rejected.map((request, index) => {
-                return (
-                  <RejectedBookings
-                    key={index}
-                    source={{ uri: request?.imageUrl }}
-                    booked={request?.touristName}
-                    title={request?.title}
-                  />
-                );
-              })
-            : null}
+          {selectedMenu == 2 && (
+            <View>
+              {data.rejected.length > 0 ? (
+                data.rejected.map((request, index) => {
+                  return (
+                    <RejectedBookings
+                      key={index}
+                      source={{ uri: request?.imageUrl }}
+                      booked={request?.touristName}
+                      title={request?.title}
+                    />
+                  );
+                })
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                      // ...highlights.brdr1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لم ترفض أي جولات بعد
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
 
           <View style={{ marginBottom: screenWidth.width20 }}></View>
         </ScrollView>
@@ -333,11 +439,11 @@ export default function Local_Home({ navigation }) {
                   justifyContent: "space-between",
                 }}
               >
-                 <View style={{}}>
+                <View style={{}}>
                   <Button
                     title="الغاء"
                     onpress={toggleModalAccepted}
-                    style={{ backgroundColor: colors.lightBrown}}
+                    style={{ backgroundColor: colors.lightBrown }}
                   />
                 </View>
                 <View style={{}}>
@@ -347,7 +453,6 @@ export default function Local_Home({ navigation }) {
                     style={{ backgroundColor: colors.Blue }}
                   />
                 </View>
-               
               </View>
             </View>
           </View>
@@ -374,7 +479,7 @@ export default function Local_Home({ navigation }) {
                   justifyContent: "space-between",
                 }}
               >
-                 <View style={{}}>
+                <View style={{}}>
                   <Button
                     title="الغاء"
                     onpress={toggleModalRejected}
@@ -388,7 +493,6 @@ export default function Local_Home({ navigation }) {
                     style={{ backgroundColor: colors.brown }}
                   />
                 </View>
-               
               </View>
             </View>
           </View>

@@ -1,7 +1,8 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import TouristTourDetailedInformation from "../Screens/Tourist/TouristDetailedInformation";
-import TouristTour from "../Screens/Tourist/TouristTour";
+import TouristDetailedInformation from "./../Screens/tourist/TouristDetailedInformation";
+import TouristTour from "./../Screens/tourist/TouristTour";
+
 const Stack = createNativeStackNavigator();
 
 /*const PUBLISHABLE_KEY =
@@ -14,7 +15,7 @@ function TourStack() {
       <Stack.Screen name="TourDetail" component={TouristTour} />
       <Stack.Screen
         name="TourDetailedInformation"
-        component={TouristTourDetailedInformation}
+        component={TouristDetailedInformation}
       />
     </Stack.Navigator>
   );

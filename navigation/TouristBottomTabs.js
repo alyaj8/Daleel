@@ -4,13 +4,13 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
 import TourStack from "./TouristTourStack";
 
-import ChatMenu from "../Screens/chatScreen/ChatMenu";
-import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account";
+import ChatMenu from "./../Screens/chatScreen/ChatMenu";
+import Tourist_Manage_Account from "./../Screens/tourist/Tourist_Manage_Account";
 
-import { images,colors } from "../config/Constant";
+import { colors, images } from "../config/Constant";
 const Tab = createBottomTabNavigator();
 
-function BottomTab() {
+export default function TouristBottomTabs() {
   return (
     <Tab.Navigator
       screenOptions={{
@@ -94,7 +94,9 @@ function BottomTab() {
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
-            >البحث</Text>
+            >
+              البحث
+            </Text>
           ),
           tabBarIcon: ({ focused }) => (
             <View style={[Styles.plusTabDiv, { ...Styles.iconView }]}>
@@ -104,7 +106,7 @@ function BottomTab() {
                   style={{
                     width: 30,
                     height: 30,
-                    tintColor: focused ? colors.brown :"black",
+                    tintColor: focused ? colors.brown : "black",
                   }}
                 />
               </View>
@@ -181,7 +183,6 @@ function BottomTab() {
     </Tab.Navigator>
   );
 }
-export default BottomTab;
 const Styles = StyleSheet.create({
   bg: {
     width: 60,
