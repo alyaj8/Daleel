@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LocalBooingDetailCard from "../component/card/DetailCard";
+import LocalBooingDetailCard from "../component/card/LocalBooingDetailCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
@@ -285,7 +285,9 @@ export default function Local_Home({ navigation }) {
                     return (
                       <View key={index} style={[styles.cardDiv]}>
                         <LocalBooingDetailCard
-                          source={{ uri: item?.imageUrl }}
+                          source={{
+                            uri: item.imageUrl,
+                          }}
                           title={item?.title}
                           bookedBy={item?.touristName}
                           onpressAccepted={() => toggleModalAccepted(item)}

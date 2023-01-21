@@ -80,7 +80,7 @@ export default function Local_profile({ navigation }) {
       const fileName = uri.substring(uri.lastIndexOf("/") + 1);
       const blobFile = await response.blob();
 
-      const reference = ref(storage, `media/${fileName}`);
+      const reference = ref(storage, `media/${Date.now()}-${fileName}`);
 
       const result = await uploadBytesResumable(reference, blobFile);
       const url = await getDownloadURL(result.ref);

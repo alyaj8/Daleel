@@ -172,8 +172,9 @@ export default function EditTour({ navigation, route }) {
     const response = await fetch(uri);
     const file = await response.blob();
 
-    const storageRef = ref(storage, `media/${fileName}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
+    const reference = ref(storage, `media/${Date.now()}-${fileName}`);
+
+    const uploadTask = uploadBytesResumable(reference, file);
 
     let imageUrl = null;
     uploadTask.on("state_changed", (snapshot) => {
@@ -183,7 +184,7 @@ export default function EditTour({ navigation, route }) {
       if (progress == 100) {
         if (saveData) {
           saveData = false;
-          getDownloadURL(storageRef).then((url) => {
+          getDownloadURL(reference).then((url) => {
             const imageUrl = url;
             setFilePath(imageUrl);
             console.log("image donwload url", imageUrl);

@@ -2,10 +2,11 @@ import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { colors, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+import AppImage from "../AppImage";
 import ButtonComponent from "../button/Button";
 
-export default function DetailCard({
-  onpressAccepted,
+export default function LocalBooingDetailCard({
+  onpressAccepted, // onprLocalBooingDetailCardessAccepted,
   onpressRejected,
   source,
   price,
@@ -14,11 +15,16 @@ export default function DetailCard({
   bookedBy = true,
   title,
 }) {
+  console.log("🚀 ~ source", source);
   return (
     <View style={[styles.card, styles.flexDirection]}>
-      {/* Image */}
-      <View style={{ marginHorizontal: 20 }}>
-        <Image source={source} style={[styles.img]} />
+      {/* image */}
+      <View style={{}}>
+        {source ? (
+          <AppImage sourceURI={source.uri} style={[styles.img]} />
+        ) : (
+          <Image source={images.photo} style={[styles.img]} />
+        )}
       </View>
 
       <View style={{ marginHorizontal: 10 }}>
@@ -53,7 +59,7 @@ export default function DetailCard({
             <ButtonComponent
               buttonSelection={true}
               buttonDefault={false}
-              title={"قبول "}
+              title={"قبول"}
               onpress={onpressAccepted}
               style={{
                 backgroundColor: colors.Blue,
@@ -64,6 +70,7 @@ export default function DetailCard({
             />
           </View>
         )}
+
         {/* rejectButton */}
         {rejectButton && (
           <View style={{ alignSelf: "center" }}>
@@ -105,7 +112,10 @@ const styles = StyleSheet.create({
     // alignItems:'center',
   },
   img: {
-    width: screenWidth.width25,
+    width: screenWidth.width35,
     height: screenWidth.width35,
+    resizeMode: "contain",
+    backgroundColor: colors.white,
+    borderRadius: 15,
   },
 });

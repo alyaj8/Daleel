@@ -1,11 +1,10 @@
 import { Feather } from "@expo/vector-icons";
+import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
-  FlatList,
   ImageBackground,
-  RefreshControl,
   ScrollView,
   StyleSheet,
   Text,
@@ -22,81 +21,31 @@ export default function TouristTour({ navigation }) {
   const [tourId, setTourId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
 
-  React.useEffect(() => {
-    const bag = [];
-    const q = query(collection(db, "tours"), where("status", "==", 0));
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        // build the data array
-        const info = {
-          id: doc.id,
-          ...doc.data(),
-        };
+  useFocusEffect(
+    useCallback(() => {
+      const getAllRequests = async () => {
+        const uid = await getUserId();
+        const q = query(collection(db, "tours"), where("status", "==", 0));
 
-        bag.push(info);
-      });
+        // listen for changes
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const bag = [];
+          querySnapshot.forEach((doc) => {
+            bag.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
 
-      // clear duplicate data by check if the id is added before
-      const unique = bag.filter((thing, index, self) => {
-        return (
-          index ===
-          self.findIndex((t) => {
-            return t.id === thing.id;
-          })
-        );
-      });
+          setData(bag);
 
-      setData(unique);
-    });
-  }, []);
-
-  React.useEffect(() => {
-    (async () => {
-      const uid = await getUserId();
-      // console.log("🚀 ~ Tousit uid", uid);
-      setCurrentUserId(uid);
-    })();
-  }, []);
-
-  // when pull down to refresh, it will update the data
-  const onRefresh = React.useCallback(() => {
-    console.log("refreshing");
-    setRefreshing(true);
-    getLocalGuideRequests().then(() => setRefreshing(false));
-  }, []);
-
-  const rendersItem = ({ item }) => (
-    <FlatList
-      data={data}
-      keyExtractor={(item, index) => index.toString()}
-      renderItem={({ item, index }) => {
-        // console.log("🚀 ~ أههه");
-
-        return (
-          <View style={{ marginVertical: 20 }}>
-            <TourDetailCard
-              source={{ uri: item?.imageUrl }}
-              title={item?.title}
-              tour={item}
-              onpress={() =>
-                navigation.navigate("TouristDetailedInformation", {
-                  item,
-                  tourId: item.id,
-                })
-              }
-            />
-          </View>
-        );
-      }}
-      ListEmptyComponent={
-        <View style={{ marginTop: 200, alignItems: "center" }}>
-          <Text style={[text.text12, text.themeDefault]}>No message found</Text>
-        </View>
-      }
-      refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }
-    />
+          // remove duplicates from array
+          const unique = [...new Set(bag)];
+          setData(unique);
+        });
+      };
+      getAllRequests();
+    }, [])
   );
 
   return (

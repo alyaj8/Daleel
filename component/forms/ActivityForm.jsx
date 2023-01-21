@@ -76,7 +76,7 @@ const ActivityForm = ({
       const fileName = uri.substring(uri.lastIndexOf("/") + 1);
       const blobFile = await response.blob();
 
-      const reference = ref(storage, `media/${fileName}`);
+      const reference = ref(storage, `media/${Date.now()}-${fileName}`);
 
       const result = await uploadBytesResumable(reference, blobFile);
       const url = await getDownloadURL(result.ref);
@@ -87,6 +87,12 @@ const ActivityForm = ({
       return Promise.reject(err);
     }
   };
+  // console.log("🚀 ~ activity.endTime", !!activity.endTime);
+  // console.log("🚀 ~ activity.startTime", !!activity.startTime);
+  // console.log("🚀 ~ activity.imageUrl", !!activity.imageUrl);
+  // console.log("🚀 ~ activity.price", !!activity.price);
+  // console.log("🚀 ~ activity.description", !!activity.description);
+  // console.log("🚀 ~ activity.name", !!activity.title);
 
   return (
     <View style={[styles.container]}>
@@ -353,7 +359,7 @@ const ActivityForm = ({
           {mode === "add" ? (
             <AppButton
               disabled={
-                !activity.name ||
+                !activity.title ||
                 !activity.description ||
                 !activity.price ||
                 !activity.imageUrl ||

@@ -6,6 +6,8 @@ import { colors } from "../config/Constant";
 
 const AppImage = ({ sourceURI, ...otherProps }) => {
   const name = sh.unique(sourceURI);
+  // const uuid = uuidv4();
+  // console.log("🚀 ~ name + uuid", name + uuid);
 
   return (
     <CachedImage

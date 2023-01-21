@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -21,34 +21,33 @@ export default function TourDetail({ navigation }) {
 
   useFocusEffect(
     useCallback(() => {
+      const getAllRequests = async () => {
+        const uid = await getUserId();
+        const q = query(
+          collection(db, REQUEST_TABLE),
+          where("requestBy", "==", uid)
+        );
+
+        // listen for changes
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const bag = [];
+          querySnapshot.forEach((doc) => {
+            bag.push({
+              id: doc.id,
+              ...doc.data(),
+            });
+          });
+
+          setData(bag);
+
+          // remove duplicates from array
+          const unique = [...new Set(bag)];
+          setData(unique);
+        });
+      };
       getAllRequests();
     }, [])
   );
-  const getAllRequests = async () => {
-    getLocalGuideRequests();
-  };
-  const getLocalGuideRequests = async () => {
-    const uid = await getUserId();
-    const data = [];
-    const q = query(
-      collection(db, REQUEST_TABLE),
-      where("requestBy", "==", uid)
-    );
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.forEach((doc) => {
-        let obj = doc.data();
-        obj["id"] = doc.id;
-        data.push(obj);
-        // setTourId(data);
-      });
-      setData(data);
-      // console.log("tour data--->", data);
-    });
-  };
-
-  useEffect(() => {
-    getAllRequests();
-  }, []);
 
   return (
     <View style={styles.container}>

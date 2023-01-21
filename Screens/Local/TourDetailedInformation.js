@@ -8,7 +8,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Image,
   ImageBackground,
@@ -85,6 +85,34 @@ export default function TourDetailedInformation({ navigation, route }) {
     }, [])
   );
 
+  useEffect(() => {
+    // console.log("useEffect");
+    const useId = data.id || route.params.id;
+
+    const unsubscribe = onSnapshot(
+      doc(db, "tours", useId),
+      (snapshot) => {
+        const totalPriceOfActivity = snapshot
+          .data()
+          ?.activities?.reduce((total, item) => total + Number(item.price), 0);
+
+        setData({
+          id: snapshot.id,
+          price: totalPriceOfActivity,
+
+          ...snapshot.data(),
+        });
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+
   const fetchTour = async () => {
     // console.log("🚀 ~ data.id", data.id);
     const useId = data.id || route.params.id;
@@ -95,7 +123,7 @@ export default function TourDetailedInformation({ navigation, route }) {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         // console.log(docSnap.data());
-        console.log("Updated data");
+        // console.log("Updated data");
         const totalPriceOfActivity = docSnap
           .data()
           ?.activities?.reduce((total, item) => total + Number(item.price), 0);
@@ -167,7 +195,12 @@ export default function TourDetailedInformation({ navigation, route }) {
           >
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
-          <View style={[styles.alignCenter, { marginTop: 20 }]}>
+          <View
+            style={[
+              styles.alignCenter,
+              { marginTop: 20, flexWrap: "wrap", marginHorizontal: 35 },
+            ]}
+          >
             <Text style={[text.white, text.text30]}>{data?.title}</Text>
           </View>
 
@@ -182,10 +215,13 @@ export default function TourDetailedInformation({ navigation, route }) {
               )}
             </View>
             {/* Title */}
-            <View style={{ alignSelf: "center" }}>
-              <Text
-                style={[text.themeDefault, text.text30, { fontWeight: "bold" }]}
-              >
+            <View
+              style={{
+                alignSelf: "center",
+                ...highlights.brdr02,
+              }}
+            >
+              <Text style={[text.text30, { fontWeight: "bold" }]}>
                 {data?.title}
               </Text>
             </View>

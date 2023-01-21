@@ -15,6 +15,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
     <View style={styles.container}>
       <TouchableOpacity onPress={onpress} style={[styles.card]}>
         <View style={[styles.flexDirection]}>
+          {/* image */}
           <View style={{}}>
             {source.uri ? (
               <AppImage sourceURI={source.uri} style={[styles.img]} />
@@ -22,17 +23,20 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
               <Image source={images.photo} style={[styles.img]} />
             )}
           </View>
+
+          {/* details */}
           <View style={{ flex: 1, marginLeft: 10 }}>
+            {/* title & activities */}
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
                 justifyContent: "space-between",
-                // width: "50%",
+                flexWrap: "wrap",
               }}
             >
               {/* activities */}
-              {tour?.activities.length > 0 && (
+              {tour?.activities && tour?.activities.length > 0 && (
                 <Text
                   style={[
                     text.text16,
@@ -65,7 +69,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
               </Text>
             </View>
 
-            {/* <Text>السعر: {tour?.price} ريال</Text> */}
+            {/* age & qty & city */}
             <Text>السن: {tour?.age}</Text>
             <Text>تستوعب: {tour?.qty} فرد </Text>
             <Text>مدينة: {tour?.city}</Text>

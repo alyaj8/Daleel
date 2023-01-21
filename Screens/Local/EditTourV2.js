@@ -72,6 +72,9 @@ export default function EditTourV2({ navigation, route }) {
   const [city, setCity] = useState("");
   const [qty, setQty] = useState("");
   const [meetingPoint, setMeetingPoint] = useState("");
+
+  // logObj(meetingPoint, "🚀 ~ Edit > meetingPoint");
+
   const [age, setAge] = useState("");
   // const [price, setPrice] = useState(100);
   const [description, setDescription] = useState("");
@@ -85,19 +88,7 @@ export default function EditTourV2({ navigation, route }) {
   const [activitiesCustomizable, setActivitiesCustomizable] = useState(false);
   const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
 
-  const [activity, setActivity] = useState({
-    id: null,
-    title: "الجولة السياحية اليومية",
-    description:
-      "في هذه الجولة سوف نقوم بزيارة العديد من المعالم السياحية في القاهرة والتعرف على تاريخها ومعالمها السياحية",
-    location: "القاهرة",
-    date: new Date(),
-    //yesterday
-    startTime: new Date("2021-08-01T10:00:00"),
-    endTime: new Date("2021-08-05T15:00:00"),
-    price: 50,
-    imageUrl: null,
-  });
+  const [activity, setActivity] = useState(initActivity);
 
   // activities fake data it should be fetched from firebase
   const [activities, setActivities] = useState([]);
@@ -200,7 +191,7 @@ export default function EditTourV2({ navigation, route }) {
       const fileName = uri.substring(uri.lastIndexOf("/") + 1);
       const blobFile = await response.blob();
 
-      const reference = ref(storage, `media/${fileName}`);
+      const reference = ref(storage, `media/${Date.now()}-${fileName}`);
 
       const result = await uploadBytesResumable(reference, blobFile);
       const url = await getDownloadURL(result.ref);
@@ -235,7 +226,14 @@ export default function EditTourV2({ navigation, route }) {
         title,
         city,
         qty,
-        meetingPoint,
+        meetingPoint: {
+          address: meetingPoint.address ? meetingPoint.address : "",
+          category: meetingPoint.category ? meetingPoint.category : [],
+          coordinates: { latitude: 24.806149, longitude: 46.639029 },
+          full_name: meetingPoint.full_name ? meetingPoint.full_name : "",
+          id: meetingPoint.id ? meetingPoint.id : "",
+          title: meetingPoint.title ? meetingPoint.title : "",
+        },
         age,
         // price,
         description,
@@ -364,7 +362,17 @@ export default function EditTourV2({ navigation, route }) {
   const onEditActivitySubmit = () => {
     const index = activities.findIndex((a) => a.id === activity.id);
     const newActivities = [...activities];
-    newActivities[index] = activity;
+    newActivities[index] = {
+      ...activity,
+      meetingPoint: {
+        address: meetingPoint.address ? meetingPoint.address : "",
+        category: meetingPoint.category ? meetingPoint.category : [],
+        coordinates: { latitude: 24.806149, longitude: 46.639029 },
+        full_name: meetingPoint.full_name ? meetingPoint.full_name : "",
+        id: meetingPoint.id ? meetingPoint.id : "",
+        title: meetingPoint.title ? meetingPoint.title : "",
+      },
+    };
     setActivities(newActivities);
     setActivitiesMode("add");
     setActivity(initActivity);
@@ -837,7 +845,7 @@ export default function EditTourV2({ navigation, route }) {
                 !qty ||
                 !meetingPoint ||
                 !description ||
-                !filePath ||
+                !imageUrl ||
                 !date ||
                 !startTime ||
                 !endTime ||

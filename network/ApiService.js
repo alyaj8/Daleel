@@ -184,8 +184,9 @@ export async function upload(path) {
   const response = await fetch(uri);
   const file = await response.blob();
 
-  const storageRef = ref(storage, `media/${fileName}`);
-  const uploadTask = uploadBytesResumable(storageRef, file);
+  const reference = ref(storage, `media/${Date.now()}-${fileName}`);
+
+  const uploadTask = uploadBytesResumable(reference, file);
 
   let imageUrl = null;
   uploadTask.on("state_changed", (snapshot) => {
@@ -195,7 +196,7 @@ export async function upload(path) {
     if (progress == 100) {
       if (saveData) {
         saveData = false;
-        getDownloadURL(storageRef).then((url) => {
+        getDownloadURL(reference).then((url) => {
           imageUrl = url;
         });
       }

@@ -40,10 +40,25 @@ import {
 import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
-import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
+import {
+  getFormattedDate,
+  getFormattedTime,
+  logObj,
+} from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
 import AppButton from "./../../component/AppButton";
+
+const initActivity = {
+  title: "جولة غريبة",
+  description: "جولة غريبة",
+  location: "",
+  date: null,
+  startTime: null,
+  endTime: null,
+  price: 0,
+  imageUrl: null,
+};
 
 export default function PostTour({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -52,19 +67,30 @@ export default function PostTour({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const modalizeRef = useRef(null);
 
-  const [title, setTitle] = useState("");
-  const [city, setCity] = useState("");
-  const [qty, setQty] = useState("");
-  const [meetingPoint, setMeetingPoint] = useState("");
+  const [title, setTitle] = useState("جولة غريبة");
+  const [city, setCity] = useState("جولة غريبة");
+  const [qty, setQty] = useState("1");
+  const [meetingPoint, setMeetingPoint] = useState({
+    address: "",
+    coordinates: {
+      latitude: 0,
+      longitude: 0,
+    },
+    category: [],
+    full_name: "",
+    title: "",
+    id: "",
+  });
+  // console.log("🚀 ~ meetingPoint", meetingPoint);
 
   // logObj(
   //   meetingPoint,
   //   "🚀 ~ file: PostTour.js ~ line 85 ~ PostTour ~ meetingPoint"
   // );
 
-  const [age, setAge] = useState("");
+  const [age, setAge] = useState("كبار");
   // const [price, setPrice] = useState(100);
-  const [description, setDescription] = useState("");
+  const [description, setDescription] = useState("جولة غريبة");
   const [imageUrl, setImageUrl] = useState(null);
   const [filePath, setFilePath] = useState(null);
 
@@ -75,18 +101,9 @@ export default function PostTour({ navigation }) {
   const [activitiesCustomizable, setActivitiesCustomizable] = useState(false);
   const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
 
-  const [activity, setActivity] = useState({
-    id: null,
-    title: "",
-    description: "",
-    location: "",
-    date: new Date(),
-    //yesterday
-    startTime: null,
-    endTime: null,
-    price: "",
-    imageUrl: null,
-  });
+  const [activity, setActivity] = useState(initActivity);
+
+  console.log("🚀 ~ activity", activity.location);
 
   // activities fake data it should be fetched from firebase
   const [activities, setActivities] = useState([]);
@@ -95,7 +112,6 @@ export default function PostTour({ navigation }) {
 
   let ages = ["عائلية", "كبار"];
 
-  const disabled = !title || !meetingPoint || !description || !qty;
   const modalizeRefAge = useRef(null);
 
   const pickImage = async () => {
@@ -122,7 +138,7 @@ export default function PostTour({ navigation }) {
       const fileName = uri.substring(uri.lastIndexOf("/") + 1);
       const blobFile = await response.blob();
 
-      const reference = ref(storage, `media/${fileName}`);
+      const reference = ref(storage, `media/${Date.now()}-${fileName}`);
 
       const result = await uploadBytesResumable(reference, blobFile);
       const url = await getDownloadURL(result.ref);
@@ -132,6 +148,12 @@ export default function PostTour({ navigation }) {
     } catch (err) {
       return Promise.reject(err);
     }
+  };
+
+  const reset = async () => {
+    // reset all data
+    setActivities([]);
+    setActivitiesCustomizable(false);
   };
 
   const submitRequest = async () => {
@@ -155,7 +177,14 @@ export default function PostTour({ navigation }) {
           age,
           imageUrl,
           city,
-          meetingPoint,
+          meetingPoint: {
+            address: meetingPoint.address ? meetingPoint.address : "",
+            category: meetingPoint.category ? meetingPoint.category : [],
+            coordinates: { latitude: 24.806149, longitude: 46.639029 },
+            full_name: meetingPoint.full_name ? meetingPoint.full_name : "",
+            id: meetingPoint.id ? meetingPoint.id : "",
+            title: meetingPoint.title ? meetingPoint.title : "",
+          },
           qty,
           date,
           startTime,
@@ -170,8 +199,11 @@ export default function PostTour({ navigation }) {
         };
         // logObj(data);
         await insertTour(data, REQUEST_TABLE);
+
+        logObj(data, "🚀 ~ PostTour.js");
+
         setIsLoading(false);
-        navigation.goBack();
+        // navigation.goBack();
       }
 
       // setLoading(false);
@@ -233,27 +265,33 @@ export default function PostTour({ navigation }) {
   };
 
   const onAddActivity = () => {
+    const curActLoc = activity?.location;
     setActivities([
       ...activities,
       {
         ...activity,
+        location: {
+          address: !!curActLoc.address ? curActLoc.address : " ",
+          category: !!curActLoc?.category ? curActLoc.category : [],
+          coordinates: {
+            latitude: curActLoc?.coordinates?.latitude,
+            longitude: curActLoc?.coordinates?.longitude,
+          },
+          full_name: !!curActLoc.full_name ? curActLoc.full_name : null,
+          id: !!curActLoc.id ? curActLoc.id : null,
+          title: !!curActLoc.title ? curActLoc.title : null,
+        },
         id: activities.length + 1,
       },
     ]);
 
-    // setActivity({
-    //   title: "",
-    //   description: "",
-    //   location: "",
-    //   date: null,
-    //   startTime: null,
-    //   endTime: null,
-    // });
+    setActivity(initActivity);
   };
   // logObj(activities);
   const onRemoveActivity = () => {
     setActivities(activities.slice(0, -1));
   };
+
   const onEditActivity = (id) => {
     setActivitiesMode("edit");
     setActivity(activities.find((a) => a.id === id));
@@ -265,39 +303,18 @@ export default function PostTour({ navigation }) {
     newActivities[index] = activity;
     setActivities(newActivities);
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   const onEditActivityCancel = () => {
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   const onRemoveActivitySubmit = () => {
     setActivities(activities.filter((a) => a.id !== activity.id));
     setActivitiesMode("add");
-    setActivity({
-      title: "",
-      description: "",
-      location: "",
-      date: null,
-      startTime: null,
-      endTime: null,
-    });
+    setActivity(initActivity);
   };
 
   const onRemoveTourLocation = () => {
@@ -321,6 +338,19 @@ export default function PostTour({ navigation }) {
 
   const nowDate = null;
   const newDate = new Date();
+
+  // console.log("🚀 ~ age", !!age);
+  // console.log("🚀 ~ description", !!description);
+  // console.log("🚀 ~ endTime", !!endTime);
+  // console.log("🚀 ~ startTime", !!startTime);
+  // console.log("🚀 ~ date", !!date);
+  // console.log("🚀 ~ filePath", !!filePath);
+  // console.log("🚀 ~ description", !!description);
+  // console.log("🚀 ~ meetingPoint", !!meetingPoint);
+  // console.log("🚀 ~ qty", !!qty);
+  // console.log("🚀 ~ city", !!city);
+  // console.log("🚀 ~ title", !!title);
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />

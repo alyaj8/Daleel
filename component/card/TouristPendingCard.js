@@ -1,14 +1,16 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { colors, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+import AppImage from "./../AppImage";
 
 export default function TouristPendingCard({ onpress, source, title }) {
+  console.log("🚀 ~ source", source);
   return (
     <View style={[styles.card, styles.flexDirection]}>
       {/* Image */}
       <View style={{ marginHorizontal: 5 }}>
-        <Image source={source} style={[styles.img]} />
+        <AppImage sourceURI={source.uri} style={[styles.img]} />
       </View>
       {/* Rest */}
       <View style={{ paddingHorizontal: 10 }}>

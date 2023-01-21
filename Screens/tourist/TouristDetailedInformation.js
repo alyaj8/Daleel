@@ -186,7 +186,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
           >
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
-          <View style={[styles.alignCenter, { marginTop: 20 }]}>
+          <View
+            style={[
+              styles.alignCenter,
+              { marginTop: 20, flexWrap: "wrap", marginHorizontal: 35 },
+            ]}
+          >
             <Text style={[text.text25, text.bold, { color: colors.white }]}>
               {data?.title}
             </Text>
@@ -203,10 +208,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
               )}
             </View>
             {/* Title */}
-            <View style={{ alignSelf: "center" }}>
-              <Text
-                style={[text.themeDefault, text.text30, { fontWeight: "bold" }]}
-              >
+            <View
+              style={{
+                alignSelf: "center",
+                ...highlights.brdr2,
+              }}
+            >
+              <Text style={[text.text30, { fontWeight: "bold" }]}>
                 {data?.title}
               </Text>
             </View>
@@ -506,7 +514,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <AppButton
               title={tourStatus == "requested" ? "تم الحجز" : " حجز الجولة"}
               disabled={tourStatus == "requested"}
-              onpress={toggleModal}
+              onPress={toggleModal}
               style={{
                 backgroundColor:
                   tourStatus == "requested" ? colors.gray : colors.Blue,
@@ -537,22 +545,24 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    width: "100%",
+                    // flex: 1,
+                    ...highlights.brdr02,
                   }}
                 >
-                  <View style={{}}>
-                    <AppButton
-                      title="حجز"
-                      style={{ backgroundColor: colors.Blue }}
-                      onpress={onReserveTour}
-                    />
-                  </View>
-                  <View style={{}}>
-                    <AppButton
-                      title="الغاء"
-                      style={{ backgroundColor: colors.lightBrown }}
-                      onpress={toggleModal}
-                    />
-                  </View>
+                  <AppButton
+                    title="حجز"
+                    style={{ backgroundColor: colors.Blue, width: "45%" }}
+                    onPress={onReserveTour}
+                  />
+                  <AppButton
+                    title="الغاء"
+                    style={{
+                      backgroundColor: colors.lightBrown,
+                      width: "45%",
+                    }}
+                    onPress={toggleModal}
+                  />
                 </View>
               </View>
             </View>

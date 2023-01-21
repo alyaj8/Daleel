@@ -192,7 +192,7 @@ export const InputMap = memo(
         <View
           style={[
             { flex: 1, flexDirection: "row", alignItems: "center" },
-            Platform.select({ ios: { zIndex: 1 } }),
+            Platform.select({ ios: { zIndex: 9 } }),
             style,
           ]}
         >
@@ -203,11 +203,10 @@ export const InputMap = memo(
             controller={(controller) => {
               dropdownController.current = controller;
             }}
-            // initialValue={'1'}
+            initialValue={"1sadda dasda"}
             direction={Platform.select({ ios: "down" })}
             dataSet={suggestionsList}
             onChangeText={getSuggestions}
-            initialValue={value}
             onSelectItem={(item) => {
               if (item) {
                 setSelectedItem(item);
@@ -222,7 +221,13 @@ export const InputMap = memo(
             loading={loading}
             useFilter={false} // set false to prevent rerender twice
             textInputProps={{
-              placeholder: "اكتب للبحث",
+              defaultValue: query,
+              // value: query,
+              placeholder: value?.title
+                ? value?.title
+                : placeholder
+                ? placeholder
+                : "ابحث عن مكان",
               autoCorrect: false,
               autoCapitalize: "none",
               style: {
