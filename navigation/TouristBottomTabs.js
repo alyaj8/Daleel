@@ -2,7 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
-import TourStack from "./TouristTourStack";
+import TouristTourStack from "./TouristTourStack";
 
 import ChatMenu from "./../Screens/chatScreen/ChatMenu";
 import Tourist_Manage_Account from "./../Screens/tourist/Tourist_Manage_Account";
@@ -81,7 +81,7 @@ export default function TouristBottomTabs() {
           ),
         }}
         name="TourStack"
-        component={TourStack}
+        component={TouristTourStack}
       />
 
       {/* البحث */}
@@ -114,7 +114,7 @@ export default function TouristBottomTabs() {
           ),
         }}
         name="PostSearch"
-        component={TourStack}
+        component={TouristTourStack}
       />
 
       {/* رسائلي */}

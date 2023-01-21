@@ -18,7 +18,7 @@ import TouristBottomTabs from "./TouristBottomTabs";
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+function AppNavigator() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Log_in2" component={Log_in2} />
@@ -48,4 +48,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppNavigator;

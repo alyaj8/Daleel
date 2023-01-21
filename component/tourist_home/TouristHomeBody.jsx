@@ -10,7 +10,7 @@ import text from "../../style/text";
 import AcceptedBooking from "../bookings/AcceptedBooking";
 import Button from "../button/Button";
 import TouristPendingCard from "../card/TouristPendingCard";
-import TouristRejectedCard from "../card/touristRejectCard";
+import TouristRejectedCard from "../card/TouristRejectCard";
 import { screenWidth } from "./../../config/Constant";
 
 const TouristHomeBody = ({

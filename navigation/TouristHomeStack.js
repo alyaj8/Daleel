@@ -5,7 +5,7 @@ import Tourist_Home from "../Screens/Tourist_Home";
 
 const Stack = createNativeStackNavigator();
 
-function App() {
+function TouristHomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Tourist_Home" component={Tourist_Home} />
@@ -14,4 +14,4 @@ function App() {
     </Stack.Navigator>
   );
 }
-export default App;
+export default TouristHomeStack;

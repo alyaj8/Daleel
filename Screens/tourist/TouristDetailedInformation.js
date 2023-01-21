@@ -12,9 +12,9 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
-import NewAppButton from "../../component/AppButton";
 import AppButton from "../../component/button/Button";
 import Loading from "../../component/Loading";
+import NewAppButton from "../../component/NewAppButton";
 import { colors, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 import { getUserId, getUserObj, insertRequest } from "../../network/ApiService";

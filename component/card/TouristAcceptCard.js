@@ -1,28 +1,18 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
 import * as React from "react";
-import { images, screenWidth } from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import { getDateTime } from "../../util/DateHelper";
 import ButtonComponent from "../button/Button";
 
-export default function AcceptedBooking({ onpressAccepted, source, title = "", booked }) {
-
-
-  const onPressChat = () =>{
-
-    console.log('chat button pressed')
-
-  }
-
+export default function TouristAcceptCard({
+  onpressAccepted,
+  source,
+  title = "",
+  booked,
+}) {
+  const onPressChat = () => {
+    console.log("chat button pressed");
+  };
 
   return (
     <View style={styles.container}>
@@ -82,7 +72,7 @@ export default function AcceptedBooking({ onpressAccepted, source, title = "", b
                 buttonDefault={false}
                 title={"مدفوعة"}
                 onpress={onpressAccepted}
-                style={{ backgroundColor:"#ff8656" }}
+                style={{ backgroundColor: "#ff8656" }}
               />
             </View>
           </View>
@@ -101,8 +91,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     marginVertical: 15,
     ///shadowEffect
-    shadowColor: '#171717',
-    shadowOffset: {width: -1, height: 4},
+    shadowColor: "#171717",
+    shadowOffset: { width: -1, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },

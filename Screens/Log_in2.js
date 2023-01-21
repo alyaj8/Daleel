@@ -11,11 +11,11 @@ import {
   View,
 } from "react-native";
 import Loading from "../component/Loading";
+import NewAppButton from "../component/NewAppButton";
 import { colors } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import { getDataFromStorage } from "../util/Storage";
-import NewAppButton from "./../component/AppButton";
 import { no_highlights } from "./../config/Constant";
 import { storeDataToStorage } from "./../util/Storage";
 

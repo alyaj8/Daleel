@@ -14,7 +14,7 @@ import { getUserId } from "../network/ApiService";
 import text from "../style/text";
 import TouristHomeBody from "./../component/tourist_home/TouristHomeBody";
 
-export default function Local_Home({ navigation }) {
+export default function Tourist_Home({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isModalVisibleAccepted, setModalVisibleAccepted] = useState(false);
