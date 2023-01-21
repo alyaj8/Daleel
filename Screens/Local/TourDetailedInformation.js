@@ -22,12 +22,19 @@ import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import Button from "../../component/button/Button";
-import { images, REQUESTS, screenWidth,colors } from "../../config/Constant";
+import {
+  colors,
+  images,
+  no_highlights,
+  REQUESTS,
+  screenWidth,
+} from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getDateFromSeconds } from "../../util/DateHelper";
 import Loading from "./../../component/Loading";
+import MapListItem from "./../../component/maps/MapListItem";
 
 export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");
@@ -146,7 +153,7 @@ export default function TourDetailedInformation({ navigation, route }) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          style={{ flex: 1 }}
+          style={{ flex: 1, ...no_highlights.brdr2 }}
           source={images.backgroundImg}
           resizeMode="cover"
         >
@@ -161,6 +168,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             <Text style={[text.white, text.text30]}>جولاتي</Text>
           </View>
 
+          {/* Body */}
           <View style={[styles.card]}>
             {/*  Image */}
             <View style={[styles.alignCenter, {}]}>
@@ -259,9 +267,17 @@ export default function TourDetailedInformation({ navigation, route }) {
                     { fontWeight: "bold" },
                   ]}
                 >
-                  {data?.meetingPoint}
+                  نقطة اللقاء
                 </Text>
               </View>
+            </View>
+            <View
+              style={{
+                ...no_highlights.brdr5,
+                padding: 10,
+              }}
+            >
+              <MapListItem item={data.meetingPoint} withMap />
             </View>
 
             {/* Age & Qty */}
@@ -318,7 +334,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 flex: 1,
                 justifyContent: "center",
                 alignItems: "center",
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
                 width: "100%",
               }}
             >
@@ -369,16 +385,23 @@ export default function TourDetailedInformation({ navigation, route }) {
               <Button
                 title={" تحديث معلومات الجولة"}
                 onpress={() => navigation.navigate("EditTour", { data })}
-                style={{ backgroundColor:colors.Blue,
-                paddingVertical: 18,
-                marginVertical:10,
-                width: screenWidth.width90,}}
+                style={{
+                  backgroundColor: colors.Blue,
+                  paddingVertical: 18,
+                  marginVertical: 10,
+                  width: screenWidth.width90,
+                }}
               />
-              <Button title={" حذف الجولة"} onpress={toggleModal}
-              style={{ backgroundColor:colors.brown,
-                paddingVertical: 18,
-               
-                width: screenWidth.width90,}} />
+              <Button
+                title={" حذف الجولة"}
+                onpress={toggleModal}
+                style={{
+                  backgroundColor: colors.brown,
+                  paddingVertical: 18,
+
+                  width: screenWidth.width90,
+                }}
+              />
             </View>
           </View>
 
@@ -405,11 +428,10 @@ export default function TourDetailedInformation({ navigation, route }) {
                     justifyContent: "space-between",
                   }}
                 >
-                  
                   <View style={{}}>
                     <Button
                       title="الغاء"
-                      style={{ backgroundColor:colors.lightBrown }}
+                      style={{ backgroundColor: colors.lightBrown }}
                       onpress={toggleModal}
                     />
                   </View>
@@ -464,12 +486,13 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   card: {
-    width: screenWidth.width90,
-    padding: 30,
+    width: screenWidth.width95,
+    padding: 10,
     borderRadius: 10,
     backgroundColor: "#ececec",
     alignSelf: "center",
     marginVertical: 50,
+    ...no_highlights.brdr1,
   },
   icon: {
     width: 25,
@@ -477,7 +500,6 @@ const styles = StyleSheet.create({
     tintColor: "#5398a0",
   },
   flexRow: {
-    
     alignItems: "center",
   },
   iconLg: {

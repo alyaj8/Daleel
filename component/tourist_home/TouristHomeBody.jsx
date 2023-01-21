@@ -88,7 +88,7 @@ const TouristHomeBody = ({
                   alignItems: "center",
                   justifyContent: "center",
                   // flex: 1,
-                  // ...highlights.brdr1,
+                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text
@@ -150,7 +150,7 @@ const TouristHomeBody = ({
                   alignItems: "center",
                   justifyContent: "center",
                   // flex: 1,
-                  // ...highlights.brdr1,
+                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text
@@ -202,7 +202,7 @@ const TouristHomeBody = ({
                   alignItems: "center",
                   justifyContent: "center",
                   // flex: 1,
-                  // ...highlights.brdr1,
+                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text

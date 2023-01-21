@@ -261,7 +261,7 @@ export default function Local_Home({ navigation }) {
         >
           {/* All */}
           {selectedMenu == 0 && (
-            <View style={{}}>
+            <View>
               {data.all.length > 0 ? (
                 <View
                   style={{
@@ -291,7 +291,6 @@ export default function Local_Home({ navigation }) {
                       alignItems: "center",
                       justifyContent: "center",
                       // flex: 1,
-                      // ...highlights.brdr1,
                     }}
                   >
                     <Text
@@ -344,7 +343,6 @@ export default function Local_Home({ navigation }) {
                       alignItems: "center",
                       justifyContent: "center",
                       // flex: 1,
-                      // ...highlights.brdr1,
                     }}
                   >
                     <Text
@@ -391,7 +389,6 @@ export default function Local_Home({ navigation }) {
                       alignItems: "center",
                       justifyContent: "center",
                       // flex: 1,
-                      // ...highlights.brdr1,
                     }}
                   >
                     <Text

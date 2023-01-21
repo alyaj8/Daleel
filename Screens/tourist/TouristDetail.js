@@ -13,7 +13,7 @@ import {
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../../component/button/Button";
-import { images, screenWidth } from "../../config/Constant";
+import { imagePickerConfig, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 
 export default function TouristDetail({ navigation }) {
@@ -28,8 +28,7 @@ export default function TouristDetail({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);

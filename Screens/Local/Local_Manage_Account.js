@@ -27,9 +27,16 @@ export default function Local_Manage_Account({ navigation }) {
           text: "تعم",
           style: "cancel",
           onPress: async () => {
-            removeDataFromStorage("loggedInUser");
-            await signOut(auth);
-            navigation.navigate("Log_in2");
+            try {
+              removeDataFromStorage("loggedInUser");
+              await signOut(auth);
+              navigation.navigate("Log_in2");
+            } catch (error) {
+              console.log(
+                "🚀 ~ file: Tourist_Manage_Account.js ~ line 48 ~ showAlert ~ error",
+                error
+              );
+            }
           },
         },
       ],

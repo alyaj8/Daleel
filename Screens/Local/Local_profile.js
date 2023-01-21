@@ -1,6 +1,19 @@
 import * as ImagePicker from "expo-image-picker";
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import React, { useEffect, useRef, useState } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from "firebase/firestore";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import React, { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -12,18 +25,10 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
+import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import { images, screenWidth } from "../../config/Constant";
+import { imagePickerConfig, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
-import { upload } from "../../network/ApiService";
-import { doc, updateDoc } from "firebase/firestore";
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-import { getUserId, insertTour } from "../../network/ApiService";
 
 export default function Local_profile({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -43,9 +48,8 @@ export default function Local_profile({ navigation }) {
   /*const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0,
+      
+      ...imagePickerConfig
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -61,8 +65,7 @@ export default function Local_profile({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -110,14 +113,14 @@ export default function Local_profile({ navigation }) {
       const snapshot = await getDocs(colRef);
       var myData = [];
       //store the data in an array myData
+      let userinfo2;
       snapshot.forEach((doc) => {
-        let userinfo2 = doc.data();
+        userinfo2 = doc.data();
         userinfo2.id = doc.id;
         myData.push(userinfo2.pictures);
         console.log("check", userinfo2.pictures);
         setaa(userinfo2.pictures);
         console.log("check2", aa);
-
       });
       let PArray = userinfo2.pictures ? userinfo2.pictures : [];
       // console.log("jjjhh1", myData);
@@ -130,7 +133,6 @@ export default function Local_profile({ navigation }) {
 
       await updateDoc(doc(db, "Admin_users", user.uid), { pictures: PArray });
       navigation.goBack();
-
 
       // setLoading(false);
       // navigation.navigate("Home");
@@ -159,7 +161,7 @@ export default function Local_profile({ navigation }) {
 
         setFname(userinfo2.firstname);
         setpic(userinfo2.poster);
-        setpic_array(userinfo2.pictures)
+        setpic_array(userinfo2.pictures);
         userinfo2.id = doc.id;
         myData.push(userinfo2);
       });
@@ -213,21 +215,34 @@ export default function Local_profile({ navigation }) {
           onPress={() => navigation.goBack()}
         />
       </View>
-      <View
-
-      >
-        <Image
-          source={pic ? { uri: pic } : images.photo}
-          style={{
-            alignSelf: "center",
-            width: 170,
-            height: 180,
-            borderRadius: 150,
-            resizeMode: "center",
-            borderWidth: 3,
-            borderColor: "grey",
-          }}
-        />
+      <View>
+        {pic ? (
+          <AppImage
+            sourceURI={pic}
+            style={{
+              alignSelf: "center",
+              width: 170,
+              height: 180,
+              borderRadius: 150,
+              resizeMode: "center",
+              borderWidth: 3,
+              borderColor: "grey",
+            }}
+          />
+        ) : (
+          <Image
+            source={images.photo}
+            style={{
+              alignSelf: "center",
+              width: 170,
+              height: 180,
+              borderRadius: 150,
+              resizeMode: "center",
+              borderWidth: 3,
+              borderColor: "grey",
+            }}
+          />
+        )}
       </View>
       <View
         style={{
@@ -253,62 +268,56 @@ export default function Local_profile({ navigation }) {
           numColumns={3}
           data={pic_array}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <View>
-              <Icon
-                name="close-circle-outline"
-                size={30}
-                style={{
-                  color: "black",
-                  marginTop: 9,
-                  marginLeft: 80,
-                  position: "absolute",
-                  left: 10,
-                  zIndex: 1,
-                  color: "red",
-                }}
-              /*  onPress={() =>
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <Icon
+                  name="close-circle-outline"
+                  size={30}
+                  style={{
+                    color: "black",
+                    marginTop: 9,
+                    marginLeft: 80,
+                    position: "absolute",
+                    left: 10,
+                    zIndex: 1,
+                    color: "red",
+                  }}
+                  /*  onPress={() =>
                                DeleteFunc(item)
                              }    */
-              />
-              <TouchableOpacity
-                // onPress={() =>
-                //  navigation.navigate({
-                // key: "step_1",
-                // params: item,
-                //   })
-                //  }
-                style={{
-                  backgroundColor: "lightgrey",
-                  marginHorizontal: 5,
-                  borderRadius: 10,
-                  marginVertical: 7,
-                }}
-              >
-                <Image
-                  source={{ uri: item }}
-                  style={[styles.dummyImg]}
                 />
-              </TouchableOpacity>
-            </View>
-          )}
+                <TouchableOpacity
+                  // onPress={() =>
+                  //  navigation.navigate({
+                  // key: "step_1",
+                  // params: item,
+                  //   })
+                  //  }
+                  style={{
+                    backgroundColor: "lightgrey",
+                    marginHorizontal: 5,
+                    borderRadius: 10,
+                    marginVertical: 7,
+                  }}
+                >
+                  <AppImage sourceURI={item} style={[styles.dummyImg]} />
+                </TouchableOpacity>
+              </View>
+            );
+          }}
         />
       </View>
       <Modal isVisible={isModalVisible}>
         <View style={[styles.modalView]}>
           <View style={[styles.main]}>
             <View>
-
               <TouchableOpacity
                 onPress={() => pickImage()}
-                style={[
-                  styles.alignCenter,
-                  { marginTop: screenWidth.width20 },
-                ]}
+                style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
               >
                 <Image source={images.photo} style={[styles.dummyImg]} />
               </TouchableOpacity>
-
             </View>
             <View style={{ margin: 9 }}>
               <Button title="حفظ" onpress={submitRequest} />

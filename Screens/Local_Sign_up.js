@@ -27,7 +27,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
-import { images, screenWidth } from "../config/Constant";
+import { imagePickerConfig, images, screenWidth } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
@@ -112,8 +112,9 @@ export default function Local_Sign_up({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+
+      ...imagePickerConfig,
+      aspect: [1, 1],
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -405,7 +406,7 @@ export default function Local_Sign_up({ navigation }) {
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
     >
-      <Loading visible={isLoading} textContent={"جاري إنشاء الحساب..."} />
+      <Loading visible={isLoading} text={"جاري إنشاء الحساب..."} />
       <Icon
         name="arrow-back-outline"
         size={50}

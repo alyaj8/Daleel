@@ -7,7 +7,12 @@ import {
 } from "firebase/storage";
 import React, { useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors, images, screenWidth } from "../../config/Constant";
+import {
+  colors,
+  imagePickerConfig,
+  images,
+  screenWidth,
+} from "../../config/Constant";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import Button from "../button/Button";
@@ -39,8 +44,8 @@ const ActivityForm = ({
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       uploadImage(result.assets[0].uri)
@@ -181,7 +186,7 @@ const ActivityForm = ({
             justifyContent: "space-between",
             marginHorizontal: 20,
             width: screenWidth.width80,
-            // ...highlights.brdr3,
+            // ...no_highlights.brdr3,
           }}
         >
           <TouchableOpacity
@@ -255,7 +260,7 @@ const ActivityForm = ({
             justifyContent: "space-between",
             // alignItems: "center",
             marginVertical: 10,
-            // ...highlights.brdr3,
+            // ...no_highlights.brdr3,
             width: screenWidth.width80,
           }}
         >
@@ -263,7 +268,7 @@ const ActivityForm = ({
             style={[
               {
                 flexDirection: "column",
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
               },
             ]}
           >
@@ -285,7 +290,7 @@ const ActivityForm = ({
           <View
             style={
               {
-                // ...highlights.brdr2,
+                // ...no_highlights.brdr2,
               }
             }
           >
@@ -349,7 +354,7 @@ const ActivityForm = ({
             <View
               style={{
                 flexDirection: "row",
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -413,7 +418,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 10,
 
-    // ...highlights.brdr1,
+    // ...no_highlights.brdr1,
   },
   title: {
     alignSelf: "flex-end",

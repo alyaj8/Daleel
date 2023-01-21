@@ -23,54 +23,60 @@ export const screenHeight = {
 };
 
 export const screenWidth = {
-  width100: Math.round(Dimensions.get("window").width),
-  width50: Math.round((50 / 100) * Dimensions.get("window").width),
-  width55: Math.round((55 / 100) * Dimensions.get("window").width),
+  width5: Math.round((5 / 100) * Dimensions.get("window").width),
+  width10: Math.round((10 / 100) * Dimensions.get("window").width),
 
-  width45: Math.round((45 / 100) * Dimensions.get("window").width),
-  width40: Math.round((40 / 100) * Dimensions.get("window").width),
-  width42: Math.round((42 / 100) * Dimensions.get("window").width),
-  width41: Math.round((41 / 100) * Dimensions.get("window").width),
-  width14: Math.round((14 / 100) * Dimensions.get("window").width),
+  width12: Math.round((12 / 100) * Dimensions.get("window").width),
   width13: Math.round((13 / 100) * Dimensions.get("window").width),
+  width14: Math.round((14 / 100) * Dimensions.get("window").width),
+  width15: Math.round((15 / 100) * Dimensions.get("window").width),
+  width17: Math.round((17 / 100) * Dimensions.get("window").width),
+  width18: Math.round((18 / 100) * Dimensions.get("window").width),
 
+  width20: Math.round((20 / 100) * Dimensions.get("window").width),
+  width25: Math.round((25 / 100) * Dimensions.get("window").width),
   width26: Math.round((26 / 100) * Dimensions.get("window").width),
   width27: Math.round((27 / 100) * Dimensions.get("window").width),
   width28: Math.round((28 / 100) * Dimensions.get("window").width),
   width29: Math.round((29 / 100) * Dimensions.get("window").width),
+
   width30: Math.round((30 / 100) * Dimensions.get("window").width),
   width35: Math.round((35 / 100) * Dimensions.get("window").width),
   width37: Math.round((37 / 100) * Dimensions.get("window").width),
   width38: Math.round((38 / 100) * Dimensions.get("window").width),
   width39: Math.round((39 / 100) * Dimensions.get("window").width),
-  width15: Math.round((15 / 100) * Dimensions.get("window").width),
-  width10: Math.round((10 / 100) * Dimensions.get("window").width),
-  width5: Math.round((5 / 100) * Dimensions.get("window").width),
 
-  width12: Math.round((12 / 100) * Dimensions.get("window").width),
-  width17: Math.round((17 / 100) * Dimensions.get("window").width),
+  width40: Math.round((40 / 100) * Dimensions.get("window").width),
+  width42: Math.round((42 / 100) * Dimensions.get("window").width),
+  width41: Math.round((41 / 100) * Dimensions.get("window").width),
+  width45: Math.round((45 / 100) * Dimensions.get("window").width),
 
-  width25: Math.round((25 / 100) * Dimensions.get("window").width),
-  width20: Math.round((20 / 100) * Dimensions.get("window").width),
-  width65: Math.round((65 / 100) * Dimensions.get("window").width),
+  width50: Math.round((50 / 100) * Dimensions.get("window").width),
+  width55: Math.round((55 / 100) * Dimensions.get("window").width),
+
   width60: Math.round((60 / 100) * Dimensions.get("window").width),
+  width65: Math.round((65 / 100) * Dimensions.get("window").width),
+
   width70: Math.round((70 / 100) * Dimensions.get("window").width),
   width75: Math.round((75 / 100) * Dimensions.get("window").width),
-  width85: Math.round((85 / 100) * Dimensions.get("window").width),
 
   width80: Math.round((80 / 100) * Dimensions.get("window").width),
+  width85: Math.round((85 / 100) * Dimensions.get("window").width),
+
   width90: Math.round((90 / 100) * Dimensions.get("window").width),
-  width18: Math.round((18 / 100) * Dimensions.get("window").width),
+  width95: Math.round((95 / 100) * Dimensions.get("window").width),
+
+  width100: Math.round(Dimensions.get("window").width),
 };
 
 //colors
 export const colors = {
   textHeadingColor: "#212121",
-  textColor:"#424242",
-  Blue:"#26495c",
-  lightBrown:"#c4a35a",
-  brown:"#c66b3d",
-  gray:"#e5e5dc",
+  textColor: "#424242",
+  Blue: "#26495c",
+  lightBrown: "#c4a35a",
+  brown: "#c66b3d",
+  gray: "#e5e5dc",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
 
@@ -239,6 +245,14 @@ export const cities = [
 ];
 
 const brdrWidth = 1;
+const no_brdrWidth = 0;
+
+export const imagePickerConfig = {
+  aspect: [4, 3],
+  maxWidth: 400,
+  maxHeight: 300,
+  quality: 0.1,
+};
 
 export const highlights = {
   brdr1: {
@@ -275,6 +289,45 @@ export const highlights = {
   },
   brdr9: {
     borderWidth: brdrWidth,
+    borderColor: colors.blueBeryline,
+  },
+};
+
+export const no_highlights = {
+  brdr1: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.red,
+  },
+  brdr2: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.blue,
+  },
+  brdr3: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.green,
+  },
+  brdr4: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.orange,
+  },
+  brdr5: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.grey,
+  },
+  brdr6: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.greyLight,
+  },
+  brdr7: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.greyDark,
+  },
+  brdr8: {
+    borderWidth: no_brdrWidth,
+    borderColor: colors.blueDark,
+  },
+  brdr9: {
+    borderWidth: no_brdrWidth,
     borderColor: colors.blueBeryline,
   },
 };

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { db } from "../../config/firebase";
+import { removeDataFromStorage } from "./../../util/Storage";
 
 export default function Tourist_Manage_Account({ navigation }) {
   const [infoList, setinfoList] = useState([]);
@@ -27,9 +28,16 @@ export default function Tourist_Manage_Account({ navigation }) {
           text: "تعم",
           style: "cancel",
           onPress: async () => {
-            const auth = getAuth();
-            await signOut(auth);
-            navigation.navigate("Log_in2");
+            try {
+              removeDataFromStorage("loggedInUser");
+              await signOut(auth);
+              navigation.navigate("Log_in2");
+            } catch (error) {
+              console.log(
+                "🚀 ~ file: Tourist_Manage_Account.js ~ line 48 ~ showAlert ~ error",
+                error
+              );
+            }
           },
         },
       ],

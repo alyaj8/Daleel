@@ -29,6 +29,7 @@ import Input from "../../component/inputText/Input";
 import SmallInput from "../../component/inputText/smallInput";
 import {
   cities,
+  imagePickerConfig,
   images,
   REQUEST_TABLE,
   screenWidth,
@@ -139,8 +140,7 @@ export default function EditTour({ navigation, route }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 0,
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);

@@ -16,7 +16,7 @@ import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import { getDataFromStorage } from "../util/Storage";
 import NewAppButton from "./../component/AppButton";
-import { highlights } from "./../config/Constant";
+import { no_highlights } from "./../config/Constant";
 import { storeDataToStorage } from "./../util/Storage";
 
 function errorMsg(error) {
@@ -173,7 +173,7 @@ export default function Log_in2({ navigation }) {
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
     >
-      <Loading visible={isLoading} textContent={"جاري تسجيل الدخول..."} />
+      <Loading visible={isLoading} text={"جاري تسجيل الدخول..."} />
 
       <View style={{ alignItems: "center", marginTop: -40 }}>
         <Image
@@ -199,7 +199,7 @@ export default function Log_in2({ navigation }) {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            ...highlights.brdr0,
+            ...no_highlights.brdr0,
           }}
         >
           <NewAppButton

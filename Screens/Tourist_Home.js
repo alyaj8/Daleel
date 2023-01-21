@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import { colors, images, screenWidth } from "../config/Constant";
+import { images, screenWidth } from "../config/Constant";
 import { getUserId } from "../network/ApiService";
 import text from "../style/text";
 import TouristHomeBody from "./../component/tourist_home/TouristHomeBody";
@@ -96,7 +96,7 @@ export default function Local_Home({ navigation }) {
               {
                 width: "100%",
                 flexDirection: "row",
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
               },
               styles.flexDirection,
               styles.tabColor,

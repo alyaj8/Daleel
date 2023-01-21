@@ -76,7 +76,9 @@ const ListItemComponent = ({ item, index }) => {
           </View>
         </View>
         {/* Full Name */}
-        <Text style={{ fontSize: 14, color: colors.gray }}>{full_name}</Text>
+        <Text style={{ fontSize: 14, color: colors.greyDark }}>
+          {full_name}
+        </Text>
 
         {/* Address */}
         {address && (
@@ -87,7 +89,9 @@ const ListItemComponent = ({ item, index }) => {
               color={colors.facebook}
               style={{ marginRight: 5 }}
             />
-            <Text style={{ fontSize: 14, color: colors.gray }}>{address}</Text>
+            <Text style={{ fontSize: 14, color: colors.greyDark }}>
+              {address}
+            </Text>
           </View>
         )}
       </View>
@@ -240,7 +244,7 @@ export const InputMap = memo(
               borderRadius: 20,
               borderWidth: 1,
               borderColor: colors.themeDefault,
-              // ...highlights.brdr1,
+              // ...no_highlights.brdr1,
             }}
             suggestionsListContainerStyle={{
               backgroundColor: "#fff",
@@ -289,7 +293,7 @@ export const InputMap = memo(
                       fontSize: 16,
                       fontWeight: "bold",
                       marginHorizontal: 10,
-                      // ...highlights.brdr2,
+                      // ...no_highlights.brdr2,
                     }}
                   >
                     لا يوجد نتائج لهذا المكان
@@ -301,7 +305,6 @@ export const InputMap = memo(
             }
             {...props}
           />
-          <View style={{ width: 10 }} />
         </View>
       </>
     );

@@ -1,10 +1,10 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { screenWidth,colors } from "../../config/Constant";
+import { colors, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 import ButtonComponent from "../button/Button";
 
-export default function Input({
+export default function DetailCard({
   onpressAccepted,
   onpressRejected,
   source,
@@ -47,40 +47,40 @@ export default function Input({
           </View>
         )}
 
-  {/* acceptButton */}
-  {acceptButton && (
+        {/* acceptButton */}
+        {acceptButton && (
           <View style={{ alignSelf: "center", marginVertical: 10 }}>
             <ButtonComponent
               buttonSelection={true}
               buttonDefault={false}
               title={"قبول "}
               onpress={onpressAccepted}
-              style={{ backgroundColor:colors.Blue,
+              style={{
+                backgroundColor: colors.Blue,
                 borderRadius: 10,
                 width: screenWidth.width40,
-                marginRight:10,
-               }}
+                marginRight: 10,
+              }}
             />
           </View>
         )}
         {/* rejectButton */}
         {rejectButton && (
-          <View style={{ alignSelf: "center", }}>
+          <View style={{ alignSelf: "center" }}>
             <ButtonComponent
               buttonSelection={true}
               buttonDefault={false}
               title={"رفض "}
               onpress={onpressRejected}
-              style={{ backgroundColor:colors.brown,
+              style={{
+                backgroundColor: colors.brown,
                 borderRadius: 10,
                 width: screenWidth.width40,
-                marginRight:10,
-               }}
+                marginRight: 10,
+              }}
             />
           </View>
         )}
-
-      
       </View>
     </View>
   );
@@ -90,13 +90,13 @@ const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
     borderRadius: 10,
-    backgroundColor:"#ececec",
+    backgroundColor: "#ececec",
     alignSelf: "center",
     paddingVertical: 20,
     marginVertical: 15,
     ///shadowEffect
-    shadowColor: '#171717',
-    shadowOffset: {width: -1, height: 4},
+    shadowColor: "#171717",
+    shadowOffset: { width: -1, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },

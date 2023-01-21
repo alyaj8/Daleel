@@ -7,7 +7,7 @@ export default StyleSheet.create({
     color: colors.themeDefault,
     fontWeight: "bold",
     width: "100%",
-    // ...highlights.brdr1,
+    // ...no_highlights.brdr1,
   },
   fontFamily: {
     // fontFamily:'serif',
@@ -104,7 +104,7 @@ export default StyleSheet.create({
     fontFamily: "Poppins-SemiBold",
   },
   bold: {
-  fontWeight:"bold"
+    fontWeight: "bold",
   },
   light: {
     fontFamily: "Poppins-Light",

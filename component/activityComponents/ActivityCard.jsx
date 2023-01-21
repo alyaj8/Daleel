@@ -39,7 +39,7 @@ const ActivityCard = ({
   return (
     <WrapperComponet
       style={[
-        styles.container, // highlights.brdr2
+        styles.container, // no_highlights.brdr2
         {
           borderColor: selected ? colors.lightBrown : colors.gray,
           borderWidth: selected ? 2 : 1,
@@ -59,7 +59,7 @@ const ActivityCard = ({
           {
             justifyContent: "space-between",
           },
-          // highlights.brdr1,
+          // no_highlights.brdr1,
         ]}
       >
         {/* #Left Side */}
@@ -68,7 +68,7 @@ const ActivityCard = ({
           {!display && (
             <View
               style={[
-                styles.row, // highlights.brdr4
+                styles.row, // no_highlights.brdr4
               ]}
             >
               {withChecklist ? (
@@ -128,7 +128,7 @@ const ActivityCard = ({
             styles.col,
             styles.ROWxLeft_COLyTop,
             styles.ROWyButtom_COLxRight,
-            // highlights.brdr3,
+            // no_highlights.brdr3,
             {
               flex: 1,
               width: screenWidth.width45,
@@ -198,7 +198,7 @@ const ActivityCard = ({
                 justifyContent: "space-around",
                 width: "100%",
               },
-              // highlights.brdr5,
+              // no_highlights.brdr5,
             ]}
           >
             {/* Location */}
@@ -265,7 +265,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     // paddingHorizontal: 10,
 
-    // ...highlights.brdr1,
+    // ...no_highlights.brdr1,
   },
   title: {
     alignSelf: "flex-end",

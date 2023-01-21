@@ -22,6 +22,7 @@ import SmallInput from "../../component/inputText/smallInput";
 import {
   cities,
   colors,
+  imagePickerConfig,
   images,
   REQUEST_TABLE,
   screenWidth,
@@ -70,9 +71,9 @@ export default function PostTour({ navigation }) {
   const [imageUrl, setImageUrl] = useState(null);
   const [filePath, setFilePath] = useState(null);
 
-  const [date, setDate] = useState(new Date());
-  const [startTime, setStartTime] = useState(new Date());
-  const [endTime, setEndTime] = useState(new Date());
+  const [date, setDate] = useState(nowDate);
+  const [startTime, setStartTime] = useState(nowDate);
+  const [endTime, setEndTime] = useState(nowDate);
 
   const [activitiesCustomizable, setActivitiesCustomizable] = useState(false);
   const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
@@ -84,8 +85,8 @@ export default function PostTour({ navigation }) {
     location: "",
     date: new Date(),
     //yesterday
-    startTime: new Date("2021-08-01T10:00:00"),
-    endTime: new Date("2021-08-05T15:00:00"),
+    startTime: null,
+    endTime: null,
     price: "",
     imageUrl: null,
   });
@@ -104,8 +105,7 @@ export default function PostTour({ navigation }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -322,6 +322,8 @@ export default function PostTour({ navigation }) {
     });
   };
 
+  const nowDate = null;
+  const newDate = new Date();
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
@@ -339,18 +341,18 @@ export default function PostTour({ navigation }) {
             }
             value={
               pickerConfig === "date"
-                ? date || new Date()
+                ? date || newDate
                 : pickerConfig === "startTime"
-                ? startTime || new Date()
+                ? startTime || newDate
                 : pickerConfig === "endTime"
-                ? endTime || new Date()
+                ? endTime || newDate
                 : pickerConfig === "activityDate"
-                ? activity.date || new Date()
+                ? activity.date || newDate
                 : pickerConfig === "activityStartTime"
-                ? activity.startTime || new Date()
+                ? activity.startTime || newDate
                 : pickerConfig === "activityEndTime"
-                ? activity.endTime || new Date()
-                : new Date()
+                ? activity.endTime || newDate
+                : newDate
             }
             display={Platform.OS === "ios" ? "calendar" : "default"}
             // is24Hour={true}
@@ -530,7 +532,7 @@ export default function PostTour({ navigation }) {
               onSelectLocation={(location) => setMeetingPoint(location)}
               onClearLocation={() => setMeetingPoint("")}
               style={{
-                marginHorizontal: 15,
+                marginHorizontal: 20,
               }}
             />
           </View>
@@ -562,7 +564,14 @@ export default function PostTour({ navigation }) {
           </View>
           <RBSheet ref={modalizeRef} height={screenWidth.width80}>
             <ScrollView
-              style={{ alignSelf: "center", marginTop: 40 }}
+              contentContainerStyle={{
+                // ...no_highlights.brdr1,
+                width: "100%",
+                alignSelf: "center",
+                marginTop: 40,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
               showsVerticalScrollIndicator={false}
             >
               {cities.map((value, index) => (
@@ -570,8 +579,28 @@ export default function PostTour({ navigation }) {
                   key={index}
                   style={[styles.sheetText]}
                   onPress={() => selectCity(value)}
+                  style={{
+                    // ...no_highlights.brdr2,
+                    width: "90%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 10,
+                    borderColor: colors.grey,
+                    borderBottomWidth: 1,
+                    borderTopWidth: index === 0 ? 1 : 0,
+                  }}
                 >
-                  <Text style={[text.black, text.text20]}>{value}</Text>
+                  <Text
+                    style={[
+                      {
+                        fontWeight: "bold",
+                      },
+                      text.black,
+                      text.text20,
+                    ]}
+                  >
+                    {value}
+                  </Text>
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -726,8 +755,9 @@ export default function PostTour({ navigation }) {
               السعر الإجمالي للرحلة:{" "}
               {
                 // totalPrice
-                activities.reduce((a, b) => a + b.price, 0)
-              }
+                activities.reduce((a, b) => a + Number(b.price), 0)
+              }{" "}
+              ريال
             </Text>
           </View>
 
@@ -747,7 +777,7 @@ export default function PostTour({ navigation }) {
             <View
               style={{
                 width: screenWidth.width90,
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
                 alignItems: "flex-end",
                 justifyContent: "center",
                 padding: 10,
@@ -783,7 +813,14 @@ export default function PostTour({ navigation }) {
           {/* Modal Sheet */}
           <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
             <ScrollView
-              style={{ alignSelf: "center", marginTop: 40 }}
+              contentContainerStyle={{
+                // ...no_highlights.brdr1,
+                width: "100%",
+                alignSelf: "center",
+                marginTop: 40,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
               showsVerticalScrollIndicator={false}
             >
               {ages.map((value, index) => (
@@ -791,6 +828,16 @@ export default function PostTour({ navigation }) {
                   key={index}
                   style={[styles.sheetText]}
                   onPress={() => selectAge(value)}
+                  style={{
+                    // ...no_highlights.brdr2,
+                    width: "90%",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingVertical: 10,
+                    borderColor: colors.grey,
+                    borderBottomWidth: 1,
+                    borderTopWidth: index === 0 ? 1 : 0,
+                  }}
                 >
                   <Text style={[text.black, text.text20]}>{value}</Text>
                 </TouchableOpacity>

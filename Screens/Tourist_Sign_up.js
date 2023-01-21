@@ -272,7 +272,7 @@ export default function Tourist_Sign_up({ navigation }) {
     <SafeAreaView
       style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
     >
-      <Loading visible={isLoading} textContent={"جاري إنشاء الحساب..."} />
+      <Loading visible={isLoading} text={"جاري إنشاء الحساب..."} />
 
       <ScrollView>
         <View

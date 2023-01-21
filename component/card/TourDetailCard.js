@@ -1,9 +1,11 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { images, screenWidth ,colors} from "../../config/Constant";
+import { colors, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+import AppImage from "../AppImage";
 
-export default function Input({ onpress, source, title }) {
+export default function TourDetailCard({ onpress, source, title }) {
+  console.log("🚀 ~ source", source);
   //   console.log("🚀 ~ title", title);
   //   console.log("🚀 ~ source", source);
   return (
@@ -12,7 +14,7 @@ export default function Input({ onpress, source, title }) {
         <View style={[styles.flexDirection]}>
           <View style={{}}>
             {source.uri ? (
-              <Image source={source} style={[styles.img]} />
+              <AppImage sourceURI={source.uri} style={[styles.img]} />
             ) : (
               <Image source={images.photo} style={[styles.img]} />
             )}
@@ -20,9 +22,12 @@ export default function Input({ onpress, source, title }) {
           <View style={{ flex: 1, marginLeft: 10 }}>
             <Text
               style={[
-                
                 text.text20,
-                { textAlign: "center", fontWeight: "bold", color:colors.textHeadingColor },
+                {
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: colors.textHeadingColor,
+                },
               ]}
             >
               {title}
@@ -41,11 +46,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     alignSelf: "center",
-      ///shadowEffect
-      shadowColor: '#171717',
-      shadowOffset: {width: -1, height: 4},
-      shadowOpacity: 0.3,
-      shadowRadius: 3, 
+    ///shadowEffect
+    shadowColor: "#171717",
+    shadowOffset: { width: -1, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 3,
   },
   flexDirection: {
     flexDirection: "row",

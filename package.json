@@ -21,6 +21,7 @@
     "@react-navigation/native-stack": "^6.9.4",
     "@stripe/stripe-react-native": "0.19.0",
     "expo": "~47.0.8",
+    "expo-cached-image": "^47.1.0",
     "expo-dev-client": "~2.0.1",
     "expo-device": "^5.0.0",
     "expo-image-picker": "^14.0.2",
@@ -38,6 +39,7 @@
     "react-native-safe-area-context": "4.4.1",
     "react-native-screens": "~3.18.0",
     "react-native-toast-message": "^2.1.5",
+    "shorthash": "^0.0.2",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

@@ -1,10 +1,9 @@
 import * as React from "react";
-import { Image, StyleSheet, Text, View,Button } from "react-native";
-import { screenWidth,colors } from "../../config/Constant";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { colors, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import NewAppButton from "../AppButton";
 
-export default function TouristCard({ onpress, source, title }) {
+export default function TouristPendingCard({ onpress, source, title }) {
   return (
     <View style={[styles.card, styles.flexDirection]}>
       {/* Image */}
@@ -25,11 +24,20 @@ export default function TouristCard({ onpress, source, title }) {
           </Text>
         </View>
         <View style={{ alignSelf: "center", marginTop: 30 }}>
-          <Text style={[
-             
+          <Text
+            style={[
               text.text18,
-              { textAlign: "right", fontWeight: "bold", marginRight: 20 ,color: colors.lightBrown,},
-            ]}> طلبك قيد الإنتظار</Text>
+              {
+                textAlign: "right",
+                fontWeight: "bold",
+                marginRight: 20,
+                color: colors.lightBrown,
+              },
+            ]}
+          >
+            {" "}
+            طلبك قيد الإنتظار
+          </Text>
           {/* <Button
             buttonSelection={true}
             buttonDefault={false}
@@ -47,15 +55,15 @@ const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
     borderRadius: 10,
-    backgroundColor:"#ececec",
+    backgroundColor: "#ececec",
     alignSelf: "center",
     paddingVertical: 20,
     marginVertical: 15,
     ///shadowEffect
-    shadowColor: '#171717',
-    shadowOffset: {width: -1, height: 4},
+    shadowColor: "#171717",
+    shadowOffset: { width: -1, height: 4 },
     shadowOpacity: 0.3,
-    shadowRadius: 3, 
+    shadowRadius: 3,
   },
   flexDirection: {
     flexDirection: "row",

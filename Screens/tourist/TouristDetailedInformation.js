@@ -189,7 +189,9 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.text25,text.bold,{color:colors.white}]}>{data?.title}</Text>
+            <Text style={[text.text25, text.bold, { color: colors.white }]}>
+              {data?.title}
+            </Text>
           </View>
 
           {/* Body */}
@@ -212,7 +214,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 style={[
                   {
                     width: 100,
-                    color:colors.brown
+                    color: colors.brown,
                   },
                   text.text20,
                   {},
@@ -230,11 +232,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 justifyContent: "center",
               }}
             >
-              <Text style={[{ width: "50%", color:colors.Blue },  text.text14]}>
+              <Text style={[{ width: "50%", color: colors.Blue }, text.text14]}>
                 {getFormattedTime(data?.startTime)} :{" "}
                 {getFormattedTime(data?.endTime)}
               </Text>
-              <Text style={[{ width: "50%",color:colors.Blue }, text.text14]}>
+              <Text style={[{ width: "50%", color: colors.Blue }, text.text14]}>
                 {getFormattedDate(data?.date)}
               </Text>
             </View>
@@ -245,7 +247,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 styles.flexRow,
                 {
                   alignItems: "center",
-                  // ...highlights.brdr1,
+                  // ...no_highlights.brdr1,
                   justifyContent: "flex-end",
                 },
                 {
@@ -355,9 +357,9 @@ export default function TouristDetailedInformation({ navigation, route }) {
               borderRadius: 10,
               padding: 10,
               marginVertical: 10,
-                ///shadowEffect
-              shadowColor: '#171717',
-              shadowOffset: {width: -1, height: 4},
+              ///shadowEffect
+              shadowColor: "#171717",
+              shadowOffset: { width: -1, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 3,
             }}
@@ -367,7 +369,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 flexDirection: "row-reverse",
                 justifyContent: "space-between",
                 alignItems: "center",
-                // ...highlights.brdr2,
+                // ...no_highlights.brdr2,
               }}
             >
               <Text
@@ -376,7 +378,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   text.text20,
                   {
                     fontWeight: "bold",
-                    //    ...highlights.brdr3
+                    //    ...no_highlights.brdr3
                   },
                 ]}
               >
@@ -385,8 +387,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
               <NewAppButton
                 title={customizing ? "حفظ التخصيص" : "تخصيص الأنشطة"}
-                disabled={!isCustomizable || tourStatus == "requested" }
-                style={{ backgroundColor:customizing ? colors.lightBrown : colors.brown}}
+                disabled={!isCustomizable || tourStatus == "requested"}
+                style={{
+                  backgroundColor: customizing
+                    ? colors.lightBrown
+                    : colors.brown,
+                }}
                 onPress={() => {
                   //   logObj(selectedActivities, "selectedActivities");
                   setCustomizing((prev) => {
@@ -434,9 +440,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
               title={tourStatus == "requested" ? "تم الحجز" : " حجز الجولة"}
               disabled={tourStatus == "requested"}
               onpress={toggleModal}
-              style={{ backgroundColor: tourStatus == "requested" ? colors.gray : colors.Blue,
-              paddingVertical: 18,
-              width: screenWidth.width90,}}
+              style={{
+                backgroundColor:
+                  tourStatus == "requested" ? colors.gray : colors.Blue,
+                paddingVertical: 18,
+                width: screenWidth.width90,
+              }}
             />
           </View>
 
@@ -529,8 +538,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginVertical: 50,
     ///shadowEffect
-    shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
     shadowOpacity: 0.2,
     shadowRadius: 3,
   },

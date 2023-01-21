@@ -23,6 +23,7 @@ import SmallInput from "../../component/inputText/smallInput";
 import {
   cities,
   colors,
+  imagePickerConfig,
   images,
   REQUEST_TABLE,
   screenWidth,
@@ -162,8 +163,7 @@ export default function EditTourV2({ navigation, route }) {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
+      ...imagePickerConfig,
     });
     if (!result.canceled) {
       setFilePath(result.assets[0].uri);
@@ -815,7 +815,7 @@ export default function EditTourV2({ navigation, route }) {
             <View
               style={{
                 width: screenWidth.width90,
-                // ...highlights.brdr1,
+                // ...no_highlights.brdr1,
                 alignItems: "flex-end",
                 justifyContent: "center",
                 padding: 10,
@@ -841,7 +841,7 @@ export default function EditTourV2({ navigation, route }) {
           <View
             style={{
               flexDirection: "row",
-              // ...highlights.brdr1,
+              // ...no_highlights.brdr1,
               alignItems: "center",
               justifyContent: "center",
               marginVertical: 20,
