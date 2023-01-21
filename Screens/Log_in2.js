@@ -10,8 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import AppButton from "../component/AppButton";
 import Loading from "../component/Loading";
-import NewAppButton from "../component/NewAppButton";
 import { colors } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
@@ -202,7 +202,7 @@ export default function Log_in2({ navigation }) {
             ...no_highlights.brdr0,
           }}
         >
-          <NewAppButton
+          <AppButton
             title="سائح"
             onPress={() => {
               setValue({
@@ -219,7 +219,7 @@ export default function Log_in2({ navigation }) {
               borderRadius: 10,
             }}
           />
-          <NewAppButton
+          <AppButton
             title="مٌرشد"
             onPress={() => {
               setValue({

@@ -3,7 +3,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors } from "../config/Constant";
 import text from "../style/text";
 
-const NewAppButton = ({
+const AppButton = ({
   title,
   onPress,
   color = "primary",
@@ -51,7 +51,7 @@ const NewAppButton = ({
   );
 };
 
-export default NewAppButton;
+export default AppButton;
 
 const styles = StyleSheet.create({
   button: {

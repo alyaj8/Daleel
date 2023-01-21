@@ -73,6 +73,7 @@ export default function TourDetail({ navigation }) {
                     <TourDetailCard
                       source={{ uri: item?.imageUrl }}
                       title={item?.title}
+                      tour={item}
                       onpress={() =>
                         navigation.navigate("TourDetailedInformation", item)
                       }

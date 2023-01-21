@@ -65,7 +65,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const getTourDetail = async () => {
     let tourDetail = route.params;
     const totalPriceOfActivity = tourDetail?.activities?.reduce(
-      (total, item) => total + item.price,
+      (total, item) => total + Number(item.price),
       0
     );
 

@@ -1,13 +1,13 @@
+import { Feather } from "@expo/vector-icons";
 import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { colors, images, screenWidth } from "../../config/Constant";
+import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+import { logObj } from "../../util/DateHelper";
 import AppImage from "../AppImage";
 
-export default function TourDetailCard({ onpress, source, title }) {
-  console.log("🚀 ~ source", source);
-  //   console.log("🚀 ~ title", title);
-  //   console.log("🚀 ~ source", source);
+export default function TourDetailCard({ onpress, source, title, tour }) {
+  logObj(tour, "tour");
   return (
     <View style={styles.container}>
       <TouchableOpacity onPress={onpress} style={[styles.card]}>
@@ -32,6 +32,29 @@ export default function TourDetailCard({ onpress, source, title }) {
             >
               {title}
             </Text>
+            {tour.activities.length > 0 && (
+              <Text
+                style={[
+                  text.text16,
+                  {
+                    textAlign: "center",
+                    fontWeight: "bold",
+                    color: colors.textHeadingColor,
+                  },
+                ]}
+              >
+                {tour.activities.length > 0 && (
+                  <>
+                    <Feather name="activity" size={24} color="black" />
+                    <Text> {tour.activities.length} </Text>
+                  </>
+                )}
+              </Text>
+            )}
+
+            <Text>السن: {tour.age}</Text>
+            <Text>تستوعب: {tour.qty} فرد </Text>
+            <Text>مدينة: {tour.city} فرد </Text>
           </View>
         </View>
       </TouchableOpacity>
@@ -42,24 +65,32 @@ export default function TourDetailCard({ onpress, source, title }) {
 const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
-    padding: 20,
-    borderRadius: 10,
+    padding: 10,
+    borderRadius: 20,
     backgroundColor: "#fff",
     alignSelf: "center",
-    ///shadowEffect
-    shadowColor: "#171717",
-    shadowOffset: { width: -1, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    // shadow
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    ...highlights.brdr0,
   },
   flexDirection: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    ...highlights.brdr0,
   },
   img: {
     width: screenWidth.width30,
-    height: screenWidth.width40,
-    resizeMode: "contain",
+    height: screenWidth.width30,
+    // resizeMode: "contain",
+    // ...highlights.brdr3,
+    borderRadius: 10,
   },
 });

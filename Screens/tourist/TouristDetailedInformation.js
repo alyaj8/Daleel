@@ -12,9 +12,8 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
-import AppButton from "../../component/button/Button";
+import AppButton from "../../component/AppButton";
 import Loading from "../../component/Loading";
-import NewAppButton from "../../component/NewAppButton";
 import { colors, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 import { getUserId, getUserObj, insertRequest } from "../../network/ApiService";
@@ -385,7 +384,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 الأنشطة
               </Text>
 
-              <NewAppButton
+              <AppButton
                 title={customizing ? "حفظ التخصيص" : "تخصيص الأنشطة"}
                 disabled={!isCustomizable || tourStatus == "requested"}
                 style={{
