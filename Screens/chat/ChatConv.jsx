@@ -26,8 +26,6 @@ const ChatConvesation = ({
         receiverId,
       }
     );
-
-    await getChat();
   }, []);
 
   const refactory = (mapOfObjects) => {
