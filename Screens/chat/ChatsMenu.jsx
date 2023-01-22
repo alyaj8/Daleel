@@ -7,16 +7,21 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { colors, images, screenWidth } from "../../config/Constant";
-import { getUserId } from "../../network/ApiService";
+import {
+  createChatRoom,
+  getUserId,
+  getUserObj,
+} from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedTime, logObj } from "./../../util/DateHelper";
 
-const ChatCard = ({ item }) => {
+const ChatCard = ({ item, onPressChat }) => {
   return (
-    <View
+    <TouchableOpacity
       style={{
         backgroundColor: colors.grayBg,
         borderRadius: 10,
@@ -31,6 +36,9 @@ const ChatCard = ({ item }) => {
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+      }}
+      onPress={() => {
+        onPressChat(item);
       }}
     >
       <View style={{ flexDirection: "row" }}>
@@ -97,11 +105,11 @@ const ChatCard = ({ item }) => {
           </Text>
         </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
-const ChatsList = () => {
+const ChatsList = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentUserId, setCurrentUserId] = useState(null);
   const [chats, setChats] = useState([]);
@@ -143,6 +151,28 @@ const ChatsList = () => {
     });
   }, [currentUserId]);
 
+  const onPressChat = async (chat) => {
+    try {
+      setIsLoading(true);
+
+      const chatItem = await createChatRoom(currentUserId, chat.senderId);
+      const me = await getUserObj();
+
+      navigation.navigate("ChatConv", {
+        receiverName: chatItem.name,
+        receiverId: chatItem.senderId,
+        senderId: me.uid,
+        senderName: me.firstname,
+        roomId: chatItem.roomId,
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("🚀 ~ error", error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
@@ -171,7 +201,9 @@ const ChatsList = () => {
           </Text>
           {chats.length > 0 &&
             chats.map((item, index) => {
-              return <ChatCard key={index} item={item} />;
+              return (
+                <ChatCard key={index} item={item} onPressChat={onPressChat} />
+              );
             })}
         </View>
       </ImageBackground>
