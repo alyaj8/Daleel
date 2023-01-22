@@ -15,7 +15,7 @@ export default function LocalBooingDetailCard({
   bookedBy = true,
   title,
 }) {
-  console.log("🚀 ~ source", source);
+  // console.log("🚀 ~ source", source);
   return (
     <View style={[styles.card, styles.flexDirection]}>
       {/* image */}

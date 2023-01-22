@@ -4,7 +4,7 @@ import {
   getFirestore,
   onSnapshot,
   orderBy,
-  query,
+  query
 } from "firebase/firestore";
 import React, { useState } from "react";
 import {
@@ -12,7 +12,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
+  View
 } from "react-native";
 <<<<<<< HEAD
 =======
@@ -83,7 +83,7 @@ export default function ChatMenu({ navigation }) {
                 <ChatOption
                   Name={item?.name}
                   about={item?.lastMessage}
-                  // onPress={() => navigation.navigate("Chat")}
+                  // onPress={() => navigation.navigate("ChatConv")}
                 />
               );
             })}

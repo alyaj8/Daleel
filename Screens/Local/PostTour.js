@@ -24,7 +24,6 @@ import {
   colors,
   imagePickerConfig,
   images,
-  REQUEST_TABLE,
   screenWidth,
 } from "../../config/Constant";
 import { getUserId, insertTour } from "../../network/ApiService";
@@ -198,7 +197,7 @@ export default function PostTour({ navigation }) {
           activities: activities,
         };
         // logObj(data);
-        await insertTour(data, REQUEST_TABLE);
+        await insertTour(data, "tours");
 
         logObj(data, "🚀 ~ PostTour.js");
 

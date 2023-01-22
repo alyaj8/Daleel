@@ -25,7 +25,6 @@ import {
   highlights,
   imagePickerConfig,
   images,
-  REQUEST_TABLE,
   screenWidth,
 } from "../../config/Constant";
 import { getUserId, updateTour } from "../../network/ApiService";
@@ -111,10 +110,7 @@ export default function EditTourV2({ navigation, route }) {
   const getTourRequests = async () => {
     const uid = await getUserId();
     const data = [];
-    const q = query(
-      collection(db, REQUEST_TABLE),
-      where("requestBy", "==", uid)
-    );
+    const q = query(collection(db, "tours"), where("requestBy", "==", uid));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());

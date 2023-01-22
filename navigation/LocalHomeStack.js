@@ -6,8 +6,6 @@ import TourDetailedInformation from "../Screens/Local/TourDetailedInformation";
 import Local_Home from "../Screens/Local_Home";
 const Stack = createNativeStackNavigator();
 
-/*const PUBLISHABLE_KEY =
-  "pk_test_51Ll5efFetd1JSL8vQ1WpbGvxBewQSJi8ZUzB6WD0i19CUUkzdnaHAQzja4LNFMZpUWAZKUPTdSklL2KZSI1k9Qfy00MZ31WOSr";*/
 function LocalHomeStack() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

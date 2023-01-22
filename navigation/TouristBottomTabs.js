@@ -4,10 +4,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
 import TouristTourStack from "./TouristTourStack";
 
-import ChatMenu from "./../Screens/chatScreen/ChatMenu";
 import Tourist_Manage_Account from "./../Screens/tourist/Tourist_Manage_Account";
 
 import { colors, images } from "../config/Constant";
+import ChatStack from "./ChatStack";
 const Tab = createBottomTabNavigator();
 
 export default function TouristBottomTabs() {
@@ -145,8 +145,8 @@ export default function TouristBottomTabs() {
             </View>
           ),
         }}
-        name="ChatMenu"
-        component={ChatMenu}
+        name="ChatStack"
+        component={ChatStack}
       />
 
       {/* حسابي */}

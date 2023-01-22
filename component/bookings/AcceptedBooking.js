@@ -1,109 +1,228 @@
-import { StatusBar } from "expo-status-bar";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
 import * as React from "react";
-import { images, screenWidth ,colors} from "../../config/Constant";
-import { SafeAreaView } from "react-native-safe-area-context";
-import text from "../../style/text";
-import { getDateTime } from "../../util/DateHelper";
-import ButtonComponent from "../button/Button";
-import { getConversationId } from "../../util/CustomHelper";
+import { StyleSheet, Text, View } from "react-native";
+import { colors, highlights, images, screenWidth } from "../../config/Constant";
+import { getFormattedTime } from "../../util/DateHelper";
+import AppImage from "../AppImage";
+import { getFormattedDate } from "./../../util/DateHelper";
+import AppButton from "./../AppButton";
 
 export default function AcceptedBooking({
   onpressAccepted,
+  onPressPayment = () => console.log("Payment"),
   source,
   title = "",
   booked,
   date,
   time,
+  item,
+  forPerson,
 }) {
   return (
-    <View style={styles.container}>
-      <View style={[styles.card]}>
-        <View style={[styles.flexDirection]}>
-          <View style={{ marginHorizontal: 20 }}>
-            <Image source={source} style={[styles.img]} />
+    <View
+      style={[
+        styles.card,
+        {
+          flexDirection: "column",
+        },
+      ]}
+    >
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        {/* Image */}
+        <View>
+          {source.uri ? (
+            <AppImage sourceURI={source.uri} style={[styles.img]} />
+          ) : (
+            <Image source={images.photo} style={[styles.img]} />
+          )}
+        </View>
+
+        {/* Info & Btns */}
+        <View
+          style={{
+            flex: 1,
+
+            ...highlights.brdr01,
+          }}
+        >
+          {/* Title */}
+          <View style={{ alignItems: "flex-end" }}>
+            <Text
+              style={{
+                fontSize: 24,
+                color: colors.brown,
+                marginBottom: 5,
+                fontWeight: "bold",
+                textAlign: "right",
+              }}
+            >
+              {title}
+            </Text>
           </View>
-          <View>
-            <View style={{ flex: 1 }}>
-              <View style={{ alignItems: "center" }}>
-                <Text
-                  style={[
-                    text.themeDefault,
-                    text.text18,
-                    { textAlign: "center", fontWeight: "bold" },
-                  ]}
-                >
-                  {title}
-                </Text>
-              </View>
-            
+
+          {/* Booked at */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              ...highlights.brdr02,
+              borderBottomWidth: 1,
+              paddingBottom: 5,
+              marginLeft: 5,
+              borderBottomColor: colors.textHeadingColor,
+            }}
+          >
+            {/* Accepted at */}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                borderRightWidth: 2,
+                borderRightColor: colors.textHeadingColor,
+                alignItems: "flex-end",
+                justifyContent: "center",
+
+                paddingRight: 10,
+                ...highlights.brdr03,
+              }}
+            >
+              <Text>قُبلت: </Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                {getFormattedTime(item?.acceptedAt)}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "right",
+                  fontWeight: "bold",
+                }}
+              >
+                {getFormattedDate(date)}
+              </Text>
             </View>
 
-            <View style={{ alignSelf: "center", marginVertical: 5 }}>
-              <Text style={[text.themeDefault, text.text14]}>{date}</Text>
-            </View>
-            <View style={{ alignSelf: "center" }}>
-              <Text style={[text.themeDefault, text.text14]}>{time}</Text>
-            </View>
-        
-            <View style={{ marginVertical: 15, alignSelf: "center", }}>
-              <ButtonComponent
-                buttonSelection={true}
-                buttonDefault={false}
-                title={"الدفع"}
-                style={{ backgroundColor: colors.Blue ,borderRadius: 10, width: screenWidth.width40,marginRight:50,}}
-              />
-            </View>
-            <View style={{ alignSelf: "center", }}>
-              <ButtonComponent
-                buttonSelection={true}
-                buttonDefault={false}
-                title={"الذهاب للدردشة"}
-                onpress={onpressAccepted}
-                style={{ backgroundColor:colors.lightBrown,
-                  borderRadius: 10,
-                  width: screenWidth.width40,
-                  marginRight:50,
-                 }}
-              />
+            {/* Booked at */}
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "column",
+                alignItems: "flex-end",
+                justifyContent: "center",
+
+                // paddingRight: 3,
+                ...highlights.brdr03,
+              }}
+            >
+              <Text>الموعد: </Text>
+
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                {getFormattedTime(item?.acceptedAt)}
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  // textAlign: "right",
+                  fontWeight: "bold",
+                }}
+              >
+                {getFormattedDate(date)}
+              </Text>
             </View>
           </View>
+          {/* Booked by or for */}
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Text> {forPerson} </Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              السائح:{" "}
+            </Text>
+          </View>
         </View>
+      </View>
+      {/* Btns */}
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginTop: 5,
+          // ...highlights.brdr02,
+        }}
+      >
+        <AppButton
+          title={"الدفع"}
+          onPress={onPressPayment}
+          style={{
+            width: screenWidth.width40,
+            height: 60,
+            backgroundColor: colors.Blue,
+            borderRadius: 10,
+            padding: 10,
+            marginRight: 10,
+          }}
+        />
+        <AppButton
+          title={"الذهاب للدردشة"}
+          onPress={onpressAccepted}
+          style={{
+            flex: 1,
+            height: 60,
+
+            backgroundColor: colors.lightBrown,
+            borderRadius: 10,
+            padding: 10,
+            // margin: 3,
+          }}
+        />
       </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    marginTop: 10,
-  },
   card: {
-    width: screenWidth.width90,
-    paddingVertical: 20,
-    borderRadius: 10,
-    backgroundColor: "#ececec",
+    width: screenWidth.width95,
+    padding: 13,
+    borderRadius: 20,
+    backgroundColor: "#fff",
     alignSelf: "center",
-    marginVertical:15,
-    ///shadowEffec
-    shadowColor: '#171717',
-    shadowOffset: {width: -1, height: 4},
-    shadowOpacity: 0.3,
-    shadowRadius: 3, 
-
+    // shadow
+    shadowColor: colors.black,
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 3,
+    ...highlights.brdr00,
   },
   flexDirection: {
     flexDirection: "row",
   },
   img: {
-    width: screenWidth.width25,
-    height: screenWidth.width40,
+    width: screenWidth.width40,
+    height: screenWidth.width30,
+    resizeMode: "contain",
+    borderRadius: 10,
   },
 });

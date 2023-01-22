@@ -4,11 +4,11 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import LocalHomeStack from "./LocalHomeStack";
 import TourStack from "./TourStack";
 
-import ChatMenu from "../Screens/chatScreen/ChatMenu";
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 import PostTour from "../Screens/Local/PostTour";
 
 import { colors, images } from "../config/Constant";
+import ChatStack from "./ChatStack";
 const Tab = createBottomTabNavigator();
 
 export default function LocalBottomTabs() {
@@ -137,8 +137,8 @@ export default function LocalBottomTabs() {
             </View>
           ),
         }}
-        name="ChatMenu"
-        component={ChatMenu}
+        name="ChatStack"
+        component={ChatStack}
       />
       <Tab.Screen
         options={{

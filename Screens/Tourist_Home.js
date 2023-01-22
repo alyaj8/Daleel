@@ -40,7 +40,7 @@ export default function Tourist_Home({ navigation }) {
   };
 
   const onPressChat = (request) => {
-    navigation.navigate("Chat", { params: request });
+    navigation.navigate("ChatConv", { params: request });
   };
 
   useEffect(() => {

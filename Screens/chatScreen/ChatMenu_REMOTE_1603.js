@@ -1,30 +1,24 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useCallback } from "react";
 import {
+  collection,
+  getFirestore,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import React, { useState } from "react";
+import {
+  ImageBackground,
+  ScrollView,
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  ScrollView,
-  ImageBackground,
 } from "react-native";
-import { images, screenWidth, REQUEST_TABLE,colors } from "../../config/Constant";
-import text from "../../style/text";
-import ChatOption from "../../component/chat/ChatOption";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { getConversationId } from "../../util/CustomHelper";
+import ChatOption from "../../component/chat/ChatOption";
+import { images, screenWidth } from "../../config/Constant";
+import text from "../../style/text";
 import { getDataFromStorage } from "../../util/Storage";
-import {
-  collection,
-  query,
-  where,
-  getFirestore,
-  addDoc,
-  onSnapshot,
-  orderBy,
-} from "firebase/firestore";
-import { convertSecondsIntoTime } from "../../util/DateHelper";
-
 
 export default function ChatMenu({ navigation }) {
   const [currentUserId, setCurrentUserId] = useState(null);
@@ -32,13 +26,10 @@ export default function ChatMenu({ navigation }) {
   const db = getFirestore();
 
   React.useEffect(() => {
-  
     getAllMessages();
   }, []);
 
-
   const getAllMessages = async () => {
-
     const currentUser = await getDataFromStorage("user");
     const currentUserId = currentUser?.uid;
 
@@ -54,27 +45,28 @@ export default function ChatMenu({ navigation }) {
       });
       setMessages(data);
       setCurrentUserId(currentUserId);
-      
     });
   };
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={{ flex:1 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-        <Text
-          style={[
-            styles.alignCenter,
-            text.white,
-            text.bold,
-            text.text30,
-            {
-              marginTop: 10,
-              width: "100%",
-              textAlign: "center",
-              //color:colors.Blue
-            },
-          ]}
-        >رسائلي</Text>
+          <Text
+            style={[
+              styles.alignCenter,
+              text.white,
+              text.bold,
+              text.text30,
+              {
+                marginTop: 10,
+                width: "100%",
+                textAlign: "center",
+                //color:colors.Blue
+              },
+            ]}
+          >
+            رسائلي
+          </Text>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
           <View
@@ -82,15 +74,15 @@ export default function ChatMenu({ navigation }) {
               marginTop: screenWidth.width10,
             }}
           >
-              {messages.map((item, index) => {
-            return (
-            <ChatOption
-              Name={item?.name}
-              about={item?.lastMessage}
-              // onPress={() => navigation.navigate("Chat")}
-            />
-            );
-          })}
+            {messages.map((item, index) => {
+              return (
+                <ChatOption
+                  Name={item?.name}
+                  about={item?.lastMessage}
+                  // onPress={() => navigation.navigate("ChatConv")}
+                />
+              );
+            })}
           </View>
         </ScrollView>
       </ImageBackground>

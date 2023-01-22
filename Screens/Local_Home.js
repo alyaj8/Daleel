@@ -14,6 +14,7 @@ import LocalBooingDetailCard from "../component/card/LocalBooingDetailCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
+  getChatList,
   getUserId,
   updateRequest,
   updateTour,
@@ -34,36 +35,30 @@ export default function Local_Home({ navigation }) {
     accepted: [],
     rejected: [],
   });
-  const [ui, setuid] = useState(null);
-
-  // force update use reducer
-  const [update, forceUpdate] = useReducer((s) => s + 1, 0);
-
-  const [requestId, setRequestId] = useState(null);
-  const [tourId, setTourId] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null);
-
-  const [isModalVisibleAccepted, setModalVisibleAccepted] = useState(false);
-  const [isModalVisibleRejected, setModalVisibleRejected] = useState(false);
   const menuTab = [
     { title: "الكل", selected: false },
     { title: "مقبولة", selected: false },
     { title: "مرفوضة ", selected: false },
   ];
   const [selectedMenu, setSelectedMenu] = useState(0);
+  // force update use reducer
+  const [update, forceUpdate] = useReducer((s) => s + 1, 0);
+  const [isModalVisibleAccepted, setModalVisibleAccepted] = useState(false);
+  const [isModalVisibleRejected, setModalVisibleRejected] = useState(false);
 
-  // get user id
-  // useEffect(() => {
-  //   (async () => {
-  //     const uid = await getUserId();
-  //     console.log("🚀 ~ Local> uid", uid);
+  //------------------
+  //------------------
 
-  //     setCurrentUserId(uid);
-  //   })();
-  // }, []);
+  const [requestId, setRequestId] = useState(null);
+  const [tourId, setTourId] = useState(null);
+
+  // to chat this is sender id
+  const [currentUserId, setCurrentUserId] = useState(null);
+  // to chat this is receiver id
 
   const Asyced = () => {
     getUserId().then((currentUserIdLoc) => {
+      setCurrentUserId(currentUserIdLoc);
       const q = query(
         collection(db, "requests"),
         where("localId", "==", currentUserIdLoc)
@@ -100,69 +95,6 @@ export default function Local_Home({ navigation }) {
     Asyced();
   }, []);
 
-  // get all requests
-  // useEffect(() => {
-  //   console.log("fetchRequests");
-
-  //   const bag = [];
-  //   const q = query(
-  //     collection(db, REQUESTS),
-  //     where("localId", "==", currentUserId)
-  //   );
-
-  //   const unsubscribe = onSnapshot(q, (querySnapshot) => {
-  //     querySnapshot.docs.forEach((doc) => {
-  //       bag.push({ ...doc.data(), id: doc.id });
-  //     });
-
-  //     const unique = bag.filter((thing, index, self) => {
-  //       return (
-  //         index ===
-  //         self.findIndex((t) => {
-  //           return t.id === thing.id;
-  //         })
-  //       );
-  //     });
-
-  //     const all = unique.filter((item) => item.status == 0);
-  //     const accepted = unique.filter((item) => item.status === 1);
-  //     const rejected = unique.filter((item) => item.status === 2);
-
-  //     setData({ all, accepted, rejected });
-  //   });
-
-  //   return unsubscribe;
-  // }, []);
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     getLocalGuideRequests();
-  //   }, [])
-  // );
-
-  // const getAllRequests = async () => {
-  //   getLocalGuideRequests();
-  // };
-
-  // const getLocalGuideRequests = async () => {
-  //   let user = await getDataFromStorage("loggedInUser");
-  //   let uid = user?.uid;
-  //   const data = [];
-  //   const requests = query(
-  //     collection(db, REQUESTS),
-  //     where("localId", "==", uid)
-  //   );
-  //   const unsubscribe = onSnapshot(requests, (querySnapshot) => {
-  //     querySnapshot.forEach((doc) => {
-  //       data.push(doc.data());
-  //       setRequestId(doc.id);
-  //     });
-  //     setData(data);
-  //     // console.log("data", data);
-  //     setuid(uid);
-  //   });
-  // };
-
   const onAcceptionReq = async () => {
     console.log("Accept> reqId: ");
     setModalVisibleAccepted(!isModalVisibleAccepted);
@@ -186,12 +118,34 @@ export default function Local_Home({ navigation }) {
 
     // TODO: update tour status
     const updatedTour = await updateTour(tourId, DataToUpdate);
-
     forceUpdate();
   };
 
-  const onPressChat = (request) => {
-    navigation.navigate("Chat", { params: request });
+  const onPressChat = async (request) => {
+    // navigation.navigate("ChatConv", { params: request });
+    // console.log("sender = localId", currentUserId);
+    // console.log("receiver = touristId", request.touristId);
+    try {
+      setIsLoading(true);
+
+      // const roomId = await createChatRoom(currentUserId, request.touristId);
+      // console.log("🚀 ~ roomId", roomId);
+
+      // const message = await sendMessage(
+      //   roomId,
+      //   "Fine!!",
+      //   request.touristId,
+      //   currentUserId
+      // );
+
+      const chatList = await getChatList(currentUserId);
+      console.log("🚀 ~ chatList", chatList);
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("🚀 ~ error", error);
+    }
   };
 
   const onPressTab = (index) => {
@@ -345,6 +299,8 @@ export default function Local_Home({ navigation }) {
                       title={item?.title}
                       date={setDate}
                       time={setTime}
+                      item={item}
+                      forPerson={item?.touristName}
                       onpressAccepted={() => onPressChat(item)}
                     />
                   );

@@ -5,7 +5,7 @@ import text from "../../style/text";
 import AppImage from "./../AppImage";
 
 export default function TouristPendingCard({ onpress, source, title }) {
-  console.log("🚀 ~ source", source);
+  // console.log("🚀 ~ source", source);
   return (
     <View style={[styles.card, styles.flexDirection]}>
       {/* Image */}

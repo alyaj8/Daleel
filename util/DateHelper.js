@@ -70,7 +70,7 @@ export const getFormattedTime = (time, withSeconds = false) => {
   let seconds = date.getSeconds();
 
   // am or pm
-  const ampm = hours >= 12 ? "pm" : "am";
+  const ampm = hours >= 12 ? "PM" : "AM";
 
   // 12 hour format
   hours = hours % 12 || 12;

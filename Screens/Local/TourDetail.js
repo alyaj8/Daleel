@@ -11,7 +11,7 @@ import {
   View,
 } from "react-native";
 import TourDetailCard from "../../component/card/TourDetailCard";
-import { images, REQUEST_TABLE, screenWidth } from "../../config/Constant";
+import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
@@ -24,8 +24,10 @@ export default function TourDetail({ navigation }) {
       const getAllRequests = async () => {
         const uid = await getUserId();
         const q = query(
-          collection(db, REQUEST_TABLE),
-          where("requestBy", "==", uid)
+          collection(db, "tours"),
+          where("requestBy", "==", uid),
+          where("status", "==", "0"),
+          where("status", "==", "2")
         );
 
         // listen for changes
