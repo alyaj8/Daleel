@@ -29,7 +29,7 @@ export default function TourDetail({ navigation }) {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
           querySnapshot.forEach((doc) => {
-            console.log("doc", doc.data());
+            // console.log("doc", doc.data());
             if (doc.data().status != 1) {
               bag.push({
                 id: doc.id,

@@ -90,7 +90,7 @@ export default function EditTour({ navigation, route }) {
     let tour = route.params.data;
     let id = route.params;
 
-    console.log("tour", id);
+    // console.log("tour", id);
     setTitle(tour?.title);
     setFilePath(tour?.imageUrl);
     setDescription(tour?.description);
@@ -117,7 +117,7 @@ export default function EditTour({ navigation, route }) {
     setDateString(dateShow);
     setStartTimeString(startTimeShow);
     setEndTimeString(endTimeShow);
-    console.log("tourDetail", startTimeShow);
+    // console.log("tourDetail", startTimeShow);
   };
 
   const getTourRequests = async () => {
@@ -127,7 +127,7 @@ export default function EditTour({ navigation, route }) {
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
-        console.log("doc", doc.id);
+        // console.log("doc", doc.id);
         setTourId(doc.id);
       });
     });
@@ -183,7 +183,7 @@ export default function EditTour({ navigation, route }) {
           getDownloadURL(reference).then((url) => {
             const imageUrl = url;
             setFilePath(imageUrl);
-            console.log("image donwload url", imageUrl);
+            // console.log("image donwload url", imageUrl);
           });
         }
       }
@@ -199,7 +199,7 @@ export default function EditTour({ navigation, route }) {
   const updateTour = async (filePath) => {
     setModalVisible(!isModalVisible);
     upload(filePath);
-    console.log("imageurl in screen", filePath);
+    // console.log("imageurl in screen", filePath);
     // if (imageUrl) {
     const params = {};
     if (title) {
@@ -238,7 +238,7 @@ export default function EditTour({ navigation, route }) {
 
     // console.log("data----------------->", params, tourId);
     const updated = await updateTour(tourId, params);
-    console.log("updated--------->", updated);
+    // console.log("updated--------->", updated);
     setIsLoading(false);
     if (updated) {
       alert("Tour Updated");
@@ -249,7 +249,7 @@ export default function EditTour({ navigation, route }) {
     setDeleteModalVisible(!isDeleteModalVisible);
     setIsLoading(true);
     const response = await deleteRequest(tourId);
-    console.log("response", response);
+    // console.log("response", response);
     setIsLoading(false);
     if (response) {
       alert("Tour Deleted Successfully");
@@ -272,7 +272,7 @@ export default function EditTour({ navigation, route }) {
     setCity(city);
     modalizeRef.current?.close();
   };
-  console.log(imageUrl);
+  // console.log(imageUrl);
 
   return (
     <SafeAreaView style={styles.container}>

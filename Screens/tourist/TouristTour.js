@@ -31,10 +31,10 @@ export default function TouristTour({ navigation }) {
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
           querySnapshot.forEach((doc) => {
-            console.log(
-              "🚀 ~ doc.data().status === 0",
-              doc.data().status === 0
-            );
+            // console.log(
+            //   "🚀 ~ doc.data().status === 0",
+            //   doc.data().status === 0
+            // );
             if (doc.data().status === 0) {
               bag.push({
                 id: doc.id,

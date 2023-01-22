@@ -36,7 +36,7 @@ export default function Local_ChangePass({ navigation }) {
 
   let savePass = async () => {
     // console.log(user.uid, current);
-    console.log(newPass.length);
+    // console.log(newPass.length);
     if (newPass.length > 7) {
       if (oldPass === current) {
         updatePassword(user, newPass)

@@ -157,7 +157,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
     const selected = temp.find((activity) => activity.id === item.id);
     if (selected) {
-      console.log("remove");
+      // console.log("remove");
       temp = temp.filter((activity) => activity.id !== item.id);
     } else {
       console.log("add");
@@ -218,7 +218,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
-                ...highlights.brdr2,
+                ...highlights.brdr02,
               }}
             >
               <Text style={[text.text30, { fontWeight: "bold" }]}>

@@ -105,7 +105,7 @@ export default function Local_profile({ navigation }) {
       if (isTourHasImage) {
         imageUrl = await uploadImage(filePath);
       }
-      console.log("11777777", imageUrl);
+      // console.log("11777777", imageUrl);
       const colRef = query(
         collection(db, "Admin_users"),
         where("uid", "==", user.uid)
@@ -118,16 +118,16 @@ export default function Local_profile({ navigation }) {
         userinfo2 = doc.data();
         userinfo2.id = doc.id;
         myData.push(userinfo2.pictures);
-        console.log("check", userinfo2.pictures);
+        // console.log("check", userinfo2.pictures);
         setaa(userinfo2.pictures);
-        console.log("check2", aa);
+        // console.log("check2", aa);
       });
       let PArray = userinfo2.pictures ? userinfo2.pictures : [];
       // console.log("jjjhh1", myData);
-      console.log("check3", userinfo2.pictures);
+      // console.log("check3", userinfo2.pictures);
 
       PArray.push(imageUrl);
-      console.log("parray", PArray);
+      // console.log("parray", PArray);
 
       //myData.pictures = PArray;
 

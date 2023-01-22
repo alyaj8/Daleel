@@ -1,3 +1,4 @@
+import { Feather } from "@expo/vector-icons";
 import { StatusBar } from "expo-status-bar";
 import { child, getDatabase, onValue, ref } from "firebase/database";
 import React, { useEffect, useState } from "react";
@@ -17,7 +18,7 @@ import {
   getUserObj,
 } from "../../network/ApiService";
 import text from "../../style/text";
-import { getFormattedTime, logObj } from "./../../util/DateHelper";
+import { getFormattedTime } from "./../../util/DateHelper";
 
 const ChatCard = ({ item, onPressChat }) => {
   return (
@@ -120,7 +121,7 @@ const ChatsList = ({ navigation }) => {
     );
     const formated = arrayFromObj
       .map((chats) => {
-        logObj(chats, "chats");
+        // logObj(chats, "chats");
         return {
           ...chats,
         };
@@ -199,12 +200,35 @@ const ChatsList = ({ navigation }) => {
           <Text style={[text.white, text.text20, styles.alignCenter]}>
             لا يوجد لديك محادثات حاليا
           </Text>
-          {chats.length > 0 &&
+          {chats.length > 0 ? (
             chats.map((item, index) => {
               return (
                 <ChatCard key={index} item={item} onPressChat={onPressChat} />
               );
-            })}
+            })
+          ) : (
+            <View
+              style={{
+                flex: 1,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  color: colors.brown,
+                  textAlign: "center",
+                  marginRight: 20,
+                  fontSize: 20,
+                  fontWeight: "bold",
+                }}
+              >
+                لا يوجد لديك محادثات حاليا
+              </Text>
+              <Feather name="alert-circle" size={35} color="red" />
+            </View>
+          )}
         </View>
       </ImageBackground>
       <StatusBar style="auto" />

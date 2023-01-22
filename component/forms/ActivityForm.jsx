@@ -143,7 +143,7 @@ const ActivityForm = ({
           style={{
             flex: 1,
             alignItems: "center",
-            // ...highlights.brdr2,
+            // ...highlights.brdr02,
           }}
         >
           <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
@@ -158,7 +158,7 @@ const ActivityForm = ({
             }
             onClearLocation={() => setActivity({ ...activity, location: null })}
             style={{
-              // ...highlights.brdr3,
+              // ...highlights.brdr03,
               marginHorizontal: 10,
             }}
             style={{ width: screenWidth.width80 }}

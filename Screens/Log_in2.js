@@ -73,10 +73,15 @@ export default function Log_in2({ navigation }) {
 
   // Navigate to home page
   const navigateToDashboard = (user) => {
-    if (user.isTourist) {
-      navigation.replace("TouristBottomTabs");
-    } else {
-      navigation.replace("bottomTabs");
+    try {
+      // console.log("🚀 ~navigateToDashboard> user", user);
+      if (user && user.isTourist) {
+        navigation.replace("TouristBottomTabs");
+      } else if (user && !user.isTourist) {
+        navigation.replace("bottomTabs");
+      }
+    } catch (error) {
+      console.log("🚀 ToDashboard ~ error", error);
     }
   };
 
@@ -104,6 +109,7 @@ export default function Log_in2({ navigation }) {
       // Save user data in local storage
       await storeDataToStorage("loggedInUser", docSnap.data());
 
+      // console.log("🚀 ~ docSnap.data()", docSnap.data());
       navigateToDashboard(docSnap.data());
       setIsLoading(false);
       return docSnap.data();
@@ -120,17 +126,16 @@ export default function Log_in2({ navigation }) {
 
   // Sign in user with email and password
   const signIn = async () => {
-    if (value.email === "" || value.password === "") {
-      setValue({
-        ...value,
-        error: "البريد الإلكتروني والرقم السري مطلوبين",
-      });
-      return;
-    }
-
     try {
-      const user = await signInUser(value.email, value.password, push_token);
-      console.log("uid", user.uid);
+      if (value.email === "" || value.password === "") {
+        setValue({
+          ...value,
+          error: "البريد الإلكتروني والرقم السري مطلوبين",
+        });
+        return;
+      }
+
+      const user = await signInUser(value.email, value.password, "");
 
       setValue({
         email: "",
@@ -138,6 +143,7 @@ export default function Log_in2({ navigation }) {
         error: "",
       });
     } catch (er) {
+      console.log("🚀 ~ file: Log_in2.js ~ line 111 ~ signIn ~ er", er);
       er = errorMsg(er);
       setValue({
         ...value,
@@ -154,7 +160,7 @@ export default function Log_in2({ navigation }) {
     registerForPushNotificationsAsync().then((token) => {
       //  setPushToken(token === undefined ? "" : token);
       setPushToken(token);
-      console.log("token", token);
+      // console.log("token", token);
     });
     setIsLoading(false);
   }, []);

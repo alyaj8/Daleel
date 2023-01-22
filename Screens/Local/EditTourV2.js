@@ -124,7 +124,7 @@ export default function EditTourV2({ navigation, route }) {
     setDeleteModalVisible(!isDeleteModalVisible);
     setIsLoading(true);
     const response = await deleteRequest(tourId);
-    console.log("response", response);
+    // console.log("response", response);
     setIsLoading(false);
     if (response) {
       // alert("Tour Deleted Successfully");
@@ -247,7 +247,7 @@ export default function EditTourV2({ navigation, route }) {
       // console.log("🚀 ~ newTour", newTour.imageUrl);
 
       if (tourDone || !isNewImg) {
-        console.log("1");
+        // console.log("1");
         await updateTour(tourId, newTour);
         // alert("Tour Updated Successfully");
         setIsLoading(false);

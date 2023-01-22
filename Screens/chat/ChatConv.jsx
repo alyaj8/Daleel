@@ -37,7 +37,7 @@ const ChatConvesation = ({
       .map((message) => {
         // if type sys
         if (message.type === "sys") {
-          console.log("🚀 ~ message.createdAt", message.createdAt);
+          // console.log("🚀 ~ message.createdAt", message.createdAt);
           return {
             _id: message.id,
             text: message.content,

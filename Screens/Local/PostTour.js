@@ -39,11 +39,7 @@ import {
 import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
-import {
-  getFormattedDate,
-  getFormattedTime,
-  logObj,
-} from "../../util/DateHelper";
+import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
 import AppButton from "./../../component/AppButton";
@@ -102,7 +98,7 @@ export default function PostTour({ navigation }) {
 
   const [activity, setActivity] = useState(initActivity);
 
-  console.log("🚀 ~ activity", activity.location);
+  // console.log("🚀 ~ activity", activity.location);
 
   // activities fake data it should be fetched from firebase
   const [activities, setActivities] = useState([]);
@@ -199,7 +195,7 @@ export default function PostTour({ navigation }) {
         // logObj(data);
         await insertTour(data, "tours");
 
-        logObj(data, "🚀 ~ PostTour.js");
+        // logObj(data, "🚀 ~ PostTour.js");
 
         setIsLoading(false);
         // navigation.goBack();

@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     width: screenWidth.width30,
     height: screenWidth.width30,
     // resizeMode: "contain",
-    // ...highlights.brdr3,
+    // ...highlights.brdr03,
     borderRadius: 10,
   },
 });
