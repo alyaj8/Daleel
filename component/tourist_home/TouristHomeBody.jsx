@@ -26,9 +26,49 @@ const TouristHomeBody = ({
 
   currentUserId,
 }) => {
-  const [data, setData] = React.useState(requestStatus);
+  const [data, setData] = React.useState({
+    all: [],
+    accepted: [],
+    rejected: [],
+  });
 
   const Asyced = () => {
+    getUserId().then((currentUserIdLoc) => {
+      const q = query(
+        collection(db, "requests"),
+        where("touristId", "==", currentUserIdLoc)
+      );
+
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        let newRequest = [];
+        querySnapshot.forEach((doc) => {
+          newRequest.push({
+            id: doc.id,
+            ...doc.data(),
+          });
+        });
+
+        const unique = newRequest.filter((thing, index, self) => {
+          return (
+            index ===
+            self.findIndex((t) => {
+              return t.id === thing.id;
+            })
+          );
+        });
+
+        // logObj(unique, "🚀 ~ unique");
+
+        const all = unique.filter((item) => item.status == 0);
+        const accepted = unique.filter((item) => item.status === 1);
+        const rejected = unique.filter((item) => item.status === 2);
+
+        setData({ all, accepted, rejected });
+      });
+    });
+  };
+
+  const OldAsyced = () => {
     getUserId().then((currentUserIdLoc) => {
       const q = query(
         collection(db, "requests"),
@@ -50,7 +90,6 @@ const TouristHomeBody = ({
       });
     });
   };
-
   React.useEffect(() => {
     // console.log("Child", currentUserId);
     Asyced();
@@ -63,8 +102,8 @@ const TouristHomeBody = ({
       {/* Pending */}
       {selectedMenu == 0 && (
         <View>
-          {data?.length ? (
-            data?.map((item, index) => {
+          {data.all.length > 0 ? (
+            data.all.map((item, index) => {
               return (
                 <View key={index}>
                   {item?.status == 0 && (
@@ -115,8 +154,8 @@ const TouristHomeBody = ({
       {/* Accepted */}
       {selectedMenu == 1 && (
         <View>
-          {data?.length ? (
-            data?.map((item, index) => {
+          {data?.accepted.length ? (
+            data?.accepted?.map((item, index) => {
               const date = new Date(item?.dateCreated);
               const setDate = date.toDateString();
               const setTime = date.toTimeString();
@@ -177,8 +216,8 @@ const TouristHomeBody = ({
       {/* Rejected */}
       {selectedMenu == 2 && (
         <View>
-          {data?.length ? (
-            data?.map((item, index) => {
+          {data?.rejected.length ? (
+            data?.rejected?.map((item, index) => {
               return (
                 <View key={index}>
                   {item?.status == 2 && (
