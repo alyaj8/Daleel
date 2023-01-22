@@ -180,13 +180,6 @@ export async function deleteTour(id) {
   }
 }
 
-// export async function upload(path) {
-//   const uri = Platform.OS === "ios" ? path.replace("file://", "") : path;
-//   const fileName = uri.substring(uri.lastIndexOf("/") + 1);
-//   const storage = getStorage();
-//   const response = await fetch(uri);
-//   const file = await response.blob();
-
 export async function upload(path) {
   const uri = Platform.OS === "ios" ? path.replace("file://", "") : path;
   const fileName = uri.substring(uri.lastIndexOf("/") + 1);
@@ -279,57 +272,67 @@ export async function createChatRoom(senderId, receiverId) {
     const chatlist_ToFrom_Set_Ref = ref(db, pathToFrom);
 
     const createRoom = async () => {
-      const roomId = uuidv4();
-      const msgId = uuidv4();
-      const lastMsg = "Chat room created";
-      const chats_Set_Ref = ref(db, `chats/${roomId}/${msgId}`);
+      try {
+        const roomId = uuidv4();
+        const msgId = uuidv4();
+        const lastMsg = "Chat room created";
+        const chats_Set_Ref = ref(db, `chats/${roomId}/${msgId}`);
 
-      // get sender data from firestore
-      const senderData = await getDoc(doc(fs, "users", senderId));
-      const senderVal = senderData.data();
+        // get sender data from firestore
+        const senderObj = await getDoc(doc(fs, "users", senderId));
+        const senderVal = senderObj.data();
 
-      // get receiver data from firestore
-      const receiverData = await getDoc(doc(fs, "users", receiverId));
-      const receiverVal = receiverData.data();
+        // get receiver data from firestore
+        const receiverObj = await getDoc(doc(fs, "users", receiverId));
+        const receiverVal = receiverObj.data();
 
-      const senderData = {
-        name: senderVal.firstName,
+        const chatOnSenderList = {
+          name: receiverVal.firstname,
+          roomId,
+          lastMsg,
+          senderId: receiverId,
+        };
 
-        roomId,
-        lastMsg,
-        senderId,
-      };
-      const receiverData = {
-        name: receiverVal.firstName,
-        roomId,
-        lastMsg,
-        senderId: receiverId,
-      };
+        const chatOnReceiverList = {
+          name: senderVal.firstname,
+          roomId,
+          lastMsg,
+          senderId,
+        };
 
-      await set(chatlist_FromTo_Set_Ref, senderData);
-      await set(chatlist_ToFrom_Set_Ref, receiverData);
+        console.log("✅ Got users data");
 
-      await set(chats_Set_Ref, {
-        roomId,
-        id: msgId,
-        type: "sys",
-        content: "Chat room created",
-        createdAt: new Date().getTime(),
-      });
+        await set(chatlist_FromTo_Set_Ref, chatOnSenderList);
+        await set(chatlist_ToFrom_Set_Ref, chatOnReceiverList);
 
-      // console.log("✅ roomId", roomId);
-      return roomId;
+        await set(chats_Set_Ref, {
+          roomId,
+          id: msgId,
+          type: "sys",
+          content: "Chat room created",
+          createdAt: new Date().getTime(),
+        });
+
+        console.log("✅ Created", roomId);
+
+        return chatOnSenderList;
+      } catch (error) {
+        console.log("❌ API > createRoom", error);
+      }
     };
 
     const chatlistSnap = await get(chatlist_FromTo_Get_Ref);
     const chatlistVal = chatlistSnap.val();
+
     if (chatlistVal) {
       // return chatlistVal as roomId
       console.log("✅ chatlistVal", chatlistVal);
-      return chatlistVal.roomId;
+      return chatlistVal;
     }
+
     if (!chatlistVal) {
-      console.log("❌ chatlistVal");
+      console.log("Room not exist, we will create a new one ❌ ");
+
       // create room
       const roomId = await createRoom();
       console.log("✅ roomId", roomId);
@@ -340,7 +343,10 @@ export async function createChatRoom(senderId, receiverId) {
   }
 }
 
-export async function sendMessage(roomId, message, senderId, receiverId) {
+export async function sendMessage(roomId, message, sender, receiver) {
+  const { senderId, senderName } = sender;
+  const { receiverId, receiverName } = receiver;
+
   try {
     const db = getDatabase();
     const dbGetRef = ref(db);
@@ -368,15 +374,18 @@ export async function sendMessage(roomId, message, senderId, receiverId) {
       to: receiverId,
     };
     // - update chatlist/from/to/lastMsg
-    const senderData = {
+    const chatOnSenderList = {
+      name: receiverName,
       roomId,
-      senderId,
+      senderId: receiverId,
+
       lastMsg: message,
     };
     // - update chatlist/to/from/lastMsg
-    const receiverData = {
+    const chatOnReceiverList = {
+      name: senderName,
       roomId,
-      senderId: receiverId,
+      senderId,
       lastMsg: message,
     };
 

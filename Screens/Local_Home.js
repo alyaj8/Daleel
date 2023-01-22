@@ -14,7 +14,7 @@ import LocalBooingDetailCard from "../component/card/LocalBooingDetailCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
-  getChatList,
+  createChatRoom,
   getUserId,
   updateRequest,
   updateTour,
@@ -122,24 +122,12 @@ export default function Local_Home({ navigation }) {
   };
 
   const onPressChat = async (request) => {
-    // navigation.navigate("ChatConv", { params: request });
-    // console.log("sender = localId", currentUserId);
-    // console.log("receiver = touristId", request.touristId);
     try {
       setIsLoading(true);
 
-      // const roomId = await createChatRoom(currentUserId, request.touristId);
-      // console.log("🚀 ~ roomId", roomId);
+      const chatItem = await createChatRoom(currentUserId, request.touristId);
 
-      // const message = await sendMessage(
-      //   roomId,
-      //   "Fine!!",
-      //   request.touristId,
-      //   currentUserId
-      // );
-
-      const chatList = await getChatList(currentUserId);
-      console.log("🚀 ~ chatList", chatList);
+      navigation.navigate("ChatConv", { chatItem });
 
       setIsLoading(false);
     } catch (error) {
