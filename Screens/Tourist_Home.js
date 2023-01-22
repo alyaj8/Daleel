@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images, screenWidth } from "../config/Constant";
-import { getUserId } from "../network/ApiService";
+import { createChatRoom, getUserId, getUserObj } from "../network/ApiService";
 import text from "../style/text";
 import TouristHomeBody from "./../component/tourist_home/TouristHomeBody";
 
@@ -39,8 +39,25 @@ export default function Tourist_Home({ navigation }) {
     setModalVisibleRejected(!isModalVisibleRejected);
   };
 
-  const onPressChat = (request) => {
-    navigation.navigate("ChatConv", { params: request });
+  const onPressChat = async (request) => {
+    try {
+      setIsLoading(true);
+      const chatItem = await createChatRoom(currentUserId, request.localId);
+      const me = await getUserObj();
+
+      navigation.navigate("ChatConv", {
+        receiverName: chatItem.name,
+        receiverId: chatItem.senderId,
+        senderId: me.uid,
+        senderName: me.firstname,
+        roomId: chatItem.roomId,
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("🚀 ~ error", error);
+    }
   };
 
   useEffect(() => {

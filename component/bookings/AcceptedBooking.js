@@ -16,6 +16,7 @@ export default function AcceptedBooking({
   time,
   item,
   forPerson,
+  type = "local", // local or tourist
 }) {
   return (
     <View
@@ -146,14 +147,21 @@ export default function AcceptedBooking({
               justifyContent: "flex-end",
             }}
           >
-            <Text> {forPerson} </Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              {" "}
+              {forPerson}{" "}
+            </Text>
             <Text
               style={{
                 fontWeight: "bold",
                 fontSize: 16,
               }}
             >
-              السائح:{" "}
+              {type === "local" ? "السائح: " : "المُرشِد: "}
             </Text>
           </View>
         </View>

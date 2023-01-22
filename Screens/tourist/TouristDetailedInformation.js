@@ -18,7 +18,12 @@ import Loading from "../../component/Loading";
 import MapListItem from "../../component/maps/MapListItem";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
-import { getUserId, getUserObj, insertRequest } from "../../network/ApiService";
+import {
+  getUser,
+  getUserId,
+  getUserObj,
+  insertRequest,
+} from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
 
@@ -108,6 +113,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
       // get user data
       const userData = await getUserObj();
       const touristId = await getUserId();
+      const localData = await getUser(data.requestBy);
       // console.log("🚀 ~ userData", userData);
 
       // get tour data
@@ -117,6 +123,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
         title: data.title,
         touristId: touristId,
         touristName: userData?.firstname,
+        localName: localData?.firstname,
         status: 0,
         imageUrl: data?.imageUrl,
         dateCreated: Date.now(),

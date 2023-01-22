@@ -28,7 +28,10 @@ function AppNavigator() {
 
       <Stack.Screen
         name="ChatConv"
-        options={{ headerShown: true, title: "Chat" }}
+        options={({ route }) => ({
+          headerShown: true,
+          title: route.params.receiverName,
+        })}
         component={ChatConvesation}
       />
 

@@ -168,11 +168,14 @@ const TouristHomeBody = ({
                       <AcceptedBooking
                         key={index}
                         source={{ uri: item?.imageUrl }}
-                        booked={"Shatha"}
+                        // booked={"Shatha"}
                         title={item?.title}
                         date={setDate}
                         time={setTime}
+                        item={item}
+                        forPerson={item?.localName}
                         onpressAccepted={() => onPressChat(item)}
+                        type="tourist"
                         // onpressAccepted={() => navigation.navigate("ChatMenu")}
                       />
                     </View>

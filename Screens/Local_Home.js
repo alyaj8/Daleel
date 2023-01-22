@@ -16,6 +16,7 @@ import {
   acceptRequest,
   createChatRoom,
   getUserId,
+  getUserObj,
   updateRequest,
   updateTour,
 } from "../network/ApiService";
@@ -126,8 +127,15 @@ export default function Local_Home({ navigation }) {
       setIsLoading(true);
 
       const chatItem = await createChatRoom(currentUserId, request.touristId);
+      const me = await getUserObj();
 
-      navigation.navigate("ChatConv", { chatItem });
+      navigation.navigate("ChatConv", {
+        receiverName: chatItem.name,
+        receiverId: chatItem.senderId,
+        senderId: me.uid,
+        senderName: me.firstname,
+        roomId: chatItem.roomId,
+      });
 
       setIsLoading(false);
     } catch (error) {
@@ -283,13 +291,14 @@ export default function Local_Home({ navigation }) {
                     <AcceptedBookings
                       key={index}
                       source={{ uri: item?.imageUrl }}
-                      booked={item?.touristName}
+                      // booked={item?.touristName}
                       title={item?.title}
                       date={setDate}
                       time={setTime}
                       item={item}
                       forPerson={item?.touristName}
                       onpressAccepted={() => onPressChat(item)}
+                      type="local"
                     />
                   );
                 })
