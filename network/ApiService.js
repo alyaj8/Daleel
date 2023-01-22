@@ -286,13 +286,21 @@ export async function createChatRoom(senderId, receiverId) {
 
       // get sender data from firestore
       const senderData = await getDoc(doc(fs, "users", senderId));
+      const senderVal = senderData.data();
+
+      // get receiver data from firestore
+      const receiverData = await getDoc(doc(fs, "users", receiverId));
+      const receiverVal = receiverData.data();
 
       const senderData = {
+        name: senderVal.firstName,
+
         roomId,
         lastMsg,
         senderId,
       };
       const receiverData = {
+        name: receiverVal.firstName,
         roomId,
         lastMsg,
         senderId: receiverId,
