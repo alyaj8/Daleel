@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { colors } from "../../config/Constant";
 import { sendMessage } from "../../network/ApiService";
+import { images } from "./../../config/Constant";
 
 const ChatConvesation = ({
   navigation,
@@ -51,7 +52,7 @@ const ChatConvesation = ({
           user: {
             _id: message.from,
             name: message.senderName,
-            avatar: "https://placeimg.com/140/140/any",
+            avatar: images.user,
           },
         };
       })
