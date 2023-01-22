@@ -1,25 +1,35 @@
 import {
+  child,
+  get,
+  getDatabase,
+  push,
+  ref,
+  set,
+  update,
+} from "firebase/database";
+import {
   addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
+  getFirestore,
   query,
   updateDoc,
   where,
 } from "firebase/firestore";
+import { v4 as uuidv4 } from "uuid";
 import { auth, db } from "../config/firebase";
 
 import {
   getDownloadURL,
   getStorage,
-  ref,
   uploadBytesResumable,
 } from "firebase/storage";
 import { getDataFromStorage } from "../util/Storage";
 
 import { deleteDoc, setDoc } from "firebase/firestore";
-import { CHATS_TABLE, REQUESTS } from "../config/Constant";
+import { REQUESTS } from "../config/Constant";
 
 export async function getUserId() {
   let uid = auth?.currentUser?.uid;
@@ -209,28 +219,208 @@ export async function upload(path) {
     console.error(e);
   }
 }
-export async function insertMessage(daa, cotnversationId) {
+
+/*
+! chatlist
+  - 1
+    - 2 (roomId1, lastMsg) 1 to 2 
+    - 3 (roomId2, lastMsg) 1 to 3
+  - 2
+    - 1 (roomId1, lastMsg) 2 to 1
+    - 3 (roomId3, lastMsg) 2 to 3
+  - 3
+    - 1 (roomId2, lastMsg) 3 to 1
+  
+! chats
+  - roomId1
+    - messages  
+  - roomId2
+    - messages
+  - roomId3
+    - messages
+
+! On send message from 1 to 2
+  - go to chatlist/1/2
+    * if exists:
+      - get roomId1
+      - go to chats/roomId1/messages
+      - add message
+      - update chatlist/1/2/lastMsg
+      - update chatlist/2/1/lastMsg
+    
+    * if not exists:
+      - create chatlist/1/2
+      - create chatlist/2/1
+      - create chats/roomId1
+      - go to chats/roomId1/messages
+      - add message
+      - update chatlist/1/2/lastMsg
+      - update chatlist/2/1/lastMsg
+! On Open chat list of 1
+  - go to chatlist/1
+    * if exists:
+      - get all chatlist/1/*
+    * if not exists:
+      - create chatlist/1
+      - get all chatlist/1/*
+*/
+
+export async function createChatRoom(senderId, receiverId) {
   try {
-    const docRef = doc(db, CHATS_TABLE, conversationId);
-    const colRef = collection(docRef, "messages");
-    addDoc(colRef, data);
-    // setDoc(doc(db, CHATS_TABLE, conversationId), data);
-  } catch (err) {
-    alert("insertMessage", err);
+    const db = getDatabase();
+    const fs = getFirestore();
+    const dbRef = ref(db);
+
+    const pathFromTo = `chatlist/${senderId}/${receiverId}`;
+    const chatlist_FromTo_Get_Ref = child(dbRef, pathFromTo);
+    const chatlist_FromTo_Set_Ref = ref(db, pathFromTo);
+
+    const pathToFrom = `chatlist/${receiverId}/${senderId}`;
+    const chatlist_ToFrom_Set_Ref = ref(db, pathToFrom);
+
+    const createRoom = async () => {
+      const roomId = uuidv4();
+      const msgId = uuidv4();
+      const lastMsg = "Chat room created";
+      const chats_Set_Ref = ref(db, `chats/${roomId}/${msgId}`);
+
+      // get sender data from firestore
+      const senderData = await getDoc(doc(fs, "users", senderId));
+
+      const senderData = {
+        roomId,
+        lastMsg,
+        senderId,
+      };
+      const receiverData = {
+        roomId,
+        lastMsg,
+        senderId: receiverId,
+      };
+
+      await set(chatlist_FromTo_Set_Ref, senderData);
+      await set(chatlist_ToFrom_Set_Ref, receiverData);
+
+      await set(chats_Set_Ref, {
+        roomId,
+        id: msgId,
+        type: "sys",
+        content: "Chat room created",
+        createdAt: new Date().getTime(),
+      });
+
+      // console.log("✅ roomId", roomId);
+      return roomId;
+    };
+
+    const chatlistSnap = await get(chatlist_FromTo_Get_Ref);
+    const chatlistVal = chatlistSnap.val();
+    if (chatlistVal) {
+      // return chatlistVal as roomId
+      console.log("✅ chatlistVal", chatlistVal);
+      return chatlistVal.roomId;
+    }
+    if (!chatlistVal) {
+      console.log("❌ chatlistVal");
+      // create room
+      const roomId = await createRoom();
+      console.log("✅ roomId", roomId);
+      return roomId;
+    }
+  } catch (error) {
+    console.log("❌ API > createChatRoom", error);
   }
 }
 
-export async function createChatRoom(data, userId1, userId2) {
+export async function sendMessage(roomId, message, senderId, receiverId) {
   try {
-    console.log("userId1", userId1);
-    console.log("userId2", userId2);
-    // const docRef = doc(db, "chat_threads", userId1);
-    // const colRef = collection(docRef, "threads/" + userId2);
-    // setDoc(colRef, data);
+    const db = getDatabase();
+    const dbGetRef = ref(db);
+    const chatPath = `chats/${roomId}`;
+    const chat_Set_Ref = ref(db, chatPath);
+    const chat_Get_Ref = child(dbGetRef, chatPath);
 
-    setDoc(doc(db, "users", userId1, "chat_threads", userId2), data);
-  } catch (err) {
-    console.log("error", err);
-    alert("createChatRoom", err);
+    const chatlist_FromTo_Set_Ref = ref(
+      db,
+      `chatlist/${senderId}/${receiverId}`
+    );
+    const chatlist_ToFrom_Set_Ref = ref(
+      db,
+      `chatlist/${receiverId}/${senderId}`
+    );
+
+    // a message entry.
+    const msg = {
+      roomId,
+      type: "text",
+      content: message,
+      createdAt: new Date(),
+      id: uuidv4(),
+      from: senderId,
+      to: receiverId,
+    };
+    // - update chatlist/from/to/lastMsg
+    const senderData = {
+      roomId,
+      senderId,
+      lastMsg: message,
+    };
+    // - update chatlist/to/from/lastMsg
+    const receiverData = {
+      roomId,
+      senderId: receiverId,
+      lastMsg: message,
+    };
+
+    // Get a key for a new message.
+    const newMsgKey = push(chat_Set_Ref).key;
+    console.log("🚀 ~ newMsgKey", newMsgKey);
+
+    // Write the new message's data simultaneously in the chat list and the last's message list.
+    const updates = {};
+    updates[`${chatPath}/${newMsgKey}`] = msg;
+
+    console.log("🚀 ~ updates", updates);
+    console.log("🚀 ~ dbGetRef", dbGetRef);
+
+    await update(dbGetRef, updates);
+
+    await set(chatlist_FromTo_Set_Ref, senderData);
+
+    await set(chatlist_ToFrom_Set_Ref, receiverData);
+
+    console.log("✅ sendMessage");
+    return true;
+  } catch (error) {
+    console.log("error", error);
+    alert("sendMessage", error);
+  }
+}
+
+export async function getChatList(userId) {
+  try {
+    const db = getDatabase();
+    const dbRef = ref(db);
+    const chatlist_Ref = child(dbRef, `chatlist/${userId}`);
+    const chatlistSnap = await get(chatlist_Ref);
+    const chatlistVal = chatlistSnap.val();
+    console.log("✅ chatlistVal", chatlistVal);
+    return chatlistVal;
+  } catch (error) {
+    console.log("❌ API > getChatList", error);
+  }
+}
+
+export async function getChatMessages(roomId) {
+  try {
+    const db = getDatabase();
+    const dbRef = ref(db);
+    const chat_Ref = child(dbRef, `chats/${roomId}`);
+    const chatSnap = await get(chat_Ref);
+    const chatVal = chatSnap.val();
+    console.log("✅ chatVal", chatVal);
+    return chatVal;
+  } catch (error) {
+    console.log("❌ API > getChatMessages", error);
   }
 }
