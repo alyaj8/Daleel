@@ -26,14 +26,15 @@ export default function TourDetail({ navigation }) {
         const q = query(
           collection(db, "tours"),
           where("requestBy", "==", uid),
-          where("status", "==", "0"),
-          where("status", "==", "2")
+          where("status", "!=", "1")
+          // where("status", "==", "2")
         );
 
         // listen for changes
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
           querySnapshot.forEach((doc) => {
+            console.log("doc", doc.data());
             bag.push({
               id: doc.id,
               ...doc.data(),

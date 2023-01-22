@@ -198,7 +198,7 @@ export const InputMap = memo(
         >
           <AutocompleteDropdown
             direction={"up"}
-            bottomOffset={Platform.select({ ios: 0, android: 100 })}
+            // bottomOffset={Platform.select({ ios: 0, android: 100 })}
             ref={searchRef}
             controller={(controller) => {
               dropdownController.current = controller;
