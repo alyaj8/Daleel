@@ -23,22 +23,19 @@ export default function TourDetail({ navigation }) {
     useCallback(() => {
       const getAllRequests = async () => {
         const uid = await getUserId();
-        const q = query(
-          collection(db, "tours"),
-          where("requestBy", "==", uid),
-          where("status", "!=", "1")
-          // where("status", "==", "2")
-        );
+        const q = query(collection(db, "tours"), where("requestBy", "==", uid));
 
         // listen for changes
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
           querySnapshot.forEach((doc) => {
             console.log("doc", doc.data());
-            bag.push({
-              id: doc.id,
-              ...doc.data(),
-            });
+            if (doc.data().status != 1) {
+              bag.push({
+                id: doc.id,
+                ...doc.data(),
+              });
+            }
           });
 
           setData(bag);
