@@ -493,7 +493,7 @@ export default function EditTourV2({ navigation, route }) {
               <Input
                 value={date ? getFormattedDate(date) : ""}
                 icon={true}
-                value={date ? getFormattedDate(date) : ""}
+                //value={date ? getFormattedDate(date) : ""}
                 placeholder="اختر تاريخ الجولة"
                 source={images.calendar}
                 editable={false}
@@ -524,7 +524,7 @@ export default function EditTourV2({ navigation, route }) {
                 source={images.timer}
                 editable={false}
                 placeholder="اختر وقت نهاية"
-                value={endTime ? getFormattedTime(endTime) : ""}
+                //value={endTime ? getFormattedTime(endTime) : ""}
                 style={{ width: screenWidth.width40 }}
               />
             </TouchableOpacity>
@@ -548,7 +548,7 @@ export default function EditTourV2({ navigation, route }) {
                 icon={true}
                 source={images.timer}
                 editable={false}
-                value={startTime ? getFormattedTime(startTime) : ""}
+                //value={startTime ? getFormattedTime(startTime) : ""}
                 placeholder="اختر وقت بداية"
                 style={{ width: screenWidth.width40 }}
               />
@@ -850,7 +850,7 @@ export default function EditTourV2({ navigation, route }) {
               }
               title={"حفظ التغييرات"}
               style={{
-                backgroundColor: colors.brown,
+                backgroundColor: colors.Blue,
                 height: screenWidth.width15,
               }}
               onPress={() => {
@@ -869,7 +869,7 @@ export default function EditTourV2({ navigation, route }) {
               <AppButton
                 // disabled={disabled}
                 style={{
-                  backgroundColor: colors.green,
+                  backgroundColor: colors.brown,
                   width: screenWidth.width70,
                   height: screenWidth.width12,
                 }}
@@ -882,7 +882,7 @@ export default function EditTourV2({ navigation, route }) {
               <MIcon
                 name="delete"
                 size={45}
-                color={colors.red}
+                color={colors.brown}
                 style={{ marginHorizontal: 10 }}
                 onPress={() => {
                   toggleModalDelete();
