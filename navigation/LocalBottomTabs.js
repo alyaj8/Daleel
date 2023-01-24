@@ -5,9 +5,9 @@ import LocalHomeStack from "./LocalHomeStack";
 import TourStack from "./TourStack";
 
 import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
-import PostTour from "../Screens/Local/PostTour";
 
 import { colors, images } from "../config/Constant";
+import PostTourV2 from "../Screens/Local/PostTourV2";
 import ChatStack from "./ChatStack";
 const Tab = createBottomTabNavigator();
 
@@ -21,6 +21,7 @@ export default function LocalBottomTabs() {
         },
       }}
     >
+      {/* طلباتي مرشد */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
@@ -51,6 +52,8 @@ export default function LocalBottomTabs() {
         name="Home"
         component={LocalHomeStack}
       />
+
+      {/* جولاتي مرشد */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
@@ -81,6 +84,8 @@ export default function LocalBottomTabs() {
         name="TourStack"
         component={TourStack}
       />
+
+      {/* نشر جولة مرشد */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
@@ -108,8 +113,11 @@ export default function LocalBottomTabs() {
           ),
         }}
         name="PostSearch"
-        component={PostTour}
+        // component={PostTour}
+        component={PostTourV2}
       />
+
+      {/* رسائلي مرشد */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (
@@ -140,6 +148,8 @@ export default function LocalBottomTabs() {
         name="ChatStack"
         component={ChatStack}
       />
+
+      {/* حسابي مرشد */}
       <Tab.Screen
         options={{
           tabBarLabel: ({ focused, color, size }) => (

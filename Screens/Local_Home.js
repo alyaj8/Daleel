@@ -5,11 +5,9 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import { SafeAreaView } from "react-native-safe-area-context";
 import LocalBooingDetailCard from "../component/card/LocalBooingDetailCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
@@ -27,6 +25,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AcceptedBookings from "../component/bookings/AcceptedBooking";
 import RejectedBookings from "../component/bookings/RejectedBookings";
 import Button from "../component/button/Button";
+import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";
 
 export default function Local_Home({ navigation }) {
@@ -162,57 +161,33 @@ export default function Local_Home({ navigation }) {
     setModalVisibleRejected(!isModalVisibleRejected);
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
-        <Text
-          style={[
-            styles.alignCenter,
-            text.white,
-            text.bold,
-            text.text30,
-            {
-              marginTop: 20,
-              width: "100%",
-              textAlign: "center",
-              //color:colors.Blue
-            },
-          ]}
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: screenWidth.width10,
+            marginVertical: 0,
+          }}
         >
-          طلباتي
-        </Text>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 30,
+              fontWeight: "bold",
+            }}
+          >
+            جولاتي
+          </Text>
+        </View>
 
         {/* Top Tabs */}
-        <View>
-          <View style={[styles.flexDirection, styles.tabColor]}>
-            {menuTab.map((menu, index) => {
-              return (
-                <View key={index}>
-                  <TouchableOpacity
-                    onPress={() => onPressTab(index)}
-                    style={[
-                      styles.headerTab,
-                      {
-                        backgroundColor:
-                          selectedMenu == index ? "#d9d9d9" : "#f1f1f1",
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        text.themeDefault,
-                        text.text20,
-                        { textAlign: "center" },
-                      ]}
-                    >
-                      {menu?.title}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </View>
-        </View>
+        <TabsWrapper
+          selectedMenu={selectedMenu}
+          menuTabs={menuTab}
+          onPressTab={onPressTab}
+        />
 
         {/* Body */}
 
@@ -463,9 +438,8 @@ export default function Local_Home({ navigation }) {
           </View>
         </Modal>
       </ImageBackground>
-
       <StatusBar style="auto" />
-    </SafeAreaView>
+    </View>
   );
 }
 

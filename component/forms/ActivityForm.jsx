@@ -6,9 +6,17 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   colors,
+  highlights,
   imagePickerConfig,
   images,
   screenWidth,
@@ -20,11 +28,23 @@ import InputMap from "../maps/InputMap";
 import MIcon from "../MIcon";
 import AppButton from "./../AppButton";
 
+const initActivity = {
+  id: null,
+  title: "",
+  description: "",
+  location: "",
+  date: null,
+  startTime: null,
+  endTime: null,
+  price: null,
+  imageUrl: null,
+};
+
 const ActivityForm = ({
   formTitle = "Activity Form",
   data,
-  mode,
-  activity,
+  mode = "add",
+  activity = initActivity,
   setActivity,
   onShowPicker,
 
@@ -87,18 +107,15 @@ const ActivityForm = ({
       return Promise.reject(err);
     }
   };
-  // console.log("🚀 ~ activity.endTime", !!activity.endTime);
-  // console.log("🚀 ~ activity.startTime", !!activity.startTime);
-  // console.log("🚀 ~ activity.imageUrl", !!activity.imageUrl);
-  // console.log("🚀 ~ activity.price", !!activity.price);
-  // console.log("🚀 ~ activity.description", !!activity.description);
-  // console.log("🚀 ~ activity.name", !!activity.title);
 
   return (
     <View style={[styles.container]}>
-      <Text style={styles.title}>{formTitle}</Text>
+      {/* <Text style={styles.title}>{formTitle}</Text> */}
 
-      <View style={[styles.innerForm]}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[styles.innerForm]}
+      >
         {/* Name */}
         <View
           style={{
@@ -200,7 +217,7 @@ const ActivityForm = ({
             justifyContent: "space-between",
             marginHorizontal: 20,
             width: screenWidth.width80,
-            // ...no_highlights.brdr3,
+            // ...no_highlights.brdr03,
           }}
         >
           <TouchableOpacity
@@ -274,7 +291,7 @@ const ActivityForm = ({
             justifyContent: "space-between",
             // alignItems: "center",
             marginVertical: 10,
-            // ...no_highlights.brdr3,
+            // ...no_highlights.brdr03,
             width: screenWidth.width80,
           }}
         >
@@ -282,7 +299,7 @@ const ActivityForm = ({
             style={[
               {
                 flexDirection: "column",
-                // ...no_highlights.brdr1,
+                // ...no_highlights.brdr01,
               },
             ]}
           >
@@ -304,7 +321,7 @@ const ActivityForm = ({
           <View
             style={
               {
-                // ...no_highlights.brdr2,
+                // ...no_highlights.brdr02,
               }
             }
           >
@@ -375,7 +392,7 @@ const ActivityForm = ({
             <View
               style={{
                 flexDirection: "row",
-                // ...no_highlights.brdr1,
+                // ...no_highlights.brdr01,
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -410,7 +427,7 @@ const ActivityForm = ({
             </View>
           )}
         </View>
-      </View>
+      </ScrollView>
     </View>
   );
 };
@@ -419,27 +436,23 @@ export default ActivityForm;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
-    marginHorizontal: 20,
-    marginVertical: 20,
-
     backgroundColor: colors.grayBg,
     borderRadius: 10,
     padding: 5,
+    width: screenWidth.width90,
+    flex: 1,
+    height: "100%",
+    ...highlights.brdr02,
+    // marginHorizontal: 20,
+    // marginVertical: 20,
   },
   innerForm: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "column",
-    marginHorizontal: 20,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-
-    // ...no_highlights.brdr1,
   },
   title: {
     alignSelf: "flex-end",

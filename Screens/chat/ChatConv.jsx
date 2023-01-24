@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
 import { colors } from "../../config/Constant";
-import { sendMessage } from "../../network/ApiService";
+import { markAsRead, sendMessage } from "../../network/ApiService";
 import { images } from "./../../config/Constant";
 
 const ChatConvesation = ({
@@ -43,6 +43,8 @@ const ChatConvesation = ({
             text: message.content,
             createdAt: new Date(message.createdAt),
             system: true,
+            isRead: false,
+            sent: true,
           };
         }
         return {
@@ -54,6 +56,8 @@ const ChatConvesation = ({
             name: message.senderName,
             avatar: images.user,
           },
+          isRead: false,
+          sent: true,
         };
       })
       .sort((a, b) => a.createdAt - b.createdAt);
@@ -65,6 +69,8 @@ const ChatConvesation = ({
     const db = getDatabase();
     const dbRef = ref(db);
     const chat_Ref = child(dbRef, `chats/${roomId}`);
+
+    markAsRead(roomId, senderId, receiverId);
 
     return onValue(chat_Ref, (snap) => {
       // <--- return the unsubscriber!
@@ -92,12 +98,21 @@ const ChatConvesation = ({
             {...props}
             textStyle={{
               right: {
-                color: "yellow",
+                color: "white",
+
+                fontWeight: "bold",
+                padding: 3,
+              },
+              left: {
+                color: "white",
+                fontWeight: "bold",
+                padding: 3,
               },
             }}
             wrapperStyle={{
               left: {
                 backgroundColor: colors.brown,
+                borderRadius: 10,
               },
             }}
           />

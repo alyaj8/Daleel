@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import Chip from "../../component/Chip";
 import { colors, images, screenWidth } from "../../config/Constant";
 import {
   createChatRoom,
@@ -83,15 +84,16 @@ const ChatCard = ({ item, onPressChat }) => {
             style={[
               text.text16,
               {
-                color: colors.brown,
-                textAlign: "right",
+                color: "rgba(0,0,0,0.5)",
+                textAlign: "center",
                 marginRight: 20,
+                // ...highlights.brdr1,
               },
             ]}
           >
-            {item.lastMessage}
+            {item.lastMsg}
           </Text>
-
+          {!item.isRead && <Chip text={"غير مقروء"} />}
           {/* Time */}
           <Text
             style={[

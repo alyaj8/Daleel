@@ -2,7 +2,6 @@ import {
   child,
   get,
   getDatabase,
-  onValue,
   push,
   ref,
   set,
@@ -306,6 +305,7 @@ export async function createChatRoom(senderId, receiverId) {
           lastMsg,
           senderId: receiverId,
           createdAt: new Date().getTime(),
+          isRead: false,
         };
         console.log("🚀 ~ chatOnSenderList", chatOnSenderList);
 
@@ -315,6 +315,7 @@ export async function createChatRoom(senderId, receiverId) {
           lastMsg,
           senderId,
           createdAt: new Date().getTime(),
+          isRead: false,
         };
         console.log("🚀 ~ chatOnReceiverList", chatOnReceiverList);
 
@@ -399,6 +400,7 @@ export async function sendMessage(roomId, message, sender, receiver) {
       senderId: receiverId,
       lastMsg: message,
       createdAt: new Date().getTime(),
+      isRead: false,
     };
     // - update chatlist/to/from/lastMsg
     const chatOnReceiverList = {
@@ -407,6 +409,7 @@ export async function sendMessage(roomId, message, sender, receiver) {
       senderId,
       lastMsg: message,
       createdAt: new Date().getTime(),
+      isRead: false,
     };
 
     // Get a key for a new message.
@@ -434,58 +437,33 @@ export async function sendMessage(roomId, message, sender, receiver) {
   }
 }
 
-export async function getChatList(userId) {
+// mark last message as read when user open chat room
+export async function markAsRead(roomId, senderId, receiverId) {
   try {
     const db = getDatabase();
-    const dbRef = ref(db);
-    const chatlist_Ref = child(dbRef, `chatlist/${userId}`);
-    const chatlistSnap = await get(chatlist_Ref);
-    const chatlistVal = chatlistSnap.val();
-    console.log("✅ chatlistVal", chatlistVal);
-    return chatlistVal;
+    const chatlist_FromTo_Set_Ref = ref(
+      db,
+      `chatlist/${senderId}/${receiverId}`
+    );
+    const chatlist_ToFrom_Set_Ref = ref(
+      db,
+      `chatlist/${receiverId}/${senderId}`
+    );
+
+    const chatOnSenderList = {
+      isRead: true,
+    };
+    const chatOnReceiverList = {
+      isRead: true,
+    };
+
+    await update(chatlist_FromTo_Set_Ref, chatOnSenderList);
+    await update(chatlist_ToFrom_Set_Ref, chatOnReceiverList);
+
+    console.log("✅ markAsRead");
+    return true;
   } catch (error) {
-    console.log("❌ API > getChatList", error);
+    console.log("error", error);
+    alert("markAsRead", error);
   }
-}
-
-export async function getChatMessages(roomId) {
-  try {
-    const db = getDatabase();
-    const dbRef = ref(db);
-    const chat_Ref = child(dbRef, `chats/${roomId}`);
-
-    const chatSnap = await get(chat_Ref);
-    const chatVal = chatSnap.val();
-
-    // console.log("✅ chatVal", chatVal);
-    return chatVal;
-  } catch (error) {
-    console.log("❌ API > getChatMessages", error);
-  }
-}
-
-// get realtime chat messages
-export function getChatMessagesRealtime(roomId, callback) {
-  const db = getDatabase();
-  const dbRef = ref(db);
-  const chat_Ref = child(dbRef, `chats/${roomId}`);
-
-  onValue(chat_Ref, (snapshot) => {
-    const data = snapshot.val();
-    callback(data);
-  });
-}
-
-// get realtime last message
-export function getLastMessageRealtime(roomId, callback) {
-  const db = getDatabase();
-  const dbRef = ref(db);
-  const chat_Ref = child(dbRef, `chats/${roomId}`);
-
-  onValue(chat_Ref, (snapshot) => {
-    const data = snapshot.val();
-    const lastMsg = data[Object.keys(data)[Object.keys(data).length - 1]];
-
-    callback(lastMsg);
-  });
 }

@@ -57,6 +57,18 @@ const initActivity = {
   imageUrl: null,
 };
 
+const status = 0;
+
+let ages = [
+  "0 - 10",
+  "10 - 20",
+  "20 - 30",
+  "30 - 40",
+  "40 - 50",
+  "50 - 60",
+  "60 - 70",
+];
+
 export default function EditTourV2({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isDeleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -91,18 +103,6 @@ export default function EditTourV2({ navigation, route }) {
 
   // activities fake data it should be fetched from firebase
   const [activities, setActivities] = useState([]);
-
-  const status = 0;
-
-  let ages = [
-    "0 - 10",
-    "10 - 20",
-    "20 - 30",
-    "30 - 40",
-    "40 - 50",
-    "50 - 60",
-    "60 - 70",
-  ];
 
   const disabled = !title || !meetingPoint || !description || !qty;
   const modalizeRefAge = useRef(null);

@@ -52,8 +52,23 @@ export default function TourDetail({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
-        <View style={[styles.alignCenter, { marginVertical: 10 }]}>
-          <Text style={[text.white, text.text30, text.bold]}>جولاتي</Text>
+        <View
+          style={{
+            alignItems: "center",
+
+            marginTop: screenWidth.width15,
+            marginVertical: 10,
+          }}
+        >
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 30,
+              fontWeight: "bold",
+            }}
+          >
+            جولاتي
+          </Text>
         </View>
         <ScrollView
           style={{
@@ -119,7 +134,8 @@ export default function TourDetail({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
+    // paddingTop: 20,
+    // marginTop: screenWidth.width10,
     backgroundColor: "#fff",
   },
   alignCenter: {
