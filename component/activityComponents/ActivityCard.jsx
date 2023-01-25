@@ -7,6 +7,7 @@ import {
   getFormattedTime,
   limitCharacters,
 } from "../../util/DateHelper";
+import AppImage from "../AppImage";
 import MIcon from "../MIcon";
 
 const ActivityCard = ({
@@ -116,8 +117,8 @@ const ActivityCard = ({
 
           {/* Image */}
           {imageUrl ? (
-            <Image
-              source={{ uri: imageUrl }}
+            <AppImage
+              sourceURI={imageUrl}
               style={{
                 width: screenWidth.width25,
                 height: screenWidth.width25,

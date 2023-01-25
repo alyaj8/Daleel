@@ -5,6 +5,7 @@ import {
   Dimensions,
   ImageBackground,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -414,7 +415,8 @@ const EditTourV3 = ({ navigation, route }) => {
                 style={{
                   // ...styles.button,
                   height: 40,
-                  width: 60,
+                  // width: 60,
+                  paddingHorizontal: 5,
                   ...styles.shadow,
                 }}
                 color={colors.green}
@@ -448,7 +450,8 @@ const EditTourV3 = ({ navigation, route }) => {
             alignItems: "center",
             justifyContent: "space-between",
             width: screenWidth.width90,
-            marginVertical: screenWidth.width2,
+            marginTop: 20,
+            marginBottom: Platform.OS === "ios" ? 35 : 15,
           }}
         >
           <AppButton
@@ -491,18 +494,12 @@ const EditTourV3 = ({ navigation, route }) => {
         animationType="fade"
       >
         <View style={[styles.modalView]}>
-          <View style={[styles.main]}>
-            <View style={{ marginVertical: 20 }}>
-              <Text
-                style={[
-                  text.themeDefault,
-                  text.text22,
-                  { textAlign: "center" },
-                ]}
-              >
-                هل أنت متأكد أنك تريد تحديث هذه الجولة؟
-              </Text>
-            </View>
+          <View style={styles.main}>
+            <Text
+              style={[text.themeDefault, text.text22, { textAlign: "center" }]}
+            >
+              هل أنت متأكد أنك تريد تحديث هذه الجولة؟
+            </Text>
             <View
               style={{
                 flexDirection: "row",
@@ -685,21 +682,23 @@ const styles = StyleSheet.create({
   },
   main: {
     backgroundColor: "#fff",
-    // width: screenWidth.width80,
+    width: screenWidth.width70,
+    height: screenWidth.width50,
+    // alignItems: "space-between",
+    justifyContent: "space-between",
     // backgroundColor: "red",
     padding: 20,
+    paddingVertical: 30,
     borderRadius: 20,
   },
   button: {
     height: 55,
-    width: "90%",
-    // marginBottom: 200,
     alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 29,
 
-    ...highlights.brdr07,
+    ...highlights.brdr7,
   },
 
   shadow: {

@@ -19,7 +19,6 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
@@ -178,7 +177,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <View style={{}}>
         <Loading isLoading={true} text="جاري حذف الجولة" />
       </View>
@@ -292,35 +291,28 @@ export default function TourDetailedInformation({ navigation, route }) {
               </Text>
             </View>
             {/* Location */}
-            <View
-              style={[
-                styles.flexRow,
-                {
-                  alignItems: "center",
-                  // ...no_highlights.brdr1,
-                  justifyContent: "flex-end",
-                },
-                {
-                  // alignSelf: "flex-end",
 
-                  marginHorizontal: 10,
-                  marginVertical: 10,
-                },
-              ]}
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+                ...highlights.brdr3,
+              }}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+              <Text
+                style={[
+                  text.text16,
+                  {
+                    fontWeight: "bold",
+                  },
+                ]}
               >
-                <Text style={[{}, text.themeDefault, text.text16]}>
-                  {data?.city}
-                </Text>
-                <Image source={images.location} style={[styles.icon]} />
-              </View>
+                {data?.city}
+              </Text>
+              <Image source={images.location} style={[styles.icon]} />
             </View>
+
             {/* Description */}
             <View style={{ marginHorizontal: 5 }}>
               <Text
@@ -549,7 +541,7 @@ export default function TourDetailedInformation({ navigation, route }) {
           </Modal>
         </ImageBackground>
       </ScrollView>
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -557,6 +549,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+    marginTop: 20,
   },
   alignCenter: {
     alignItems: "center",

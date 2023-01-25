@@ -319,33 +319,24 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
             {/* Location */}
             <View
-              style={[
-                styles.flexRow,
-                {
-                  alignItems: "center",
-                  // ...no_highlights. brdr01,
-                  justifyContent: "flex-end",
-                },
-                {
-                  // alignSelf: "flex-end",
-
-                  marginHorizontal: 10,
-                  marginVertical: 10,
-                },
-              ]}
+              style={{
+                flexDirection: "row",
+                alignItems: "flex-end",
+                justifyContent: "flex-end",
+                ...highlights.brdr3,
+              }}
             >
-              <View
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+              <Text
+                style={[
+                  text.text16,
+                  {
+                    fontWeight: "bold",
+                  },
+                ]}
               >
-                <Text style={[{}, text.themeDefault, text.text16]}>
-                  {data?.city}
-                </Text>
-                <Image source={images.location} style={[styles.icon]} />
-              </View>
+                {data?.city}
+              </Text>
+              <Image source={images.location} style={[styles.icon]} />
             </View>
             {/* Description */}
             <View style={{ marginHorizontal: 5 }}>
@@ -624,7 +615,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: screenWidth.width10,
+    // marginTop: screenWidth.width10,
     backgroundColor: "#fff",
   },
   alignCenter: {

@@ -1,4 +1,3 @@
-import { Feather } from "@expo/vector-icons";
 import { useRoute } from "@react-navigation/native";
 import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -25,36 +24,27 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
           </View>
 
           {/* details */}
-          <View style={{ flex: 1, marginLeft: 10 }}>
+          <View
+            style={{
+              flex: 1,
+              marginLeft: 10,
+              justifyContent: "center",
+              alignItems: "flex-end",
+              ...highlights.brdr2,
+            }}
+          >
             {/* title & activities */}
             <View
               style={{
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "space-between",
+                justifyContent: "flex-end",
                 flexWrap: "wrap",
+                ...highlights.brdr1,
               }}
             >
               {/* activities */}
-              {tour?.activities && tour?.activities.length > 0 && (
-                <Text
-                  style={[
-                    text.text16,
-                    {
-                      textAlign: "center",
-                      fontWeight: "bold",
-                      color: colors.textHeadingColor,
-                    },
-                  ]}
-                >
-                  {tour.activities.length > 0 && (
-                    <>
-                      <Feather name="activity" size={24} color="black" />
-                      <Text> {tour.activities.length} </Text>
-                    </>
-                  )}
-                </Text>
-              )}
+
               <Text
                 style={[
                   text.text20,
@@ -62,6 +52,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
                     textAlign: "center",
                     fontWeight: "bold",
                     color: colors.textHeadingColor,
+                    ...highlights.brdr2,
                   },
                 ]}
               >
@@ -70,9 +61,27 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
             </View>
 
             {/* age & qty & city */}
-            <Text>السن: {tour?.age}</Text>
-            <Text>تستوعب: {tour?.qty} فرد </Text>
-            <Text>مدينة: {tour?.city}</Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              السن: {tour?.age}
+            </Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              تستوعب: {tour?.qty} فرد{" "}
+            </Text>
+            <Text
+              style={{
+                fontWeight: "bold",
+              }}
+            >
+              مدينة: {tour?.city}
+            </Text>
           </View>
         </View>
       </TouchableOpacity>

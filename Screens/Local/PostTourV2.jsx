@@ -5,6 +5,7 @@ import {
   Dimensions,
   ImageBackground,
   Modal,
+  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -356,66 +357,79 @@ const PostTourV2 = ({ navigation }) => {
         source={images.backgroundImg}
         resizeMode="cover"
       >
-        {/* Header */}
         <View
           style={{
-            alignItems: "center",
-            marginTop: screenWidth.width10,
-            // marginVertical: 0,
+            ...highlights.brdr1,
+            // flex: 1,
+            height: "99%",
           }}
         >
-          <View style={styles.headerContaner}>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                width: "100%",
-              }}
-            >
-              <Text style={styles.headerText}>نشر جولة جديدة</Text>
-              <AppButton
-                disabled={publishTourDisabled}
+          {/* Header */}
+          <View
+            style={{
+              alignItems: "center",
+              marginTop: screenWidth.width10,
+              // marginVertical: 0,
+            }}
+          >
+            <View style={styles.headerContaner}>
+              <View
                 style={{
-                  // ...styles.button,
-                  height: 40,
-                  width: 60,
-                  ...styles.shadow,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  width: "100%",
                 }}
-                title={"نشر"}
-                onPress={() => {
-                  setModalVisible(true);
-                }}
-              />
+              >
+                <Text style={styles.headerText}>نشر جولة جديدة</Text>
+                <AppButton
+                  disabled={publishTourDisabled}
+                  style={{
+                    // ...styles.button,
+                    height: 40,
+                    width: 60,
+                    ...styles.shadow,
+                  }}
+                  title={"نشر"}
+                  onPress={() => {
+                    setModalVisible(true);
+                  }}
+                />
+              </View>
             </View>
+            <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
           </View>
-          <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
-        </View>
 
-        <KeyboardAwareScrollView
-          enableAutomaticScroll
-          extraHeight={240}
-          enableOnAndroid
-          contentContainerStyle={{
-            width: "100%",
-          }}
-          showsVerticalScrollIndicator={false}
-        >
-          {renderContent()}
-        </KeyboardAwareScrollView>
+          {/* Body */}
+          <KeyboardAwareScrollView
+            enableAutomaticScroll
+            extraHeight={240}
+            enableOnAndroid
+            contentContainerStyle={{
+              width: "100%",
+            }}
+            showsVerticalScrollIndicator={false}
+            // viewIsInsideTabBar
+            // reset to current scroll position
+            // resetScrollToCoords={{ x: 0, y: 0 }}
+            keyboardOpeningTime={400}
+          >
+            {renderContent()}
+          </KeyboardAwareScrollView>
 
-        <View>
+          {/* BTNS */}
+
           <AppButton
             disabled={publishTourDisabled}
             style={{
               ...styles.button,
               ...styles.shadow,
+              ...highlights.brdr2,
 
-              ...highlights.brdr02,
               width: screenWidth.width80,
               height: 60,
-              marginVertical: 20,
-              marginBottom: 50,
+              // marginVertical: 20,
+              marginBottom: Platform.OS === "ios" ? 65 : 45,
             }}
             title={"نشر"}
             onPress={() => {
@@ -496,7 +510,11 @@ const PostTourV2 = ({ navigation }) => {
         }
         onConfirm={handleConfirm}
         onCancel={() => setDatePickerVisibility(false)}
-        minimumDate={new Date()}
+        minimumDate={
+          pickerConfig === "date" || pickerConfig === "activityDate"
+            ? new Date()
+            : null
+        }
         nativeID="datePicker"
       />
 

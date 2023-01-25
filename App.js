@@ -6,6 +6,7 @@ import AppNavigator from "./navigation/AppNavigator";
 
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
+import { StatusBar } from "expo-status-bar";
 import "firebase/storage";
 import { useEffect } from "react";
 import { LogBox } from "react-native";
@@ -108,6 +109,7 @@ function App() {
       <NavigationContainer>
         <AppNavigator />
       </NavigationContainer>
+      <StatusBar style="dark" />
     </StripeProvider>
   );
 }
