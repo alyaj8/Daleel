@@ -1,4 +1,10 @@
-import { Dimensions } from "react-native";
+import {
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
+} from "firebase/storage";
+import { Dimensions, Platform } from "react-native";
 export const url = {};
 
 //Size
@@ -244,6 +250,8 @@ export const cities = [
   "الباحة",
 ];
 
+export const ages = ["عائلية", "كبار"];
+
 const brdrWidth = 1;
 const no_brdrWidth = 0;
 
@@ -358,4 +366,25 @@ export const no_highlights = {
     borderWidth: no_brdrWidth,
     borderColor: colors.blueBeryline,
   },
+};
+
+export const uploadImage = async (path) => {
+  try {
+    const uri = Platform.OS === "ios" ? path.replace("file://", "") : path;
+    const response = await fetch(uri);
+    const storage = getStorage();
+
+    const fileName = uri.substring(uri.lastIndexOf("/") + 1);
+    const blobFile = await response.blob();
+
+    const reference = ref(storage, `media/${Date.now()}-${fileName}`);
+
+    const result = await uploadBytesResumable(reference, blobFile);
+    const url = await getDownloadURL(result.ref);
+    // console.log("🚀 ~ url", url);
+
+    return url;
+  } catch (err) {
+    return Promise.reject(err);
+  }
 };

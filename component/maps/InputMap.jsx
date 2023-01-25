@@ -4,7 +4,7 @@ import { AutocompleteDropdown } from "react-native-autocomplete-dropdown";
 import { v4 as uuidv4 } from "uuid";
 
 import Feather from "react-native-vector-icons/Feather";
-import { colors } from "../../config/Constant";
+import { colors, highlights } from "../../config/Constant";
 import { splitString } from "../../util/CustomHelper";
 import Chip from "../Chip";
 Feather.loadFont();
@@ -104,11 +104,13 @@ const ListItemComponent = ({ item, index }) => {
 
 export const InputMap = memo(
   ({
+    label,
     placeholder,
     value,
     onSelectLocation,
     onClearLocation,
     style,
+    labelStyle,
     ...props
   }) => {
     const [loading, setLoading] = useState(false);
@@ -188,7 +190,26 @@ export const InputMap = memo(
     const onOpenSuggestionsList = useCallback((isOpened) => {}, []);
 
     return (
-      <>
+      <View
+        style={{
+          marginTop: 15,
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            fontWeight: "bold",
+            // color: "#5398a0",
+            textAlign: "right",
+            // width: screenWidth.width90,
+            marginBottom: 5,
+            ...highlights.brdr02,
+            ...labelStyle,
+          }}
+        >
+          {label}
+        </Text>
+
         <View
           style={[
             { flex: 1, flexDirection: "row", alignItems: "center" },
@@ -230,6 +251,8 @@ export const InputMap = memo(
                 : "ابحث عن مكان",
               autoCorrect: false,
               autoCapitalize: "none",
+              placeholderTextColor: colors.grey,
+
               style: {
                 borderRadius: 25,
                 backgroundColor: "#fff",
@@ -255,6 +278,7 @@ export const InputMap = memo(
             }}
             suggestionsListContainerStyle={{
               backgroundColor: "#fff",
+              width: "95%",
             }}
             containerStyle={{ flexGrow: 1, flexShrink: 1 }}
             renderItem={(item, text) => <ListItemComponent item={item} />}
@@ -272,7 +296,7 @@ export const InputMap = memo(
                 )}
               </>
             }
-            inputHeight={50}
+            inputHeight={60}
             showChevron
             // closeOnBlur
             showClear
@@ -313,7 +337,7 @@ export const InputMap = memo(
             {...props}
           />
         </View>
-      </>
+      </View>
     );
   }
 );

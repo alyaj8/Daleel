@@ -6,14 +6,7 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import {
   colors,
   highlights,
@@ -23,30 +16,24 @@ import {
 } from "../../config/Constant";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import Input from "../inputText/Input";
+import ActivityCard from "../activityComponents/ActivityCard";
+import TouchableInput from "../inputText/DateTimeInput";
 import InputMap from "../maps/InputMap";
 import MIcon from "../MIcon";
 import AppButton from "./../AppButton";
 
-const initActivity = {
-  id: null,
-  title: "",
-  description: "",
-  location: "",
-  date: null,
-  startTime: null,
-  endTime: null,
-  price: null,
-  imageUrl: null,
-};
-
 const ActivityForm = ({
-  formTitle = "Activity Form",
-  data,
   mode = "add",
-  activity = initActivity,
+
+  activity,
+  activities,
   setActivity,
-  onShowPicker,
+  activitiesMode,
+
+  isModalVisible,
+  toggleDatePicker,
+  handleConfirm,
+  isDatePickerVisible,
 
   onAddActivity,
   onRemoveActivity,
@@ -57,7 +44,6 @@ const ActivityForm = ({
   onEditActivityCancel,
 }) => {
   const [imageUrl, setImageUrl] = useState(null);
-  const [isModalVisible, setModalVisible] = useState(false);
 
   // console.log("🚀 ~ activity", activity);
 
@@ -110,220 +96,110 @@ const ActivityForm = ({
 
   return (
     <View style={[styles.container]}>
-      {/* <Text style={styles.title}>{formTitle}</Text> */}
-
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={[styles.innerForm]}
-      >
+      <View style={[styles.innerForm]}>
         {/* Name */}
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
-            <Text style={[text.themeDefault, text.text15]}>اسم النشاط</Text>
-          </View>
-          <Input
-            placeholder="اكتب اسم النشاط"
-            value={activity.title}
-            placeholderTextColor={colors.grey}
-            onChangeText={(text) => setActivity({ ...activity, title: text })}
-            style={{ width: screenWidth.width80 }}
-          />
-        </View>
+        <TouchableInput
+          label="اسم النشاط"
+          placeholder="اكتب اسم النشاط"
+          value={activity.title}
+          onChangeText={(text) => setActivity({ ...activity, title: text })}
+        />
 
         {/* Description */}
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
-            <Text style={[text.themeDefault, text.text15]}>وصف النشاط</Text>
-          </View>
-          <Input
-            placeholderTextColor={colors.grey}
-            placeholder="اكتب وصف النشاط"
-            multiline
-            value={activity.description}
-            onChangeText={(text) =>
-              setActivity({ ...activity, description: text })
-            }
-            style={{ width: screenWidth.width80 }}
-          />
-        </View>
+        <TouchableInput
+          label="وصف النشاط"
+          placeholder="اكتب وصف النشاط"
+          value={activity.description}
+          multiline
+          onChangeText={(text) =>
+            setActivity({ ...activity, description: text })
+          }
+        />
 
         {/* Location */}
-        <View
-          style={{
-            flex: 1,
-            alignItems: "center",
-            // ...highlights.brdr02,
-          }}
-        >
-          <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
-            <Text style={[text.themeDefault, text.text15]}>موقع النشاط</Text>
-          </View>
-          {/* MapPicker */}
-          <InputMap
-            placeholder="اختر موقع النشاط"
-            value={activity.location}
-            onSelectLocation={(location) =>
-              setActivity({ ...activity, location })
-            }
-            onClearLocation={() => setActivity({ ...activity, location: null })}
-            style={{
-              // ...highlights.brdr03,
-              marginHorizontal: 10,
-            }}
-            style={{ width: screenWidth.width80 }}
-          />
-        </View>
+        <InputMap
+          label="موقع النشاط"
+          placeholder="اختر موقع النشاط"
+          value={activity.location}
+          onSelectLocation={(location) =>
+            setActivity({ ...activity, location: location })
+          }
+          onClearLocation={() => setActivity({ ...activity, location: "" })}
+        />
 
         {/* Date */}
-        <View
-          style={{
-            alignItems: "center",
-          }}
-        >
-          <View style={[{ marginVertical: 10, alignSelf: "flex-end" }]}>
-            <Text style={[text.themeDefault, text.text15]}>تاريخ الجولة</Text>
-          </View>
-          <TouchableOpacity
-            onPress={() => {
-              // console.log("date");
-              onShowPicker("activityDate");
-            }}
-          >
-            <Input
-              placeholderTextColor={colors.grey}
-              icon={true}
-              value={activity.date ? getFormattedDate(activity.date) : ""}
-              source={images.calendar}
-              editable={false}
-              style={{ width: screenWidth.width80, color: colors.black }}
-              placeholder="اختر تاريخ النشاط"
-            />
-          </TouchableOpacity>
-        </View>
-
-        {/* Time */}
+        <TouchableInput
+          label="تاريخ النشاط"
+          placeholder="اختر تاريخ النشاط"
+          editable={false}
+          icon={true}
+          source={images.calendar}
+          value={activity.date ? getFormattedDate(activity.date) : ""}
+          // value={getFormattedDate(new Date())}
+          onPress={() => toggleDatePicker("activityDate")}
+        />
+        {/* Start time, End time */}
         <View
           style={{
             flexDirection: "row",
-            alignItems: "center",
             justifyContent: "space-between",
-            marginHorizontal: 20,
-            width: screenWidth.width80,
-            // ...no_highlights.brdr03,
           }}
         >
-          <TouchableOpacity
-            onPress={() => {
-              // console.log("end time");
-              onShowPicker("activityEndTime");
-            }}
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                marginVertical: 10,
-                alignSelf: "flex-end",
-              }}
-            >
-              <Text style={[text.themeDefault, text.text15]}>
-                وقت نهاية الجولة
-              </Text>
-            </View>
-            <Input
-              placeholderTextColor={colors.grey}
-              icon={true}
-              source={images.timer}
-              editable={false}
-              placeholder="اختر وقت نهاية"
-              value={activity.endTime ? getFormattedTime(activity.endTime) : ""}
-              style={{ width: screenWidth.width38, color: colors.black }}
-            />
-          </TouchableOpacity>
+          <TouchableInput
+            label="وقت نهاية الجولة"
+            placeholder="اختر وقت نهاية"
+            editable={false}
+            icon={true}
+            source={images.timer}
+            value={activity.endTime ? getFormattedTime(tour.endTime) : ""}
+            // value={getFormattedDate(new Date())}
+            onPress={() => toggleDatePicker("activityEndTime")}
+            style={{ marginRight: 2 }}
+          />
 
-          <TouchableOpacity
-            onPress={() => {
-              // console.log("start time");
-              onShowPicker("activityStartTime");
-            }}
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <View
-              style={{
-                marginVertical: 10,
-                alignSelf: "flex-end",
-              }}
-            >
-              <Text style={[text.themeDefault, text.text15]}>
-                وقت بداية الجولة
-              </Text>
-            </View>
-            <Input
-              placeholderTextColor={colors.grey}
-              icon={true}
-              source={images.timer}
-              editable={false}
-              value={
-                activity.startTime ? getFormattedTime(activity.startTime) : ""
-              }
-              placeholder="اختر وقت بداية"
-              style={{ width: screenWidth.width38, color: colors.black }}
-            />
-          </TouchableOpacity>
+          <TouchableInput
+            label="وقت بداية الجولة"
+            placeholder="اختر وقت بداية"
+            editable={false}
+            icon={true}
+            source={images.timer}
+            value={activity.startTime ? getFormattedTime(tour.startTime) : ""}
+            // value={getFormattedDate(new Date())}
+            onPress={() => toggleDatePicker("activityStartTime")}
+            style={{ marginLeft: 2 }}
+          />
         </View>
 
         {/* Price & Image */}
         <View
           style={{
-            // alignItems: "flex-start",
             flexDirection: "row",
             justifyContent: "space-between",
-            // alignItems: "center",
-            marginVertical: 10,
-            // ...no_highlights.brdr03,
-            width: screenWidth.width80,
+            marginTop: 20,
+            alignItems: "flex-start",
           }}
         >
-          <View
-            style={[
-              {
-                flexDirection: "column",
-                // ...no_highlights.brdr01,
-              },
-            ]}
-          >
-            <Text style={[text.themeDefault, text.text15]}>سعر النشاط</Text>
-            <Input
-              placeholderTextColor={colors.grey}
-              placeholder="سعر النشاط"
-              multiline
-              value={activity?.price?.toString() || ""}
-              keyboardType="numeric"
-              onChangeText={(text) => setActivity({ ...activity, price: text })}
-              style={{ width: screenWidth.width38, marginVertical: 10 }}
-              source={images.cart}
-              icon={true}
-            />
-          </View>
-
+          <TouchableInput
+            label="سعر النشاط"
+            placeholder="سعر النشاط"
+            value={activity.price}
+            // value={activity?.price?.toString() || ""}
+            keyboardType="numeric"
+            icon={true}
+            source={images.cart}
+            onChangeText={(text) => setActivity({ ...activity, price: text })}
+            style={{
+              marginRight: 2,
+              marginTop: 0,
+              marginRight: 15,
+            }}
+          />
           {/* Image */}
           <View
-            style={
-              {
-                // ...no_highlights.brdr02,
-              }
-            }
+            style={{
+              marginLeft: 2,
+              width: screenWidth.width40,
+            }}
           >
             <Text style={[text.themeDefault, text.text15]}>
               ارفق صورة للنشاط
@@ -356,7 +232,7 @@ const ActivityForm = ({
                 onPress={() => {
                   pickImage();
                 }}
-                style={{ marginTop: 10, alignItems: "flex-end" }}
+                style={{ alignItems: "flex-end" }}
               >
                 <Image
                   source={images.photo}
@@ -387,6 +263,7 @@ const ActivityForm = ({
               onPress={() => {
                 onAddActivity();
               }}
+              style={{ width: screenWidth.width80, height: 60 }}
             />
           ) : (
             <View
@@ -427,7 +304,47 @@ const ActivityForm = ({
             </View>
           )}
         </View>
-      </ScrollView>
+      </View>
+
+      <View style={[styles.innerForm]}>
+        {activities.length === 0 && (
+          <View
+            style={{
+              // marginVertical: 10,
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: -15,
+              ...highlights.brdr03,
+            }}
+          >
+            <Text
+              style={[
+                text.grey,
+                text.text20,
+                // text.center,
+                {
+                  fontWeight: "bold",
+                },
+              ]}
+            >
+              لم يتم اضافة أي نشاط
+            </Text>
+          </View>
+        )}
+        {
+          // Activity List
+          <View style={{ marginVertical: 10 }}>
+            {activities.map((value, index) => (
+              <ActivityCard
+                key={index}
+                activity={value}
+                // onEditActivity={onEditActivity}
+                // onRemoveActivity={onRemoveActivity}
+              />
+            ))}
+          </View>
+        }
+      </View>
     </View>
   );
 };
@@ -436,23 +353,38 @@ export default ActivityForm;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
     flexDirection: "column",
     backgroundColor: colors.grayBg,
     borderRadius: 10,
     padding: 5,
-    width: screenWidth.width90,
-    flex: 1,
-    height: "100%",
-    ...highlights.brdr02,
+    // height: "100%",
     // marginHorizontal: 20,
     // marginVertical: 20,
+    ...highlights.brdr02,
   },
   innerForm: {
-    // flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    ...highlights.brdr01,
+    backgroundColor: colors.white,
+    marginHorizontal: 4,
+    width: screenWidth.width95,
+    padding: 10,
+    ...highlights.brdr03,
+
+    flex: 1,
+    marginBottom: 50,
+    borderRadius: 10,
+    // light Shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 1.84,
+    elevation: 2,
   },
   title: {
     alignSelf: "flex-end",

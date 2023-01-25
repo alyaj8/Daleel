@@ -1,8 +1,9 @@
 import { PortalProvider } from "@gorhom/portal";
-import DateTimePicker from "@react-native-community/datetimepicker";
 import * as ImagePicker from "expo-image-picker";
 import { StatusBar } from "expo-status-bar";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
 import {
   Image,
   ImageBackground,
@@ -40,7 +41,6 @@ import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import { getDataFromStorage } from "../../util/Storage";
 import ActivityCard from "./../../component/activityComponents/ActivityCard";
 import AppButton from "./../../component/AppButton";
 
@@ -223,15 +223,10 @@ export default function PostTour({ navigation }) {
     setAge(age);
     modalizeRefAge.current?.close();
   };
+
   const onOpen = () => {
     modalizeRefAge.current?.open();
   };
-
-  useEffect(() => {
-    getDataFromStorage("loggedInUser").then((data) => {
-      // console.log("user data", data.email);
-    });
-  }, []);
 
   const onShowPicker = (type) => {
     setPickerConfig(type);
@@ -353,35 +348,48 @@ export default function PostTour({ navigation }) {
       <Loading text="جاري نشر الجولة..." visible={isLoading} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
-        {showPicker && (
-          <DateTimePicker
-            minimumDate={new Date()}
-            mode={
-              pickerConfig === "date" || pickerConfig === "activityDate"
-                ? "date"
-                : "time"
-            }
-            value={
-              pickerConfig === "date"
-                ? date || newDate
-                : pickerConfig === "startTime"
-                ? startTime || newDate
-                : pickerConfig === "endTime"
-                ? endTime || newDate
-                : pickerConfig === "activityDate"
-                ? activity.date || newDate
-                : pickerConfig === "activityStartTime"
-                ? activity.startTime || newDate
-                : pickerConfig === "activityEndTime"
-                ? activity.endTime || newDate
-                : newDate
-            }
-            display={Platform.OS === "ios" ? "calendar" : "default"}
-            // is24Hour={true}
-            onChange={onPickerChange}
-            style={styles.datePicker}
-          />
-        )}
+        <DateTimePickerModal
+          isVisible={showPicker}
+          minimumDate={new Date()}
+          mode={
+            pickerConfig === "date" || pickerConfig === "activityDate"
+              ? "date"
+              : "time"
+          }
+          value={
+            pickerConfig === "date"
+              ? date || newDate
+              : pickerConfig === "startTime"
+              ? startTime || newDate
+              : pickerConfig === "endTime"
+              ? endTime || newDate
+              : pickerConfig === "activityDate"
+              ? activity.date || newDate
+              : pickerConfig === "activityStartTime"
+              ? activity.startTime || newDate
+              : pickerConfig === "activityEndTime"
+              ? activity.endTime || newDate
+              : newDate
+          }
+          display={
+            Platform.OS === "ios" && pickerConfig === "date"
+              ? "inline"
+              : "default"
+          }
+          // is24Hour={true}
+          onCancel={() => {
+            setShowPicker(false);
+          }}
+          onConfirm={(value) => {
+            onPickerChange(value);
+          }}
+          // onChange={onPickerChange}
+          pickerContainerStyleIOS={{
+            // backgroundColor: colors.white,
+            height: 300,
+            color: colors.black,
+          }}
+        />
 
         <ImageBackground
           style={{ flex: 1 }}
@@ -651,6 +659,7 @@ export default function PostTour({ navigation }) {
                     الحد العمري
                   </Text>
                 </View>
+
                 <TouchableOpacity
                   style={[
                     styles.InputStyle,
@@ -891,6 +900,7 @@ export default function PostTour({ navigation }) {
           </RBSheet>
         </ImageBackground>
       </ScrollView>
+
       {/* Modal */}
       <Modal isVisible={isModalVisible}>
         <View style={[styles.modalView]}>
