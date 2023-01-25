@@ -219,13 +219,13 @@ export const InputMap = memo(
         >
           <AutocompleteDropdown
             direction={"up"}
+            // direction={Platform.select({ ios: "down" })}
             // bottomOffset={Platform.select({ ios: 0, android: 100 })}
             ref={searchRef}
             controller={(controller) => {
               dropdownController.current = controller;
             }}
-            initialValue={"1sadda dasda"}
-            direction={Platform.select({ ios: "down" })}
+            // initialValue={"1sadda dasda"}
             dataSet={suggestionsList}
             onChangeText={getSuggestions}
             onSelectItem={(item) => {
