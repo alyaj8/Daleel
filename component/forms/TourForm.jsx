@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
@@ -11,34 +11,37 @@ const TourForm = ({
   navigation,
   route,
   isModalVisible,
-  toggleDatePicker,
+  openDatePicker,
   handleConfirm,
   isDatePickerVisible,
-
+  filePathTour,
+  setFilePathTour,
+  pickImage,
   onShowModal,
   setModalVisible,
 
   tour,
   setTour,
 }) => {
-  const [filePath, setFilePath] = useState(null);
-
   return (
     <View style={styles.container}>
       {/* Image  */}
-      {filePath ? (
+      {filePathTour ? (
         <TouchableOpacity
           onPress={() => {
             // remove image
-            setFilePath(null);
+            setFilePathTour(null);
           }}
-          style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
+          style={{
+            alignItems: "center",
+            marginTop: screenWidth.width5,
+          }}
         >
-          <Image source={{ uri: filePath }} style={[styles.dummyImg]} />
+          <Image source={{ uri: filePathTour }} style={[styles.dummyImg]} />
         </TouchableOpacity>
       ) : (
         <TouchableOpacity
-          // onPress={() => pickImage()}
+          onPress={pickImage}
           style={[styles.alignCenter, { marginTop: screenWidth.width5 }]}
         >
           <Image source={images.photo} style={[styles.dummyImg]} />
@@ -47,7 +50,7 @@ const TourForm = ({
 
       {/* Name */}
       <TouchableInput
-        debug
+        // debug
         label="اسم الجولة"
         placeholder="اكتب اسم الجولة"
         value={tour.title}
@@ -74,7 +77,7 @@ const TourForm = ({
         source={images.calendar}
         value={tour.date ? getFormattedDate(tour.date) : ""}
         // value={getFormattedDate(new Date())}
-        onPress={() => toggleDatePicker("date")}
+        onPress={() => openDatePicker("date")}
       />
 
       {/* Start time, End time */}
@@ -92,7 +95,7 @@ const TourForm = ({
           source={images.timer}
           value={tour.endTime ? getFormattedTime(tour.endTime) : ""}
           // value={getFormattedDate(new Date())}
-          onPress={() => toggleDatePicker("endTime")}
+          onPress={() => openDatePicker("endTime")}
           style={{ marginRight: 2 }}
         />
 
@@ -104,7 +107,7 @@ const TourForm = ({
           source={images.timer}
           value={tour.startTime ? getFormattedTime(tour.startTime) : ""}
           // value={getFormattedDate(new Date())}
-          onPress={() => toggleDatePicker("startTime")}
+          onPress={() => openDatePicker("startTime")}
           style={{ marginLeft: 2 }}
         />
       </View>
@@ -197,6 +200,8 @@ const styles = StyleSheet.create({
     width: screenWidth.width80,
     height: screenWidth.width60,
     resizeMode: "contain",
+    borderRadius: 15,
+
     // opacity: 0.7,
   },
   alignRight: {

@@ -1,3 +1,4 @@
+import * as ImagePicker from "expo-image-picker";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
 import {
@@ -10,6 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -50,7 +52,6 @@ const initActivity = {
 };
 
 const initTour = {
-  id: null,
   title: "",
   city: "",
   qty: null,
@@ -76,7 +77,7 @@ const initTour = {
   activities: [],
 };
 
-const PostTourV2 = () => {
+const PostTourV2 = ({ navigation }) => {
   // Page State
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -87,8 +88,7 @@ const PostTourV2 = () => {
 
   // Activity
   const [activity, setActivity] = useState(initActivity);
-  const [activities, setActivities] = useState([]);
-  const [filePathActivity, setFilePathActivity] = useState(null);
+  const [activities, setActivities] = useState(tour.activities);
   const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
 
   // Modals Refs and configs
@@ -96,30 +96,54 @@ const PostTourV2 = () => {
   const modalizeRefAge = useRef(null);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [showPicker, setShowPicker] = useState(false);
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
 
   useEffect(() => {
-    if (false) {
-      logObj(tour, "🚀 ~ tour");
-      logObj(activity, "🚀 ~ activity");
-      // logObj(activities, "🚀 ~ activities");
-    }
-  }, [tour, activity, activities]);
+    return () => {
+      console.log("OUIUUUUUUUUUUUUT");
+    };
+  }, []);
+
+  const reset = () => {
+    setTour(initTour);
+    setActivity(initActivity);
+    setFilePathTour(null);
+    setActivities([]);
+  };
 
   const onPressTab = (index) => {
     setSelectedMenu(index);
   };
 
-  const toggleDatePicker = () => {
-    setDatePickerVisibility((prevState) => !prevState);
+  const openDatePicker = (type) => {
+    setPickerConfig(type);
+    setDatePickerVisibility(true);
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
-    toggleDatePicker();
+    setDatePickerVisibility(false);
+
+    if (pickerConfig === "date") {
+      setTour({ ...tour, date: date });
+    }
+    if (pickerConfig === "startTime") {
+      setTour({ ...tour, startTime: date });
+    }
+    if (pickerConfig === "endTime") {
+      setTour({ ...tour, endTime: date });
+    }
+    if (pickerConfig === "activityDate") {
+      setActivity({ ...activity, date: date });
+    }
+    if (pickerConfig === "activityStartTime") {
+      setActivity({ ...activity, startTime: date });
+    }
+    if (pickerConfig === "activityEndTime") {
+      setActivity({ ...activity, endTime: date });
+    }
   };
 
+  // Modal
   const onShowModal = (type) => {
     console.log("onShowModal > type: ", type);
     if (type === "city") {
@@ -129,11 +153,7 @@ const PostTourV2 = () => {
       modalizeRefAge.current?.open();
     }
   };
-
   const selectModal = (type, value) => {
-    console.log("selectModal > type: ", type);
-    console.log("selectModal > value: ", value);
-
     if (type === "city") {
       setTour({ ...tour, city: value });
       modalizeRef.current?.close();
@@ -144,17 +164,77 @@ const PostTourV2 = () => {
     }
   };
 
-  const pickImage = async (mode) => {
+  // Activity methods
+  const onAddActivity = () => {
+    const curActLoc = activity?.location;
+
+    // validate location
+    const ActLoc = {
+      address: curActLoc.address || "",
+      title: curActLoc.title || "",
+      category: curActLoc.category || [],
+      full_name: curActLoc.full_name || "",
+      coordinates: {
+        latitude: curActLoc.coordinates.latitude || 0,
+        longitude: curActLoc.coordinates.longitude || 0,
+      },
+      id: curActLoc.id || "",
+    };
+
+    const act = {
+      ...activity,
+      id: activities.length + 1,
+      location: ActLoc,
+    };
+
+    setActivities([...activities, act]);
+
+    // setActivity(initActivity);
+  };
+  const onRemoveActivity = (id) => {
+    setActivities(activities.filter((act) => act.id !== id));
+  };
+  const onEditActivity = (id) => {
+    setActivitiesMode("edit");
+    setActivity(activities.find((a) => a.id === id));
+  };
+  const onEditActivitySubmit = () => {
+    const index = activities.findIndex((a) => a.id === activity.id);
+    const newActivities = [...activities];
+    newActivities[index] = activity;
+    setActivities(newActivities);
+    setActivitiesMode("add");
+    setActivity(initActivity);
+  };
+  const onEditActivityCancel = () => {
+    setActivitiesMode("add");
+    setActivity(initActivity);
+  };
+  const onRemoveActivitySubmit = () => {
+    setActivities(activities.filter((a) => a.id !== activity.id));
+    setActivitiesMode("add");
+    setActivity(initActivity);
+  };
+
+  // Image Picker & Tour
+  const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       ...imagePickerConfig,
     });
     if (!result.canceled) {
-      if (mode === "activity") setFilePathActivity(result.assets[0].uri);
-      if (mode === "tour") setFilePathTour(result.assets[0].uri);
+      setFilePathTour(result.assets[0].uri);
     }
   };
+
+  const publishTourDisabled =
+    !tour.title ||
+    !tour.description ||
+    !tour.date ||
+    !tour.startTime ||
+    !tour.endTime ||
+    activities.length === 0;
 
   const submitRequest = async () => {
     try {
@@ -189,11 +269,11 @@ const PostTourV2 = () => {
           ...tour,
           meetingPoint,
           imageUrl,
-          activitiesCustomizable,
           activities: activities,
           requestBy: userId,
           dateCreated: Date.now(),
           dateUpdated: null,
+          status: 0,
         };
         // logObj(data);
         await insertTour(data, "tours");
@@ -201,7 +281,7 @@ const PostTourV2 = () => {
         logObj(data, "🚀 ~ PostTour.js");
 
         setIsLoading(false);
-        // navigation.goBack();
+        navigation.goBack();
       }
 
       // setLoading(false);
@@ -213,60 +293,6 @@ const PostTourV2 = () => {
     }
   };
 
-  const onAddActivity = () => {
-    const curActLoc = activity?.location;
-
-    setActivities([
-      ...activities,
-      {
-        ...activity,
-        location: {
-          address: !!curActLoc.address ? curActLoc.address : " ",
-          category: !!curActLoc?.category ? curActLoc.category : [],
-          coordinates: {
-            latitude: curActLoc?.coordinates?.latitude,
-            longitude: curActLoc?.coordinates?.longitude,
-          },
-          full_name: !!curActLoc.full_name ? curActLoc.full_name : null,
-          id: !!curActLoc.id ? curActLoc.id : null,
-          title: !!curActLoc.title ? curActLoc.title : null,
-        },
-        id: activities.length + 1,
-      },
-    ]);
-
-    setActivity(initActivity);
-  };
-
-  const onRemoveActivity = (id) => {
-    setActivities(activities.filter((act) => act.id !== id));
-  };
-
-  const onEditActivity = (id) => {
-    setActivitiesMode("edit");
-    setActivity(activities.find((a) => a.id === id));
-  };
-
-  const onEditActivitySubmit = () => {
-    const index = activities.findIndex((a) => a.id === activity.id);
-    const newActivities = [...activities];
-    newActivities[index] = activity;
-    setActivities(newActivities);
-    setActivitiesMode("add");
-    setActivity(initActivity);
-  };
-
-  const onEditActivityCancel = () => {
-    setActivitiesMode("add");
-    setActivity(initActivity);
-  };
-
-  const onRemoveActivitySubmit = () => {
-    setActivities(activities.filter((a) => a.id !== activity.id));
-    setActivitiesMode("add");
-    setActivity(initActivity);
-  };
-
   const renderContent = () => {
     switch (selectedMenu) {
       case 0:
@@ -274,8 +300,11 @@ const PostTourV2 = () => {
           <TourForm
             tour={tour}
             isModalVisible={isModalVisible}
-            toggleDatePicker={toggleDatePicker}
+            openDatePicker={openDatePicker}
             handleConfirm={handleConfirm}
+            pickImage={pickImage}
+            filePathTour={filePathTour}
+            setFilePathTour={setFilePathTour}
             isDatePickerVisible={isDatePickerVisible}
             onShowModal={onShowModal}
             selectModal={selectModal}
@@ -288,12 +317,14 @@ const PostTourV2 = () => {
             mode={activitiesMode}
             //
             activity={activity}
-            activities={tour.activities}
+            activities={activities}
             setActivity={setActivity}
             activitiesMode={activitiesMode}
+            activitiesCustomizable={tour.activitiesCustomizable}
+            setTour={setTour}
             //
             isModalVisible={isModalVisible}
-            toggleDatePicker={toggleDatePicker}
+            openDatePicker={openDatePicker}
             handleConfirm={handleConfirm}
             isDatePickerVisible={isDatePickerVisible}
             //
@@ -346,7 +377,7 @@ const PostTourV2 = () => {
             >
               <Text style={styles.headerText}>نشر جولة جديدة</Text>
               <AppButton
-                disabled={false}
+                disabled={publishTourDisabled}
                 style={{
                   // ...styles.button,
                   height: 40,
@@ -369,48 +400,15 @@ const PostTourV2 = () => {
           enableOnAndroid
           contentContainerStyle={{
             width: "100%",
-            // marginBottom: 100,
           }}
+          showsVerticalScrollIndicator={false}
         >
-          {selectedMenu === 0 ? (
-            <TourForm
-              tour={tour}
-              isModalVisible={isModalVisible}
-              toggleDatePicker={toggleDatePicker}
-              handleConfirm={handleConfirm}
-              isDatePickerVisible={isDatePickerVisible}
-              onShowModal={onShowModal}
-              selectModal={selectModal}
-              setTour={setTour}
-            />
-          ) : (
-            <ActivityForm
-              mode={activitiesMode}
-              //
-              activity={activity}
-              activities={tour.activities}
-              setActivity={setActivity}
-              activitiesMode={activitiesMode}
-              //
-              isModalVisible={isModalVisible}
-              toggleDatePicker={toggleDatePicker}
-              handleConfirm={handleConfirm}
-              isDatePickerVisible={isDatePickerVisible}
-              //
-              onAddActivity={onAddActivity}
-              onRemoveActivit={onRemoveActivity}
-              onEditActivity={onEditActivity}
-              //
-              onRemoveActivitySubmit={onRemoveActivitySubmit}
-              onEditActivitySubmit={onEditActivitySubmit}
-              onEditActivityCancel={onEditActivityCancel}
-            />
-          )}
+          {renderContent()}
         </KeyboardAwareScrollView>
 
         <View>
           <AppButton
-            disabled={false}
+            disabled={publishTourDisabled}
             style={{
               ...styles.button,
               ...styles.shadow,
@@ -457,7 +455,7 @@ const PostTourV2 = () => {
             >
               <AppButton
                 title="نشر"
-                // onPress={submitRequest}
+                onPress={submitRequest}
                 style={{ width: "45%", height: 55 }}
               />
               <AppButton
@@ -478,9 +476,30 @@ const PostTourV2 = () => {
 
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
-        mode="date"
+        mode={
+          pickerConfig === "date" || pickerConfig === "activityDate"
+            ? "date"
+            : "time"
+        }
+        date={
+          pickerConfig === "date"
+            ? tour.date || new Date()
+            : pickerConfig === "startTime"
+            ? tour.startTime || new Date()
+            : pickerConfig === "endTime"
+            ? tour.endTime || new Date()
+            : pickerConfig === "activityDate"
+            ? activity.date || new Date()
+            : pickerConfig === "activityStartTime"
+            ? activity.startTime || new Date()
+            : pickerConfig === "activityEndTime"
+            ? activity.endTime || new Date()
+            : new Date()
+        }
         onConfirm={handleConfirm}
-        onCancel={toggleDatePicker}
+        onCancel={() => setDatePickerVisibility(false)}
+        minimumDate={new Date()}
+        nativeID="datePicker"
       />
 
       <RBSheet ref={modalizeRef} height={screenWidth.width80}>

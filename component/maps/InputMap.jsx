@@ -242,10 +242,10 @@ export const InputMap = memo(
             loading={loading}
             useFilter={false} // set false to prevent rerender twice
             textInputProps={{
-              defaultValue: query,
+              // defaultValue: query,
               // value: query,
-              placeholder: value?.title
-                ? value?.title
+              placeholder: value.title
+                ? value.title
                 : placeholder
                 ? placeholder
                 : "ابحث عن مكان",
@@ -267,7 +267,7 @@ export const InputMap = memo(
               flexDirection: "row-reverse",
             }}
             inputContainerStyle={{
-              direction: "rtl",
+              // direction: "rtl",
               flexDirection: "row-reverse",
               // backgroundColor: "#383b42",
               backgroundColor: "#fff",

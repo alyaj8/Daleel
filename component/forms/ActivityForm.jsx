@@ -6,7 +6,14 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import React, { useState } from "react";
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import {
   colors,
   highlights,
@@ -29,9 +36,11 @@ const ActivityForm = ({
   activities,
   setActivity,
   activitiesMode,
+  activitiesCustomizable,
+  setTour,
 
   isModalVisible,
-  toggleDatePicker,
+  openDatePicker,
   handleConfirm,
   isDatePickerVisible,
 
@@ -44,8 +53,6 @@ const ActivityForm = ({
   onEditActivityCancel,
 }) => {
   const [imageUrl, setImageUrl] = useState(null);
-
-  // console.log("🚀 ~ activity", activity);
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -96,6 +103,7 @@ const ActivityForm = ({
 
   return (
     <View style={[styles.container]}>
+      {/* Form Section */}
       <View style={[styles.innerForm]}>
         {/* Name */}
         <TouchableInput
@@ -121,9 +129,9 @@ const ActivityForm = ({
           label="موقع النشاط"
           placeholder="اختر موقع النشاط"
           value={activity.location}
-          onSelectLocation={(location) =>
-            setActivity({ ...activity, location: location })
-          }
+          onSelectLocation={(location) => {
+            return setActivity({ ...activity, location: location });
+          }}
           onClearLocation={() => setActivity({ ...activity, location: "" })}
         />
 
@@ -136,7 +144,7 @@ const ActivityForm = ({
           source={images.calendar}
           value={activity.date ? getFormattedDate(activity.date) : ""}
           // value={getFormattedDate(new Date())}
-          onPress={() => toggleDatePicker("activityDate")}
+          onPress={() => openDatePicker("activityDate")}
         />
         {/* Start time, End time */}
         <View
@@ -151,9 +159,9 @@ const ActivityForm = ({
             editable={false}
             icon={true}
             source={images.timer}
-            value={activity.endTime ? getFormattedTime(tour.endTime) : ""}
+            value={activity.endTime ? getFormattedTime(activity.endTime) : ""}
             // value={getFormattedDate(new Date())}
-            onPress={() => toggleDatePicker("activityEndTime")}
+            onPress={() => openDatePicker("activityEndTime")}
             style={{ marginRight: 2 }}
           />
 
@@ -163,9 +171,11 @@ const ActivityForm = ({
             editable={false}
             icon={true}
             source={images.timer}
-            value={activity.startTime ? getFormattedTime(tour.startTime) : ""}
+            value={
+              activity.startTime ? getFormattedTime(activity.startTime) : ""
+            }
             // value={getFormattedDate(new Date())}
-            onPress={() => toggleDatePicker("activityStartTime")}
+            onPress={() => openDatePicker("activityStartTime")}
             style={{ marginLeft: 2 }}
           />
         </View>
@@ -280,12 +290,17 @@ const ActivityForm = ({
                 onPress={() => {
                   onEditActivitySubmit();
                 }}
+                style={{ width: screenWidth.width30, height: 50 }}
               />
               <View style={{ width: 10 }} />
               <AppButton
                 // disabled={disabled}
 
-                style={{ backgroundColor: colors.red }}
+                style={{
+                  backgroundColor: colors.green,
+                  width: screenWidth.width30,
+                  height: 50,
+                }}
                 title={"إلغاء التعديل"}
                 onPress={() => {
                   onEditActivityCancel();
@@ -294,7 +309,7 @@ const ActivityForm = ({
 
               <MIcon
                 name="delete"
-                size={30}
+                size={50}
                 color={colors.red}
                 style={{ marginHorizontal: 10 }}
                 onPress={() => {
@@ -306,6 +321,7 @@ const ActivityForm = ({
         </View>
       </View>
 
+      {/* Activities Section */}
       <View style={[styles.innerForm]}>
         {activities.length === 0 && (
           <View
@@ -338,13 +354,83 @@ const ActivityForm = ({
               <ActivityCard
                 key={index}
                 activity={value}
-                // onEditActivity={onEditActivity}
-                // onRemoveActivity={onRemoveActivity}
+                onEditActivity={onEditActivity}
+                onRemoveActivity={onRemoveActivity}
               />
             ))}
           </View>
         }
       </View>
+
+      {/* Price & Control Section */}
+      {activities.length > 0 && (
+        <View style={[styles.innerForm]}>
+          {/* Price */}
+          <View
+            style={[
+              {
+                marginRight: 20,
+              },
+            ]}
+          >
+            <Text style={[text.themeDefault, text.text20, text.right]}>
+              السعر الإجمالي للرحلة:{" "}
+              {
+                // totalPrice
+                activities.reduce((a, b) => a + Number(b.price), 0)
+              }{" "}
+              ريال
+            </Text>
+          </View>
+
+          {/* Activities Editable Checkbox */}
+          <View
+            style={[
+              styles.alignCenter,
+              {
+                flex: 1,
+                // width: "100%",
+                // marginTop: 20,
+                alignItems: "flex-end",
+                // justifyContent: "center",
+                marginHorizontal: 30,
+                marginVertical: 10,
+                // backgroundColor: colors.white,
+                // transparent background color
+                backgroundColor: "rgba(0,0,0,0.3)",
+                borderRadius: 20,
+              },
+            ]}
+          >
+            <View
+              style={{
+                width: screenWidth.width90,
+                // ...no_highlights.brdr1,
+                alignItems: "flex-end",
+                justifyContent: "center",
+                padding: 10,
+                marginRight: 20,
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <Text style={[text.white, text.text14]}>
+                  السماح للسائح بتخصيص أنشطة هذه الرحلة
+                </Text>
+                <Switch
+                  value={activitiesCustomizable}
+                  onValueChange={() =>
+                    setTour((prevState) => ({
+                      ...prevState,
+                      activitiesCustomizable: !prevState.activitiesCustomizable,
+                    }))
+                  }
+                  color={colors.themeDefault}
+                />
+              </View>
+            </View>
+          </View>
+        </View>
+      )}
     </View>
   );
 };
@@ -374,7 +460,7 @@ const styles = StyleSheet.create({
     ...highlights.brdr03,
 
     flex: 1,
-    marginBottom: 50,
+    marginBottom: 10,
     borderRadius: 10,
     // light Shadow
     shadowColor: "#000",

@@ -198,7 +198,14 @@ export default function TourDetailedInformation({ navigation, route }) {
           <View
             style={[
               styles.alignCenter,
-              { marginTop: 20, flexWrap: "wrap", marginHorizontal: 35 },
+              {
+                height: 65,
+                // flexWrap: "wrap",
+                marginHorizontal: 35,
+                alignItems: "center",
+                justifyContent: "center",
+                // ...highlights.brdr2,
+              },
             ]}
           >
             <Text style={[text.white, text.text30]}>{data?.title}</Text>
