@@ -208,7 +208,15 @@ export default function TourDetailedInformation({ navigation, route }) {
               },
             ]}
           >
-            <Text style={[text.white, text.text30]}>{data?.title}</Text>
+            <Text
+              style={[
+                text.white,
+                text.text30,
+                { ...highlights.brdr02, fontWeight: "bold" },
+              ]}
+            >
+              {data?.title}
+            </Text>
           </View>
 
           {/* Body */}

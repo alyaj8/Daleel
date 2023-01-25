@@ -29,6 +29,7 @@
     "expo-status-bar": "~1.4.2",
     "firebase": "^9.14.0",
     "native-notify": "^3.0.4",
+    "object-deep-compare": "^1.2.0",
     "react": "18.1.0",
     "react-native": "0.70.5",
     "react-native-autocomplete-dropdown": "^2.1.0",
@@ -43,6 +44,7 @@
     "react-native-screens": "~3.18.0",
     "react-native-toast-message": "^2.1.5",
     "shorthash": "^0.0.2",
+    "simple-deepcompare": "^1.0.7",
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {

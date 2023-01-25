@@ -24,7 +24,14 @@ const Loading = ({ visible = false, text = "جاري التحميل..." }) => {
         alignItems: "center",
       }}
     >
-      <Text style={{ color: colors.white, fontSize: 20, marginBottom: 10 }}>
+      <Text
+        style={{
+          color: colors.white,
+          fontSize: 20,
+          marginBottom: 10,
+          fontWeight: "bold",
+        }}
+      >
         {text}
       </Text>
       <ActivityIndicator size="large" color={colors.primary} />

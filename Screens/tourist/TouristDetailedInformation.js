@@ -196,7 +196,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           <View
             style={[
               styles.alignCenter,
-              { marginTop: 20, flexWrap: "wrap", marginHorizontal: 35 },
+              { marginTop: 20, ...highlights.brdr02 },
             ]}
           >
             <Text style={[text.text25, text.bold, { color: colors.white }]}>

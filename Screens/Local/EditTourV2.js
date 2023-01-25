@@ -204,6 +204,7 @@ export default function EditTourV2({ navigation, route }) {
   // console.log("🚀 ~ OUT> tour", route.params.data.imageUrl);
 
   const submitRequest = async () => {
+    setModalVisible(!isModalVisible);
     setIsLoading(true);
     try {
       // setModalVisible(!isModalVisible);

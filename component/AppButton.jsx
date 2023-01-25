@@ -6,7 +6,7 @@ import text from "../style/text";
 const AppButton = ({
   title,
   onPress,
-  color = "primary",
+  color = colors.brown,
   style,
   disabled = false,
 }) => {
@@ -14,7 +14,13 @@ const AppButton = ({
     <>
       {!disabled ? (
         <TouchableOpacity
-          style={[styles.button, style]}
+          style={[
+            styles.button,
+            {
+              backgroundColor: color,
+            },
+            style,
+          ]}
           onPress={() => {
             onPress();
             // console.log("onPress");

@@ -29,8 +29,9 @@ import {
   screenWidth,
   uploadImage,
 } from "../../config/Constant";
-import { getUserId, insertTour } from "../../network/ApiService";
+import { getUserId, updateTour } from "../../network/ApiService";
 import text from "../../style/text";
+import { limitCharacters } from "../../util/DateHelper";
 import ActivityForm from "./../../component/forms/ActivityForm";
 
 const tabs = [
@@ -76,10 +77,13 @@ const initTour = {
   activities: [],
 };
 
-const PostTourV2 = ({ navigation }) => {
+const EditTourV3 = ({ navigation, route }) => {
   // Page State
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0);
+  const [isUpdated, setIsUpdated] = useState(false);
+
+  console.log("🚀 ~ isUpdated", isUpdated);
 
   // Tour
   const [tour, setTour] = useState(initTour);
@@ -87,7 +91,7 @@ const PostTourV2 = ({ navigation }) => {
 
   // Activity
   const [activity, setActivity] = useState(initActivity);
-  const [activities, setActivities] = useState(tour.activities);
+  const [activities, setActivities] = useState([initActivity]);
   const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
 
   // Modals Refs and configs
@@ -98,10 +102,31 @@ const PostTourV2 = ({ navigation }) => {
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
 
   useEffect(() => {
+    let tour = route.params.data;
+    const tourData = {
+      ...tour,
+      // check if new Date() obj or firebase timestamp
+      date: tour.date.toDate ? tour.date.toDate() : tour.date,
+      startTime: tour.startTime.toDate
+        ? tour.startTime.toDate()
+        : tour.startTime,
+      endTime: tour.endTime.toDate ? tour.endTime.toDate() : tour.endTime,
+    };
+    setTour(tourData);
+    setActivities(tourData.activities);
+
+    setIsUpdated(false);
+  }, []);
+
+  useEffect(() => {
     return () => {
       console.log("OUIUUUUUUUUUUUUT");
     };
   }, []);
+
+  useEffect(() => {
+    setIsUpdated(true);
+  }, [activities, tour]);
 
   const reset = () => {
     setTour(initTour);
@@ -227,29 +252,32 @@ const PostTourV2 = ({ navigation }) => {
     }
   };
 
-  const publishTourDisabled =
-    !tour.title ||
-    !tour.description ||
-    !tour.date ||
-    !tour.startTime ||
-    !tour.endTime ||
-    activities.length === 0;
+  const deleteTour = async () => {
+    setDeleteModalVisible(!isDeleteModalVisible);
+    setIsLoading(true);
+    const response = await deleteRequest(tour.id);
+    // console.log("response", response);
+    setIsLoading(false);
+    if (response) {
+      alert("Tour Deleted Successfully");
+      navigation.navigate("TourDetail");
+    }
+  };
 
   const submitRequest = async () => {
+    setModalVisible(!isModalVisible);
+    setIsLoading(true);
     try {
-      setIsLoading(true);
-      setModalVisible(!isModalVisible);
-      const isTourHasImage = filePathTour ? true : false;
+      const isNewImg = filePathTour ? true : false;
 
-      let imageUrl = null;
-      if (isTourHasImage) {
-        imageUrl = await uploadImage(filePathTour);
-        // console.log("🚀 ~ imageUrl", imageUrl);
+      let localImg = null;
+
+      if (isNewImg) {
+        localImg = await uploadImage(filePathTour);
       }
 
       const userId = await getUserId();
-
-      const tourDone = isTourHasImage && !!imageUrl ? true : false;
+      const tourDone = isNewImg && !!localImg ? true : false;
 
       // validate meeting point
       const localMeetingPoint = tour.meetingPoint;
@@ -263,28 +291,23 @@ const PostTourV2 = ({ navigation }) => {
         id: localMeetingPoint.id ? localMeetingPoint.id : "",
         title: localMeetingPoint.title ? localMeetingPoint.title : "",
       };
-      if (tourDone || !isTourHasImage) {
-        const data = {
-          ...tour,
-          meetingPoint,
-          imageUrl,
-          activities: activities,
-          requestBy: userId,
-          dateCreated: Date.now(),
-          dateUpdated: null,
-          status: 0,
-        };
-        // logObj(data);
-        await insertTour(data, "tours");
+
+      const newTour = {
+        ...tour,
+        meetingPoint,
+        activities: activities,
+        dateUpdated: new Date(),
+        imageUrl: isNewImg ? localImg : tour.imageUrl,
+      };
+
+      if (tourDone || !isNewImg) {
+        await updateTour(tour.id, newTour);
         setIsLoading(false);
         navigation.goBack();
       }
-
-      // setLoading(false);
-      // navigation.navigate("Home");
+      setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      alert("حدث خطأ ما، الرجاء المحاولة مرة أخرى");
       console.log("error submitRequest", error);
     }
   };
@@ -340,7 +363,7 @@ const PostTourV2 = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Loading text="جاري نشر الجولة..." visible={isLoading} />
+      <Loading text="جاري تحديث الجولة..." visible={isLoading} />
       <ImageBackground
         style={{
           position: "absolute",
@@ -371,16 +394,31 @@ const PostTourV2 = ({ navigation }) => {
                 width: "100%",
               }}
             >
-              <Text style={styles.headerText}>نشر جولة جديدة</Text>
               <AppButton
-                disabled={publishTourDisabled}
+                style={{
+                  height: 40,
+                  width: 60,
+                  ...styles.shadow,
+                }}
+                title={"إلغاء"}
+                onPress={() => {
+                  navigation.goBack();
+                  // reset();
+                }}
+              />
+              <Text style={styles.headerText}>
+                تحديث: {limitCharacters(tour.title, 7)}
+              </Text>
+              <AppButton
+                disabled={!isUpdated || activitiesMode === "edit"}
                 style={{
                   // ...styles.button,
                   height: 40,
                   width: 60,
                   ...styles.shadow,
                 }}
-                title={"نشر"}
+                color={colors.green}
+                title={"تحديث"}
                 onPress={() => {
                   setModalVisible(true);
                 }}
@@ -390,6 +428,7 @@ const PostTourV2 = ({ navigation }) => {
           <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
         </View>
 
+        {/* Body */}
         <KeyboardAwareScrollView
           enableAutomaticScroll
           extraHeight={240}
@@ -402,20 +441,41 @@ const PostTourV2 = ({ navigation }) => {
           {renderContent()}
         </KeyboardAwareScrollView>
 
-        <View>
+        {/* Btns */}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: screenWidth.width90,
+            marginVertical: screenWidth.width2,
+          }}
+        >
           <AppButton
-            disabled={publishTourDisabled}
+            color={colors.redTheme}
+            style={{
+              ...styles.button,
+              ...styles.shadow,
+              width: screenWidth.width40,
+              height: 60,
+            }}
+            title={"حذف"}
+            onPress={() => {
+              navigation.goBack();
+              // reset();
+            }}
+          />
+          <AppButton
+            color={colors.green}
+            disabled={!isUpdated || activitiesMode === "edit"}
             style={{
               ...styles.button,
               ...styles.shadow,
 
-              ...highlights.brdr02,
-              width: screenWidth.width80,
+              width: screenWidth.width40,
               height: 60,
-              marginVertical: 20,
-              marginBottom: 50,
             }}
-            title={"نشر"}
+            title={"تحديث"}
             onPress={() => {
               setModalVisible(true);
             }}
@@ -440,7 +500,7 @@ const PostTourV2 = ({ navigation }) => {
                   { textAlign: "center" },
                 ]}
               >
-                هل أنت متأكد أنك تريد نشر هذه الجولة؟
+                هل أنت متأكد أنك تريد تحديث هذه الجولة؟
               </Text>
             </View>
             <View
@@ -450,7 +510,8 @@ const PostTourV2 = ({ navigation }) => {
               }}
             >
               <AppButton
-                title="نشر"
+                title="تحديث"
+                color={colors.green}
                 onPress={submitRequest}
                 style={{ width: "45%", height: 55 }}
               />
@@ -591,7 +652,7 @@ const PostTourV2 = ({ navigation }) => {
   );
 };
 
-export default PostTourV2;
+export default EditTourV3;
 
 const styles = StyleSheet.create({
   container: {
@@ -612,8 +673,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 30,
     fontWeight: "bold",
-    textAlign: "right",
-    width: "75%",
+    // textAlign: "right",
+    // width: "75%",
   },
   modalView: {
     flex: 1,

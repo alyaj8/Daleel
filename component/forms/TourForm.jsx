@@ -26,7 +26,14 @@ const TourForm = ({
   return (
     <View style={styles.container}>
       {/* Image  */}
-      {filePathTour ? (
+      {tour.imageUrl ? (
+        <TouchableOpacity
+          onPress={() => pickImage()}
+          style={[styles.alignCenter, { marginTop: screenWidth.width5 }]}
+        >
+          <Image source={{ uri: tour.imageUrl }} style={[styles.dummyImg]} />
+        </TouchableOpacity>
+      ) : filePathTour ? (
         <TouchableOpacity
           onPress={() => {
             // remove image

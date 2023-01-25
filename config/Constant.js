@@ -29,6 +29,7 @@ export const screenHeight = {
 };
 
 export const screenWidth = {
+  width2: Math.round((2 / 100) * Dimensions.get("window").width),
   width5: Math.round((5 / 100) * Dimensions.get("window").width),
   width10: Math.round((10 / 100) * Dimensions.get("window").width),
 

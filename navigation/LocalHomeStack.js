@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import BookingDetail from "../Screens/Local/BookingDetail";
-import EditTourV2 from "../Screens/Local/EditTourV2";
+import EditTourV3 from "../Screens/Local/EditTourV3";
 import TourDetailedInformation from "../Screens/Local/TourDetailedInformation";
 import Local_Home from "../Screens/Local_Home";
 const Stack = createNativeStackNavigator();
@@ -15,7 +15,7 @@ function LocalHomeStack() {
         name="TourDetailedInformation"
         component={TourDetailedInformation}
       />
-      <Stack.Screen name="EditTour" component={EditTourV2} />
+      <Stack.Screen name="EditTour" component={EditTourV3} />
     </Stack.Navigator>
   );
 }
