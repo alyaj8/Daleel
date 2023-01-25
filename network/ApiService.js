@@ -57,12 +57,18 @@ export async function getUserObj() {
       const userDoc = await getDoc(docRef);
       // console.log("🚀 ~getUserObj> Local", userDoc.data());
 
-      return userDoc.data();
+      return {
+        ...userDoc.data(),
+        uid: localUid,
+      };
     } else {
       const docRef = doc(db, "users", uid);
       const userDoc = await getDoc(docRef);
       // console.log("🚀 ~getUserObj> Remote", userDoc.data());
-      return userDoc.data();
+      return {
+        ...userDoc.data(),
+        uid: uid,
+      };
     }
   } catch (err) {
     alert(err);

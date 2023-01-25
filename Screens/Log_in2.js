@@ -1,5 +1,5 @@
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import {
   Image,
@@ -55,30 +55,32 @@ export default function Log_in2({ navigation }) {
   // Check if user is already logged in
   const verifySession = async () => {
     const loggedInUser = await getDataFromStorage("loggedInUser");
-    console.log("login2> verifySession> user", loggedInUser);
+    const user = auth.currentUser;
 
-    if (user !== null) {
+    console.log("loggedInUser", loggedInUser);
+
+    if (loggedInUser !== null && loggedInUser.push_token === push_token) {
       navigateToDashboard(loggedInUser);
       return;
     }
 
-    // Check if user is already logged in
-    const user = auth.currentUser;
     if (user !== null) {
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
-      navigateToDashboard(docSnap.data());
+      if (docSnap.data().push_token === push_token)
+        navigateToDashboard(docSnap.data());
     }
   };
 
   // Navigate to home page
   const navigateToDashboard = (user) => {
+    console.log("🚀 ~ user");
+
     try {
-      // console.log("🚀 ~navigateToDashboard> user", user);
-      if (user && user.isTourist) {
-        navigation.replace("TouristBottomTabs");
-      } else if (user && !user.isTourist) {
-        navigation.replace("bottomTabs");
+      if (user.isTourist) {
+        navigation.navigate("TouristBottomTabs");
+      } else if (!user.isTourist) {
+        navigation.navigate("bottomTabs");
       }
     } catch (error) {
       console.log("🚀 ToDashboard ~ error", error);
@@ -86,34 +88,38 @@ export default function Log_in2({ navigation }) {
   };
 
   // Sign in user with email and password
-  const signInUser = async (email, password, push_token) => {
+  const signInUser = async (email, password) => {
     setIsLoading(true);
     try {
       const { user } = await signInWithEmailAndPassword(auth, email, password);
 
       const docRef = doc(db, "users", user.uid);
       const docSnap = await getDoc(docRef);
+      const token = await registerForPushNotificationsAsync();
 
       if (docSnap.data().isTourist) {
-        if (push_token) {
-          await updateDoc(doc(db, "users", user.uid), { push_token });
-          await updateDoc(doc(db, "Admin_users", user.uid), { push_token });
-        }
+        await updateDoc(doc(db, "users", user.uid), { push_token: token });
+        await updateDoc(doc(db, "Tourist_users", user.uid), {
+          push_token: token,
+        });
       } else {
-        if (push_token) {
-          await updateDoc(doc(db, "users", user.uid), { push_token });
-          await updateDoc(doc(db, "Tourist_users", user.uid), { push_token });
-        }
+        await updateDoc(doc(db, "users", user.uid), { push_token: token });
+        await updateDoc(doc(db, "Admin_users", user.uid), {
+          push_token: token,
+        });
       }
 
       // Save user data in local storage
       await storeDataToStorage("loggedInUser", docSnap.data());
 
-      // console.log("🚀 ~ docSnap.data()", docSnap.data());
+      console.log("🚀 ~ docSnap.data()", docSnap.data());
+
       navigateToDashboard(docSnap.data());
+
       setIsLoading(false);
       return docSnap.data();
     } catch (er) {
+      console.log("error in login user", er);
       let error = errorMsg(er);
       setValue({
         ...value,
@@ -135,7 +141,7 @@ export default function Log_in2({ navigation }) {
         return;
       }
 
-      const user = await signInUser(value.email, value.password, "");
+      await signInUser(value.email, value.password);
 
       setValue({
         email: "",
@@ -154,14 +160,14 @@ export default function Log_in2({ navigation }) {
 
   useEffect(() => {
     setIsLoading(true);
-    verifySession();
-
     // Get push token
     registerForPushNotificationsAsync().then((token) => {
       //  setPushToken(token === undefined ? "" : token);
       setPushToken(token);
       // console.log("token", token);
     });
+    verifySession();
+
     setIsLoading(false);
   }, []);
 
@@ -210,13 +216,13 @@ export default function Log_in2({ navigation }) {
         >
           <AppButton
             title="سائح"
-            onPress={() => {
+            onPress={async () => {
               setValue({
                 email: "tourist@gmail.com",
                 password: "tourist@gmail.com",
                 error: "",
               });
-              signInUser("tourist@gmail.com", "tourist@gmail.com", "");
+              await signInUser("tourist@gmail.com", "tourist@gmail.com");
             }}
             style={{
               backgroundColor: "#4F6367",
@@ -227,13 +233,13 @@ export default function Log_in2({ navigation }) {
           />
           <AppButton
             title="مٌرشد"
-            onPress={() => {
+            onPress={async () => {
               setValue({
                 email: "tour@gmail.com",
                 password: "tour@gmail.com",
                 error: "",
               });
-              signInUser("tour@gmail.com", "tour@gmail.com", "");
+              await signInUser("tour@gmail.com", "tour@gmail.com");
             }}
             style={{
               backgroundColor: "#4F6367",

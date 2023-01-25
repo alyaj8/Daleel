@@ -21,14 +21,20 @@ import {
 import text from "../style/text";
 
 import { Feather } from "@expo/vector-icons";
+import { useLastNotificationResponse } from "expo-notifications";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AcceptedBookings from "../component/bookings/AcceptedBooking";
 import RejectedBookings from "../component/bookings/RejectedBookings";
 import Button from "../component/button/Button";
 import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";
+import { logObj } from "../util/DateHelper";
 
 export default function Local_Home({ navigation }) {
+  const noti = useLastNotificationResponse();
+
+  logObj(noti, "noti=> ");
+
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     all: [],

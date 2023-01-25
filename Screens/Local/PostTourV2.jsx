@@ -29,7 +29,7 @@ import {
   screenWidth,
   uploadImage,
 } from "../../config/Constant";
-import { getUserId, insertTour } from "../../network/ApiService";
+import { getUserObj, insertTour } from "../../network/ApiService";
 import text from "../../style/text";
 import ActivityForm from "./../../component/forms/ActivityForm";
 
@@ -247,7 +247,8 @@ const PostTourV2 = ({ navigation }) => {
         // console.log("🚀 ~ imageUrl", imageUrl);
       }
 
-      const userId = await getUserId();
+      const userObj = await getUserObj();
+      const userId = userObj.uid;
 
       const tourDone = isTourHasImage && !!imageUrl ? true : false;
 
@@ -270,6 +271,7 @@ const PostTourV2 = ({ navigation }) => {
           imageUrl,
           activities: activities,
           requestBy: userId,
+          localName: userObj.firstname,
           dateCreated: Date.now(),
           dateUpdated: null,
           status: 0,

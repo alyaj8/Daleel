@@ -18,14 +18,39 @@ import Loading from "../../component/Loading";
 import MapListItem from "../../component/maps/MapListItem";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
-import {
-  getUser,
-  getUserId,
-  getUserObj,
-  insertRequest,
-} from "../../network/ApiService";
+import { getUser, getUserObj, insertRequest } from "../../network/ApiService";
 import text from "../../style/text";
-import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
+import {
+  getFormattedDate,
+  getFormattedTime,
+  logObj,
+} from "./../../util/DateHelper";
+
+async function sendBookNotification(
+  expoPushToken,
+  title,
+  body,
+  touristName,
+  tourId
+) {
+  const message = {
+    to: expoPushToken,
+    sound: "default",
+    title,
+    body,
+    data: { touristName, tourId },
+  };
+
+  await fetch("https://exp.host/--/api/v2/push/send", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Accept-encoding": "gzip, deflate",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  });
+}
 
 export default function TouristDetailedInformation({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
@@ -56,7 +81,15 @@ export default function TouristDetailedInformation({ navigation, route }) {
     status: null,
     touristId: null,
     price: null,
+
+    requestBy: "", //"wjj1ovm0FqQ5v1o2HS3m9lHOzAR2",
+    imageUrl: "",
+    status: null,
+    title: "جولة خطرة",
+    city: "جدة",
   });
+
+  logObj(data, "🚀 ~ data", " s");
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -112,7 +145,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
       // get user data
       const userData = await getUserObj();
-      const touristId = await getUserId();
+      const touristId = await userData.uid;
+
       const localData = await getUser(data.requestBy);
       // console.log("🚀 ~ userData", userData);
 
@@ -134,6 +168,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
       const response = await insertRequest(reqToAdd);
       // logObj(response, "🚀 ~ response");
 
+      await sendBookNotification(
+        localData.push_token,
+        "تم حجز جولة جديدة",
+        "تم حجز جولة جديدة من قبل " + userData.firstname,
+        userData.firstname,
+        data.id
+      );
       // Post request
       setIsLoading(false);
       // navigation.goBack();
