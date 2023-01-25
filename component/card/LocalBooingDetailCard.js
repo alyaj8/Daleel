@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, screenWidth } from "../../config/Constant";
+import { colors, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 import AppImage from "../AppImage";
 import ButtonComponent from "../button/Button";
@@ -20,8 +20,8 @@ export default function LocalBooingDetailCard({
     <View style={[styles.card, styles.flexDirection]}>
       {/* image */}
       <View style={{}}>
-        {source ? (
-          <AppImage sourceURI={source.uri} style={[styles.img]} />
+        {source.uri ? (
+          <AppImage sourceURI={source?.uri} style={[styles.img]} />
         ) : (
           <Image source={images.photo} style={[styles.img]} />
         )}
