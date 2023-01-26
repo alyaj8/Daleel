@@ -175,6 +175,7 @@ const ChatsList = ({ navigation }) => {
         senderId: me.uid,
         senderName: me.firstname,
         roomId: chatItem.roomId,
+        isTab: true,
       });
 
       setIsLoading(false);

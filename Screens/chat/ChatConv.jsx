@@ -11,13 +11,16 @@ import { images } from "./../../config/Constant";
 const ChatConvesation = ({
   navigation,
   route: {
-    params: { receiverName, receiverId, roomId, senderId, senderName },
+    params: { isTab, receiverName, receiverId, roomId, senderId, senderName },
   },
 }) => {
   const [messages, setMessages] = useState([]);
+  // console.log("🚀 ~ isTab", isTab);
+  console.log("namemmmeme: ");
 
   const insets = useSafeAreaInsets();
-  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
+
+  const DEFAULT_TABBAR_HEIGHT = !!isTab ? useBottomTabBarHeight() : 0;
 
   const onSend = useCallback(async (messages = []) => {
     await sendMessage(
@@ -92,7 +95,11 @@ const ChatConvesation = ({
     // <KeyboardAvoidingView style={{ flex: 1 }}>
     <GiftedChat
       wrapInSafeArea={false}
-      bottomOffset={Platform.OS === "ios" ? DEFAULT_TABBAR_HEIGHT : 0}
+      bottomOffset={
+        Platform.OS === "ios" && !!DEFAULT_TABBAR_HEIGHT
+          ? DEFAULT_TABBAR_HEIGHT
+          : 0
+      }
       messages={messages}
       onSend={(messages) => onSend(messages)}
       user={{
