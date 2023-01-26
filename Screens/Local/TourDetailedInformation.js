@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import {
@@ -22,11 +23,18 @@ import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import { colors, images, REQUESTS, screenWidth } from "../../config/Constant";
+import {
+  colors,
+  highlights,
+  images,
+  REQUESTS,
+  screenWidth,
+} from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
+import AppButton from "./../../component/AppButton";
 import Loading from "./../../component/Loading";
 import MapListItem from "./../../component/maps/MapListItem";
 
@@ -35,6 +43,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
+  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   const isReq = route.params?.mode === "request";
 
@@ -61,6 +70,7 @@ export default function TourDetailedInformation({ navigation, route }) {
 
   const getTourDetail = async () => {
     let tourDetail = route.params;
+
     const totalPriceOfActivity = tourDetail?.activities?.reduce(
       (total, item) => total + Number(item.price),
       0
@@ -448,12 +458,16 @@ export default function TourDetailedInformation({ navigation, route }) {
               styles.flexRow,
               {
                 justifyContent: "space-between",
-                marginVertical: 20,
                 marginHorizontal: 20,
+                marginBottom:
+                  Platform.OS === "ios"
+                    ? DEFAULT_TABBAR_HEIGHT - 20
+                    : DEFAULT_TABBAR_HEIGHT - 20,
+                ...highlights.brdr3,
               },
             ]}
           >
-            <Button
+            <AppButton
               title={" تحديث معلومات الجولة"}
               onpress={() => navigation.navigate("EditTour", { data })}
               style={{
@@ -463,7 +477,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 width: screenWidth.width90,
               }}
             />
-            <Button
+            <AppButton
               title={" حذف الجولة"}
               onpress={toggleModal}
               style={{

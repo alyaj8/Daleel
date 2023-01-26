@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useReducer, useState } from "react";
@@ -60,6 +61,7 @@ async function sendBookNotification(
 export default function TouristDetailedInformation({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   const [dateString, setDateString] = useState(null);
   const [startTimeString, setStartTimeString] = useState(null);

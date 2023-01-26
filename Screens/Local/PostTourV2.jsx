@@ -420,7 +420,8 @@ const PostTourV2 = ({ navigation }) => {
 
           <View
             style={{
-              ...highlights.brdr1,
+              ...highlights.brdr01,
+              marginTop: screenWidth.width2,
               marginBottom:
                 Platform.OS === "ios"
                   ? DEFAULT_TABBAR_HEIGHT
