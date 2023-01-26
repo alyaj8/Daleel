@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, screenWidth } from "../../../config/Constant";
+import { colors, images, screenWidth } from "../../../config/Constant";
 import text from "../../../style/text";
 import AppImage from "../../AppImage";
 
@@ -19,7 +19,7 @@ export default function TouristRejectCard({ onpress, source, title, local }) {
             {source.uri ? (
               <AppImage sourceURI={source.uri} style={[styles.img]} />
             ) : (
-              <Image source={source} style={[styles.img]} />
+              <Image source={images.photo} style={[styles.img]} />
             )}
           </View>
           <View style={{ marginHorizontal: 10 }}>

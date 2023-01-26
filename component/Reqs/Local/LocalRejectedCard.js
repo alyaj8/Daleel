@@ -1,6 +1,11 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, highlights, screenWidth } from "../../../config/Constant";
+import {
+  colors,
+  highlights,
+  images,
+  screenWidth,
+} from "../../../config/Constant";
 import text from "../../../style/text";
 import AppImage from "../../AppImage";
 
@@ -31,7 +36,10 @@ export default function LocalRejectedCard({
                 style={[styles.img, highlights.brdr01]}
               />
             ) : (
-              <Image source={source} style={[styles.img, highlights.brdr01]} />
+              <Image
+                source={images.photo}
+                style={[styles.img, highlights.brdr01]}
+              />
             )}
           </View>
           <View
