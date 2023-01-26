@@ -1,11 +1,11 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, images, screenWidth } from "../../config/Constant";
-import text from "../../style/text";
-import AppImage from "../AppImage";
-import ButtonComponent from "../button/Button";
+import { colors, images, screenWidth } from "../../../config/Constant";
+import text from "../../../style/text";
+import AppImage from "../../AppImage";
+import ButtonComponent from "../../button/Button";
 
-export default function LocalBooingDetailCard({
+export default function LocalPendingCard({
   onpressAccepted, // onprLocalBooingDetailCardessAccepted,
   onpressRejected,
   source,
@@ -19,7 +19,11 @@ export default function LocalBooingDetailCard({
   return (
     <View style={[styles.card, styles.flexDirection]}>
       {/* image */}
-      <View style={{}}>
+      <View
+        style={{
+          marginLeft: 10,
+        }}
+      >
         {source.uri ? (
           <AppImage sourceURI={source?.uri} style={[styles.img]} />
         ) : (
@@ -27,7 +31,7 @@ export default function LocalBooingDetailCard({
         )}
       </View>
 
-      <View style={{ marginHorizontal: 10 }}>
+      <View style={{ marginHorizontal: 5 }}>
         {/* Title */}
         <View style={{ width: screenWidth.width50 }}>
           <Text
@@ -43,13 +47,9 @@ export default function LocalBooingDetailCard({
 
         {/* bookedBy */}
         {bookedBy && (
-          <View style={[styles.flexDirection, { alignSelf: "center" }]}>
-            <View style={{}}>
-              <Text style={[text.themeDefault, text.text15]}>Booked By: </Text>
-            </View>
-            <View style={{}}>
-              <Text style={[text.themeDefault, text.text15]}>{bookedBy}</Text>
-            </View>
+          <View style={[styles.flexDirection, { alignSelf: "flex-end" }]}>
+            <Text style={[text.text15]}>{bookedBy}</Text>
+            <Text style={[text.text15]}>حجزت من: </Text>
           </View>
         )}
 
@@ -97,15 +97,19 @@ const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
     borderRadius: 10,
-    backgroundColor: "#ececec",
+    backgroundColor: "#fff",
     alignSelf: "center",
-    paddingVertical: 20,
-    marginVertical: 15,
-    ///shadowEffect
-    shadowColor: "#171717",
-    shadowOffset: { width: -1, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    paddingVertical: 10,
+    // marginVertical: 15,
+    // Show shadow on Android and iOS
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   flexDirection: {
     flexDirection: "row",

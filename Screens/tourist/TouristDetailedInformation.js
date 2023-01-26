@@ -16,7 +16,7 @@ import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
 import Loading from "../../component/Loading";
 import MapListItem from "../../component/maps/MapListItem";
-import { colors, highlights, images, screenWidth } from "../../config/Constant";
+import { colors, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 import { getUser, getUserObj, insertRequest } from "../../network/ApiService";
 import text from "../../style/text";
@@ -64,10 +64,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
   // reducer force update
 
   const [customizing, setCustomizing] = useState(false);
-  const [tourStatus, setTourStatus] = useState("notRequested");
+  const [tourStatus, setTourStatus] = useState("notRequested"); // requested, accepted, rejected
   const [selectedActivities, setSelectedActivities] = useState([]);
 
   const currentUserId = auth?.currentUser?.uid;
+
   const tourId = route.params.tourId;
 
   const [update, forceUpdate] = useReducer((x) => x + 1, 0);
@@ -122,11 +123,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
     );
 
     const unsubscribe2 = onSnapshot(q, (querySnapshot) => {
-      querySnapshot.docChanges().forEach((change) => {
-        change.type === "added" && setTourStatus("requested");
-        change.type === "removed" && setTourStatus("notRequested");
-
-        // console.log("🚀 ~ change", change.type, change.doc.data().status);
+      querySnapshot.forEach((doc) => {
+        if (doc.exists()) {
+          if (doc.data().status == 0) {
+            setTourStatus("requested");
+          } else if (doc.data().status == 1) {
+            setTourStatus("accepted");
+          } else if (doc.data().status == 2) {
+            setTourStatus("rejected");
+          }
+        }
+        console.log("not requested");
       });
     });
 
@@ -234,12 +241,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           >
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
-          <View
-            style={[
-              styles.alignCenter,
-              { marginTop: 20, ...highlights.brdr02 },
-            ]}
-          >
+          <View style={[styles.alignCenter, { marginTop: 20 }]}>
             <Text style={[text.text25, text.bold, { color: colors.white }]}>
               {data?.title}
             </Text>
@@ -259,7 +261,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
-                ...highlights.brdr02,
               }}
             >
               <Text style={[text.text30, { fontWeight: "bold" }]}>
@@ -292,7 +293,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     textAlign: "center",
                     flex: 1,
                     color: colors.Blue,
-                    ...highlights.brdr0,
                     fontWeight: "bold",
                   },
                   text.text14,
@@ -308,8 +308,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     flex: 1,
                     color: colors.Blue,
                     fontWeight: "bold",
-
-                    ...highlights.brdr0,
                   },
                   text.text14,
                 ]}
@@ -323,7 +321,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
-                ...highlights.brdr3,
               }}
             >
               <Text
@@ -359,7 +356,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 {
                   alignSelf: "flex-end",
                   // marginVertical: 10,
-                  ...highlights.brdr01,
                 },
               ]}
             >
@@ -367,14 +363,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 style={{
                   marginHorizontal: 20,
                   marginTop: 10,
-                  ...highlights.brdr02,
                 }}
               >
                 <Text
                   style={[
                     text.themeDefault,
                     text.text20,
-                    { fontWeight: "bold", ...highlights.brdr03 },
+                    { fontWeight: "bold" },
                   ]}
                 >
                   نقطة اللقاء
@@ -383,7 +378,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
             <View
               style={{
-                ...highlights.brdr04,
                 paddingHorizontal: 10,
               }}
             >
@@ -460,7 +454,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 justifyContent: "space-between",
                 alignItems: "center",
                 width: "95%",
-                ...highlights.brdr02,
               }}
             >
               <Text
@@ -469,7 +462,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   text.text25,
                   {
                     fontWeight: "bold",
-                    //    ...no_highlights. brdr03
                   },
                 ]}
               >
@@ -516,7 +508,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
               style={[
                 {
                   // marginRight: 20,
-                  ...highlights.brdr02,
                   alignSelf: "flex-end",
                   width: "95%",
                   flexDirection: "row-reverse",
@@ -551,12 +542,26 @@ export default function TouristDetailedInformation({ navigation, route }) {
           {/* Button */}
           <View style={{ alignSelf: "center", marginVertical: 30 }}>
             <AppButton
-              title={tourStatus == "requested" ? "تم الحجز" : " حجز الجولة"}
-              disabled={tourStatus == "requested"}
+              title={
+                tourStatus == "requested"
+                  ? "تم الطلب"
+                  : tourStatus == "accepted"
+                  ? "تم الحجز"
+                  : tourStatus == "rejected"
+                  ? "طلب مرة أخرى"
+                  : "حجز الرحلة"
+              }
+              disabled={tourStatus == "requested" || tourStatus == "accepted"}
               onPress={toggleModal}
               style={{
                 backgroundColor:
-                  tourStatus == "requested" ? colors.gray : colors.Blue,
+                  tourStatus == "requested"
+                    ? colors.gray
+                    : tourStatus == "accepted"
+                    ? colors.green
+                    : tourStatus == "rejected"
+                    ? colors.redTheme
+                    : colors.blue,
                 paddingVertical: 18,
                 width: screenWidth.width90,
               }}
@@ -586,7 +591,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     justifyContent: "space-between",
                     width: "100%",
                     // flex: 1,
-                    ...highlights.brdr02,
                   }}
                 >
                   <AppButton

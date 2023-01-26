@@ -30,7 +30,7 @@ import {
   screenWidth,
   uploadImage,
 } from "../../config/Constant";
-import { getUserId, updateTour } from "../../network/ApiService";
+import { deleteRequest, getUserId, updateTour } from "../../network/ApiService";
 import text from "../../style/text";
 import { limitCharacters } from "../../util/DateHelper";
 import ActivityForm from "./../../component/forms/ActivityForm";
@@ -349,7 +349,7 @@ const EditTourV3 = ({ navigation, route }) => {
             isDatePickerVisible={isDatePickerVisible}
             //
             onAddActivity={onAddActivity}
-            onRemoveActivit={onRemoveActivity}
+            onRemoveActivity={onRemoveActivity}
             onEditActivity={onEditActivity}
             //
             onRemoveActivitySubmit={onRemoveActivitySubmit}
@@ -559,7 +559,6 @@ const EditTourV3 = ({ navigation, route }) => {
       <RBSheet ref={modalizeRef} height={screenWidth.width80}>
         <ScrollView
           contentContainerStyle={{
-            // ...no_highlights.brdr1,
             width: "100%",
             alignSelf: "center",
             marginTop: 40,
@@ -574,7 +573,6 @@ const EditTourV3 = ({ navigation, route }) => {
               style={[styles.sheetText]}
               onPress={() => selectModal("city", value)}
               style={{
-                // ...no_highlights.brdr2,
                 width: "90%",
                 justifyContent: "center",
                 alignItems: "center",
@@ -603,7 +601,6 @@ const EditTourV3 = ({ navigation, route }) => {
       <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
         <ScrollView
           contentContainerStyle={{
-            // ...no_highlights.brdr1,
             width: "100%",
             alignSelf: "center",
             marginTop: 40,
@@ -618,7 +615,6 @@ const EditTourV3 = ({ navigation, route }) => {
               style={[styles.sheetText]}
               onPress={() => selectModal("age", value)}
               style={{
-                // ...no_highlights.brdr2,
                 width: "90%",
                 justifyContent: "center",
                 alignItems: "center",

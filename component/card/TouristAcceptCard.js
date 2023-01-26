@@ -34,20 +34,10 @@ export default function TouristAcceptCard({
                   {title}
                 </Text>
               </View>
-              <View
-                style={[
-                  styles.flexDirection,
-                  { alignSelf: "center", marginTop: 5 },
-                ]}
-              >
-                <View style={{}}>
-                  <Text style={[text.themeDefault, text.text16]}>
-                    Booked By:{" "}
-                  </Text>
-                </View>
-                <View style={{}}>
-                  <Text style={[text.themeDefault, text.text16]}>{booked}</Text>
-                </View>
+
+              <View style={[styles.flexDirection, { alignSelf: "flex-end" }]}>
+                <Text style={[text.text15]}>{booked}</Text>
+                <Text style={[text.text15]}>حجزت من: </Text>
               </View>
             </View>
 

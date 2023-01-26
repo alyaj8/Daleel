@@ -328,7 +328,7 @@ const PostTourV2 = ({ navigation }) => {
             isDatePickerVisible={isDatePickerVisible}
             //
             onAddActivity={onAddActivity}
-            onRemoveActivit={onRemoveActivity}
+            onRemoveActivity={onRemoveActivity}
             onEditActivity={onEditActivity}
             //
             onRemoveActivitySubmit={onRemoveActivitySubmit}
@@ -359,7 +359,6 @@ const PostTourV2 = ({ navigation }) => {
       >
         <View
           style={{
-            ...highlights.brdr1,
             // flex: 1,
             height: "99%",
           }}
@@ -424,7 +423,6 @@ const PostTourV2 = ({ navigation }) => {
             style={{
               ...styles.button,
               ...styles.shadow,
-              ...highlights.brdr2,
 
               width: screenWidth.width80,
               height: 60,
@@ -521,7 +519,6 @@ const PostTourV2 = ({ navigation }) => {
       <RBSheet ref={modalizeRef} height={screenWidth.width80}>
         <ScrollView
           contentContainerStyle={{
-            // ...no_highlights.brdr1,
             width: "100%",
             alignSelf: "center",
             marginTop: 40,
@@ -536,7 +533,6 @@ const PostTourV2 = ({ navigation }) => {
               style={[styles.sheetText]}
               onPress={() => selectModal("city", value)}
               style={{
-                // ...no_highlights.brdr2,
                 width: "90%",
                 justifyContent: "center",
                 alignItems: "center",
@@ -565,7 +561,6 @@ const PostTourV2 = ({ navigation }) => {
       <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
         <ScrollView
           contentContainerStyle={{
-            // ...no_highlights.brdr1,
             width: "100%",
             alignSelf: "center",
             marginTop: 40,
@@ -580,7 +575,6 @@ const PostTourV2 = ({ navigation }) => {
               style={[styles.sheetText]}
               onPress={() => selectModal("age", value)}
               style={{
-                // ...no_highlights.brdr2,
                 width: "90%",
                 justifyContent: "center",
                 alignItems: "center",
@@ -639,7 +633,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    // ...highlights.brdr01,
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   main: {
@@ -657,8 +650,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 29,
-
-    ...highlights.brdr07,
   },
 
   shadow: {

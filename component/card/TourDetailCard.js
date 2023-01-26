@@ -30,7 +30,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
               marginLeft: 10,
               justifyContent: "center",
               alignItems: "flex-end",
-              ...highlights.brdr2,
+              ...highlights.brdr02,
             }}
           >
             {/* title & activities */}
@@ -40,7 +40,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
                 alignItems: "center",
                 justifyContent: "flex-end",
                 flexWrap: "wrap",
-                ...highlights.brdr1,
+                ...highlights.brdr01,
               }}
             >
               {/* activities */}
@@ -52,7 +52,7 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
                     textAlign: "center",
                     fontWeight: "bold",
                     color: colors.textHeadingColor,
-                    ...highlights.brdr2,
+                    ...highlights.brdr02,
                   },
                 ]}
               >

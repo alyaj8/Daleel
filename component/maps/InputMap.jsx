@@ -267,14 +267,11 @@ export const InputMap = memo(
               flexDirection: "row-reverse",
             }}
             inputContainerStyle={{
-              // direction: "rtl",
               flexDirection: "row-reverse",
-              // backgroundColor: "#383b42",
               backgroundColor: "#fff",
               borderRadius: 20,
               borderWidth: 1,
               borderColor: "#5398a0",
-              // ...no_highlights.brdr1,
             }}
             suggestionsListContainerStyle={{
               backgroundColor: "#fff",
@@ -324,7 +321,6 @@ export const InputMap = memo(
                       fontSize: 16,
                       fontWeight: "bold",
                       marginHorizontal: 10,
-                      // ...no_highlights.brdr2,
                     }}
                   >
                     لا يوجد نتائج لهذا المكان

@@ -797,7 +797,6 @@ export default function EditTourV2({ navigation, route }) {
             <View
               style={{
                 width: screenWidth.width90,
-                // ...no_highlights.brdr1,
                 alignItems: "flex-end",
                 justifyContent: "center",
                 padding: 10,

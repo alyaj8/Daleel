@@ -110,7 +110,6 @@ export default function Tourist_Home({ navigation }) {
               {
                 width: "100%",
                 flexDirection: "row",
-                // ...no_highlights.brdr1,
               },
               styles.flexDirection,
               styles.tabColor,

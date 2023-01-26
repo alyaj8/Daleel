@@ -279,7 +279,6 @@ const ActivityForm = ({
             <View
               style={{
                 flexDirection: "row",
-                // ...no_highlights.brdr01,
                 alignItems: "center",
                 justifyContent: "center",
               }}
@@ -405,7 +404,6 @@ const ActivityForm = ({
             <View
               style={{
                 width: screenWidth.width90,
-                // ...no_highlights.brdr1,
                 alignItems: "flex-end",
                 justifyContent: "center",
                 padding: 10,

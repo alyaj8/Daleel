@@ -22,14 +22,7 @@ import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import {
-  colors,
-  highlights,
-  images,
-  no_highlights,
-  REQUESTS,
-  screenWidth,
-} from "../../config/Constant";
+import { colors, images, REQUESTS, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
@@ -42,6 +35,8 @@ export default function TourDetailedInformation({ navigation, route }) {
   const [isLoading, setIsLoading] = useState(false);
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
+
+  const isReq = route.params?.mode === "request";
 
   const [data, setData] = useState({
     title: null,
@@ -86,7 +81,9 @@ export default function TourDetailedInformation({ navigation, route }) {
 
   useEffect(() => {
     // console.log("useEffect");
-    const useId = data.id || route.params.id;
+    const useId = isReq
+      ? data.tourId || route.params.tourId
+      : data.id || route.params.id;
 
     const unsubscribe = onSnapshot(
       doc(db, "tours", useId),
@@ -114,7 +111,10 @@ export default function TourDetailedInformation({ navigation, route }) {
 
   const fetchTour = async () => {
     // console.log("🚀 ~ data.id", data.id);
-    const useId = data.id || route.params.id;
+    const useId = isReq
+      ? data.tourId || route.params.tourId
+      : data.id || route.params.id;
+    console.log("🚀 ~ useId", useId);
     // console.log("🚀 ~ useId", useId);
 
     const docRef = doc(db, "tours", useId);
@@ -183,7 +183,7 @@ export default function TourDetailedInformation({ navigation, route }) {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
-          style={{ flex: 1, ...no_highlights.brdr2 }}
+          style={{ flex: 1 }}
           source={images.backgroundImg}
           resizeMode="cover"
         >
@@ -203,17 +203,10 @@ export default function TourDetailedInformation({ navigation, route }) {
                 marginHorizontal: 35,
                 alignItems: "center",
                 justifyContent: "center",
-                // ...highlights.brdr2,
               },
             ]}
           >
-            <Text
-              style={[
-                text.white,
-                text.text30,
-                { ...highlights.brdr02, fontWeight: "bold" },
-              ]}
-            >
+            <Text style={[text.white, text.text30, { fontWeight: "bold" }]}>
               {data?.title}
             </Text>
           </View>
@@ -232,7 +225,6 @@ export default function TourDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
-                ...highlights.brdr02,
               }}
             >
               <Text style={[text.text30, { fontWeight: "bold" }]}>
@@ -265,7 +257,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                     textAlign: "center",
                     flex: 1,
                     color: colors.Blue,
-                    ...highlights.brdr0,
                     fontWeight: "bold",
                   },
                   text.text14,
@@ -281,8 +272,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                     flex: 1,
                     color: colors.Blue,
                     fontWeight: "bold",
-
-                    ...highlights.brdr0,
                   },
                   text.text14,
                 ]}
@@ -297,7 +286,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 alignItems: "flex-end",
                 justifyContent: "flex-end",
-                ...highlights.brdr3,
               }}
             >
               <Text
@@ -335,7 +323,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                 {
                   alignSelf: "flex-end",
                   // marginVertical: 10,
-                  ...highlights.brdr01,
                 },
               ]}
             >
@@ -343,14 +330,13 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={{
                   marginHorizontal: 20,
                   marginTop: 10,
-                  ...highlights.brdr02,
                 }}
               >
                 <Text
                   style={[
                     text.themeDefault,
                     text.text20,
-                    { fontWeight: "bold", ...highlights.brdr03 },
+                    { fontWeight: "bold" },
                   ]}
                 >
                   نقطة اللقاء
@@ -359,7 +345,6 @@ export default function TourDetailedInformation({ navigation, route }) {
             </View>
             <View
               style={{
-                ...highlights.brdr04,
                 paddingHorizontal: 10,
               }}
             >
@@ -373,9 +358,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  ...highlights.brdr05,
-                  // marginVertical: 10,
-                  // marginHorizontal: 10,
                 },
               ]}
             >
@@ -433,9 +415,6 @@ export default function TourDetailedInformation({ navigation, route }) {
               shadowRadius: 3,
               elevation: 5,
               alignItems: "center",
-              // alignSelf: "center",
-              // justifyContent: "center",
-              ...highlights.brdr02,
             }}
           >
             <View
@@ -443,7 +422,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                 flexDirection: "row-reverse",
                 justifyContent: "space-between",
                 alignItems: "center",
-                // ...no_highlights.brdr2,
               }}
             >
               <Text
@@ -452,7 +430,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                   text.text20,
                   {
                     fontWeight: "bold",
-                    //    ...no_highlights.brdr3
                   },
                 ]}
               >
@@ -593,7 +570,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#ececec",
     alignSelf: "center",
     marginTop: 50,
-    ...no_highlights.brdr1,
   },
   icon: {
     width: 25,

@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import LocalBooingDetailCard from "../component/card/LocalBooingDetailCard";
+import LocalPendingCard from "../component/Reqs/Local/LocalPendingCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
@@ -23,9 +23,10 @@ import text from "../style/text";
 import { Feather } from "@expo/vector-icons";
 import { useLastNotificationResponse } from "expo-notifications";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import AcceptedBookings from "../component/bookings/AcceptedBooking";
-import RejectedBookings from "../component/bookings/RejectedBookings";
+import AppTouchableHigh from "../component/AppTouchableHigh";
 import Button from "../component/button/Button";
+import AcceptedBookings from "../component/Reqs/Common/AcceptedBooking";
+import LocalRejectedCard from "../component/Reqs/Local/LocalRejectedCard";
 import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";
 import { logObj } from "../util/DateHelper";
@@ -34,6 +35,13 @@ export default function Local_Home({ navigation }) {
   const noti = useLastNotificationResponse();
 
   logObj(noti, "noti=> ");
+
+  const goToTourDetail = (req) => {
+    navigation.navigate("TourDetailedInformation", {
+      ...req,
+      mode: "request",
+    });
+  };
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
@@ -123,7 +131,9 @@ export default function Local_Home({ navigation }) {
     const updatedReq = await updateRequest(requestId, DataToUpdate);
 
     // TODO: update tour status
-    const updatedTour = await updateTour(tourId, DataToUpdate);
+    const updatedTour = await updateTour(tourId, {
+      status: 0,
+    });
     forceUpdate();
   };
 
@@ -213,18 +223,25 @@ export default function Local_Home({ navigation }) {
                   }}
                 >
                   {data.all.map((item, index) => {
+                    const isDeleted = item?.isDeleted;
                     return (
-                      <View key={index} style={[styles.cardDiv]}>
-                        <LocalBooingDetailCard
-                          source={{
-                            uri: item.imageUrl,
-                          }}
-                          title={item?.title}
-                          bookedBy={item?.touristName}
-                          onpressAccepted={() => toggleModalAccepted(item)}
-                          onpressRejected={() => toggleModalRejected(item)}
-                        />
-                      </View>
+                      <AppTouchableHigh
+                        onPress={
+                          !!isDeleted ? null : () => goToTourDetail(request)
+                        }
+                      >
+                        <View key={index} style={[styles.cardDiv]}>
+                          <LocalPendingCard
+                            source={{
+                              uri: item.imageUrl,
+                            }}
+                            title={item?.title}
+                            bookedBy={item?.touristName}
+                            onpressAccepted={() => toggleModalAccepted(item)}
+                            onpressRejected={() => toggleModalRejected(item)}
+                          />
+                        </View>
+                      </AppTouchableHigh>
                     );
                   })}
                 </View>
@@ -268,19 +285,27 @@ export default function Local_Home({ navigation }) {
                   const date = new Date(item?.dateCreated);
                   const setDate = date.toDateString();
                   const setTime = date.toTimeString();
+                  const isDeleted = item.isDeleted;
+
                   return (
-                    <AcceptedBookings
-                      key={index}
-                      source={{ uri: item?.imageUrl }}
-                      // booked={item?.touristName}
-                      title={item?.title}
-                      date={setDate}
-                      time={setTime}
-                      item={item}
-                      forPerson={item?.touristName}
-                      onpressAccepted={() => onPressChat(item)}
-                      type="local"
-                    />
+                    <AppTouchableHigh
+                      onPress={
+                        !!isDeleted ? null : () => goToTourDetail(request)
+                      }
+                    >
+                      <AcceptedBookings
+                        key={index}
+                        source={{ uri: item?.imageUrl }}
+                        // booked={item?.touristName}
+                        title={item?.title}
+                        date={setDate}
+                        time={setTime}
+                        item={item}
+                        forPerson={item?.touristName}
+                        onpressAccepted={() => onPressChat(item)}
+                        type="local"
+                      />
+                    </AppTouchableHigh>
                   );
                 })
               ) : (
@@ -320,13 +345,21 @@ export default function Local_Home({ navigation }) {
             <View>
               {data.rejected.length > 0 ? (
                 data.rejected.map((request, index) => {
+                  const isDeleted = request.isDeleted;
                   return (
-                    <RejectedBookings
-                      key={index}
-                      source={{ uri: request?.imageUrl }}
-                      booked={request?.touristName}
-                      title={request?.title}
-                    />
+                    <AppTouchableHigh
+                      onPress={
+                        !!isDeleted ? null : () => goToTourDetail(request)
+                      }
+                    >
+                      <LocalRejectedCard
+                        key={index}
+                        source={{ uri: request?.imageUrl }}
+                        booked={request?.touristName}
+                        title={request?.title}
+                        item={request}
+                      />
+                    </AppTouchableHigh>
                   );
                 })
               ) : (

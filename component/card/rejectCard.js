@@ -1,9 +1,9 @@
 import {} from "expo-status-bar";
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { screenWidth } from "../../../config/Constant";
-import text from "../../../style/text";
-import ButtonComponent from "../../button/Button";
+import { screenWidth } from "../../config/Constant";
+import text from "../../style/text";
+import ButtonComponent from "../button/Button";
 export default function rejectCard({
   onpressAccepted,
   onpressRejected,

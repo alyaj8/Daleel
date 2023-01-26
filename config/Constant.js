@@ -263,71 +263,30 @@ export const imagePickerConfig = {
   quality: 0.1,
 };
 
-export const highlights = {
-  brdr1: {
-    borderWidth: brdrWidth,
-    borderColor: colors.red,
-  },
-  brdr01: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr2: {
-    borderWidth: brdrWidth,
-    borderColor: colors.blue,
-  },
-  brdr02: {
-    borderWidth: no_brdrWidth,
-  },
+const debug = true;
 
-  brdr3: {
-    borderWidth: brdrWidth,
-    borderColor: colors.green,
-  },
-  brdr03: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr4: {
-    borderWidth: brdrWidth,
-    borderColor: colors.orange,
-  },
-  brdr04: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr5: {
-    borderWidth: brdrWidth,
-    borderColor: colors.grey,
-  },
-  brdr05: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr6: {
-    borderWidth: brdrWidth,
-    borderColor: colors.greyLight,
-  },
-  brdr06: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr7: {
-    borderWidth: brdrWidth,
-    borderColor: colors.greyDark,
-  },
-  brdr07: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr8: {
-    borderWidth: brdrWidth,
-    borderColor: colors.blueDark,
-  },
-  brdr08: {
-    borderWidth: no_brdrWidth,
-  },
-  brdr9: {
-    borderWidth: brdrWidth,
-    borderColor: colors.blueBeryline,
-  },
-  brdr09: {
-    borderWidth: no_brdrWidth,
-  },
+export const highlights = {
+  brdr1: debug ? { borderWidth: brdrWidth, borderColor: colors.red } : {},
+  brdr01: {},
+  brdr2: debug ? { borderWidth: brdrWidth, borderColor: colors.blue } : {},
+  brdr02: {},
+
+  brdr3: debug ? { borderWidth: brdrWidth, borderColor: colors.green } : {},
+  brdr03: {},
+  brdr4: debug ? { borderWidth: brdrWidth, borderColor: colors.orange } : {},
+  brdr04: {},
+  brdr5: debug ? { borderWidth: brdrWidth, borderColor: colors.grey } : {},
+  brdr05: {},
+  brdr6: debug ? { borderWidth: brdrWidth, borderColor: colors.greyLight } : {},
+  brdr06: {},
+  brdr7: debug ? { borderWidth: brdrWidth, borderColor: colors.greyDark } : {},
+  brdr07: {},
+  brdr8: debug ? { borderWidth: brdrWidth, borderColor: colors.blueDark } : {},
+  brdr08: {},
+  brdr9: debug
+    ? { borderWidth: brdrWidth, borderColor: colors.blueBeryline }
+    : {},
+  brdr09: {},
 };
 
 export const no_highlights = {

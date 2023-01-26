@@ -1,4 +1,5 @@
 import { Feather } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
@@ -7,15 +8,16 @@ import Modal from "react-native-modal";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
-import AcceptedBooking from "../bookings/AcceptedBooking";
+import AppTouchableHigh from "../AppTouchableHigh";
 import Button from "../button/Button";
-import TouristPendingCard from "../card/TouristPendingCard";
-import TouristRejectedCard from "../card/TouristRejectCard";
+import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
+import TouristPendingCard from "../Reqs/Tourist/TouristPendingCard";
+import TouristRejectedCard from "../Reqs/Tourist/TouristRejectCard";
 import { screenWidth } from "./../../config/Constant";
 
 const TouristHomeBody = ({
   selectedMenu,
-  requestStatus,
+  AppTouchableHighStatus,
   setRequestStatus,
 
   toggleModalAccepted,
@@ -26,11 +28,20 @@ const TouristHomeBody = ({
 
   currentUserId,
 }) => {
+  const navigation = useNavigation();
   const [data, setData] = React.useState({
     all: [],
     accepted: [],
     rejected: [],
   });
+
+  const goToTourDetail = (req) => {
+    navigation.navigate("TouristDetailedInformation", {
+      ...req,
+      mode: "request",
+      tourId: req.tourId,
+    });
+  };
 
   const Asyced = () => {
     getUserId().then((currentUserIdLoc) => {
@@ -104,30 +115,33 @@ const TouristHomeBody = ({
         <View>
           {data.all.length > 0 ? (
             data.all.map((item, index) => {
+              const isDeleted = item?.isDeleted;
+
               return (
-                <View key={index}>
-                  {item?.status == 0 && (
-                    <View style={[styles.cardDiv, {}]}>
-                      <TouristPendingCard
-                        key={index}
-                        source={{ uri: item?.imageUrl }}
-                        title={item?.title}
-                      />
-                    </View>
-                  )}
-                </View>
+                <AppTouchableHigh
+                  onPress={!!isDeleted ? null : () => goToTourDetail(item)}
+                >
+                  <View key={index}>
+                    {item?.status == 0 && (
+                      <View style={[styles.cardDiv, {}]}>
+                        <TouristPendingCard
+                          key={index}
+                          source={{ uri: item?.imageUrl }}
+                          title={item?.title}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </AppTouchableHigh>
               );
             })
           ) : (
             <View style={{ marginTop: 200, alignItems: "center" }}>
               <View
                 style={{
-                  // marginTop: 200,
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "center",
-                  // flex: 1,
-                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text
@@ -160,27 +174,32 @@ const TouristHomeBody = ({
               const setDate = date.toDateString();
               const setTime = date.toTimeString();
               // console.log("date", setDate);
+              const isDeleted = item?.isDeleted;
 
               return (
-                <View key={index}>
-                  {item?.status == 1 && (
-                    <View style={[styles.cardDiv, {}]}>
-                      <AcceptedBooking
-                        key={index}
-                        source={{ uri: item?.imageUrl }}
-                        // booked={"Shatha"}
-                        title={item?.title}
-                        date={setDate}
-                        time={setTime}
-                        item={item}
-                        forPerson={item?.localName}
-                        onpressAccepted={() => onPressChat(item)}
-                        type="tourist"
-                        // onpressAccepted={() => navigation.navigate("ChatMenu")}
-                      />
-                    </View>
-                  )}
-                </View>
+                <AppTouchableHigh
+                  onPress={!!isDeleted ? null : () => goToTourDetail(item)}
+                >
+                  <View key={index}>
+                    {item?.status == 1 && (
+                      <View style={[styles.cardDiv, {}]}>
+                        <AcceptedBooking
+                          key={index}
+                          source={{ uri: item?.imageUrl }}
+                          // booked={"Shatha"}
+                          title={item?.title}
+                          date={setDate}
+                          time={setTime}
+                          item={item}
+                          forPerson={item?.localName}
+                          onpressAccepted={() => onPressChat(item)}
+                          type="tourist"
+                          // onpressAccepted={() => navigation.navigate("ChatMenu")}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </AppTouchableHigh>
               );
             })
           ) : (
@@ -192,7 +211,6 @@ const TouristHomeBody = ({
                   alignItems: "center",
                   justifyContent: "center",
                   // flex: 1,
-                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text
@@ -221,18 +239,25 @@ const TouristHomeBody = ({
         <View>
           {data?.rejected.length ? (
             data?.rejected?.map((item, index) => {
+              const isDeleted = item?.isDeleted;
+
               return (
-                <View key={index}>
-                  {item?.status == 2 && (
-                    <View style={[styles.cardDiv, {}]}>
-                      <TouristRejectedCard
-                        key={index}
-                        source={{ uri: item?.imageUrl }}
-                        title={item?.title}
-                      />
-                    </View>
-                  )}
-                </View>
+                <AppTouchableHigh
+                  onPress={!!isDeleted ? null : () => goToTourDetail(item)}
+                >
+                  <View key={index}>
+                    {item?.status == 2 && (
+                      <View style={[styles.cardDiv, {}]}>
+                        <TouristRejectedCard
+                          key={index}
+                          source={{ uri: item?.imageUrl }}
+                          title={item?.title}
+                          local={item?.localName}
+                        />
+                      </View>
+                    )}
+                  </View>
+                </AppTouchableHigh>
               );
             })
           ) : (
@@ -244,7 +269,6 @@ const TouristHomeBody = ({
                   alignItems: "center",
                   justifyContent: "center",
                   // flex: 1,
-                  // ...no_highlights.brdr1,
                 }}
               >
                 <Text

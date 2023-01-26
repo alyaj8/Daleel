@@ -1,19 +1,24 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, screenWidth } from "../../config/Constant";
-import text from "../../style/text";
-import AppImage from "./../AppImage";
+import { colors, screenWidth } from "../../../config/Constant";
+import text from "../../../style/text";
+import AppImage from "../../AppImage";
+import { highlights } from "./../../../config/Constant";
 
 export default function TouristPendingCard({ onpress, source, title }) {
   // console.log("🚀 ~ source", source);
   return (
-    <View style={[styles.card, styles.flexDirection]}>
+    <View style={[styles.card, styles.flexDirection, highlights.brdr2]}>
       {/* Image */}
-      <View style={{ marginHorizontal: 5 }}>
-        <AppImage sourceURI={source.uri} style={[styles.img]} />
+      <View style={{}}>
+        <AppImage
+          sourceURI={source.uri}
+          style={[styles.img, highlights.brdr1]}
+        />
       </View>
+
       {/* Rest */}
-      <View style={{ paddingHorizontal: 10 }}>
+      <View style={{ ...highlights.brdr3 }}>
         <View style={{ width: screenWidth.width50 }}>
           <Text
             style={[
@@ -40,13 +45,6 @@ export default function TouristPendingCard({ onpress, source, title }) {
             {" "}
             طلبك قيد الإنتظار
           </Text>
-          {/* <Button
-            buttonSelection={true}
-            buttonDefault={false}
-            title={"قيد الإنتظار"}
-            disabled={true}
-            style={{ backgroundColor: "#b2e5e4" }}
-          /> */}
         </View>
       </View>
     </View>
@@ -57,21 +55,27 @@ const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
     borderRadius: 10,
-    backgroundColor: "#ececec",
+    backgroundColor: "#fff",
     alignSelf: "center",
-    paddingVertical: 20,
-    marginVertical: 15,
-    ///shadowEffect
-    shadowColor: "#171717",
-    shadowOffset: { width: -1, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    paddingVertical: 7,
+    marginVertical: 7,
+    // Show shadow on Android and iOS
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   flexDirection: {
     flexDirection: "row",
   },
   img: {
-    width: screenWidth.width30,
-    height: screenWidth.width30,
+    width: screenWidth.width35,
+    height: screenWidth.width35,
+    borderRadius: 10,
+    marginLeft: 10,
   },
 });

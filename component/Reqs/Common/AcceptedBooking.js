@@ -1,10 +1,14 @@
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { colors, highlights, images, screenWidth } from "../../config/Constant";
-import { getFormattedTime } from "../../util/DateHelper";
-import AppImage from "../AppImage";
-import { getFormattedDate } from "./../../util/DateHelper";
-import AppButton from "./../AppButton";
+import {
+  colors,
+  highlights,
+  images,
+  screenWidth,
+} from "../../../config/Constant";
+import { getFormattedDate, getFormattedTime } from "../../../util/DateHelper";
+import AppButton from "../../AppButton";
+import AppImage from "../../AppImage";
 
 export default function AcceptedBooking({
   onpressAccepted,
@@ -213,6 +217,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
     alignSelf: "center",
+    marginVertical: 7,
     // shadow
     shadowColor: colors.black,
     shadowOffset: {

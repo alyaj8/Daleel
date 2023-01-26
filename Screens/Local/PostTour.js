@@ -595,7 +595,6 @@ export default function PostTour({ navigation }) {
           <RBSheet ref={modalizeRef} height={screenWidth.width80}>
             <ScrollView
               contentContainerStyle={{
-                // ...no_highlights.brdr1,
                 width: "100%",
                 alignSelf: "center",
                 marginTop: 40,
@@ -610,7 +609,6 @@ export default function PostTour({ navigation }) {
                   style={[styles.sheetText]}
                   onPress={() => selectCity(value)}
                   style={{
-                    // ...no_highlights.brdr2,
                     width: "90%",
                     justifyContent: "center",
                     alignItems: "center",
@@ -815,7 +813,6 @@ export default function PostTour({ navigation }) {
             <View
               style={{
                 width: screenWidth.width90,
-                // ...no_highlights.brdr1,
                 alignItems: "flex-end",
                 justifyContent: "center",
                 padding: 10,
@@ -868,7 +865,6 @@ export default function PostTour({ navigation }) {
           <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
             <ScrollView
               contentContainerStyle={{
-                // ...no_highlights.brdr1,
                 width: "100%",
                 alignSelf: "center",
                 marginTop: 40,
@@ -883,7 +879,6 @@ export default function PostTour({ navigation }) {
                   style={[styles.sheetText]}
                   onPress={() => selectAge(value)}
                   style={{
-                    // ...no_highlights.brdr2,
                     width: "90%",
                     justifyContent: "center",
                     alignItems: "center",

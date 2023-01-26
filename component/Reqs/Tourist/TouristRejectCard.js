@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, screenWidth } from "../../config/Constant";
-import text from "../../style/text";
+import { colors, screenWidth } from "../../../config/Constant";
+import text from "../../../style/text";
 
-export default function TouristRejectCard({ onpress, source, title }) {
+export default function TouristRejectCard({ onpress, source, title, local }) {
   return (
     <View style={styles.container}>
       <View style={[styles.card]}>
@@ -12,18 +12,17 @@ export default function TouristRejectCard({ onpress, source, title }) {
             <Image source={source} style={[styles.img]} />
           </View>
           <View style={{ marginHorizontal: 10 }}>
-            <View style={{}}>
-              <Text
-                style={[
-                  text.themeDefault,
-                  text.text18,
-                  { textAlign: "center", fontWeight: "bold" },
-                ]}
-              >
-                {title}
-              </Text>
-            </View>
-            <View style={{ alignSelf: "center", marginTop: 30 }}>
+            <Text
+              style={[text.text18, { textAlign: "right", fontWeight: "bold" }]}
+            >
+              {title}
+            </Text>
+            <Text
+              style={[text.text14, { textAlign: "right", fontWeight: "bold" }]}
+            >
+              المُرشد: {local}
+            </Text>
+            <View style={{ alignSelf: "center", marginTop: 15 }}>
               <Text
                 style={[
                   text.text18,
@@ -35,13 +34,8 @@ export default function TouristRejectCard({ onpress, source, title }) {
                   },
                 ]}
               >
-                {" "}
                 طلبك مرفوض
               </Text>
-              {/* <ButtonComponent buttonSelection={true} buttonDefault={false} title={'مرفوض'}
-                onpress={onpress}
-                  style={{ backgroundColor: colors.brown ,borderRadius: 10, width: screenWidth.width40,}}
-                /> */}
             </View>
           </View>
         </View>
@@ -54,15 +48,20 @@ const styles = StyleSheet.create({
   card: {
     width: screenWidth.width90,
     borderRadius: 10,
-    backgroundColor: "#ececec",
+    backgroundColor: "#fff",
     alignSelf: "center",
     paddingVertical: 20,
-    marginVertical: 15,
-    ///shadowEffect
-    shadowColor: "#171717",
-    shadowOffset: { width: -1, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
+    marginVertical: 10,
+
+    // Show shadow on Android and iOS
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   flexDirection: {
     flexDirection: "row",

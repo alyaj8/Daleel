@@ -16,7 +16,6 @@ import { colors } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import { getDataFromStorage } from "../util/Storage";
-import { no_highlights } from "./../config/Constant";
 import { storeDataToStorage } from "./../util/Storage";
 
 function errorMsg(error) {
@@ -54,12 +53,29 @@ export default function Log_in2({ navigation }) {
 
   // Check if user is already logged in
   const verifySession = async () => {
+    const token = await registerForPushNotificationsAsync();
     const loggedInUser = await getDataFromStorage("loggedInUser");
+
     const user = auth.currentUser;
 
     console.log("loggedInUser", loggedInUser);
 
-    if (loggedInUser !== null && loggedInUser.push_token === push_token) {
+    if (loggedInUser !== null) {
+      if (loggedInUser.isTourist) {
+        await updateDoc(doc(db, "users", loggedInUser.uid), {
+          push_token: token,
+        });
+        await updateDoc(doc(db, "Tourist_users", loggedInUser.uid), {
+          push_token: token,
+        });
+      } else {
+        await updateDoc(doc(db, "users", loggedInUser.uid), {
+          push_token: token,
+        });
+        await updateDoc(doc(db, "Admin_users", loggedInUser.uid), {
+          push_token: token,
+        });
+      }
       navigateToDashboard(loggedInUser);
       return;
     }
@@ -211,7 +227,6 @@ export default function Log_in2({ navigation }) {
           style={{
             flexDirection: "row",
             justifyContent: "space-around",
-            ...no_highlights.brdr0,
           }}
         >
           <AppButton

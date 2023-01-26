@@ -100,12 +100,25 @@ export async function updateTour(id, data) {
     const taskDocRef = doc(db, "tours", id);
     const result = await updateDoc(taskDocRef, data);
     console.log("updateRequest >result ", result);
+
+    // TODO: update all related requests
+    const q = query(collection(db, "requests"), where("tourId", "==", id));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      // doc.data() is never undefined for query doc snapshots
+      const result = await updateRequest(doc.id, {
+        imageUrl: data.imageUrl,
+        title: data.title,
+      });
+    });
+
     return result;
   } catch (err) {
     console.log("🚀 ~updateRequest err", err);
     alert(err);
   }
 }
+
 export async function updateRequest(reqId, data) {
   try {
     const taskDocRef = doc(db, "requests", reqId);
@@ -176,6 +189,7 @@ export async function deleteTour(id) {
       const renamedReq = await updateRequest(doc.id, {
         title: "محذوف",
         status: 2,
+        isDeleted: true,
         rejectedAt: new Date(),
       });
     });

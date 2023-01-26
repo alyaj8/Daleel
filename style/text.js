@@ -7,7 +7,6 @@ export default StyleSheet.create({
     color: colors.themeDefault,
     fontWeight: "bold",
     width: "100%",
-    // ...no_highlights.brdr1,
   },
   fontFamily: {
     // fontFamily:'serif',
