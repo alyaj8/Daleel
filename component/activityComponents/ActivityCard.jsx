@@ -158,21 +158,27 @@ const ActivityCard = ({
           {/* <View style={[styles.row, styles.ROWxLeft_COLyTop]}> */}
           <View style={[styles.col, styles.ROWxLeft_COLyTop]}>
             {/* Title */}
-            <Text
-              style={[
-                styles.title,
-                text.text18,
-                {
-                  fontWeight: "bold",
-                  marginBottom: 5,
-                  borderRightColor: colors.brown,
-                  borderRightWidth: 3,
-                  paddingRight: 5,
-                },
-              ]}
+            <View
+              style={{
+                borderRightColor: colors.brown,
+                borderRightWidth: 3,
+                paddingRight: 5,
+                marginBottom: 3,
+              }}
             >
-              {title}
-            </Text>
+              <Text
+                style={[
+                  styles.title,
+                  text.text18,
+                  {
+                    fontWeight: "bold",
+                    marginBottom: 5,
+                  },
+                ]}
+              >
+                {title}
+              </Text>
+            </View>
 
             {/* Times & Date */}
             <View style={[styles.col, styles.ROWyButtom_COLxRight]}>
@@ -217,22 +223,30 @@ const ActivityCard = ({
           </View>
 
           {/* Description */}
-          <Text
-            style={[
-              text.text14,
-              {
-                color: colors.dark,
-                borderBottomWidth: 1,
-                borderTopWidth: 1,
-                paddingVertical: 5,
-                borderBottomColor: colors.grey,
-                borderTopColor: colors.grey,
-                width: "90%",
-              },
-            ]}
+          <View
+            style={{
+              borderBottomWidth: 1,
+              borderTopWidth: 1,
+              paddingVertical: 5,
+              borderBottomColor: colors.grey,
+              borderTopColor: colors.grey,
+              width: "90%",
+            }}
           >
-            {limitCharacters(description, 60)}
-          </Text>
+            <Text
+              style={[
+                text.text14,
+                {
+                  color: colors.dark,
+                  fontWeight: "bold",
+                  alignSelf: "flex-end",
+                  textAlign: "right",
+                },
+              ]}
+            >
+              {limitCharacters(description, 60)}
+            </Text>
+          </View>
 
           {/* #Lower info */}
           <View
