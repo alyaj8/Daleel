@@ -463,7 +463,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                   Platform.OS === "ios"
                     ? DEFAULT_TABBAR_HEIGHT - 20
                     : DEFAULT_TABBAR_HEIGHT - 20,
-                ...highlights.brdr3,
+                ...highlights.brdr03,
               },
             ]}
           >

@@ -790,7 +790,7 @@ export default function EditTourV2({ navigation, route }) {
                 // transparent background color
                 backgroundColor: "rgba(0,0,0,0.3)",
                 borderRadius: 20,
-                // ...highlights.brdr1,
+                // ...highlights.brdr01,
               },
             ]}
           >
