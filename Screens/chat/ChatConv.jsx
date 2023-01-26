@@ -1,7 +1,9 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { child, getDatabase, onValue, ref } from "firebase/database";
 import React, { useCallback, useEffect, useState } from "react";
-import { StyleSheet } from "react-native";
+import { Platform, StyleSheet } from "react-native";
 import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors } from "../../config/Constant";
 import { markAsRead, sendMessage } from "../../network/ApiService";
 import { images } from "./../../config/Constant";
@@ -13,6 +15,9 @@ const ChatConvesation = ({
   },
 }) => {
   const [messages, setMessages] = useState([]);
+
+  const insets = useSafeAreaInsets();
+  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   const onSend = useCallback(async (messages = []) => {
     await sendMessage(
@@ -82,8 +87,12 @@ const ChatConvesation = ({
     });
   }, []);
 
+  console.log("🚀 ~ insets.bottom", insets.bottom);
   return (
+    // <KeyboardAvoidingView style={{ flex: 1 }}>
     <GiftedChat
+      wrapInSafeArea={false}
+      bottomOffset={Platform.OS === "ios" ? DEFAULT_TABBAR_HEIGHT : 0}
       messages={messages}
       onSend={(messages) => onSend(messages)}
       user={{
@@ -119,6 +128,7 @@ const ChatConvesation = ({
         );
       }}
     />
+    // </KeyboardAvoidingView>
   );
 };
 
