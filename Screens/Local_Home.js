@@ -226,6 +226,7 @@ export default function Local_Home({ navigation }) {
                     const isDeleted = item?.isDeleted;
                     return (
                       <AppTouchableHigh
+                        key={index}
                         onPress={
                           !!isDeleted ? null : () => goToTourDetail(request)
                         }
@@ -289,6 +290,7 @@ export default function Local_Home({ navigation }) {
 
                   return (
                     <AppTouchableHigh
+                      key={index}
                       onPress={
                         !!isDeleted ? null : () => goToTourDetail(request)
                       }
@@ -348,6 +350,7 @@ export default function Local_Home({ navigation }) {
                   const isDeleted = request.isDeleted;
                   return (
                     <AppTouchableHigh
+                      key={index}
                       onPress={
                         !!isDeleted ? null : () => goToTourDetail(request)
                       }

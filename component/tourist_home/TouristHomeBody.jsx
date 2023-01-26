@@ -119,6 +119,7 @@ const TouristHomeBody = ({
 
               return (
                 <AppTouchableHigh
+                  key={index}
                   onPress={!!isDeleted ? null : () => goToTourDetail(item)}
                 >
                   <View key={index}>
@@ -178,6 +179,7 @@ const TouristHomeBody = ({
 
               return (
                 <AppTouchableHigh
+                  key={index}
                   onPress={!!isDeleted ? null : () => goToTourDetail(item)}
                 >
                   <View key={index}>
@@ -243,6 +245,7 @@ const TouristHomeBody = ({
 
               return (
                 <AppTouchableHigh
+                  key={index}
                   onPress={!!isDeleted ? null : () => goToTourDetail(item)}
                 >
                   <View key={index}>
