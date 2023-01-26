@@ -5,7 +5,6 @@ import {
   Dimensions,
   ImageBackground,
   Modal,
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +12,8 @@ import {
   View,
 } from "react-native";
 
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -81,6 +82,7 @@ const PostTourV2 = ({ navigation }) => {
   // Page State
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0);
+  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   // Tour
   const [tour, setTour] = useState(initTour);
@@ -398,7 +400,6 @@ const PostTourV2 = ({ navigation }) => {
             </View>
             <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
           </View>
-
           {/* Body */}
           <KeyboardAwareScrollView
             enableAutomaticScroll
@@ -415,25 +416,34 @@ const PostTourV2 = ({ navigation }) => {
           >
             {renderContent()}
           </KeyboardAwareScrollView>
-
           {/* BTNS */}
 
-          <AppButton
-            disabled={publishTourDisabled}
+          <View
             style={{
-              ...styles.button,
-              ...styles.shadow,
+              ...highlights.brdr1,
+              marginBottom:
+                Platform.OS === "ios"
+                  ? DEFAULT_TABBAR_HEIGHT
+                  : DEFAULT_TABBAR_HEIGHT - 22,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <AppButton
+              disabled={publishTourDisabled}
+              style={{
+                ...styles.button,
+                ...styles.shadow,
 
-              width: screenWidth.width80,
-              height: 60,
-              // marginVertical: 20,
-              marginBottom: Platform.OS === "ios" ? 65 : 45,
-            }}
-            title={"نشر"}
-            onPress={() => {
-              setModalVisible(true);
-            }}
-          />
+                width: screenWidth.width80,
+                height: 60,
+              }}
+              title={"نشر"}
+              onPress={() => {
+                setModalVisible(true);
+              }}
+            />
+          </View>
         </View>
       </ImageBackground>
 

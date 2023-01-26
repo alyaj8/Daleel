@@ -1,3 +1,4 @@
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import * as ImagePicker from "expo-image-picker";
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useRef, useState } from "react";
@@ -101,6 +102,8 @@ const EditTourV3 = ({ navigation, route }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
+
+  const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   useEffect(() => {
     let tour = route.params.data;
@@ -450,8 +453,13 @@ const EditTourV3 = ({ navigation, route }) => {
             alignItems: "center",
             justifyContent: "space-between",
             width: screenWidth.width90,
-            marginTop: 20,
-            marginBottom: Platform.OS === "ios" ? 45 : 15,
+
+            ...highlights.brdr01,
+            marginBottom:
+              Platform.OS === "ios"
+                ? DEFAULT_TABBAR_HEIGHT
+                : DEFAULT_TABBAR_HEIGHT - 22,
+            alignItems: "center",
           }}
         >
           <AppButton
@@ -694,7 +702,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginBottom: 29,
 
-    ...highlights.brdr7,
+    ...highlights.brdr07,
   },
 
   shadow: {

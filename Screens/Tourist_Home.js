@@ -1,13 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import {
-  ImageBackground,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { ImageBackground, StyleSheet, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import TabsWrapper from "../component/TabsWrapper";
 
 import { images, screenWidth } from "../config/Constant";
 import { createChatRoom, getUserId, getUserObj } from "../network/ApiService";
@@ -104,49 +99,11 @@ export default function Tourist_Home({ navigation }) {
         </Text>
 
         {/* Top Tabs */}
-        <View>
-          <View
-            style={[
-              {
-                width: "100%",
-                flexDirection: "row",
-              },
-              styles.flexDirection,
-              styles.tabColor,
-            ]}
-          >
-            {menuTab.map((menu, index) => {
-              return (
-                <View key={index}>
-                  <TouchableOpacity
-                    onPress={() => onPressTab(index)}
-                    style={[
-                      styles.headerTab,
-                      {
-                        backgroundColor:
-                          selectedMenu == index ? "#c6c6c6" : "#e0e0e0",
-                      },
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        {
-                          width: "100%",
-                          textAlign: "center",
-                        },
-                        text.themeDefault,
-                        text.text20,
-                      ]}
-                    >
-                      {menu?.title}
-                    </Text>
-                  </TouchableOpacity>
-                </View>
-              );
-            })}
-          </View>
-        </View>
-
+        <TabsWrapper
+          selectedMenu={selectedMenu}
+          menuTabs={menuTab}
+          onPressTab={onPressTab}
+        />
         <TouristHomeBody
           selectedMenu={selectedMenu}
           requestStatus={requestStatus}
