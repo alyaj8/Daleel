@@ -2,14 +2,25 @@ import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { colors, screenWidth } from "../../../config/Constant";
 import text from "../../../style/text";
+import AppImage from "../../AppImage";
 
 export default function TouristRejectCard({ onpress, source, title, local }) {
   return (
     <View style={styles.container}>
       <View style={[styles.card]}>
-        <View style={[styles.flexDirection]}>
-          <View style={{ marginHorizontal: 50 }}>
-            <Image source={source} style={[styles.img]} />
+        <View
+          style={[styles.flexDirection, { justifyContent: "space-between" }]}
+        >
+          <View
+            style={{
+              marginHorizontal: 10,
+            }}
+          >
+            {source.uri ? (
+              <AppImage sourceURI={source.uri} style={[styles.img]} />
+            ) : (
+              <Image source={source} style={[styles.img]} />
+            )}
           </View>
           <View style={{ marginHorizontal: 10 }}>
             <Text
@@ -50,7 +61,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: "#fff",
     alignSelf: "center",
-    paddingVertical: 20,
+    paddingVertical: 10,
     marginVertical: 10,
 
     // Show shadow on Android and iOS
@@ -67,7 +78,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   img: {
-    width: screenWidth.width25,
-    height: screenWidth.width25,
+    width: screenWidth.width35,
+    height: screenWidth.width35,
+    borderRadius: 10,
   },
 });

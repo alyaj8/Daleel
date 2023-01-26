@@ -2,6 +2,7 @@ import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 import { colors, highlights, screenWidth } from "../../../config/Constant";
 import text from "../../../style/text";
+import AppImage from "../../AppImage";
 
 export default function LocalRejectedCard({
   onpressAccepted,
@@ -24,7 +25,14 @@ export default function LocalRejectedCard({
         >
           {/* Image */}
           <View style={{ marginHorizontal: 10 }}>
-            <Image source={source} style={[styles.img]} />
+            {source.uri ? (
+              <AppImage
+                sourceURI={source.uri}
+                style={[styles.img, highlights.brdr01]}
+              />
+            ) : (
+              <Image source={source} style={[styles.img, highlights.brdr01]} />
+            )}
           </View>
           <View
             style={{
