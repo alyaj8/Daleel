@@ -17,6 +17,7 @@ import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import Icon from "react-native-vector-icons/Ionicons";
+//import { Dropdown } from "react-native-element-dropdown";
 
 export default function TouristTour({ navigation }) {
   const [data, setData] = useState([]);

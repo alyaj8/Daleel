@@ -25,7 +25,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 //ADD localhost address of your server
 const API_URL = "http://localhost:19003";
 
-const StripeApp = ({ navigation }) => {
+const StripeApp = ({ route, navigation }) => {
     //const book = route.params;
     const { confirmPayment } = useStripe();
     const [loading, setLoading] = useState(false);
