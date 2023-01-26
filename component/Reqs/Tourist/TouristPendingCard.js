@@ -8,17 +8,17 @@ import { highlights } from "./../../../config/Constant";
 export default function TouristPendingCard({ onpress, source, title }) {
   // console.log("🚀 ~ source", source);
   return (
-    <View style={[styles.card, styles.flexDirection, highlights.brdr2]}>
+    <View style={[styles.card, styles.flexDirection, highlights.brdr02]}>
       {/* Image */}
       <View style={{}}>
         <AppImage
           sourceURI={source.uri}
-          style={[styles.img, highlights.brdr1]}
+          style={[styles.img, highlights.brdr01]}
         />
       </View>
 
       {/* Rest */}
-      <View style={{ ...highlights.brdr3 }}>
+      <View style={{ ...highlights.brdr03 }}>
         <View style={{ width: screenWidth.width50 }}>
           <Text
             style={[

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { colors } from "../config/Constant";
 
-const Chip = ({ text }) => {
+const Chip = ({ text, small }) => {
   // console.log("🚀 ~ text", text);
   return (
     <View
@@ -10,10 +10,11 @@ const Chip = ({ text }) => {
         backgroundColor: colors.orange,
         borderRadius: 25,
         marginRight: 5,
-        padding: 5,
+        padding: small ? 2 : 5,
         flexDirection: "row",
         // alignSelf: "center",
-        width: "auto",
+        width: small ? 18 : "auto",
+
         justifyContent: "center",
         alignItems: "center",
       }}

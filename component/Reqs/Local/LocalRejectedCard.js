@@ -29,16 +29,16 @@ export default function LocalRejectedCard({
           <View
             style={{
               flexDirection: "column",
-              ...highlights.brdr1,
+              ...highlights.brdr01,
               width: screenWidth.width50,
             }}
           >
             {/* Title & TOurist */}
-            <View style={{ ...highlights.brdr1, marginHorizontal: 10 }}>
+            <View style={{ ...highlights.brdr01, marginHorizontal: 10 }}>
               <Text
                 style={[
                   {
-                    ...highlights.brdr2,
+                    ...highlights.brdr02,
                   },
                   text.themeDefault,
                   text.text18,

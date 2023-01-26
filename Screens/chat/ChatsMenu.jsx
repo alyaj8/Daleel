@@ -12,7 +12,7 @@ import {
   View,
 } from "react-native";
 import Chip from "../../component/Chip";
-import { colors, images, screenWidth } from "../../config/Constant";
+import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import {
   createChatRoom,
   getUserId,
@@ -80,20 +80,28 @@ const ChatCard = ({ item, onPressChat }) => {
           </Text>
 
           {/* Last message */}
-          <Text
-            style={[
-              text.text16,
-              {
-                color: "rgba(0,0,0,0.5)",
-                textAlign: "center",
-                marginRight: 20,
-                // ...highlights.brdr1,
-              },
-            ]}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
-            {item.lastMsg}
-          </Text>
-          {!item.isRead && <Chip text={"غير مقروء"} />}
+            <Text
+              style={[
+                {
+                  color: "rgba(0,0,0,0.5)",
+                  textAlign: "center",
+                  marginRight: 2,
+                  fontWeight: "bold",
+                  ...highlights.brdr01,
+                },
+              ]}
+            >
+              {item.lastMsg}
+            </Text>
+            {!item.isRead && <Chip small text="1" />}
+          </View>
           {/* Time */}
           <Text
             style={[
