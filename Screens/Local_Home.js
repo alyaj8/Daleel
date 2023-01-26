@@ -213,7 +213,7 @@ export default function Local_Home({ navigation }) {
                       <AppTouchableHigh
                         key={index}
                         onPress={
-                          !!isDeleted ? null : () => goToTourDetail(request)
+                          !!isDeleted ? null : () => goToTourDetail(item)
                         }
                       >
                         <View key={index} style={[styles.cardDiv]}>
@@ -276,9 +276,7 @@ export default function Local_Home({ navigation }) {
                   return (
                     <AppTouchableHigh
                       key={index}
-                      onPress={
-                        !!isDeleted ? null : () => goToTourDetail(request)
-                      }
+                      onPress={!!isDeleted ? null : () => goToTourDetail(item)}
                     >
                       <AcceptedBookings
                         key={index}
