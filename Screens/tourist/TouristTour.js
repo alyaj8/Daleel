@@ -9,17 +9,34 @@ import {
   StyleSheet,
   Text,
   View,
+  TextInput
 } from "react-native";
 import TourDetailCard from "../../component/card/TourDetailCard";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
+import Icon from "react-native-vector-icons/Ionicons";
+
 export default function TouristTour({ navigation }) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [tourId, setTourId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [allTours, setallTours] = useState([]);
+
+  const search = (text) => {
+    console.log(text);
+    const filter = [];
+    data.forEach((e) => {
+      if (
+        e.title.toLowerCase().includes(text.toLowerCase())
+      ) {
+        filter.push(e);
+      }
+    });
+    setData(filter);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -73,6 +90,35 @@ export default function TouristTour({ navigation }) {
           >
             الجولات
           </Text>
+        </View>
+        <View
+          style={{
+            backgroundColor: "#FFF",
+            // D0ECDF
+            paddingVertical: 8,
+            paddingHorizontal: 20,
+            marginHorizontal: 20,
+            borderRadius: 15,
+            marginTop: 25,
+            marginBottom: -10,
+            flexDirection: "row",
+            alignItems: "center",
+            borderColor: "black",
+            borderWidth: 0.2,
+          }}
+        >
+          <Icon name="ios-search" size={25} style={{ marginRight: 10 }} />
+          <TextInput
+            placeholder="ابحث عن جوله او مرشد سياحي "
+            placeholderTextColor="grey"
+            onChangeText={(text) => search(text)}
+            style={{
+              fontWeight: "bold",
+              fontSize: 18,
+              width: 260,
+              textAlign: "right"
+            }}
+          />
         </View>
         <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
           {data.length > 0 ? (
