@@ -18,7 +18,12 @@ import Loading from "../../component/Loading";
 import MapListItem from "../../component/maps/MapListItem";
 import { colors, images, screenWidth } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
-import { getUser, getUserObj, insertRequest } from "../../network/ApiService";
+import {
+  getUser,
+  getUserObj,
+  insertRequest,
+  updateRequest,
+} from "../../network/ApiService";
 import text from "../../style/text";
 import {
   getFormattedDate,
@@ -73,6 +78,9 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
   const [update, forceUpdate] = useReducer((x) => x + 1, 0);
 
+  // if this tour is requested by this user before
+  const [currentTourRequest, setCurrentTourRequest] = useState(null);
+
   const [data, setData] = useState({
     id: null,
     date: new Date(),
@@ -125,6 +133,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
     const unsubscribe2 = onSnapshot(q, (querySnapshot) => {
       querySnapshot.forEach((doc) => {
         if (doc.exists()) {
+          setCurrentTourRequest({
+            id: doc.id,
+            ...doc.data(),
+          });
+
           if (doc.data().status == 0) {
             setTourStatus("requested");
           } else if (doc.data().status == 1) {
@@ -172,13 +185,24 @@ export default function TouristDetailedInformation({ navigation, route }) {
         price,
       };
 
-      const response = await insertRequest(reqToAdd);
-      // logObj(response, "🚀 ~ response");
+      if (tourStatus == "notRequested") {
+        await insertRequest(reqToAdd);
+      } else if (tourStatus == "rejected") {
+        await updateRequest(currentTourRequest.id, {
+          status: 0,
+          activities: selectedActivities,
+          price,
+        });
+      } else if (tourStatus == "accepted" || "requested") {
+        alert("لقد قمت بالحجز مسبقا");
+        setIsLoading(false);
+        return;
+      }
 
       await sendBookNotification(
         localData.push_token,
-        "تم حجز جولة جديدة",
-        "تم حجز جولة جديدة من قبل " + userData.firstname,
+        "تم حجز جولة " + data.title,
+        "طلب حجز جولة جديد من قبل " + userData.firstname,
         userData.firstname,
         data.id
       );

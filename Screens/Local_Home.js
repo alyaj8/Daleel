@@ -15,8 +15,7 @@ import {
   createChatRoom,
   getUserId,
   getUserObj,
-  updateRequest,
-  updateTour,
+  rejectRequest,
 } from "../network/ApiService";
 import text from "../style/text";
 
@@ -117,24 +116,11 @@ export default function Local_Home({ navigation }) {
     forceUpdate();
   };
 
-  const rejectRequest = async () => {
+  const onRejectionReq = async () => {
     console.log("Reject> reqId: ");
 
     setModalVisibleRejected(!isModalVisibleRejected);
-    const DataToUpdate = {
-      status: 2,
-      acceptedAt: new Date(),
-    };
-    // console.log("🚀 ~ DataToUpdate", DataToUpdate);
-
-    // TODO: update request status
-    const updatedReq = await updateRequest(requestId, DataToUpdate);
-
-    // TODO: update tour status
-    const updatedTour = await updateTour(tourId, {
-      status: 0,
-    });
-    forceUpdate();
+    await rejectRequest(requestId);
   };
 
   const onPressChat = async (request) => {
@@ -206,7 +192,6 @@ export default function Local_Home({ navigation }) {
         />
 
         {/* Body */}
-
         <ScrollView
           style={{
             flex: 1,
@@ -471,7 +456,7 @@ export default function Local_Home({ navigation }) {
                 <View style={{}}>
                   <Button
                     title="رفض"
-                    onpress={() => rejectRequest(2)}
+                    onpress={() => onRejectionReq()}
                     style={{ backgroundColor: colors.brown }}
                   />
                 </View>

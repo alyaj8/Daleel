@@ -107,8 +107,8 @@ export async function updateTour(id, data) {
     querySnapshot.forEach(async (doc) => {
       // doc.data() is never undefined for query doc snapshots
       const result = await updateRequest(doc.id, {
-        imageUrl: data.imageUrl,
-        title: data.title,
+        imageUrl: data?.imageUrl,
+        title: data?.title,
       });
     });
 
@@ -161,6 +161,16 @@ export async function acceptRequest(reqId, tourId) {
 
     alert(err);
   }
+}
+
+export async function rejectRequest(reqId) {
+  try {
+    // TODO: update the request status to rejected
+    updateRequest(reqId, {
+      status: 2,
+      rejectedAt: new Date(),
+    });
+  } catch (err) {}
 }
 
 export async function deleteRequest(id) {
