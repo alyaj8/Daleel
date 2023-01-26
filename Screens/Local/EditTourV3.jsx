@@ -451,7 +451,7 @@ const EditTourV3 = ({ navigation, route }) => {
             justifyContent: "space-between",
             width: screenWidth.width90,
             marginTop: 20,
-            marginBottom: Platform.OS === "ios" ? 35 : 15,
+            marginBottom: Platform.OS === "ios" ? 45 : 15,
           }}
         >
           <AppButton
