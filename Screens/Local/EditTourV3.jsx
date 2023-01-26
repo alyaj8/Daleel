@@ -457,7 +457,7 @@ const EditTourV3 = ({ navigation, route }) => {
             ...highlights.brdr01,
             marginBottom:
               Platform.OS === "ios"
-                ? DEFAULT_TABBAR_HEIGHT
+                ? DEFAULT_TABBAR_HEIGHT + 15
                 : DEFAULT_TABBAR_HEIGHT - 22,
             alignItems: "center",
           }}
