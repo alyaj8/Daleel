@@ -468,8 +468,8 @@ export default function TourDetailedInformation({ navigation, route }) {
             ]}
           >
             <AppButton
-              title={" تحديث معلومات الجولة"}
-              onpress={() => navigation.navigate("EditTour", { data })}
+              title={"تحديث معلومات الجولة"}
+              onPress={() => navigation.navigate("EditTour", { data })}
               style={{
                 backgroundColor: colors.Blue,
                 paddingVertical: 18,
@@ -479,7 +479,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             />
             <AppButton
               title={" حذف الجولة"}
-              onpress={toggleModal}
+              onPress={toggleModal}
               style={{
                 backgroundColor: colors.brown,
                 paddingVertical: 18,
