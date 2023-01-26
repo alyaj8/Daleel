@@ -424,7 +424,7 @@ const PostTourV2 = ({ navigation }) => {
               marginTop: screenWidth.width2,
               marginBottom:
                 Platform.OS === "ios"
-                  ? DEFAULT_TABBAR_HEIGHT + 15
+                  ? DEFAULT_TABBAR_HEIGHT - 6
                   : DEFAULT_TABBAR_HEIGHT - 22,
               alignItems: "center",
               justifyContent: "center",
