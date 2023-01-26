@@ -1,5 +1,6 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
+import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useReducer, useState } from "react";
 import {
@@ -12,6 +13,7 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
+import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
@@ -252,7 +254,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
   }, [selectedActivities]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Loading visible={isLoading} text="جاري الحجز" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
@@ -638,7 +640,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
           </Modal>
         </ImageBackground>
       </ScrollView>
-    </View>
+      <ExpoStatusBar style="dark" />
+    </SafeAreaView>
   );
 }
 
