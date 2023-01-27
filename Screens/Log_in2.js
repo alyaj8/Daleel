@@ -53,12 +53,13 @@ export default function Log_in2({ navigation }) {
 
   // Check if user is already logged in
   const verifySession = async () => {
+    setIsLoading(true);
     const token = await registerForPushNotificationsAsync();
     const loggedInUser = await getDataFromStorage("loggedInUser");
 
     const user = auth.currentUser;
 
-    console.log("loggedInUser", loggedInUser);
+    console.log("l oggedInUser", loggedInUser);
 
     if (loggedInUser !== null) {
       if (loggedInUser.isTourist) {
@@ -98,8 +99,10 @@ export default function Log_in2({ navigation }) {
       } else if (!user.isTourist) {
         navigation.navigate("bottomTabs");
       }
+      setIsLoading(false);
     } catch (error) {
       console.log("🚀 ToDashboard ~ error", error);
+      setIsLoading(false);
     }
   };
 
