@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -33,7 +34,9 @@ import {
   getFormattedTime,
   logObj,
 } from "./../../util/DateHelper";
-
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { Rating, AirbnbRating } from "react-native-ratings";
+import Comment from "./Comment";
 async function sendBookNotification(
   expoPushToken,
   title,
@@ -61,6 +64,7 @@ async function sendBookNotification(
 }
 
 export default function TouristDetailedInformation({ navigation, route }) {
+
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
@@ -71,11 +75,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
   const [userName, setUserName] = useState(null);
   const [price, setPrice] = useState(0);
   // reducer force update
+  let [bookstar, setBookStar] = useState(0);
+  let [reviewDone, setReviewDone] = useState(false);
 
   const [customizing, setCustomizing] = useState(false);
   const [tourStatus, setTourStatus] = useState("notRequested"); // requested, accepted, rejected
   const [selectedActivities, setSelectedActivities] = useState([]);
-
+  var Auth = getAuth();
   const currentUserId = auth?.currentUser?.uid;
 
   const tourId = route.params.tourId;
@@ -100,6 +106,25 @@ export default function TouristDetailedInformation({ navigation, route }) {
     status: null,
     title: "جولة خطرة",
     city: "جدة",
+  });
+
+  let checkReview = () => {
+    let countStar = 0;
+    data?.reviews?.length >= 0 &&
+      Auth.onAuthStateChanged(async (user) => {
+        data.reviews?.map((val, ind) => {
+          countStar = countStar + val.review;
+          if (user.uid === val.comenteuseruid) {
+            setReviewDone(true);
+          }
+        });
+        setBookStar(countStar);
+      });
+  };
+  useEffect(() => {
+
+    checkReview();
+
   });
 
   logObj(data, "🚀 ~ data", " s");
@@ -295,6 +320,34 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 {data?.title}
               </Text>
             </View>
+
+            <Rating
+              startingValue={bookstar && bookstar / data.reviews?.length}
+              imageSize={30}
+              fractions={20}
+              showRating={false}
+              readonly={true}
+              style={{
+                marginVertical: 10,
+              }}
+            />
+
+            {data.reviews?.length > 0 ? (
+              <Text
+                style={{
+                  color: "black",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                {"     "} {(bookstar / data.reviews?.length).toFixed(2)} out of
+                5 {"\n"}
+                {data.reviews?.length} People Reviewed
+              </Text>
+            ) : (
+              <Text style={{ color: "black" }}>
+              </Text>
+            )}
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
@@ -459,6 +512,54 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
           </View>
 
+
+          <TouchableOpacity
+            style={{
+              width: 150,
+              height: 50,
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "red"
+            }}
+            onPress={() => {
+              navigation.navigate("Comment", data);
+            }}
+            disabled={data.reviews?.length == null ? true : false}
+          >
+            <Text
+              style={{
+                color: data.reviews?.length > 0 ? "green" : "grey",
+                textDecorationLine: "underline",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              {data.reviews?.length > 0 ? "See Reviews.." : "No Reviews.."}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={{
+              borderRadius: 25,
+              backgroundColor: reviewDone ? "#aadecc" : "#00a46c",
+              width: "48%",
+              height: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            disabled={reviewDone}
+            onPress={() => navigation.navigate("Review2", data)}
+          >
+            <Text
+              style={{
+                fontWeight: "bold",
+                alignSelf: "center",
+                fontSize: 18,
+              }}
+            >
+              {reviewDone ? "Reviewed" : "Review it.."}
+            </Text>
+          </TouchableOpacity>
           {/* Activitys */}
           <View
             style={{
@@ -574,10 +675,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 tourStatus == "requested"
                   ? "تم الطلب"
                   : tourStatus == "accepted"
-                  ? "تم الحجز"
-                  : tourStatus == "rejected"
-                  ? "طلب مرة أخرى"
-                  : "حجز الرحلة"
+                    ? "تم الحجز"
+                    : tourStatus == "rejected"
+                      ? "طلب مرة أخرى"
+                      : "حجز الرحلة"
               }
               disabled={tourStatus == "requested" || tourStatus == "accepted"}
               onPress={toggleModal}
@@ -586,10 +687,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   tourStatus == "requested"
                     ? colors.gray
                     : tourStatus == "accepted"
-                    ? colors.green
-                    : tourStatus == "rejected"
-                    ? colors.redTheme
-                    : colors.blueN,
+                      ? colors.green
+                      : tourStatus == "rejected"
+                        ? colors.redTheme
+                        : colors.blueN,
                 paddingVertical: 18,
                 width: screenWidth.width90,
               }}

@@ -283,9 +283,9 @@ export default function Local_profile({ navigation }) {
                     zIndex: 1,
                     color: "red",
                   }}
-                  /*  onPress={() =>
-                               DeleteFunc(item)
-                             }    */
+                /*  onPress={() =>
+                             DeleteFunc(item)
+                           }    */
                 />
                 <TouchableOpacity
                   // onPress={() =>
@@ -314,16 +314,23 @@ export default function Local_profile({ navigation }) {
             <View>
               <TouchableOpacity
                 onPress={() => pickImage()}
-                style={[styles.alignCenter, { marginTop: screenWidth.width20 }]}
+                style={[styles.alignCenter, { marginTop: screenWidth.width20 - 30, marginBottom: 12 }]}
               >
                 <Image source={images.photo} style={[styles.dummyImg]} />
               </TouchableOpacity>
             </View>
-            <View style={{ margin: 9 }}>
-              <Button title="حفظ" onpress={submitRequest} />
-            </View>
-            <View>
-              <Button title="الغاء" onpress={() => toggleModal()} />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View >
+                <Button title="حفظ" onpress={submitRequest} />
+              </View>
+              <View>
+                <Button title="الغاء" onpress={() => toggleModal()} />
+              </View>
             </View>
           </View>
         </View>
