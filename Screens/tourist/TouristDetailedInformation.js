@@ -690,7 +690,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                       ? colors.green
                       : tourStatus == "rejected"
                         ? colors.redTheme
-                        : colors.blueN,
+                        : colors.Blue,
                 paddingVertical: 18,
                 width: screenWidth.width90,
               }}
