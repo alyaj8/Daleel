@@ -41,9 +41,13 @@ const TouchableInput = ({
 
   return (
     <View style={[styles.container, style]}>
+      {/* Label */}
       <Text style={[styles.label, labelStyle]}>{props.label}</Text>
+
+      {/* Input */}
       <View style={[{ justifyContent: "center" }, wrapperStyle]}>
         {editable ? (
+          // Text Input Component
           <TextInput
             style={[
               styles.InputStyle,
@@ -60,6 +64,7 @@ const TouchableInput = ({
             {...props}
           />
         ) : (
+          // Touchable Component
           <InpurComp
             onPress={onPress}
             style={[styles.InputStyle, inputStyle]}
@@ -94,6 +99,8 @@ const TouchableInput = ({
             )}
           </InpurComp>
         )}
+
+        {/* with icon */}
         {icon && (
           <View style={[styles.position]}>
             <Image source={source} style={[styles.icon]} />

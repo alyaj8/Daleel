@@ -12,6 +12,7 @@
     "@expo/react-native-navigator": "^0.5.2",
     "@expo/vector-icons": "^13.0.0",
     "@gorhom/portal": "^1.0.14",
+    "@hookform/resolvers": "^2.9.10",
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-firebase/app": "^16.4.6",
@@ -31,6 +32,7 @@
     "native-notify": "^3.0.4",
     "object-deep-compare": "^1.2.0",
     "react": "18.1.0",
+    "react-hook-form": "^7.42.1",
     "react-native": "0.70.5",
     "react-native-autocomplete-dropdown": "^2.1.0",
     "react-native-gifted-chat": "^1.1.0",
@@ -46,7 +48,8 @@
     "react-native-toast-message": "^2.1.5",
     "shorthash": "^0.0.2",
     "simple-deepcompare": "^1.0.7",
-    "uuidv4": "^6.2.13"
+    "uuidv4": "^6.2.13",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

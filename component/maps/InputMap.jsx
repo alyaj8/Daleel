@@ -111,6 +111,7 @@ export const InputMap = memo(
     onClearLocation,
     style,
     labelStyle,
+    onBlur,
     ...props
   }) => {
     const [loading, setLoading] = useState(false);
@@ -244,15 +245,18 @@ export const InputMap = memo(
             textInputProps={{
               // defaultValue: query,
               // value: query,
-              placeholder: value.title
-                ? value.title
+              placeholder: value?.title
+                ? value?.title
                 : placeholder
                 ? placeholder
                 : "ابحث عن مكان",
               autoCorrect: false,
               autoCapitalize: "none",
               placeholderTextColor: colors.grey,
-
+              onBlur: () => {
+                onBlur && onBlur();
+                console.log("onBlur");
+              },
               style: {
                 borderRadius: 25,
                 backgroundColor: "#fff",

@@ -12,11 +12,14 @@ import {
   View,
 } from "react-native";
 
+import { yupResolver } from "@hookform/resolvers/yup";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useForm } from "react-hook-form";
 import { Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
+import * as yup from "yup";
 import AppButton from "../../component/AppButton";
 import TourForm from "../../component/forms/TourForm";
 import Loading from "../../component/Loading";
@@ -34,6 +37,65 @@ import {
 import { getUserObj, insertTour } from "../../network/ApiService";
 import text from "../../style/text";
 import ActivityForm from "./../../component/forms/ActivityForm";
+const schema = yup
+  .object({
+    // max:25, min:5 , required, only characters and arabic and spaces
+    title: yup
+      .string("يجب أن يحتوي عنوان الجولة على حروف فقط")
+      .min(5, "يجب أن يكون عنوان الجولة أكثر من 5 أحرف")
+      .max(25, "يجب أن يكون عنوان الجولة أقل من 25 حرف")
+      .matches(
+        /^[a-zA-Z\u0600-\u06FF ]+$/,
+        "يجب أن يحتوي عنوان الجولة على حروف فقط"
+      )
+      .required("يجب إدخال عنوان الجولة"),
+
+    // max:150, min:25 , required
+    description: yup
+      .string()
+      .min(25, "يجب أن يكون وصف الجولة أكثر من 25 حرف")
+      .max(150, "يجب أن يكون وصف الجولة أقل من 150 حرف")
+      .required("يجب إدخال وصف الجولة"),
+
+    city: yup.string().required("يجب إدخال مدينة الجولة"),
+    qty: yup
+      .number("يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة رقماً")
+      .min(
+        1,
+        "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أكبر من 1"
+      )
+      .max(
+        100,
+        "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أقل من 100"
+      )
+      .required("يجب إدخال عدد الأشخاص المسموح لهم بالمشاركة في الجولة"),
+    age: yup.string().required("يجب إدخال الفئة العمرية المناسبة للجولة"),
+    imageUrl: yup
+      .string()
+      .required("يجب إدخال صورة للجولة (يمكنك إضافة صورة للجولة لاحقاً)"),
+    date: yup.mixed().required("يجب إدخال تاريخ بدء الجولة"),
+    startTime: yup.mixed().required("يجب إدخال وقت بدء الجولة"),
+    endTime: yup.mixed().required("يجب إدخال وقت نهاية الجولة"),
+
+    activitiesCustomizable: yup
+      .boolean()
+      .required(
+        "يجب إدخال إمكانية تخصيص الأنشطة (يمكنك إضافة إمكانية تخصيص الأنشطة لاحقاً)"
+      ),
+
+    meetingPoint: yup
+      .mixed()
+      // .shape({
+      //   address: yup.string().required(),
+      //   coordinates: yup.object().shape({
+      //     latitude: yup.number().required(),
+      //     longitude: yup.number().required(),
+      //   }),
+      // })
+      .required("يجب إدخال مكان لقاء الجولة"),
+    activities: yup.array().required(),
+  })
+  .required();
 
 const tabs = [
   { title: "الجولة", selected: false },
@@ -55,18 +117,19 @@ const initActivity = {
 const initTour = {
   title: "",
   city: "",
-  qty: null,
-  meetingPoint: {
-    address: "",
-    coordinates: {
-      latitude: 0,
-      longitude: 0,
-    },
-    category: [],
-    full_name: "",
-    title: "",
-    id: "",
-  },
+  qty: 0,
+  meetingPoint: null,
+  // {
+  // address: "",
+  // coordinates: {
+  //   latitude: 0,
+  //   longitude: 0,
+  // },
+  // category: [],
+  // full_name: "",
+  // title: "",
+  // id: "",
+  // }
   age: "",
   description: "",
   imageUrl: null,
@@ -106,7 +169,7 @@ const PostTourV2 = ({ navigation }) => {
     };
   }, []);
 
-  const reset = () => {
+  const reseter = () => {
     setTour(initTour);
     setActivity(initActivity);
     setFilePathTour(null);
@@ -119,6 +182,7 @@ const PostTourV2 = ({ navigation }) => {
 
   const openDatePicker = (type) => {
     setPickerConfig(type);
+    trigger(type);
     setDatePickerVisibility(true);
   };
 
@@ -127,42 +191,55 @@ const PostTourV2 = ({ navigation }) => {
 
     if (pickerConfig === "date") {
       setTour({ ...tour, date: date });
+      setValue("date", date);
     }
     if (pickerConfig === "startTime") {
       setTour({ ...tour, startTime: date });
+      setValue("startTime", date);
     }
     if (pickerConfig === "endTime") {
       setTour({ ...tour, endTime: date });
+      setValue("endTime", date);
     }
     if (pickerConfig === "activityDate") {
       setActivity({ ...activity, date: date });
+      setValue("activityDate", date);
     }
     if (pickerConfig === "activityStartTime") {
       setActivity({ ...activity, startTime: date });
+      setValue("activityStartTime", date);
     }
     if (pickerConfig === "activityEndTime") {
       setActivity({ ...activity, endTime: date });
+      setValue("activityEndTime", date);
     }
+    trigger(pickerConfig);
   };
 
   // Modal
   const onShowModal = (type) => {
     console.log("onShowModal > type: ", type);
     if (type === "city") {
+      trigger("city");
       modalizeRef.current?.open();
     }
     if (type === "age") {
+      trigger("age");
       modalizeRefAge.current?.open();
     }
   };
   const selectModal = (type, value) => {
     if (type === "city") {
       setTour({ ...tour, city: value });
+      setValue("city", value);
       modalizeRef.current?.close();
+      trigger("city");
     }
     if (type === "age") {
       setTour({ ...tour, age: value });
+      setValue("age", value);
       modalizeRefAge.current?.close();
+      trigger("age");
     }
   };
 
@@ -294,6 +371,24 @@ const PostTourV2 = ({ navigation }) => {
     }
   };
 
+  // Form State
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    trigger,
+    reset,
+    getValues,
+    watch,
+  } = useForm({
+    defaultValues: {
+      ...initTour,
+    },
+    resolver: yupResolver(schema),
+    mode: "onBlur",
+  });
+
   const renderContent = () => {
     switch (selectedMenu) {
       case 0:
@@ -310,6 +405,15 @@ const PostTourV2 = ({ navigation }) => {
             onShowModal={onShowModal}
             selectModal={selectModal}
             setTour={setTour}
+            // form state
+            control={control}
+            handleSubmit={handleSubmit}
+            reset={reset}
+            errors={errors}
+            setValue={setValue}
+            getValues={getValues}
+            watch={watch}
+            trigger={trigger}
           />
         );
       case 1:
@@ -346,6 +450,7 @@ const PostTourV2 = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Loading text="جاري نشر الجولة..." visible={isLoading} />
+      {/* Body */}
       <ImageBackground
         style={{
           position: "absolute",
@@ -400,6 +505,7 @@ const PostTourV2 = ({ navigation }) => {
             </View>
             <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
           </View>
+
           {/* Body */}
           <KeyboardAwareScrollView
             enableAutomaticScroll
@@ -409,15 +515,12 @@ const PostTourV2 = ({ navigation }) => {
               width: "100%",
             }}
             showsVerticalScrollIndicator={false}
-            // viewIsInsideTabBar
-            // reset to current scroll position
-            // resetScrollToCoords={{ x: 0, y: 0 }}
             keyboardOpeningTime={400}
           >
             {renderContent()}
           </KeyboardAwareScrollView>
-          {/* BTNS */}
 
+          {/* BTNS */}
           <View
             style={{
               ...highlights.brdr01,
@@ -448,7 +551,7 @@ const PostTourV2 = ({ navigation }) => {
         </View>
       </ImageBackground>
 
-      {/* Modal */}
+      {/* Modal & Picker & Sheets */}
       <Modal
         visible={isModalVisible}
         transparent={true}
@@ -476,7 +579,7 @@ const PostTourV2 = ({ navigation }) => {
             >
               <AppButton
                 title="نشر"
-                onPress={submitRequest}
+                onPress={handleSubmit(submitRequest)}
                 style={{ width: "45%", height: 55 }}
               />
               <AppButton
@@ -494,7 +597,6 @@ const PostTourV2 = ({ navigation }) => {
           </View>
         </View>
       </Modal>
-
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode={
@@ -526,7 +628,6 @@ const PostTourV2 = ({ navigation }) => {
         }
         nativeID="datePicker"
       />
-
       <RBSheet ref={modalizeRef} height={screenWidth.width80}>
         <ScrollView
           contentContainerStyle={{
@@ -568,7 +669,6 @@ const PostTourV2 = ({ navigation }) => {
           ))}
         </ScrollView>
       </RBSheet>
-
       <RBSheet ref={modalizeRefAge} height={screenWidth.width50}>
         <ScrollView
           contentContainerStyle={{
@@ -610,7 +710,6 @@ const PostTourV2 = ({ navigation }) => {
           ))}
         </ScrollView>
       </RBSheet>
-
       <StatusBar style="auto" />
     </View>
   );

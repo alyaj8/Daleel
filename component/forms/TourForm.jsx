@@ -1,11 +1,8 @@
 import React from "react";
 import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
-import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import TouchableInput from "../inputText/DateTimeInput";
-import InputMap from "../maps/InputMap";
-
-let ages = ["عائلية", "كبار"];
+import FormInputTouchable from "./FormInputTouchable";
+import MapFrom from "./MapFrom";
 
 const TourForm = ({
   navigation,
@@ -22,7 +19,19 @@ const TourForm = ({
 
   tour,
   setTour,
+
+  // form state
+  control,
+  handleSubmit,
+  errors,
+  setValue,
+  getValues,
+  watch,
+  reset,
+  trigger,
 }) => {
+  // console.log("watch: ", watch("meetingPoint"));
+
   return (
     <View style={styles.container}>
       {/* Image  */}
@@ -56,34 +65,42 @@ const TourForm = ({
       )}
 
       {/* Name */}
-      <TouchableInput
+      <FormInputTouchable
         // debug
         label="اسم الجولة"
         placeholder="اكتب اسم الجولة"
-        value={tour.title}
         editable
-        onChangeText={(text) => setTour({ ...tour, title: text })}
+        // Form
+        name="title"
+        control={control}
       />
 
       {/* Description */}
-      <TouchableInput
+      <FormInputTouchable
+        // debug
+
+        // Form
+        name="description"
+        control={control}
+        // rest
         label="وصف الجولة"
         placeholder="اكتب وصف الجولة"
         editable
         multiline
-        value={tour.description}
-        onChangeText={(text) => setTour({ ...tour, description: text })}
       />
 
       {/* Date */}
-      <TouchableInput
+      <FormInputTouchable
+        // debug
+        // Form
+        name="date"
+        control={control}
+        // rest
         label="تاريخ الجولة"
         placeholder="اختر تاريخ الجولة"
         editable={false}
         icon={true}
         source={images.calendar}
-        value={tour.date ? getFormattedDate(tour.date) : ""}
-        // value={getFormattedDate(new Date())}
         onPress={() => openDatePicker("date")}
       />
 
@@ -94,25 +111,32 @@ const TourForm = ({
           justifyContent: "space-between",
         }}
       >
-        <TouchableInput
+        <FormInputTouchable
+          // debug
+          // Form
+          name="endTime"
+          control={control}
+          // rest
           label="وقت نهاية الجولة"
           placeholder="اختر وقت نهاية"
           editable={false}
           icon={true}
           source={images.timer}
-          value={tour.endTime ? getFormattedTime(tour.endTime) : ""}
-          // value={getFormattedDate(new Date())}
           onPress={() => openDatePicker("endTime")}
           style={{ marginRight: 2 }}
         />
 
-        <TouchableInput
+        <FormInputTouchable
+          // debug
+          // Form
+          name="startTime"
+          control={control}
+          // rest
           label="وقت بداية الجولة"
           placeholder="اختر وقت بداية"
           editable={false}
           icon={true}
           source={images.timer}
-          value={tour.startTime ? getFormattedTime(tour.startTime) : ""}
           // value={getFormattedDate(new Date())}
           onPress={() => openDatePicker("startTime")}
           style={{ marginLeft: 2 }}
@@ -120,25 +144,38 @@ const TourForm = ({
       </View>
 
       {/* Meet point */}
-      <InputMap
+      <MapFrom
+        name="meetingPoint"
+        control={control}
+        // rest
         label="نقطة اللقاء"
         placeholder="اختر نقطة اللقاء"
         value={tour.meetingPoint}
-        onSelectLocation={(location) =>
-          setTour({ ...tour, meetingPoint: location })
-        }
-        onClearLocation={() => setTour({ ...tour, meetingPoint: "" })}
+        onSelectLocation={(location) => {
+          setTour({ ...tour, meetingPoint: location });
+          setValue("meetingPoint", location);
+          trigger("meetingPoint");
+        }}
+        onClearLocation={() => {
+          setTour({ ...tour, meetingPoint: null });
+          setValue("meetingPoint", null);
+          trigger("meetingPoint");
+        }}
         style={{ ...highlights.brdr02 }}
       />
 
       {/* City */}
-      <TouchableInput
+      <FormInputTouchable
+        // debug
+        // Form
+        name="city"
+        control={control}
+        // rest
         label="المدينة"
         placeholder="اختر المدينة"
         editable={false}
         icon={true}
         source={images.location}
-        value={tour.city}
         onPress={() => onShowModal("city")}
       />
 
@@ -150,25 +187,32 @@ const TourForm = ({
         }}
       >
         {/* Age */}
-        <TouchableInput
+        <FormInputTouchable
+          // debug
+          // Form
+          name="age"
+          control={control}
+          // rest
           label="العمر"
           placeholder="اختر العمر"
           editable={false}
-          value={tour.age}
           onPress={() => onShowModal("age")}
           style={{ marginRight: 2 }}
         />
 
         {/* Qty */}
-        <TouchableInput
+        <FormInputTouchable
+          // debug
+          // Form
+          name="qty"
+          control={control}
+          // rest
           label="عدد الأشخاص"
           placeholder="اختر عدد الأشخاص"
           editable
           keyboardType="numeric"
-          value={tour.qty}
           icon={true}
           source={images.profile}
-          onChangeText={(text) => setTour({ ...tour, qty: text })}
           style={{ marginLeft: 2 }}
         />
       </View>

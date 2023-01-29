@@ -24,7 +24,7 @@ import {
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import ActivityCard from "../activityComponents/ActivityCard";
-import TouchableInput from "../inputText/DateTimeInput";
+import TouchableInput from "../inputText/TouchableInput";
 import InputMap from "../maps/InputMap";
 import MIcon from "../MIcon";
 import AppButton from "./../AppButton";
