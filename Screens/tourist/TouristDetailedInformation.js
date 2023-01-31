@@ -327,8 +327,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
               fractions={20}
               showRating={false}
               readonly={true}
+              tintColor={"#ececec"}
               style={{
                 marginVertical: 10,
+               
               }}
             />
 
@@ -348,6 +350,29 @@ export default function TouristDetailedInformation({ navigation, route }) {
               <Text style={{ color: "black" }}>
               </Text>
             )}
+               <TouchableOpacity
+            style={{
+              width: 150,
+              height: 50,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              navigation.navigate("Comment", data);
+            }}
+            disabled={data.reviews?.length == null ? true : false}
+          >
+            <Text
+              style={{
+                color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown ,
+                textDecorationLine: "underline",
+                fontWeight: "bold",
+                fontSize: 16,
+              }}
+            >
+              {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+            </Text>
+          </TouchableOpacity>
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
@@ -513,32 +538,9 @@ export default function TouristDetailedInformation({ navigation, route }) {
           </View>
 
 
-          <TouchableOpacity
-            style={{
-              width: 150,
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-              backgroundColor: "red"
-            }}
-            onPress={() => {
-              navigation.navigate("Comment", data);
-            }}
-            disabled={data.reviews?.length == null ? true : false}
-          >
-            <Text
-              style={{
-                color: data.reviews?.length > 0 ? "green" : "grey",
-                textDecorationLine: "underline",
-                fontWeight: "bold",
-                fontSize: 16,
-              }}
-            >
-              {data.reviews?.length > 0 ? "See Reviews.." : "No Reviews.."}
-            </Text>
-          </TouchableOpacity>
+       
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             style={{
               borderRadius: 25,
               backgroundColor: reviewDone ? "#aadecc" : "#00a46c",
@@ -559,7 +561,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             >
               {reviewDone ? "Reviewed" : "Review it.."}
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           {/* Activitys */}
           <View
             style={{
