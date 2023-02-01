@@ -23,10 +23,10 @@ const MapFrom = ({
     control,
   });
 
-  console.log("🚀 ~ name", name);
-  console.log("🚀 ~ isTouched", isTouched);
-  console.log("🚀 ~ value", value);
-  console.log("🚀 ~ error", error);
+  // console.log("🚀 ~ name", name);
+  // console.log("🚀 ~ isTouched", isTouched);
+  // console.log("🚀 ~ value", value);
+  // console.log("🚀 ~ error", error);
   return (
     <>
       <InputMap

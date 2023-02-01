@@ -2,11 +2,7 @@ import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import {
-  getFormattedDate,
-  getFormattedTime,
-  limitCharacters,
-} from "../../util/DateHelper";
+import { getFormattedTime, limitCharacters } from "../../util/DateHelper";
 import AppImage from "../AppImage";
 import MIcon from "../MIcon";
 
@@ -26,7 +22,6 @@ const ActivityCard = ({
     description,
     location,
     price,
-    date,
     startTime,
     endTime,
     imageUrl,
@@ -180,26 +175,8 @@ const ActivityCard = ({
               </Text>
             </View>
 
-            {/* Times & Date */}
+            {/* Times */}
             <View style={[styles.col, styles.ROWyButtom_COLxRight]}>
-              <View style={[styles.row]}>
-                <Text
-                  style={[
-                    text.text12,
-                    {
-                      fontWeight: "bold",
-                    },
-                  ]}
-                >
-                  {getFormattedDate(date)}
-                </Text>
-                <MIcon
-                  name="calendar"
-                  size={14}
-                  color="black"
-                  style={{ marginLeft: 5 }}
-                />
-              </View>
               <View style={[styles.row]}>
                 <Text
                   style={[
@@ -231,6 +208,7 @@ const ActivityCard = ({
               borderBottomColor: colors.grey,
               borderTopColor: colors.grey,
               width: "90%",
+              height: "40%",
             }}
           >
             <Text
@@ -244,7 +222,7 @@ const ActivityCard = ({
                 },
               ]}
             >
-              {limitCharacters(description, 60)}
+              {limitCharacters(description, 55)}
             </Text>
           </View>
 

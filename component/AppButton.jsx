@@ -8,11 +8,12 @@ const AppButton = ({
   onPress,
   color = colors.brown,
   style,
+  error = "",
   disabled = false,
 }) => {
   return (
     <>
-      {!disabled ? (
+      {!disabled && !error ? (
         <TouchableOpacity
           style={[
             styles.button,
@@ -39,19 +40,26 @@ const AppButton = ({
           </Text>
         </TouchableOpacity>
       ) : (
-        <View style={[styles.button, style, styles.disabled]}>
-          <Text
-            style={[
-              text.grey,
-              text.text20,
-              {
-                fontWeight: "bold",
-              },
-            ]}
-          >
-            {title}
-          </Text>
-        </View>
+        <>
+          {error && (
+            <Text style={{ color: "red", fontWeight: "bold", marginBottom: 5 }}>
+              {error}
+            </Text>
+          )}
+          <View style={[styles.button, style, styles.disabled]}>
+            <Text
+              style={[
+                text.grey,
+                text.text20,
+                {
+                  fontWeight: "bold",
+                },
+              ]}
+            >
+              {title}
+            </Text>
+          </View>
+        </>
       )}
     </>
   );

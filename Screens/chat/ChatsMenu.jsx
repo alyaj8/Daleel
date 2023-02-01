@@ -181,7 +181,7 @@ const ChatsList = ({ navigation }) => {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log("🚀 ~ error", error);
+      console.log("🚀 ~ Chat menu err> ", error);
     }
   };
 

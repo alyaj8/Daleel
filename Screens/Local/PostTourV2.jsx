@@ -36,66 +36,506 @@ import {
 } from "../../config/Constant";
 import { getUserObj, insertTour } from "../../network/ApiService";
 import text from "../../style/text";
+import {
+  isTime1After2,
+  isTime1Before2,
+  isTime1Equal2,
+  logObj,
+} from "../../util/DateHelper";
 import ActivityForm from "./../../component/forms/ActivityForm";
-const schema = yup
-  .object({
-    // max:25, min:5 , required, only characters and arabic and spaces
+const activitySchema = yup.object({
+  // max:25, min:5 , required, only characters and arabic and spaces
+  title: yup
+    .string("يجب أن يحتوي عنوان الجولة على حروف فقط")
+    .min(5, "يجب أن يكون عنوان الجولة أكثر من 5 أحرف")
+    .max(25, "يجب أن يكون عنوان الجولة أقل من 25 حرف")
+    .matches(
+      /^[a-zA-Z\u0600-\u06FF ]+$/,
+      "يجب أن يحتوي عنوان الجولة على حروف فقط"
+    )
+    .required("يجب إدخال عنوان الجولة"),
+
+  // max:150, min:25 , required
+  description: yup
+    .string()
+    .min(25, "يجب أن يكون وصف الجولة أكثر من 25 حرف")
+    .max(150, "يجب أن يكون وصف الجولة أقل من 150 حرف")
+    .required("يجب إدخال وصف الجولة"),
+
+  city: yup.string().required("يجب إدخال مدينة الجولة"),
+  qty: yup
+    .number("يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة رقماً")
+    .min(1, "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أكبر من 1")
+    .max(
+      100,
+      "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أقل من 100"
+    )
+    .required("يجب إدخال عدد الأشخاص المسموح لهم بالمشاركة في الجولة"),
+
+  age: yup.string().required("يجب إدخال الفئة العمرية المناسبة للجولة"),
+  imageUrl: yup.string().nullable().required("يجب اختيار صورة للجولة"),
+  date: yup.mixed().required("يجب إدخال تاريخ بدء الجولة"),
+
+  startTime: yup
+    .mixed()
+    .required("يجب إدخال وقت بدء الجولة")
+    // start time and end time are not the same
+    .test(
+      "is-start-time-not-equal-end-time",
+      "يجب أن يكون وقت بدء الجولة مختلف عن وقت نهايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+
+        const test =
+          !!startTime && !!endTime ? !isTime1Equal2(startTime, endTime) : true;
+
+        return test;
+      }
+    )
+    // start time is before end time
+    .test(
+      "is-start-time-before-end-time",
+      "يجب أن يكون وقت بدء الجولة قبل وقت نهايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+        // true means valid
+        const test =
+          !!startTime && !!endTime ? isTime1Before2(startTime, endTime) : true;
+
+        return test;
+      }
+    ),
+  endTime: yup
+    .mixed()
+    .required("يجب إدخال وقت نهاية الجولة")
+    //  end time and start time are not the same
+    .test(
+      "is-end-time-not-equal-start-time",
+      "يجب أن يكون وقت نهاية الجولة مختلف عن وقت بدايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+        const test =
+          !!startTime && !!endTime ? !isTime1Equal2(endTime, startTime) : true;
+        return test;
+      }
+    )
+    // end time is after start time
+    .test(
+      "is-end-time-after-start-time",
+      "يجب أن يكون وقت نهاية الجولة بعد وقت بدايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+
+        const test =
+          !!startTime && !!endTime ? isTime1After2(endTime, startTime) : true;
+        return test;
+      }
+    ),
+
+  meetingPoint: yup.mixed().required("يجب إدخال مكان لقاء الجولة"),
+  activity: yup.object({
+    // title => min:5 ,max:25 , required
     title: yup
-      .string("يجب أن يحتوي عنوان الجولة على حروف فقط")
-      .min(5, "يجب أن يكون عنوان الجولة أكثر من 5 أحرف")
-      .max(25, "يجب أن يكون عنوان الجولة أقل من 25 حرف")
+      .string("يجب أن يحتوي عنوان النشاط على حروف فقط")
+      .min(5, "يجب أن يكون عنوان النشاط أكثر من 5 أحرف")
+      .max(25, "يجب أن يكون عنوان النشاط أقل من 25 حرف")
       .matches(
         /^[a-zA-Z\u0600-\u06FF ]+$/,
-        "يجب أن يحتوي عنوان الجولة على حروف فقط"
+        "يجب أن يحتوي عنوان النشاط على حروف فقط"
       )
-      .required("يجب إدخال عنوان الجولة"),
+      .required("يجب إدخال عنوان النشاط"),
 
-    // max:150, min:25 , required
+    // description => min:10 ,max:60 , required
     description: yup
       .string()
-      .min(25, "يجب أن يكون وصف الجولة أكثر من 25 حرف")
-      .max(150, "يجب أن يكون وصف الجولة أقل من 150 حرف")
-      .required("يجب إدخال وصف الجولة"),
+      .min(10, "يجب أن يكون وصف النشاط أكثر من 10 حرف")
+      .max(60, "يجب أن يكون وصف النشاط أقل من 60 حرف")
+      .required("يجب إدخال وصف النشاط"),
+    location: yup.mixed().required("يجب إدخال موقع النشاط"),
 
-    city: yup.string().required("يجب إدخال مدينة الجولة"),
-    qty: yup
-      .number("يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة رقماً")
-      .min(
-        1,
-        "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أكبر من 1"
+    // location: yup
+    //   .mixed("يجب إدخال موقع النشاط (يمكنك إضافة موقع النشاط لاحقاً)")
+    //   .required("يجب إدخال موقع النشاط"),
+    // startTime => required, min: tour start time, max: tour end time && activity start time < activity end time
+    startTime: yup
+      .mixed()
+      .required("يجب إدخال وقت بدء النشاط")
+      // tour end time and tour start time are exist ✅
+      .test(
+        "is-tour-end-time-and-tour-start-time-not-empty-act-start-time",
+        "يجب إدخال وقت بدء ونهاية الجولة أولًا",
+        function (value, context) {
+          const { startTime: tourStartTime, endTime: tourEndTime } =
+            context.from[1].value;
+          // true means valid
+          return !!tourStartTime && !!tourEndTime;
+        }
       )
-      .max(
-        100,
-        "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أقل من 100"
-      )
-      .required("يجب إدخال عدد الأشخاص المسموح لهم بالمشاركة في الجولة"),
-    age: yup.string().required("يجب إدخال الفئة العمرية المناسبة للجولة"),
-    imageUrl: yup
-      .string()
-      .required("يجب إدخال صورة للجولة (يمكنك إضافة صورة للجولة لاحقاً)"),
-    date: yup.mixed().required("يجب إدخال تاريخ بدء الجولة"),
-    startTime: yup.mixed().required("يجب إدخال وقت بدء الجولة"),
-    endTime: yup.mixed().required("يجب إدخال وقت نهاية الجولة"),
+      // start time after tour start time ✅
+      .test(
+        "is-act-start-time-after-tour-start-time",
+        "يجب أن يكون وقت بدء النشاط بعد وقت بدء الجولة",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: { startTime: activityStartTime },
+          } = context.from[1].value;
 
-    activitiesCustomizable: yup
-      .boolean()
-      .required(
-        "يجب إدخال إمكانية تخصيص الأنشطة (يمكنك إضافة إمكانية تخصيص الأنشطة لاحقاً)"
+          const test =
+            !!tourStartTime && !!tourEndTime && !!activityStartTime
+              ? isTime1After2(activityStartTime, tourStartTime)
+              : true;
+
+          return test;
+        }
+      )
+      // start time before tour end time ✅
+      .test(
+        "is-act-start-time-before-tour-end-time",
+        "يجب أن يكون وقت بدء النشاط قبل وقت نهاية الجولة",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: { startTime: activityStartTime },
+          } = context.from[1].value;
+
+          // both times are not empty
+          if (!!tourStartTime && !!tourEndTime && !!activityStartTime) {
+            const isActivityStartTimeBeforeTourEndTime = isTime1Before2(
+              activityStartTime,
+              tourEndTime
+            );
+
+            // activity start time is before tour end time
+            if (isActivityStartTimeBeforeTourEndTime) {
+              // true means valid
+              return true;
+            } else {
+              // false means invalid
+              return false;
+            }
+          } else {
+            // true means valid
+            return true;
+          }
+        }
+      )
+      // start time not equal to end time ✅
+      .test(
+        "is-act-start-time-not-equal-act-end-time",
+        "يجب أن يكون وقت بدء النشاط مختلف عن وقت نهايته",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: {
+              startTime: activityStartTime,
+              endTime: activityEndTime,
+            },
+          } = context.from[1].value;
+
+          // both times are not empty
+          if (
+            !!tourStartTime &&
+            !!tourEndTime &&
+            !!activityStartTime &&
+            !!activityEndTime
+          ) {
+            // start time is not equal to end time
+            return !isTime1Equal2(activityStartTime, activityEndTime);
+          } else {
+            // true means valid
+            return true;
+          }
+        }
+      )
+      // start time before end time ✅
+      .test(
+        "is-act-start-time-before-act-end-time",
+        "يجب أن يكون وقت بدء النشاط قبل وقت نهايته",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: {
+              startTime: activityStartTime,
+              endTime: activityEndTime,
+            },
+          } = context.from[1].value;
+
+          // both times are not empty
+          if (
+            !!tourStartTime &&
+            !!tourEndTime &&
+            !!activityStartTime &&
+            !!activityEndTime
+          ) {
+            // start time is before end time
+            const isStartTimeBeforeEndTime = isTime1Before2(
+              activityStartTime,
+              activityEndTime
+            );
+
+            // start time is before end time
+            if (isStartTimeBeforeEndTime) {
+              // true means valid
+              return true;
+            } else {
+              // false means invalid
+              return false;
+            }
+          } else {
+            // true means valid
+            return true;
+          }
+        }
       ),
 
-    meetingPoint: yup
+    // endTime => required, min: tour start time, max: tour end time && activity start time < activity end time
+    endTime: yup
       .mixed()
-      // .shape({
-      //   address: yup.string().required(),
-      //   coordinates: yup.object().shape({
-      //     latitude: yup.number().required(),
-      //     longitude: yup.number().required(),
-      //   }),
-      // })
-      .required("يجب إدخال مكان لقاء الجولة"),
-    activities: yup.array().required(),
-  })
-  .required();
+      .required("يجب إدخال وقت نهاية النشاط")
+      // tour end and tour start are exist ⌛
+      .test(
+        "is-tour-end-time-and-tour-start-time-not-empty-act-end-time",
+        "يجب إدخال وقت بدء ونهاية الجولة أولاً",
+        function (value, context) {
+          const { startTime: tourStartTime, endTime: tourEndTime } =
+            context.from[1].value;
+
+          // both times are not empty
+          // true means valid
+          // false means invalid
+          return !!tourStartTime && !!tourEndTime;
+        }
+      )
+      // end time after tour start time ✅
+      .test(
+        "is-act-end-time-after-tour-start-time",
+        "يجب أن يكون وقت نهاية النشاط بعد وقت بدء الجولة",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: { endTime: activityEndTime },
+          } = context.from[1].value;
+
+          const test =
+            !!tourStartTime && !!tourEndTime && !!activityEndTime
+              ? isTime1After2(activityEndTime, tourStartTime)
+              : true;
+          return test;
+        }
+      )
+
+      // end time before tour end time ✅
+      .test(
+        "is-act-end-time-before-tour-end-time",
+        "يجب أن يكون وقت نهاية النشاط قبل وقت نهاية الجولة",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: { endTime: activityEndTime },
+          } = context.from[1].value;
+
+          // both times are not empty
+          if (!!tourStartTime && !!tourEndTime && !!activityEndTime) {
+            const isEndTimeBeforeTourEndTime = isTime1Before2(
+              activityEndTime,
+              tourEndTime
+            );
+
+            if (isEndTimeBeforeTourEndTime) {
+              // true means valid
+              return true;
+            } else {
+              // false means invalid
+              return false;
+            }
+          }
+          // true means valid
+          return true;
+        }
+      )
+      // end time and start time are not equal ✅
+      .test(
+        "is-act-end-time-equal-act-start-time",
+        "يجب أن يكون وقت نهاية النشاط مختلف عن وقت بدءه",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: {
+              startTime: activityStartTime,
+              endTime: activityEndTime,
+            },
+          } = context.from[1].value;
+
+          // both times are not empty
+          if (
+            !!tourStartTime &&
+            !!tourEndTime &&
+            !!activityStartTime &&
+            !!activityEndTime
+          ) {
+            // end time is before activity start time
+            // true means valid
+            // false means invalid
+            return !isTime1Equal2(activityEndTime, activityStartTime);
+          }
+          // true means valid
+          return true;
+        }
+      )
+      // end time after activity start time ✅
+      .test(
+        "is-act-end-time-after-act-start-time",
+        "يجب أن يكون وقت نهاية النشاط بعد وقت بدءه",
+        function (value, context) {
+          const {
+            startTime: tourStartTime,
+            endTime: tourEndTime,
+            activity: {
+              startTime: activityStartTime,
+              endTime: activityEndTime,
+            },
+          } = context.from[1].value;
+
+          const test =
+            !!tourStartTime &&
+            !!tourEndTime &&
+            !!activityStartTime &&
+            !!activityEndTime
+              ? isTime1After2(activityEndTime, activityStartTime)
+              : true;
+
+          return test;
+        }
+      ),
+
+    price: yup
+      .string()
+      .nullable()
+      .required("يجب إدخال سعر النشاط")
+      .test(
+        "is-price-valid",
+        "يجب أن يكون سعر النشاط رقم صحيح",
+        function (value, context) {
+          const { price } = context.from[1].value.activity;
+          const test = !!price ? !!Number(price) : true;
+          return test;
+        }
+      )
+      // price is not negative
+      .test(
+        "is-price-not-negative",
+        "يجب أن يكون سعر النشاط رقم صحيح ولا يقل عن 0",
+        function (value, context) {
+          const { price } = context.from[1].value.activity;
+          const test = !!price ? Number(price) >= 0 : true;
+          return test;
+        }
+      ),
+
+    // imageUrl => required
+    imageUrl: yup.string().nullable().required("يجب إدخال صورة النشاط"),
+  }),
+});
+
+const tourSchema = yup.object({
+  // max:25, min:5 , required, only characters and arabic and spaces
+  title: yup
+    .string("يجب أن يحتوي عنوان الجولة على حروف فقط")
+    .min(5, "يجب أن يكون عنوان الجولة أكثر من 5 أحرف")
+    .max(25, "يجب أن يكون عنوان الجولة أقل من 25 حرف")
+    .matches(
+      /^[a-zA-Z\u0600-\u06FF ]+$/,
+      "يجب أن يحتوي عنوان الجولة على حروف فقط"
+    )
+    .required("يجب إدخال عنوان الجولة"),
+
+  // max:150, min:25 , required
+  description: yup
+    .string()
+    .min(25, "يجب أن يكون وصف الجولة أكثر من 25 حرف")
+    .max(150, "يجب أن يكون وصف الجولة أقل من 150 حرف")
+    .required("يجب إدخال وصف الجولة"),
+
+  city: yup.string().required("يجب إدخال مدينة الجولة"),
+  qty: yup
+    .number("يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة رقماً")
+    .min(1, "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أكبر من 1")
+    .max(
+      100,
+      "يجب أن يكون عدد الأشخاص المسموح لهم بالمشاركة في الجولة أقل من 100"
+    )
+    .required("يجب إدخال عدد الأشخاص المسموح لهم بالمشاركة في الجولة"),
+
+  age: yup.string().required("يجب إدخال الفئة العمرية المناسبة للجولة"),
+  imageUrl: yup.string().nullable().required("يجب اختيار صورة للجولة"),
+  date: yup.mixed().required("يجب إدخال تاريخ بدء الجولة"),
+
+  startTime: yup
+    .mixed()
+    .required("يجب إدخال وقت بدء الجولة")
+    // start time and end time are not the same
+    .test(
+      "is-start-time-not-equal-end-time",
+      "يجب أن يكون وقت بدء الجولة مختلف عن وقت نهايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+
+        const test =
+          !!startTime && !!endTime ? !isTime1Equal2(startTime, endTime) : true;
+
+        return test;
+      }
+    )
+    // start time is before end time
+    .test(
+      "is-start-time-before-end-time",
+      "يجب أن يكون وقت بدء الجولة قبل وقت نهايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+        // true means valid
+        const test =
+          !!startTime && !!endTime ? isTime1Before2(startTime, endTime) : true;
+
+        return test;
+      }
+    ),
+  endTime: yup
+    .mixed()
+    .required("يجب إدخال وقت نهاية الجولة")
+    //  end time and start time are not the same
+    .test(
+      "is-end-time-not-equal-start-time",
+      "يجب أن يكون وقت نهاية الجولة مختلف عن وقت بدايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+        const test =
+          !!startTime && !!endTime ? !isTime1Equal2(endTime, startTime) : true;
+        return test;
+      }
+    )
+    // end time is after start time
+    .test(
+      "is-end-time-after-start-time",
+      "يجب أن يكون وقت نهاية الجولة بعد وقت بدايتها",
+      function (value, context) {
+        const { startTime, endTime } = context.from[0].value;
+
+        const test =
+          !!startTime && !!endTime ? isTime1After2(endTime, startTime) : true;
+        return test;
+      }
+    ),
+
+  meetingPoint: yup.mixed().required("يجب إدخال مكان لقاء الجولة"),
+});
 
 const tabs = [
   { title: "الجولة", selected: false },
@@ -106,8 +546,7 @@ const initActivity = {
   id: null,
   title: "",
   description: "",
-  location: "",
-  date: null,
+  location: null,
   startTime: null,
   endTime: null,
   price: null,
@@ -138,10 +577,48 @@ const initTour = {
   endTime: null,
   status: 0,
   activitiesCustomizable: false,
+  activity: initActivity,
   activities: [],
+  price: 0,
 };
 
 const PostTourV2 = ({ navigation }) => {
+  const [activitiesMode, setActivitiesMode] = useState("idle"); // add, edit, idle
+  // Form State
+  const {
+    control,
+    handleSubmit,
+    formState: {
+      errors,
+      isValid,
+      isDirty,
+      isSubmitted,
+      dirtyFields,
+      touchedFields,
+      isSubmitting,
+      submitCount,
+      isSubmitSuccessful,
+      isValidating,
+      defaultValues,
+    },
+    setValue,
+    trigger,
+    reset,
+    resetField,
+    getValues,
+    watch,
+    getFieldState,
+  } = useForm({
+    defaultValues: {
+      ...initTour,
+    },
+    resolver: yupResolver(
+      activitiesMode === "idle" ? tourSchema : activitySchema
+    ),
+    mode: "onBlur",
+  });
+
+  console.log("🚀 ~ activitiesMode", activitiesMode);
   // Page State
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMenu, setSelectedMenu] = useState(0);
@@ -154,7 +631,7 @@ const PostTourV2 = ({ navigation }) => {
   // Activity
   const [activity, setActivity] = useState(initActivity);
   const [activities, setActivities] = useState(tour.activities);
-  const [activitiesMode, setActivitiesMode] = useState("add"); // add, edit
+  false && logObj(activity, "activity");
 
   // Modals Refs and configs
   const modalizeRef = useRef(null);
@@ -164,9 +641,7 @@ const PostTourV2 = ({ navigation }) => {
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
 
   useEffect(() => {
-    return () => {
-      console.log("OUIUUUUUUUUUUUUT");
-    };
+    return () => {};
   }, []);
 
   const reseter = () => {
@@ -182,7 +657,15 @@ const PostTourV2 = ({ navigation }) => {
 
   const openDatePicker = (type) => {
     setPickerConfig(type);
-    trigger(type);
+
+    // trigger activity start time and end time
+    // trigger()
+    trigger("date");
+    trigger("startTime");
+    trigger("endTime");
+    trigger("activity.startTime");
+    trigger("activity.endTime");
+
     setDatePickerVisibility(true);
   };
 
@@ -201,24 +684,25 @@ const PostTourV2 = ({ navigation }) => {
       setTour({ ...tour, endTime: date });
       setValue("endTime", date);
     }
-    if (pickerConfig === "activityDate") {
-      setActivity({ ...activity, date: date });
-      setValue("activityDate", date);
-    }
+
     if (pickerConfig === "activityStartTime") {
       setActivity({ ...activity, startTime: date });
-      setValue("activityStartTime", date);
+      setValue("activity.startTime", date);
     }
     if (pickerConfig === "activityEndTime") {
       setActivity({ ...activity, endTime: date });
-      setValue("activityEndTime", date);
+      setValue("activity.endTime", date);
     }
-    trigger(pickerConfig);
+    trigger("date");
+
+    trigger("startTime");
+    trigger("endTime");
+    trigger("activity.startTime");
+    trigger("activity.endTime");
   };
 
   // Modal
   const onShowModal = (type) => {
-    console.log("onShowModal > type: ", type);
     if (type === "city") {
       trigger("city");
       modalizeRef.current?.open();
@@ -254,8 +738,8 @@ const PostTourV2 = ({ navigation }) => {
       category: curActLoc.category || [],
       full_name: curActLoc.full_name || "",
       coordinates: {
-        latitude: curActLoc.coordinates.latitude || 0,
-        longitude: curActLoc.coordinates.longitude || 0,
+        latitude: curActLoc.coordinates?.latitude || 0,
+        longitude: curActLoc.coordinates?.longitude || 0,
       },
       id: curActLoc.id || "",
     };
@@ -267,8 +751,14 @@ const PostTourV2 = ({ navigation }) => {
     };
 
     setActivities([...activities, act]);
-
-    // setActivity(initActivity);
+    setActivitiesMode("idle");
+    setActivity(initActivity);
+    resetField("activity");
+    // reset(
+    //   {
+    //     activity: initActivity,
+    //   },
+    // );
   };
   const onRemoveActivity = (id) => {
     setActivities(activities.filter((act) => act.id !== id));
@@ -282,16 +772,16 @@ const PostTourV2 = ({ navigation }) => {
     const newActivities = [...activities];
     newActivities[index] = activity;
     setActivities(newActivities);
-    setActivitiesMode("add");
+    setActivitiesMode("idle");
     setActivity(initActivity);
   };
   const onEditActivityCancel = () => {
-    setActivitiesMode("add");
+    setActivitiesMode("idle");
     setActivity(initActivity);
   };
   const onRemoveActivitySubmit = () => {
     setActivities(activities.filter((a) => a.id !== activity.id));
-    setActivitiesMode("add");
+    setActivitiesMode("idle");
     setActivity(initActivity);
   };
 
@@ -303,63 +793,45 @@ const PostTourV2 = ({ navigation }) => {
       ...imagePickerConfig,
     });
     if (!result.canceled) {
-      setFilePathTour(result.assets[0].uri);
+      const theUrl = result.assets[0].uri;
+      setFilePathTour(theUrl);
+      setValue("imageUrl", theUrl);
+      trigger("imageUrl");
     }
   };
-
-  const publishTourDisabled =
-    !tour.title ||
-    !tour.description ||
-    !tour.date ||
-    !tour.startTime ||
-    !tour.endTime ||
-    activities.length === 0;
 
   const submitRequest = async () => {
     try {
       setIsLoading(true);
       setModalVisible(!isModalVisible);
-      const isTourHasImage = filePathTour ? true : false;
+      const uploadedImage = await uploadImage(filePathTour);
+      const { uid: userId, firstname } = await getUserObj();
 
-      let imageUrl = null;
-      if (isTourHasImage) {
-        imageUrl = await uploadImage(filePathTour);
-        // console.log("🚀 ~ imageUrl", imageUrl);
-      }
-
-      const userObj = await getUserObj();
-      const userId = userObj.uid;
-
-      const tourDone = isTourHasImage && !!imageUrl ? true : false;
-
-      // validate meeting point
-      const localMeetingPoint = tour.meetingPoint;
-      const meetingPoint = {
-        address: localMeetingPoint.address ? localMeetingPoint.address : "",
-        category: localMeetingPoint.category ? localMeetingPoint.category : [],
-        coordinates: { latitude: 24.806149, longitude: 46.639029 },
-        full_name: localMeetingPoint.full_name
-          ? localMeetingPoint.full_name
-          : "",
-        id: localMeetingPoint.id ? localMeetingPoint.id : "",
-        title: localMeetingPoint.title ? localMeetingPoint.title : "",
+      // validate meeting point Address
+      const validatedMeetingPoint = {
+        ...tour.meetingPoint,
+        address: tour.meetingPoint.address || "",
       };
-      if (tourDone || !isTourHasImage) {
-        const data = {
-          ...tour,
-          meetingPoint,
-          imageUrl,
+
+      if (!!uploadedImage) {
+        let data = {
+          ...getValues(),
+          imageUrl: uploadedImage,
+          meetingPoint: validatedMeetingPoint,
           activities: activities,
           requestBy: userId,
-          localName: userObj.firstname,
+          localName: firstname,
           dateCreated: Date.now(),
           dateUpdated: null,
           status: 0,
         };
-        // logObj(data);
-        await insertTour(data, "tours");
+
+        delete data.activity;
+
+        !!false && logObj(data, "data");
+        !false && (await insertTour(data, "tours"));
         setIsLoading(false);
-        navigation.goBack();
+        false && navigation.goBack();
       }
 
       // setLoading(false);
@@ -370,24 +842,6 @@ const PostTourV2 = ({ navigation }) => {
       console.log("error submitRequest", error);
     }
   };
-
-  // Form State
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    trigger,
-    reset,
-    getValues,
-    watch,
-  } = useForm({
-    defaultValues: {
-      ...initTour,
-    },
-    resolver: yupResolver(schema),
-    mode: "onBlur",
-  });
 
   const renderContent = () => {
     switch (selectedMenu) {
@@ -425,6 +879,7 @@ const PostTourV2 = ({ navigation }) => {
             activities={activities}
             setActivity={setActivity}
             activitiesMode={activitiesMode}
+            setActivitiesMode={setActivitiesMode}
             activitiesCustomizable={tour.activitiesCustomizable}
             setTour={setTour}
             //
@@ -440,12 +895,37 @@ const PostTourV2 = ({ navigation }) => {
             onRemoveActivitySubmit={onRemoveActivitySubmit}
             onEditActivitySubmit={onEditActivitySubmit}
             onEditActivityCancel={onEditActivityCancel}
+            // form state
+            control={control}
+            handleSubmit={handleSubmit}
+            reset={reset}
+            errors={errors}
+            setValue={setValue}
+            getValues={getValues}
+            watch={watch}
+            trigger={trigger}
           />
         );
       default:
         return <TourForm />;
     }
   };
+
+  // const errorsWithOutActivity = Object.keys(errors).filter(
+  //   (key) => key !== "activities"
+  // );
+
+  // const enablePost =
+  //   errorsWithOutActivity.length === 0 && activities.length > 0;
+
+  const enablePost =
+    isDirty &&
+    errors &&
+    Object.keys(errors).length === 0 &&
+    activities.length > 0;
+
+  !false && logObj(errors, "error");
+  // console.log("🚀 ~ activities.length", activities.length);
 
   return (
     <View style={styles.container}>
@@ -489,7 +969,7 @@ const PostTourV2 = ({ navigation }) => {
               >
                 <Text style={styles.headerText}>نشر جولة جديدة</Text>
                 <AppButton
-                  disabled={publishTourDisabled}
+                  disabled={!enablePost}
                   style={{
                     // ...styles.button,
                     height: 40,
@@ -534,7 +1014,7 @@ const PostTourV2 = ({ navigation }) => {
             }}
           >
             <AppButton
-              disabled={publishTourDisabled}
+              disabled={!enablePost}
               style={{
                 ...styles.button,
                 ...styles.shadow,
@@ -542,6 +1022,15 @@ const PostTourV2 = ({ navigation }) => {
                 width: screenWidth.width80,
                 height: 60,
               }}
+              error={
+                !enablePost
+                  ? Object.keys(errors).length > 0
+                    ? "يجب إدخال جميع البيانات المطلوبة بشكل صحيح"
+                    : activities.length === 0
+                    ? "يجب إضافة نشاط واحد على الأقل"
+                    : ""
+                  : ""
+              }
               title={"نشر"}
               onPress={() => {
                 setModalVisible(true);

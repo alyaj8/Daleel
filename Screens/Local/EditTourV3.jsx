@@ -124,7 +124,7 @@ const EditTourV3 = ({ navigation, route }) => {
 
   useEffect(() => {
     return () => {
-      console.log("OUIUUUUUUUUUUUUT");
+      // console.log("OUIUUUUUUUUUUUUT");
     };
   }, []);
 
