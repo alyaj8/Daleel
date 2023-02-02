@@ -126,3 +126,108 @@ export const getDateFromSeconds = (secondsAndNanoseconds, mode = "date") => {
     return formattedTime;
   }
 };
+
+export const enhanceTimestamp = (timestamp) => {
+  // if timestamp is firestore timestamp
+  if (!!timestamp?.toDate) {
+    timestamp = timestamp.toDate();
+  }
+
+  return new Date(timestamp);
+};
+
+export const getTimeBetween = (date1, date2) => {
+  // check if firebase timestamp
+  if (!!date1?.toDate) {
+    date1 = date1.toDate();
+  }
+
+  // check if firebase timestamp
+  if (!!date2?.toDate) {
+    date2 = date2.toDate();
+  }
+
+  // get time from date
+  const time1 = date1.getTime();
+  const time2 = date2.getTime();
+
+  // calculate difference
+  const diff = time1 - time2;
+
+  return diff;
+};
+
+export const isTime1Before2 = (
+  date1,
+  date2,
+  range = "10000" // 10 seconds
+) => {
+  // check if firebase timestamp
+  date1 = enhanceTimestamp(date1);
+  date2 = enhanceTimestamp(date2);
+
+  // calculate difference
+  const diff = getTimeBetween(date1, date2);
+
+  // if difference is less than range
+  if (diff < range) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isTime1After2 = (date1, date2, range = "10000") => {
+  // check if firebase timestamp
+  date1 = enhanceTimestamp(date1);
+  date2 = enhanceTimestamp(date2);
+
+  // calculate difference
+  const diff = getTimeBetween(date1, date2);
+
+  // if difference is less than range
+  if (diff > range) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isTime1After2Test = (date1, date2, range = "10000") => {
+  // check if firebase timestamp
+  date1 = enhanceTimestamp(date1);
+  console.log("🚀 ~ date1", date1);
+  date2 = enhanceTimestamp(date2);
+  console.log("🚀 ~ date2", date2);
+
+  // calculate difference
+  const diff = getTimeBetween(date1, date2);
+  console.log("🚀 ~ diff", diff);
+
+  console.log("🚀 ~ diff > range", diff > range);
+  // if difference is less than range
+  if (diff > range) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+export const isTime1Equal2 = (date1, date2, range = "10000") => {
+  // check if firebase timestamp
+  date1 = enhanceTimestamp(date1);
+  date2 = enhanceTimestamp(date2);
+
+  // calculate difference
+  let diff = getTimeBetween(date1, date2);
+
+  // get the absolute value of the difference
+  diff = Math.abs(diff);
+
+  // if difference is less than range
+  if (diff < range) {
+    return true;
+  } else {
+    return false;
+  }
+};

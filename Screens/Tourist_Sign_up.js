@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
+import { colors } from "../config/Constant";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
 
@@ -398,7 +399,7 @@ export default function Tourist_Sign_up({ navigation }) {
           <View>
             <TouchableOpacity
               style={{
-                backgroundColor: "#5398a0",
+                backgroundColor: colors.brown,
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,

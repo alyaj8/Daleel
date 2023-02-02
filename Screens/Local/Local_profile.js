@@ -29,7 +29,7 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import { imagePickerConfig, images, screenWidth } from "../../config/Constant";
+import { imagePickerConfig, images, screenWidth,colors } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 
 export default function Local_profile({ navigation }) {
@@ -369,12 +369,15 @@ export default function Local_profile({ navigation }) {
                 justifyContent: "space-between",
               }}
             >
+               <View>
+                <Button title="الغاء" onpress={() => toggleModal()}
+                 style={{ backgroundColor: colors.lightBrown }}  />
+              </View>
               <View >
-                <Button title="حفظ" onpress={submitRequest} />
+                <Button title="حفظ" onpress={submitRequest}
+                 style={{ backgroundColor: colors.Blue }}  />
               </View>
-              <View>
-                <Button title="الغاء" onpress={() => toggleModal()} />
-              </View>
+             
             </View>
           </View>
         </View>

@@ -21,7 +21,7 @@ import {
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../component/button/Button";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth,colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_Account({ navigation }) {
@@ -499,7 +499,7 @@ export default function Local_Account({ navigation }) {
               <TouchableOpacity
                 onPress={saveChanges}
                 style={{
-                  backgroundColor: "#5398a0",
+                  backgroundColor: colors.Blue,
                   padding: 20,
                   borderRadius: 10,
                   marginBottom: 30,
@@ -522,7 +522,7 @@ export default function Local_Account({ navigation }) {
               <TouchableOpacity
                 onPress={toggleModalDelet}
                 style={{
-                  backgroundColor: "red",
+                  backgroundColor:colors.brown,
                   padding: 20,
                   borderRadius: 10,
                   marginBottom: 30,
@@ -556,11 +556,16 @@ export default function Local_Account({ navigation }) {
                       justifyContent: "space-between",
                     }}
                   >
+                  
                     <View style={{}}>
-                      <Button title="حفظ" onpress={saveChanges2} />
+                      <Button title="الغاء" onpress={toggleModal}
+                       style={{ backgroundColor: colors.lightBrown }} />
+                     
                     </View>
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModal} />
+                      <Button title="حفظ" onpress={saveChanges2}
+                      style={{ backgroundColor: colors.Blue }}
+                       />
                     </View>
                   </View>
                 </View>
@@ -581,10 +586,12 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="حذف" onpress={() => deleteUserFunc()} />
+                      <Button title="الغاء" onpress={toggleModalDelet} 
+                         style={{ backgroundColor: colors.lightBrown }} />
                     </View>
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModalDelet} />
+                      <Button title="حذف" onpress={() => deleteUserFunc()} 
+                      style={{ backgroundColor: colors.brown }}/>
                     </View>
                   </View>
                 </View>

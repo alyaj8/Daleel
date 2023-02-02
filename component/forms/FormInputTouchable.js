@@ -30,6 +30,8 @@ const FormInputTouchable = ({
   wrapperStyle,
   style,
 
+  onChangeText,
+
   debug = false,
 
   ...props
@@ -42,7 +44,7 @@ const FormInputTouchable = ({
     control,
   });
 
-  if (debug) {
+  if (debug === ",") {
     console.log("🚀 ~ error", error);
     console.log("🚀 ~ value", value);
     console.log("🚀 ~ isDirty", isDirty);
@@ -52,6 +54,11 @@ const FormInputTouchable = ({
   }
 
   const InpurComp = onPress ? TouchableOpacity : View;
+
+  const changeHandler = (inputText) => {
+    onChange(inputText);
+    onChangeText && onChangeText(inputText);
+  };
 
   const renderValue = (val) => {
     if (val) {
@@ -98,9 +105,7 @@ const FormInputTouchable = ({
               placeholder={placeholder}
               // Form
               value={value}
-              onChangeText={(text) => {
-                onChange(text);
-              }}
+              onChangeText={changeHandler}
               onBlur={onBlur}
               {...props}
             />

@@ -1,7 +1,8 @@
 import React from "react";
-import { Image, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import FormInputTouchable from "./FormInputTouchable";
+import ImageForm from "./ImageForm";
 import MapFrom from "./MapFrom";
 
 const TourForm = ({
@@ -35,7 +36,36 @@ const TourForm = ({
   return (
     <View style={styles.container}>
       {/* Image  */}
-      {tour.imageUrl ? (
+      <ImageForm
+        // debug
+        // Form
+        name="imageUrl"
+        control={control}
+        // rest
+        label="ارفق صورة للجولة"
+        // style
+        onRemoveImage={() => {
+          setFilePathTour(null);
+          setValue("imageUrl", null);
+          trigger("imageUrl");
+        }}
+        onPickImage={pickImage}
+        style={{
+          alignItems: "center",
+          alignSelf: "center",
+          width: screenWidth.width80,
+          minHeight: screenWidth.width70,
+        }}
+        imageStye={{
+          width: screenWidth.width80,
+          height: screenWidth.width60,
+          resizeMode: "contain",
+          borderRadius: screenWidth.width10,
+          marginTop: screenWidth.width5,
+        }}
+      />
+
+      {/* {tour.imageUrl ? (
         <TouchableOpacity
           onPress={() => pickImage()}
           style={[styles.alignCenter, { marginTop: screenWidth.width5 }]}
@@ -62,7 +92,7 @@ const TourForm = ({
         >
           <Image source={images.photo} style={[styles.dummyImg]} />
         </TouchableOpacity>
-      )}
+      )} */}
 
       {/* Name */}
       <FormInputTouchable
@@ -137,7 +167,6 @@ const TourForm = ({
           editable={false}
           icon={true}
           source={images.timer}
-          // value={getFormattedDate(new Date())}
           onPress={() => openDatePicker("startTime")}
           style={{ marginLeft: 2 }}
         />
@@ -150,7 +179,7 @@ const TourForm = ({
         // rest
         label="نقطة اللقاء"
         placeholder="اختر نقطة اللقاء"
-        value={tour.meetingPoint}
+        // value={tour.meetingPoint}
         onSelectLocation={(location) => {
           setTour({ ...tour, meetingPoint: location });
           setValue("meetingPoint", location);

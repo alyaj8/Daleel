@@ -28,12 +28,11 @@ import AcceptedBookings from "../component/Reqs/Common/AcceptedBooking";
 import LocalRejectedCard from "../component/Reqs/Local/LocalRejectedCard";
 import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";
-import { logObj } from "../util/DateHelper";
 
 export default function Local_Home({ navigation }) {
   const noti = useLastNotificationResponse();
 
-  logObj(noti, "noti=> ");
+  // logObj(noti, "noti=> ");
 
   const goToTourDetail = (req) => {
     navigation.navigate("TourDetailedInformation", {
@@ -141,7 +140,7 @@ export default function Local_Home({ navigation }) {
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
-      console.log("🚀 ~ error", error);
+      console.log("🚀 ~ Local Home Err> ", error);
     }
   };
 

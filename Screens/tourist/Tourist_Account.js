@@ -30,7 +30,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
-import { images, screenWidth, REQUEST_TABLE } from "../../config/Constant";
+import { images, screenWidth, REQUEST_TABLE,colors } from "../../config/Constant";
 import Modal from "react-native-modal";
 import Button from "../../component/button/Button";
 
@@ -357,7 +357,7 @@ export default function Tourist_Account({ navigation }) {
                         <View>
                             <TouchableOpacity onPress={saveChanges}
                                 style={{
-                                    backgroundColor: "#5398a0",
+                                    backgroundColor:colors.Blue,
                                     padding: 20,
                                     borderRadius: 10,
                                     marginBottom: 30,
@@ -382,7 +382,7 @@ export default function Tourist_Account({ navigation }) {
                             <TouchableOpacity onPress={toggleModalDelet}
 
                                 style={{
-                                    backgroundColor: "red",
+                                    backgroundColor: colors.brown,
                                     padding: 20,
                                     borderRadius: 10,
                                     marginBottom: 30,
@@ -418,13 +418,16 @@ export default function Tourist_Account({ navigation }) {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                        <View style={{}}>
-                                            <Button title="حفظ" onpress={saveChanges2} />
-                                        </View>
-                                        <View style={{}}>
-                                            <Button title="الغاء" onpress={toggleModal} />
+                                         <View style={{}}>
+                                            <Button title="الغاء" onpress={toggleModal} 
+                                            style={{ backgroundColor: colors.lightBrown }}/>
 
                                         </View>
+                                        <View style={{}}>
+                                            <Button title="حفظ" onpress={saveChanges2}
+                                             style={{ backgroundColor: colors.Blue }} />
+                                        </View>
+                                       
                                     </View>
                                 </View>
                             </View>
@@ -446,12 +449,15 @@ export default function Tourist_Account({ navigation }) {
                                             justifyContent: "space-between",
                                         }}
                                     >
+                                      
                                         <View style={{}}>
-                                            <Button title="حذف" onpress={() => deleteUserFunc()} />
+                                            <Button title="الغاء" onpress={toggleModalDelet} 
+                                             style={{ backgroundColor: colors.lightBrown }}/>
+
                                         </View>
                                         <View style={{}}>
-                                            <Button title="الغاء" onpress={toggleModalDelet} />
-
+                                            <Button title="حذف" onpress={() => deleteUserFunc()}
+                                            style={{ backgroundColor: colors.brown }} />
                                         </View>
                                     </View>
                                 </View>
