@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { images } from "../../config/Constant";
+import { images,colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_ChangePass({ navigation }) {
@@ -161,7 +161,7 @@ export default function Local_ChangePass({ navigation }) {
             <TouchableOpacity
               onPress={savePass}
               style={{
-                backgroundColor: "#5398a0",
+                backgroundColor: colors.Blue,
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,

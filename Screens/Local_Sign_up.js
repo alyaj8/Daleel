@@ -27,7 +27,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
-import { imagePickerConfig, images, screenWidth } from "../config/Constant";
+import { colors, imagePickerConfig, images, screenWidth } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
@@ -611,7 +611,7 @@ export default function Local_Sign_up({ navigation }) {
           <View style={styles.buttonCont}>
             <Button
               title="إنشاء حساب"
-              color="black"
+              color="white"
               onPress={() => signUp()} //
             ></Button>
           </View>
@@ -649,7 +649,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 250,
     borderRadius: 10,
-    backgroundColor: "#5398a0",
+    backgroundColor: colors.brown,
   },
   lable: {
     fontSize: 16,
