@@ -330,7 +330,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               tintColor={"#ececec"}
               style={{
                 marginVertical: 10,
-               
+
               }}
             />
 
@@ -340,47 +340,53 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   color: "black",
                   alignItems: "center",
                   fontWeight: "bold",
+                  alignSelf: "center",
+                  fontSize: 8,
+                  marginTop: -7,
+
                 }}
               >
-                {"     "} {(bookstar / data.reviews?.length).toFixed(2)} out of
-                5 {"\n"}
-                {data.reviews?.length} People Reviewed
+                {"     "} {(bookstar / data.reviews?.length).toFixed(2)}  من اصل 5   {"\n"}
+                {data.reviews?.length} من الأشخاص
               </Text>
             ) : (
               <Text style={{ color: "black" }}>
               </Text>
             )}
-               <TouchableOpacity
-            style={{
-              width: 150,
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            onPress={() => {
-              navigation.navigate("Comment", data);
-            }}
-            disabled={data.reviews?.length == null ? true : false}
-          >
-            <Text
+            <TouchableOpacity
               style={{
-                color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown ,
-                textDecorationLine: "underline",
-                fontWeight: "bold",
-                fontSize: 16,
+                width: 150,
+                height: 50,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "center"
               }}
+              onPress={() => {
+                navigation.navigate("Comment", data);
+              }}
+              disabled={data.reviews?.length == null ? true : false}
             >
-              {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
-            </Text>
-          </TouchableOpacity>
+              <Text
+                style={{
+                  color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+              </Text>
+            </TouchableOpacity>
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown },
-                ]}
+                  { color: colors.brown, fontSize: 22, marginTop: -8 },
+                ]
+                }
               >
                 {price} SAR
               </Text>
@@ -538,7 +544,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           </View>
 
 
-       
+
 
           {/* <TouchableOpacity
             style={{
