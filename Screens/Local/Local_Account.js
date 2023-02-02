@@ -21,7 +21,7 @@ import {
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../component/button/Button";
-import { images, screenWidth,colors } from "../../config/Constant";
+import { images, screenWidth, colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_Account({ navigation }) {
@@ -42,6 +42,8 @@ export default function Local_Account({ navigation }) {
     lastname: "",
 
     username: "",
+    username22: "",
+
     email: "",
 
     phone: "",
@@ -170,7 +172,7 @@ export default function Local_Account({ navigation }) {
   };
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 15) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -213,14 +215,7 @@ export default function Local_Account({ navigation }) {
       return false;
     }
   };
-  let checkUserName = (value) => {
-    var letters = /^[0-9a-zA-Z-_]+$/;
-    if (value.match(letters) && value.length < 26) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+
 
   let CheckUnique = async () => {
     const q = query(
@@ -233,6 +228,10 @@ export default function Local_Account({ navigation }) {
       setUsernameError("");
       return true;
     }
+    else if (value.username == value.username22) {
+      setUsernameError("");
+      return true;
+    }
     setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
     return false;
   };
@@ -241,7 +240,8 @@ export default function Local_Account({ navigation }) {
     if (value.firstname === "") {
       setNameError("لا يمكن ترك الإسم الأول فارغا");
     } else if (!checkFirstName(value.firstname)) {
-      setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه");
+      setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
+
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
     }
@@ -250,7 +250,7 @@ export default function Local_Account({ navigation }) {
     if (value.lastname === "") {
       setLastNameError("لا يمكن ترك الإسم الأخير فارغا");
     } else if (!checkFirstName(value.lastname)) {
-      setLastNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه");
+      setLastNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
     } else if (checkFirstName(value.lastname) && value.lastname !== "") {
       setLastNameError("");
     }
@@ -522,7 +522,7 @@ export default function Local_Account({ navigation }) {
               <TouchableOpacity
                 onPress={toggleModalDelet}
                 style={{
-                  backgroundColor:colors.brown,
+                  backgroundColor: colors.brown,
                   padding: 20,
                   borderRadius: 10,
                   marginBottom: 30,
@@ -556,16 +556,16 @@ export default function Local_Account({ navigation }) {
                       justifyContent: "space-between",
                     }}
                   >
-                  
+
                     <View style={{}}>
                       <Button title="الغاء" onpress={toggleModal}
-                       style={{ backgroundColor: colors.lightBrown }} />
-                     
+                        style={{ backgroundColor: colors.lightBrown }} />
+
                     </View>
                     <View style={{}}>
                       <Button title="حفظ" onpress={saveChanges2}
-                      style={{ backgroundColor: colors.Blue }}
-                       />
+                        style={{ backgroundColor: colors.Blue }}
+                      />
                     </View>
                   </View>
                 </View>
@@ -586,12 +586,12 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModalDelet} 
-                         style={{ backgroundColor: colors.lightBrown }} />
+                      <Button title="الغاء" onpress={toggleModalDelet}
+                        style={{ backgroundColor: colors.lightBrown }} />
                     </View>
                     <View style={{}}>
-                      <Button title="حذف" onpress={() => deleteUserFunc()} 
-                      style={{ backgroundColor: colors.brown }}/>
+                      <Button title="حذف" onpress={() => deleteUserFunc()}
+                        style={{ backgroundColor: colors.brown }} />
                     </View>
                   </View>
                 </View>

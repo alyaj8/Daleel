@@ -147,6 +147,8 @@ export default function Local_Sign_up({ navigation }) {
     email: "",
     password: "",
     username: "",
+    username22: "",
+
     phone: "",
     firstname: "",
     lastname: "",
@@ -164,7 +166,7 @@ export default function Local_Sign_up({ navigation }) {
       setNameError("الرجاء إدخال اسمك الأول");
     } else if (!checkFirstName(value.firstname)) {
       setNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
@@ -175,7 +177,7 @@ export default function Local_Sign_up({ navigation }) {
       setLastNameError("الرجاء إدخال اسمك الأخير");
     } else if (!checkFirstName(value.lastname)) {
       setLastNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.lastname) && value.lastname !== "") {
       setLastNameError("");
@@ -188,7 +190,7 @@ export default function Local_Sign_up({ navigation }) {
     } else if (value.password === "") {
       setPassError("الرجاء إدخال الرقم السري");
     } else if (!checkPass(value.password))
-      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
   };
 
   const validatEmail = () => {
@@ -290,6 +292,7 @@ export default function Local_Sign_up({ navigation }) {
           phone: value.phone,
           password: value.password,
           username: value.username,
+          username22: value.username,
 
           maroof: value.maroof,
           city: value.city,
@@ -322,7 +325,7 @@ export default function Local_Sign_up({ navigation }) {
 
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 21) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -332,7 +335,7 @@ export default function Local_Sign_up({ navigation }) {
   let checkPass = (value) => {
     //  var letters = /^[A-Za-z]+$/;
     console.log(value.length);
-    if (value.length > 7) {
+    if (value.length > 7 && value.length < 31) {
       return true;
     } else {
       return false;

@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { images ,colors} from "../../config/Constant";
+import { images, colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Tourist_ChangePass({ navigation }) {
@@ -37,7 +37,7 @@ export default function Tourist_ChangePass({ navigation }) {
   let savePass = async () => {
     // console.log(user.uid, current);
     console.log(newPass.length);
-    if (newPass.length > 7) {
+    if (newPass.length > 7 && newPass.length < 31) {
       if (oldPass === current) {
         updatePassword(user, newPass)
           .then(async () => {
@@ -56,7 +56,7 @@ export default function Tourist_ChangePass({ navigation }) {
         setError(" الرقم السري غير صحيح");
       }
     } else {
-      setError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+      setError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
     }
   };
   return (

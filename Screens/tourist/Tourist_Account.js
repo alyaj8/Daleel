@@ -30,7 +30,7 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
-import { images, screenWidth, REQUEST_TABLE,colors } from "../../config/Constant";
+import { images, screenWidth, REQUEST_TABLE, colors } from "../../config/Constant";
 import Modal from "react-native-modal";
 import Button from "../../component/button/Button";
 
@@ -166,9 +166,10 @@ export default function Tourist_Account({ navigation }) {
         }
     }
 
+
     let checkFirstName = (value) => {
         var letters = /^[A-Za-z]+$/;
-        if (value.match(letters)) {
+        if (value.match(letters) && value.length < 21 && value.length > 3) {
             return true;
         } else {
             return false;
@@ -202,7 +203,8 @@ export default function Tourist_Account({ navigation }) {
         if (value.firstname === "") {
             setNameError("لا يمكن ترك الإسم فارغا")
         }
-        else if (!checkFirstName(value.firstname)) { setNameError("يجب ان يتكون الإسم  من احرف انجليزيه") }
+        else if (!checkFirstName(value.firstname))
+            setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
         else if (checkFirstName(value.firstname) && value.firstname !== "") {
             setNameError("")
         }
@@ -357,7 +359,7 @@ export default function Tourist_Account({ navigation }) {
                         <View>
                             <TouchableOpacity onPress={saveChanges}
                                 style={{
-                                    backgroundColor:colors.Blue,
+                                    backgroundColor: colors.Blue,
                                     padding: 20,
                                     borderRadius: 10,
                                     marginBottom: 30,
@@ -418,16 +420,16 @@ export default function Tourist_Account({ navigation }) {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                         <View style={{}}>
-                                            <Button title="الغاء" onpress={toggleModal} 
-                                            style={{ backgroundColor: colors.lightBrown }}/>
+                                        <View style={{}}>
+                                            <Button title="الغاء" onpress={toggleModal}
+                                                style={{ backgroundColor: colors.lightBrown }} />
 
                                         </View>
                                         <View style={{}}>
                                             <Button title="حفظ" onpress={saveChanges2}
-                                             style={{ backgroundColor: colors.Blue }} />
+                                                style={{ backgroundColor: colors.Blue }} />
                                         </View>
-                                       
+
                                     </View>
                                 </View>
                             </View>
@@ -449,15 +451,15 @@ export default function Tourist_Account({ navigation }) {
                                             justifyContent: "space-between",
                                         }}
                                     >
-                                      
+
                                         <View style={{}}>
-                                            <Button title="الغاء" onpress={toggleModalDelet} 
-                                             style={{ backgroundColor: colors.lightBrown }}/>
+                                            <Button title="الغاء" onpress={toggleModalDelet}
+                                                style={{ backgroundColor: colors.lightBrown }} />
 
                                         </View>
                                         <View style={{}}>
                                             <Button title="حذف" onpress={() => deleteUserFunc()}
-                                            style={{ backgroundColor: colors.brown }} />
+                                                style={{ backgroundColor: colors.brown }} />
                                         </View>
                                     </View>
                                 </View>

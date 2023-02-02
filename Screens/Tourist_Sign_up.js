@@ -90,7 +90,7 @@ export default function Tourist_Sign_up({ navigation }) {
       setNameError("الرجاء إدخال اسمك الأول");
     } else if (!checkFirstName(value.firstname)) {
       setNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
@@ -103,7 +103,7 @@ export default function Tourist_Sign_up({ navigation }) {
     } else if (value.password === "") {
       setPassError("الرجاء إدخال الرقم السري");
     } else if (!checkPass(value.password))
-      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
   };
 
   const validatEmail = () => {
@@ -198,7 +198,7 @@ export default function Tourist_Sign_up({ navigation }) {
 
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 21) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
