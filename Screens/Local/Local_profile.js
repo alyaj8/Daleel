@@ -6,6 +6,8 @@ import {
   query,
   updateDoc,
   where,
+  deleteDoc,
+  arrayRemove
 } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -32,9 +34,12 @@ import { auth, db } from "../../config/firebase";
 
 export default function Local_profile({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [DisModalVisible, setDModalVisible] = useState(false);
 
   const [fname, setFname] = useState("");
   const [filePath, setFilePath] = useState(null);
+  const [pictures, setpictures] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [aa, setaa] = useState([]);
   const [pic, setpic] = useState("");
@@ -95,6 +100,7 @@ export default function Local_profile({ navigation }) {
     setModalVisible((prev) => !prev);
     // console.log("11");
   };
+
 
   const submitRequest = async () => {
     try {
@@ -161,6 +167,7 @@ export default function Local_profile({ navigation }) {
 
         setFname(userinfo2.firstname);
         setpic(userinfo2.poster);
+        setpictures(userinfo2.pictures);
         setpic_array(userinfo2.pictures);
         userinfo2.id = doc.id;
         myData.push(userinfo2);
@@ -169,6 +176,23 @@ export default function Local_profile({ navigation }) {
       console.log(error);
     }
   };
+
+  const DeleteFunc = async (item) => {
+    await DeleteFunc22(item);
+  };
+
+  async function DeleteFunc22(item) {
+
+    const docRef = doc(db, 'Admin_users', user.uid);
+    await updateDoc(docRef, { pictures: arrayRemove(item) })
+    navigation.goBack();
+  };
+  const DtoggleModal = () => {
+    setDModalVisible((prev) => !prev);
+    // console.log("11");
+  };
+
+
 
   return (
     <ImageBackground
@@ -283,10 +307,30 @@ export default function Local_profile({ navigation }) {
                     zIndex: 1,
                     color: "red",
                   }}
-                /*  onPress={() =>
-                             DeleteFunc(item)
-                           }    */
+                  onPress={() => DtoggleModal()}
                 />
+                <Modal isVisible={DisModalVisible}>
+                  <View style={[styles.modalView]}>
+                    <View style={[styles.main]}>
+                      <View style={{ margin: 20 }}>
+                        <Text style={{ textAlign: "center", fontSize: 20 }}>هل أنت متأكد من حذف الصورة؟</Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <View >
+                          <Button title="نعم" onpress={() => DeleteFunc(item)} />
+                        </View>
+                        <View>
+                          <Button title="إلغاء" onpress={() => DtoggleModal()} />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
                 <TouchableOpacity
                   // onPress={() =>
                   //  navigation.navigate({
@@ -335,6 +379,7 @@ export default function Local_profile({ navigation }) {
           </View>
         </View>
       </Modal>
+
     </ImageBackground>
   );
 }
