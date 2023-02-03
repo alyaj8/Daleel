@@ -21,8 +21,11 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
+import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
+import Loading from "../../component/Loading";
+import MapListItem from "../../component/maps/MapListItem";
 import {
   colors,
   highlights,
@@ -34,9 +37,6 @@ import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import AppButton from "./../../component/AppButton";
-import Loading from "./../../component/Loading";
-import MapListItem from "./../../component/maps/MapListItem";
 
 export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");

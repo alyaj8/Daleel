@@ -15,6 +15,7 @@ const TourForm = ({
   filePathTour,
   setFilePathTour,
   pickImage,
+  onRemoveImage,
   onShowModal,
   setModalVisible,
 
@@ -44,11 +45,7 @@ const TourForm = ({
         // rest
         label="ارفق صورة للجولة"
         // style
-        onRemoveImage={() => {
-          setFilePathTour(null);
-          setValue("imageUrl", null);
-          trigger("imageUrl");
-        }}
+        onRemoveImage={onRemoveImage}
         onPickImage={pickImage}
         style={{
           alignItems: "center",

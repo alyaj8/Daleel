@@ -1,9 +1,13 @@
 import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
-import { colors, images, screenWidth } from "../../../config/Constant";
+import {
+  colors,
+  highlights,
+  images,
+  screenWidth,
+} from "../../../config/Constant";
 import text from "../../../style/text";
 import AppImage from "../../AppImage";
-import { highlights } from "./../../../config/Constant";
 
 export default function TouristPendingCard({ onpress, source, title }) {
   // console.log("🚀 ~ source", source);

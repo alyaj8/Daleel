@@ -37,12 +37,12 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 
+import ActivityCard from "../../component/activityComponents/ActivityCard";
+import AppButton from "../../component/AppButton";
 import ActivityForm from "../../component/forms/ActivityForm";
 import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import ActivityCard from "./../../component/activityComponents/ActivityCard";
-import AppButton from "./../../component/AppButton";
 
 const initActivity = {
   title: "جولة غريبة",

@@ -18,6 +18,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
 import AppButton from "../../component/AppButton";
+import ActivityForm from "../../component/forms/ActivityForm";
 import TourForm from "../../component/forms/TourForm";
 import Loading from "../../component/Loading";
 import TabsWrapper from "../../component/TabsWrapper";
@@ -34,7 +35,6 @@ import {
 import { deleteRequest, getUserId, updateTour } from "../../network/ApiService";
 import text from "../../style/text";
 import { limitCharacters } from "../../util/DateHelper";
-import ActivityForm from "./../../component/forms/ActivityForm";
 
 const tabs = [
   { title: "الجولة", selected: false },

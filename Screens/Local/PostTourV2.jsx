@@ -21,6 +21,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as yup from "yup";
 import AppButton from "../../component/AppButton";
+import ActivityForm from "../../component/forms/ActivityForm";
 import TourForm from "../../component/forms/TourForm";
 import Loading from "../../component/Loading";
 import TabsWrapper from "../../component/TabsWrapper";
@@ -42,7 +43,6 @@ import {
   isTime1Equal2,
   logObj,
 } from "../../util/DateHelper";
-import ActivityForm from "./../../component/forms/ActivityForm";
 const activitySchema = yup.object({
   // max:25, min:5 , required, only characters and arabic and spaces
   title: yup
@@ -765,7 +765,9 @@ const PostTourV2 = ({ navigation }) => {
   };
   const onEditActivity = (id) => {
     setActivitiesMode("edit");
-    setActivity(activities.find((a) => a.id === id));
+    const activityToEdit = activities.find((a) => a.id === id);
+    setActivity(activityToEdit);
+    setValue("activity", activityToEdit);
   };
   const onEditActivitySubmit = () => {
     const index = activities.findIndex((a) => a.id === activity.id);
@@ -774,15 +776,18 @@ const PostTourV2 = ({ navigation }) => {
     setActivities(newActivities);
     setActivitiesMode("idle");
     setActivity(initActivity);
+    setValue("activity", initActivity);
   };
   const onEditActivityCancel = () => {
     setActivitiesMode("idle");
     setActivity(initActivity);
+    setValue("activity", initActivity);
   };
   const onRemoveActivitySubmit = () => {
     setActivities(activities.filter((a) => a.id !== activity.id));
     setActivitiesMode("idle");
     setActivity(initActivity);
+    setValue("activity", initActivity);
   };
 
   // Image Picker & Tour
@@ -983,7 +988,12 @@ const PostTourV2 = ({ navigation }) => {
                 />
               </View>
             </View>
-            <TabsWrapper menuTabs={tabs} onPressTab={onPressTab} />
+            <TabsWrapper
+              menuTabs={tabs}
+              onPressTab={onPressTab}
+              selectedMenu={selectedMenu}
+              setSelectedMenu={setSelectedMenu}
+            />
           </View>
 
           {/* Body */}
@@ -1013,29 +1023,54 @@ const PostTourV2 = ({ navigation }) => {
               justifyContent: "center",
             }}
           >
-            <AppButton
-              disabled={!enablePost}
-              style={{
-                ...styles.button,
-                ...styles.shadow,
+            {activities.length == 0 && selectedMenu == "0" ? (
+              <AppButton
+                // disabled={!enablePost}
+                style={{
+                  ...styles.button,
+                  ...styles.shadow,
 
-                width: screenWidth.width80,
-                height: 60,
-              }}
-              error={
-                !enablePost
-                  ? Object.keys(errors).length > 0
-                    ? "يجب إدخال جميع البيانات المطلوبة بشكل صحيح"
-                    : activities.length === 0
-                    ? "يجب إضافة نشاط واحد على الأقل"
+                  width: screenWidth.width80,
+                  height: 60,
+                }}
+                error={
+                  !enablePost
+                    ? Object.keys(errors).length > 0
+                      ? "يجب إدخال جميع البيانات المطلوبة بشكل صحيح"
+                      : ""
                     : ""
-                  : ""
-              }
-              title={"نشر"}
-              onPress={() => {
-                setModalVisible(true);
-              }}
-            />
+                }
+                title={"أضف نشاط"}
+                onPress={() => {
+                  // move to activity tab
+                  onPressTab(1);
+                }}
+              />
+            ) : (
+              <AppButton
+                disabled={!enablePost}
+                style={{
+                  ...styles.button,
+                  ...styles.shadow,
+
+                  width: screenWidth.width80,
+                  height: 60,
+                }}
+                error={
+                  !enablePost
+                    ? Object.keys(errors).length > 0
+                      ? "يجب إدخال جميع البيانات المطلوبة بشكل صحيح"
+                      : activities.length === 0
+                      ? "يجب إضافة نشاط واحد على الأقل"
+                      : ""
+                    : ""
+                }
+                title={"نشر"}
+                onPress={() => {
+                  setModalVisible(true);
+                }}
+              />
+            )}
           </View>
         </View>
       </ImageBackground>

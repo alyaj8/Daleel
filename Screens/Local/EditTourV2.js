@@ -40,10 +40,10 @@ import {
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
 import ActivityForm from "../../component/forms/ActivityForm";
+import Loading from "../../component/Loading";
 import InputMap from "../../component/maps/InputMap";
 import MIcon from "../../component/MIcon";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import Loading from "./../../component/Loading";
 
 const initActivity = {
   id: null,

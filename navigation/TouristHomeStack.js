@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import BookingDetail from "./../Screens/Local/BookingDetail";
-import Comment from "./../Screens/Tourist/Comment";
-import Review2 from "./../Screens/Tourist/Review2";
-import StripeApp from "./../Screens/Tourist/StripeApp";
-import TouristDetailedInformation from "./../Screens/Tourist/TouristDetailedInformation";
+import BookingDetail from "../Screens/local/BookingDetail";
+import Comment from "./../Screens/tourist/Comment";
+import Review2 from "./../Screens/tourist/Review2";
+import StripeApp from "./../Screens/tourist/StripeApp";
+import TouristDetailedInformation from "./../Screens/tourist/TouristDetailedInformation";
 import Tourist_Home from "./../Screens/Tourist_Home";
 
 const Stack = createNativeStackNavigator();

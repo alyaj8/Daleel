@@ -11,8 +11,8 @@ import text from "../../style/text";
 import AppTouchableHigh from "../AppTouchableHigh";
 import Button from "../button/Button";
 import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
-import TouristPendingCard from "../Reqs/Tourist/TouristPendingCard";
-import TouristRejectedCard from "../Reqs/Tourist/TouristRejectCard";
+import TouristPendingCard from "../Reqs/tourist/TouristPendingCard";
+import TouristRejectedCard from "../Reqs/tourist/TouristRejectCard";
 import { screenWidth } from "./../../config/Constant";
 
 const TouristHomeBody = ({

@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
 import TouristTourStack from "./TouristTourStack";
 
-import Tourist_Manage_Account from "./../Screens/Tourist/Tourist_Manage_Account";
+import Tourist_Manage_Account from "./../Screens/tourist/Tourist_Manage_Account";
 
 import { colors, images } from "../config/Constant";
 import ChatStack from "./ChatStack";

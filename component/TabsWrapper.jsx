@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, screenWidth } from "../config/Constant";
 
@@ -10,13 +10,13 @@ const TabsWrapper = ({
   onPressTab = (index) => {
     console.log("onPressTab", index);
   },
-  selectedMenu = 0,
+  selectedMenu,
   setSelectedMenu,
 }) => {
-  const [localSelectedMenu, setLocalSelectedMenu] = useState(selectedMenu);
+  // const [localSelectedMenu, setLocalSelectedMenu] = useState(selectedMenu);
 
   const onPressTabHandler = (index) => {
-    setLocalSelectedMenu(index);
+    // setLocalSelectedMenu(index);
     setSelectedMenu && setSelectedMenu(index);
     onPressTab && onPressTab(index);
   };
@@ -31,7 +31,8 @@ const TabsWrapper = ({
               style={{
                 ...styles.tab,
                 backgroundColor:
-                  localSelectedMenu == index ? "#d9d9d9" : "#f1f1f1",
+                  // localSelectedMenu ||
+                  selectedMenu == index ? "#d9d9d9" : "#f1f1f1",
               }}
             >
               <Text style={styles.tabText}>{menu?.title}</Text>
