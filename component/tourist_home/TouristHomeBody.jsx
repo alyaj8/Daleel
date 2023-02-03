@@ -12,9 +12,9 @@ import AppTouchableHigh from "../AppTouchableHigh";
 import Button from "../button/Button";
 import { screenWidth } from "./../../config/Constant";
 
-import AcceptedBooking from "../reqs/common/AcceptedBooking";
-import TouristPendingCard from "../reqs/tourist/TouristPendingCard";
-import TouristRejectCard from "../reqs/tourist/TouristRejectCard";
+import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
+import TouristPendingCard from "../Reqs/tourist/TouristPendingCard";
+import TouristRejectCard from "../Reqs/tourist/TouristRejectCard";
 
 const TouristHomeBody = ({
   selectedMenu,

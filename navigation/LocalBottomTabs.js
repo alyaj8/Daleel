@@ -4,10 +4,10 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import LocalHomeStack from "./LocalHomeStack";
 import TourStack from "./TourStack";
 
-import Local_Manage_Account from "../Screens/local/Local_Manage_Account";
+import Local_Manage_Account from "../Screens/Local/Local_Manage_Account";
 
 import { colors, images } from "../config/Constant";
-import PostTourV2 from "../Screens/local/PostTourV2";
+import PostTourV2 from "../Screens/Local/PostTourV2";
 import ChatStack from "./ChatStack";
 const Tab = createBottomTabNavigator();
 
