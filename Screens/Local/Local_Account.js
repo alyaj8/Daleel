@@ -157,7 +157,8 @@ export default function Local_Account({ navigation }) {
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
       checkPhone(value.phone) == false ||
-      checkUserName(value.username) == false
+      checkUserName(value.username) == false ||
+      CheckUnique() == false
     ) {
       validatName();
       validatEmail();

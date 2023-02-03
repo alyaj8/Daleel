@@ -258,7 +258,8 @@ export default function Local_Sign_up({ navigation }) {
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
       checkPhone(value.phone) == false ||
-      checkUserName(value.username) == false
+      checkUserName(value.username) == false ||
+      CheckUnique() == false
 
       //  value.city === ""
       //   value.poster === ""
