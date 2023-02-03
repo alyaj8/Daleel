@@ -18,7 +18,10 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableOpacity
 } from "react-native";
+//import Comment from "./Comment";
+import { Rating, AirbnbRating } from "react-native-ratings";
 import Modal from "react-native-modal";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
@@ -66,6 +69,25 @@ export default function TourDetailedInformation({ navigation, route }) {
     activitiesCustomizable: true,
     activities: [],
     id: null,
+  });
+  let [bookstar, setBookStar] = useState(0);
+  let checkReview = () => {
+    let countStar = 0;
+    data?.reviews?.length >= 0 &&
+      Auth.onAuthStateChanged(async (user) => {
+        data.reviews?.map((val, ind) => {
+          countStar = countStar + val.review;
+          if (user.uid === val.comenteuseruid) {
+            setReviewDone(true);
+          }
+        });
+        setBookStar(countStar);
+      });
+  };
+  useEffect(() => {
+
+    checkReview();
+
   });
 
   const getTourDetail = async () => {
@@ -244,6 +266,63 @@ export default function TourDetailedInformation({ navigation, route }) {
                 paddingBottom: 15,
               }}
             >
+               <Rating
+              startingValue={bookstar && bookstar / data.reviews?.length}
+              imageSize={30}
+              fractions={20}
+              showRating={false}
+              readonly={true}
+              tintColor={"#ececec"}
+              style={{
+                marginVertical: 10,
+
+              }}
+            />
+            {data.reviews?.length > 0 ? (
+              <Text
+                style={{
+                  color: "black",
+                  alignItems: "center",
+                  fontWeight: "bold",
+                  alignSelf: "center",
+                  fontSize: 8,
+                  marginTop: -7,
+
+                }}
+              >
+                {"     "} {(bookstar / data.reviews?.length).toFixed(2)}  من اصل 5   {"\n"}
+                {data.reviews?.length} من الأشخاص
+              </Text>
+            ) : (
+              <Text style={{ color: "black" }}>
+              </Text>
+            )}
+            <TouchableOpacity
+              style={{
+                width: 150,
+                height: 50,
+                alignItems: "center",
+                justifyContent: "center",
+                alignSelf: "center"
+              }}
+              onPress={() => {
+                navigation.navigate("Comment", data);
+              }}
+              disabled={data.reviews?.length == null ? true : false}
+            >
+              <Text
+                style={{
+                  color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown,
+                  textDecorationLine: "underline",
+                  fontWeight: "bold",
+                  fontSize: 16,
+                  textAlign: "center",
+                }}
+              >
+                {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+              </Text>
+            </TouchableOpacity>
+
               <Text style={[text.text30, { fontWeight: "bold" }]}>
                 {data?.title}
               </Text>
