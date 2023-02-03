@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import Modal from "react-native-modal";
-import LocalPendingCard from "../component/Reqs/local/LocalPendingCard";
+import LocalPendingCard from "../component/Reqs/Local/LocalPendingCard";
 import { colors, images, screenWidth } from "../config/Constant";
 import {
   acceptRequest,
@@ -25,7 +25,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AppTouchableHigh from "../component/AppTouchableHigh";
 import Button from "../component/button/Button";
 import AcceptedBookings from "../component/Reqs/Common/AcceptedBooking";
-import LocalRejectedCard from "../component/Reqs/local/LocalRejectedCard";
+import LocalRejectedCard from "../component/Reqs/Local/LocalRejectedCard";
 
 import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";

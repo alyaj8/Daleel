@@ -13,8 +13,8 @@ import Button from "../button/Button";
 import { screenWidth } from "./../../config/Constant";
 
 import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
-import TouristPendingCard from "../Reqs/tourist/TouristPendingCard";
-import TouristRejectCard from "../Reqs/tourist/TouristRejectCard";
+import TouristPendingCard from "../Reqs/Tourist/TouristPendingCard";
+import TouristRejectCard from "../Reqs/Tourist/TouristRejectCard";
 
 const TouristHomeBody = ({
   selectedMenu,
