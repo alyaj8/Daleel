@@ -40,14 +40,14 @@ export default StyleSheet.create({
     textAlign: "justify",
   },
   text14: {
-    fontSize: 14,
+    fontSize: 18,
   },
   text15: {
     fontSize: 15,
     textAlign: "justify",
   },
   text16: {
-    fontSize: 16,
+    fontSize: 18,
     textAlign: "justify",
   },
   text18: {

@@ -265,7 +265,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 alignSelf: "center",
                 paddingBottom: 15,
               }}
-            >
+            > 
                <Rating
               startingValue={bookstar && bookstar / data.reviews?.length}
               imageSize={30}
@@ -392,12 +392,13 @@ export default function TourDetailedInformation({ navigation, route }) {
                   text.text16,
                   {
                     fontWeight: "bold",
+                    marginRight: 5, 
                   },
                 ]}
               >
                 {data?.city}
               </Text>
-              <Image source={images.location} style={[styles.icon]} />
+              <Image source={images.location} style={[styles.icon ,  ]} />
             </View>
 
             {/* Description */}
@@ -676,8 +677,9 @@ const styles = StyleSheet.create({
   },
   icon: {
     width: 25,
-    height: 25,
+    height: 30,
     tintColor: "lightbrown",
+    marginRight: 15, 
   },
   flexRow: {
     alignItems: "center",
