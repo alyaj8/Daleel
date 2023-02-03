@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
+import { colors } from "../config/Constant";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
 
@@ -89,7 +90,7 @@ export default function Tourist_Sign_up({ navigation }) {
       setNameError("الرجاء إدخال اسمك الأول");
     } else if (!checkFirstName(value.firstname)) {
       setNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
@@ -102,7 +103,7 @@ export default function Tourist_Sign_up({ navigation }) {
     } else if (value.password === "") {
       setPassError("الرجاء إدخال الرقم السري");
     } else if (!checkPass(value.password))
-      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
   };
 
   const validatEmail = () => {
@@ -197,7 +198,7 @@ export default function Tourist_Sign_up({ navigation }) {
 
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 21) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -307,7 +308,8 @@ export default function Tourist_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {NameError}
@@ -327,6 +329,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {EmailError}
@@ -346,6 +350,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PhoneError}
@@ -365,6 +371,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PassError}
@@ -383,6 +391,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {Pass2Error}
@@ -398,7 +408,7 @@ export default function Tourist_Sign_up({ navigation }) {
           <View>
             <TouchableOpacity
               style={{
-                backgroundColor: "#5398a0",
+                backgroundColor: colors.brown,
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,

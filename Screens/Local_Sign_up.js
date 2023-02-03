@@ -27,7 +27,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
-import { imagePickerConfig, images, screenWidth } from "../config/Constant";
+import { colors, imagePickerConfig, images, screenWidth } from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
@@ -147,6 +147,8 @@ export default function Local_Sign_up({ navigation }) {
     email: "",
     password: "",
     username: "",
+    username22: "",
+
     phone: "",
     firstname: "",
     lastname: "",
@@ -164,7 +166,7 @@ export default function Local_Sign_up({ navigation }) {
       setNameError("الرجاء إدخال اسمك الأول");
     } else if (!checkFirstName(value.firstname)) {
       setNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
@@ -175,7 +177,7 @@ export default function Local_Sign_up({ navigation }) {
       setLastNameError("الرجاء إدخال اسمك الأخير");
     } else if (!checkFirstName(value.lastname)) {
       setLastNameError(
-        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان لاتتعدى 20 حرف"
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
       );
     } else if (checkFirstName(value.lastname) && value.lastname !== "") {
       setLastNameError("");
@@ -188,7 +190,7 @@ export default function Local_Sign_up({ navigation }) {
     } else if (value.password === "") {
       setPassError("الرجاء إدخال الرقم السري");
     } else if (!checkPass(value.password))
-      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+      setPassError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
   };
 
   const validatEmail = () => {
@@ -221,7 +223,9 @@ export default function Local_Sign_up({ navigation }) {
   const validatUsername = () => {
     if (value.username === "") {
       setUsernameError("الرجاء إدخال اسم المستخدم");
-    } else {
+    } else if (!checkUserName(value.username))
+      setUsernameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف");
+    else {
       CheckUnique(value.username);
     }
   };
@@ -253,7 +257,9 @@ export default function Local_Sign_up({ navigation }) {
       checkPass(value.password) === false ||
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
-      checkPhone(value.phone) == false
+      checkPhone(value.phone) == false ||
+      checkUserName(value.username) == false ||
+      CheckUnique() == false
 
       //  value.city === ""
       //   value.poster === ""
@@ -290,6 +296,7 @@ export default function Local_Sign_up({ navigation }) {
           phone: value.phone,
           password: value.password,
           username: value.username,
+          username22: value.username,
 
           maroof: value.maroof,
           city: value.city,
@@ -322,7 +329,7 @@ export default function Local_Sign_up({ navigation }) {
 
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 21) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -331,8 +338,7 @@ export default function Local_Sign_up({ navigation }) {
 
   let checkPass = (value) => {
     //  var letters = /^[A-Za-z]+$/;
-    console.log(value.length);
-    if (value.length > 7) {
+    if (value.length > 7 && value.length < 31) {
       return true;
     } else {
       return false;
@@ -379,7 +385,7 @@ export default function Local_Sign_up({ navigation }) {
   };
   let checkUserName = (value) => {
     var letters = /^[0-9a-zA-Z-_]+$/;
-    if (value.match(letters) && value.length < 26) {
+    if (value.match(letters) && value.length < 26 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -468,7 +474,8 @@ export default function Local_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {NameError}
@@ -485,7 +492,8 @@ export default function Local_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {LastNameError}
@@ -504,6 +512,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {UsernameError}
@@ -521,6 +531,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {EmailError}
@@ -542,6 +554,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PhoneError}
@@ -560,6 +574,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {MaroofError}
@@ -578,6 +594,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PassError}
@@ -596,6 +614,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {Pass2Error}
@@ -611,7 +631,7 @@ export default function Local_Sign_up({ navigation }) {
           <View style={styles.buttonCont}>
             <Button
               title="إنشاء حساب"
-              color="black"
+              color="white"
               onPress={() => signUp()} //
             ></Button>
           </View>
@@ -649,7 +669,7 @@ const styles = StyleSheet.create({
     padding: 5,
     width: 250,
     borderRadius: 10,
-    backgroundColor: "#5398a0",
+    backgroundColor: colors.brown,
   },
   lable: {
     fontSize: 16,

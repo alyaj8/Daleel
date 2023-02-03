@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { images } from "../../config/Constant";
+import { images, colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_ChangePass({ navigation }) {
@@ -35,14 +35,15 @@ export default function Local_ChangePass({ navigation }) {
   };
 
   let savePass = async () => {
-    // console.log(user.uid, current);
-    // console.log(newPass.length);
-    if (newPass.length > 7) {
+    if (oldPass.length == 0) {
+      setError("الرجاء إدخال الرقم السري الحالي");
+    }
+    else if (newPass.length > 7 && newPass.length < 31) {
       if (oldPass === current) {
         updatePassword(user, newPass)
           .then(async () => {
             await updateDoc(doc(db, "users", user.uid), { password: newPass });
-            await updateDoc(doc(db, "Admin_users", user.uid), {
+            await updateDoc(doc(db, "Tourist_users", user.uid), {
               password: newPass,
             });
             setError("");
@@ -53,10 +54,15 @@ export default function Local_ChangePass({ navigation }) {
             setError(error.message);
           });
       } else {
-        setError(" الرقم السري غير صحيح");
+        setError(" الرقم السري الحالي غير صحيح");
       }
-    } else {
-      setError("الرقم السري ضعيف الرجاء ادخال رقم سري لايقل عن 8 حروف");
+    }
+
+    else if (newPass == "") {
+      setError("الرجاء إدخال الرقم السري الجديد");
+    }
+    else {
+      setError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
     }
   };
   return (
@@ -78,16 +84,16 @@ export default function Local_ChangePass({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: -5 }}
           onPress={() => navigation.goBack()}
         />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: -10,
+            marginTop: 10,
             width: "100%",
-            marginLeft: 11,
+            marginLeft: 5,
           }}
         >
           <Text
@@ -108,11 +114,11 @@ export default function Local_ChangePass({ navigation }) {
       <View
         style={{
           backgroundColor: "#FFF",
-          height: "80%",
+          height: "100%",
           borderRadius: 50,
           paddingHorizontal: 20,
           marginBottom: 15,
-          marginTop: 15,
+          marginTop: -5,
           paddingTop: 10,
         }}
       >
@@ -121,7 +127,7 @@ export default function Local_ChangePass({ navigation }) {
             color: "red",
             fontWeight: "bold",
             textAlign: "center",
-            fontSize: 16,
+            fontSize: 15,
           }}
         >
           {error}
@@ -131,7 +137,7 @@ export default function Local_ChangePass({ navigation }) {
             <Text
               style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}
             >
-              الرقم السري الحالي
+              *الرقم السري الحالي
             </Text>
             <TextInput
               style={styles.body}
@@ -146,7 +152,7 @@ export default function Local_ChangePass({ navigation }) {
             <Text
               style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}
             >
-              {"\n"}الرقم السري الجديد
+              {"\n"}*الرقم السري الجديد
             </Text>
             <TextInput
               style={styles.body}
@@ -161,7 +167,7 @@ export default function Local_ChangePass({ navigation }) {
             <TouchableOpacity
               onPress={savePass}
               style={{
-                backgroundColor: "#5398a0",
+                backgroundColor: colors.Blue,
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,
@@ -196,15 +202,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   body: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    margin: 12,
-    width: 350,
-    height: 42,
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
+    marginTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
-    borderColor: "#5398a0",
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: "right",
   },
   buttonCont: {
     width: 180,

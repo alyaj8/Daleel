@@ -21,7 +21,7 @@ import {
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../component/button/Button";
-import { images, screenWidth } from "../../config/Constant";
+import { images, screenWidth, colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_Account({ navigation }) {
@@ -42,6 +42,8 @@ export default function Local_Account({ navigation }) {
     lastname: "",
 
     username: "",
+    username22: "",
+
     email: "",
 
     phone: "",
@@ -154,7 +156,9 @@ export default function Local_Account({ navigation }) {
       checkFirstName(value.lastname) === false ||
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
-      checkPhone(value.phone) == false
+      checkPhone(value.phone) == false ||
+      checkUserName(value.username) == false ||
+      CheckUnique() == false
     ) {
       validatName();
       validatEmail();
@@ -170,7 +174,7 @@ export default function Local_Account({ navigation }) {
   };
   let checkFirstName = (value) => {
     var letters = /^[A-Za-z]+$/;
-    if (value.match(letters) && value.length < 15) {
+    if (value.match(letters) && value.length < 21 && value.length > 3) {
       return true;
     } else {
       return false;
@@ -213,15 +217,23 @@ export default function Local_Account({ navigation }) {
       return false;
     }
   };
+  const validatUsername = () => {
+    if (value.username === "") {
+      setUsernameError("الرجاء إدخال اسم المستخدم");
+    } else if (!checkUserName(value.username))
+      setUsernameError("يُسمح باستخدام الحروف الهجائية و الأرقام الانجليزية فقط وان تتكون من 4-25 حرف");
+    else {
+      CheckUnique(value.username);
+    }
+  };
   let checkUserName = (value) => {
     var letters = /^[0-9a-zA-Z-_]+$/;
-    if (value.match(letters) && value.length < 26) {
+    if (value.match(letters) && value.length < 26 && value.length > 3) {
       return true;
     } else {
       return false;
     }
   };
-
   let CheckUnique = async () => {
     const q = query(
       collection(db, "Admin_users"),
@@ -233,6 +245,10 @@ export default function Local_Account({ navigation }) {
       setUsernameError("");
       return true;
     }
+    else if (value.username == value.username22) {
+      setUsernameError("");
+      return true;
+    }
     setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
     return false;
   };
@@ -241,7 +257,8 @@ export default function Local_Account({ navigation }) {
     if (value.firstname === "") {
       setNameError("لا يمكن ترك الإسم الأول فارغا");
     } else if (!checkFirstName(value.firstname)) {
-      setNameError("يجب ان يتكون الإسم الأول من احرف انجليزيه");
+      setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
+
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
     }
@@ -250,7 +267,7 @@ export default function Local_Account({ navigation }) {
     if (value.lastname === "") {
       setLastNameError("لا يمكن ترك الإسم الأخير فارغا");
     } else if (!checkFirstName(value.lastname)) {
-      setLastNameError("يجب ان يتكون الإسم الأخير من احرف انجليزيه");
+      setLastNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
     } else if (checkFirstName(value.lastname) && value.lastname !== "") {
       setLastNameError("");
     }
@@ -283,13 +300,6 @@ export default function Local_Account({ navigation }) {
       setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ");
   };
 
-  const validatUsername = () => {
-    if (value.username === "") {
-      setUsernameError("لا يمكن ترك اسم المستخدم فارغا");
-    } else {
-      CheckUnique(value.username);
-    }
-  };
 
   return (
     <ImageBackground
@@ -310,14 +320,14 @@ export default function Local_Account({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: -15 }}
           onPress={() => navigation.goBack()}
         />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: -10,
+            marginTop: 10,
             width: "100%",
             marginLeft: 11,
           }}
@@ -345,7 +355,7 @@ export default function Local_Account({ navigation }) {
             paddingHorizontal: 20,
             marginBottom: 15,
             paddingBottom: 10,
-            marginTop: 15,
+            marginTop: 0,
           }}
         >
           <View style={{ marginTop: 40, marginLeft: -10 }}>
@@ -353,12 +363,14 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                الاسم الأول{" "}
+                *الاسم الأول{" "}
               </Text>
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {NameError}
@@ -377,12 +389,14 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                الاسم الأخير
+                *الاسم الأخير
               </Text>
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {LastNameError}
@@ -401,13 +415,15 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}البريد الإلكتروني
+                {"\n"}*البريد الإلكتروني
               </Text>
 
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {EmailError}
@@ -426,13 +442,15 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}اسم المستخدم
+                {"\n"}*اسم المستخدم
               </Text>
 
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {UsernameError}
@@ -450,12 +468,14 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}رقم الجوال
+                {"\n"}*رقم الجوال
               </Text>
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {PhoneError}
@@ -474,13 +494,15 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}رقم معروف
+                {"\n"}*رقم معروف
               </Text>
 
               <Text
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {MaroofError}
@@ -499,7 +521,7 @@ export default function Local_Account({ navigation }) {
               <TouchableOpacity
                 onPress={saveChanges}
                 style={{
-                  backgroundColor: "#5398a0",
+                  backgroundColor: colors.Blue,
                   padding: 20,
                   borderRadius: 10,
                   marginBottom: 30,
@@ -522,7 +544,7 @@ export default function Local_Account({ navigation }) {
               <TouchableOpacity
                 onPress={toggleModalDelet}
                 style={{
-                  backgroundColor: "red",
+                  backgroundColor: colors.brown,
                   padding: 20,
                   borderRadius: 10,
                   marginBottom: 30,
@@ -556,11 +578,16 @@ export default function Local_Account({ navigation }) {
                       justifyContent: "space-between",
                     }}
                   >
+
                     <View style={{}}>
-                      <Button title="حفظ" onpress={saveChanges2} />
+                      <Button title="الغاء" onpress={toggleModal}
+                        style={{ backgroundColor: colors.lightBrown }} />
+
                     </View>
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModal} />
+                      <Button title="حفظ" onpress={saveChanges2}
+                        style={{ backgroundColor: colors.Blue }}
+                      />
                     </View>
                   </View>
                 </View>
@@ -581,10 +608,12 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="حذف" onpress={() => deleteUserFunc()} />
+                      <Button title="الغاء" onpress={toggleModalDelet}
+                        style={{ backgroundColor: colors.lightBrown }} />
                     </View>
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModalDelet} />
+                      <Button title="حذف" onpress={() => deleteUserFunc()}
+                        style={{ backgroundColor: colors.brown }} />
                     </View>
                   </View>
                 </View>
@@ -607,16 +636,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   body: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 12,
-    width: "95%",
-    height: 42,
-    alignSelf: "center",
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
     paddingLeft: 20,
     paddingRight: 20,
-    borderColor: "#5398a0",
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: "right",
   },
   buttonCont: {
     width: 180,

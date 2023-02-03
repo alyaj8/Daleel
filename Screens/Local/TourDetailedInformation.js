@@ -200,7 +200,7 @@ export default function TourDetailedInformation({ navigation, route }) {
           {/* Header */}
           <Pressable
             onPress={() => navigation.goBack()}
-            style={{ position: "absolute", margin: 15 }}
+            style={{ position: "absolute", margin: 25 }}
           >
             <Image source={images.arrow} style={[styles.arrowIcon]} />
           </Pressable>
@@ -216,7 +216,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               },
             ]}
           >
-            <Text style={[text.white, text.text30, { fontWeight: "bold" }]}>
+            <Text style={[text.white, text.text30, { fontWeight: "bold" , marginTop: 30 }]}>
               {data?.title}
             </Text>
           </View>
@@ -235,6 +235,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
+                paddingBottom: 15, 
               }}
             >
               <Text style={[text.text30, { fontWeight: "bold" }]}>
@@ -247,7 +248,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown },
+                  { color: colors.brown , paddingBottom: 20 },
                 ]}
               >
                 {data.price} SAR
@@ -259,6 +260,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+                paddingBottom: 20
               }}
             >
               <Text
@@ -268,6 +270,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     flex: 1,
                     color: colors.Blue,
                     fontWeight: "bold",
+                    paddingBottom: 20
                   },
                   text.text14,
                 ]}
@@ -282,6 +285,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     flex: 1,
                     color: colors.Blue,
                     fontWeight: "bold",
+                    paddingBottom: 20,
                   },
                   text.text14,
                 ]}
@@ -308,7 +312,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               >
                 {data?.city}
               </Text>
-              <Image source={images.location} style={[styles.icon]} />
+              <Image source={images.location} style={[styles.icon   ]} />
             </View>
 
             {/* Description */}
@@ -380,7 +384,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                       { fontWeight: "bold" },
                     ]}
                   >
-                    {data?.age}
+                   الفئة العمرية:  {data?.age}
                   </Text>
                 </View>
 
@@ -588,7 +592,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 25,
     height: 25,
-    tintColor: "#5398a0",
+    tintColor: "lightbrown",
   },
   flexRow: {
     alignItems: "center",
@@ -596,7 +600,7 @@ const styles = StyleSheet.create({
   iconLg: {
     width: 40,
     height: 40,
-    tintColor: "#5398a0",
+    tintColor: "lightbrown",
   },
   arrowIcon: {
     width: 30,

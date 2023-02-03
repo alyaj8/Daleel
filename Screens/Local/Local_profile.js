@@ -6,6 +6,8 @@ import {
   query,
   updateDoc,
   where,
+  deleteDoc,
+  arrayRemove
 } from "firebase/firestore";
 import {
   getDownloadURL,
@@ -27,14 +29,17 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import { imagePickerConfig, images, screenWidth } from "../../config/Constant";
+import { imagePickerConfig, images, screenWidth,colors } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 
 export default function Local_profile({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
+  const [DisModalVisible, setDModalVisible] = useState(false);
 
   const [fname, setFname] = useState("");
   const [filePath, setFilePath] = useState(null);
+  const [pictures, setpictures] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [aa, setaa] = useState([]);
   const [pic, setpic] = useState("");
@@ -95,6 +100,7 @@ export default function Local_profile({ navigation }) {
     setModalVisible((prev) => !prev);
     // console.log("11");
   };
+
 
   const submitRequest = async () => {
     try {
@@ -161,6 +167,7 @@ export default function Local_profile({ navigation }) {
 
         setFname(userinfo2.firstname);
         setpic(userinfo2.poster);
+        setpictures(userinfo2.pictures);
         setpic_array(userinfo2.pictures);
         userinfo2.id = doc.id;
         myData.push(userinfo2);
@@ -170,6 +177,23 @@ export default function Local_profile({ navigation }) {
     }
   };
 
+  const DeleteFunc = async (item) => {
+    await DeleteFunc22(item);
+  };
+
+  async function DeleteFunc22(item) {
+
+    const docRef = doc(db, 'Admin_users', user.uid);
+    await updateDoc(docRef, { pictures: arrayRemove(item) })
+    navigation.goBack();
+  };
+  const DtoggleModal = () => {
+    setDModalVisible((prev) => !prev);
+    // console.log("11");
+  };
+
+
+
   return (
     <ImageBackground
       style={{ flex: 1 }}
@@ -178,7 +202,7 @@ export default function Local_profile({ navigation }) {
     >
       <View
         style={{
-          height: "10%",
+          height: "15%",
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
@@ -200,6 +224,7 @@ export default function Local_profile({ navigation }) {
               paddingHorizontal: 20,
               marginTop: 7,
               textAlign: "center",
+              color: "white", 
               fontSize: 37,
               fontWeight: "bold",
             }}
@@ -211,7 +236,7 @@ export default function Local_profile({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: -29, marginLeft: -15 }}
+          style={{ color: "white", marginTop: -50, marginLeft: -5 }}
           onPress={() => navigation.goBack()}
         />
       </View>
@@ -222,8 +247,8 @@ export default function Local_profile({ navigation }) {
             style={{
               alignSelf: "center",
               width: 170,
-              height: 180,
-              borderRadius: 150,
+              height: 190,
+              borderRadius: 1,
               resizeMode: "center",
               borderWidth: 3,
               borderColor: "grey",
@@ -283,10 +308,32 @@ export default function Local_profile({ navigation }) {
                     zIndex: 1,
                     color: "red",
                   }}
-                /*  onPress={() =>
-                             DeleteFunc(item)
-                           }    */
+                  onPress={() => DtoggleModal()}
                 />
+                <Modal isVisible={DisModalVisible}>
+                  <View style={[styles.modalView]}>
+                    <View style={[styles.main]}>
+                      <View style={{ margin: 20 }}>
+                        <Text style={{ textAlign: "center", fontSize: 20 }}>هل أنت متأكد من حذف الصورة؟</Text>
+                      </View>
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <View >
+                          <Button title="نعم" onpress={() => DeleteFunc(item)} 
+                          style={{ backgroundColor: colors.redTheme , borderRadius: 4}} />
+                        </View>
+                        <View>
+                          <Button title="إلغاء" onpress={() => DtoggleModal()}
+                          style={{ backgroundColor: colors.lightBrown , borderRadius: 4}} />
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
                 <TouchableOpacity
                   // onPress={() =>
                   //  navigation.navigate({
@@ -325,16 +372,20 @@ export default function Local_profile({ navigation }) {
                 justifyContent: "space-between",
               }}
             >
+               <View>
+                <Button title="الغاء" onpress={() => toggleModal()}
+                 style={{ backgroundColor: colors.lightBrown , borderRadius: 4}}  />
+              </View>
               <View >
-                <Button title="حفظ" onpress={submitRequest} />
+                <Button title="حفظ" onpress={submitRequest}
+                 style={{ backgroundColor: colors.Blue, borderRadius: 4  }}  />
               </View>
-              <View>
-                <Button title="الغاء" onpress={() => toggleModal()} />
-              </View>
+             
             </View>
           </View>
         </View>
       </Modal>
+
     </ImageBackground>
   );
 }
