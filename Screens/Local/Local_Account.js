@@ -310,7 +310,7 @@ export default function Local_Account({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: -15 }}
           onPress={() => navigation.goBack()}
         />
         <View

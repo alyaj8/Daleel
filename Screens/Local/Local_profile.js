@@ -202,7 +202,7 @@ export default function Local_profile({ navigation }) {
     >
       <View
         style={{
-          height: "10%",
+          height: "15%",
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
@@ -224,6 +224,7 @@ export default function Local_profile({ navigation }) {
               paddingHorizontal: 20,
               marginTop: 7,
               textAlign: "center",
+              color: "white", 
               fontSize: 37,
               fontWeight: "bold",
             }}
@@ -235,7 +236,7 @@ export default function Local_profile({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: -29, marginLeft: -15 }}
+          style={{ color: "white", marginTop: -50, marginLeft: -5 }}
           onPress={() => navigation.goBack()}
         />
       </View>
@@ -246,8 +247,8 @@ export default function Local_profile({ navigation }) {
             style={{
               alignSelf: "center",
               width: 170,
-              height: 180,
-              borderRadius: 150,
+              height: 190,
+              borderRadius: 1,
               resizeMode: "center",
               borderWidth: 3,
               borderColor: "grey",
@@ -322,10 +323,12 @@ export default function Local_profile({ navigation }) {
                         }}
                       >
                         <View >
-                          <Button title="نعم" onpress={() => DeleteFunc(item)} />
+                          <Button title="نعم" onpress={() => DeleteFunc(item)} 
+                          style={{ backgroundColor: colors.redTheme , borderRadius: 4}} />
                         </View>
                         <View>
-                          <Button title="إلغاء" onpress={() => DtoggleModal()} />
+                          <Button title="إلغاء" onpress={() => DtoggleModal()}
+                          style={{ backgroundColor: colors.lightBrown , borderRadius: 4}} />
                         </View>
                       </View>
                     </View>
@@ -371,11 +374,11 @@ export default function Local_profile({ navigation }) {
             >
                <View>
                 <Button title="الغاء" onpress={() => toggleModal()}
-                 style={{ backgroundColor: colors.lightBrown }}  />
+                 style={{ backgroundColor: colors.lightBrown , borderRadius: 4}}  />
               </View>
               <View >
                 <Button title="حفظ" onpress={submitRequest}
-                 style={{ backgroundColor: colors.Blue }}  />
+                 style={{ backgroundColor: colors.Blue, borderRadius: 4  }}  />
               </View>
              
             </View>
