@@ -223,7 +223,9 @@ export default function Local_Sign_up({ navigation }) {
   const validatUsername = () => {
     if (value.username === "") {
       setUsernameError("الرجاء إدخال اسم المستخدم");
-    } else {
+    } else if (!checkUserName(value.username))
+      setUsernameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف");
+    else {
       CheckUnique(value.username);
     }
   };
@@ -255,7 +257,8 @@ export default function Local_Sign_up({ navigation }) {
       checkPass(value.password) === false ||
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
-      checkPhone(value.phone) == false
+      checkPhone(value.phone) == false ||
+      checkUserName(value.username) == false
 
       //  value.city === ""
       //   value.poster === ""
@@ -334,7 +337,6 @@ export default function Local_Sign_up({ navigation }) {
 
   let checkPass = (value) => {
     //  var letters = /^[A-Za-z]+$/;
-    console.log(value.length);
     if (value.length > 7 && value.length < 31) {
       return true;
     } else {
@@ -382,7 +384,7 @@ export default function Local_Sign_up({ navigation }) {
   };
   let checkUserName = (value) => {
     var letters = /^[0-9a-zA-Z-_]+$/;
-    if (value.match(letters) && value.length < 26) {
+    if (value.match(letters) && value.length < 26 && value.length > 3) {
       return true;
     } else {
       return false;

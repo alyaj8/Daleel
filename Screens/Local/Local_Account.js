@@ -215,8 +215,23 @@ export default function Local_Account({ navigation }) {
       return false;
     }
   };
-
-
+  const validatUsername = () => {
+    if (value.username === "") {
+      setUsernameError("الرجاء إدخال اسم المستخدم");
+    } else if (!checkUserName(value.username))
+      setUsernameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف");
+    else {
+      CheckUnique(value.username);
+    }
+  };
+  let checkUserName = (value) => {
+    var letters = /^[0-9a-zA-Z-_]+$/;
+    if (value.match(letters) && value.length < 26 && value.length > 3) {
+      return true;
+    } else {
+      return false;
+    }
+  };
   let CheckUnique = async () => {
     const q = query(
       collection(db, "Admin_users"),
@@ -283,13 +298,6 @@ export default function Local_Account({ navigation }) {
       setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ");
   };
 
-  const validatUsername = () => {
-    if (value.username === "") {
-      setUsernameError("لا يمكن ترك اسم المستخدم فارغا");
-    } else {
-      CheckUnique(value.username);
-    }
-  };
 
   return (
     <ImageBackground
