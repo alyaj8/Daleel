@@ -10,10 +10,11 @@ import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import AppTouchableHigh from "../AppTouchableHigh";
 import Button from "../button/Button";
-import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
-import TouristPendingCard from "../Reqs/tourist/TouristPendingCard";
-import TouristRejectedCard from "../Reqs/tourist/TouristRejectCard";
 import { screenWidth } from "./../../config/Constant";
+
+import AcceptedBooking from "../reqs/common/AcceptedBooking";
+import TouristPendingCard from "../reqs/tourist/TouristPendingCard";
+import TouristRejectCard from "../reqs/tourist/TouristRejectCard";
 
 const TouristHomeBody = ({
   selectedMenu,
@@ -251,7 +252,7 @@ const TouristHomeBody = ({
                   <View key={index}>
                     {item?.status == 2 && (
                       <View style={[styles.cardDiv, {}]}>
-                        <TouristRejectedCard
+                        <TouristRejectCard
                           key={index}
                           source={{ uri: item?.imageUrl }}
                           title={item?.title}
