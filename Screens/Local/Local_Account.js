@@ -317,7 +317,7 @@ export default function Local_Account({ navigation }) {
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: -10,
+            marginTop: 10,
             width: "100%",
             marginLeft: 11,
           }}
@@ -345,7 +345,7 @@ export default function Local_Account({ navigation }) {
             paddingHorizontal: 20,
             marginBottom: 15,
             paddingBottom: 10,
-            marginTop: 15,
+            marginTop: 0,
           }}
         >
           <View style={{ marginTop: 40, marginLeft: -10 }}>
@@ -353,7 +353,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                الاسم الأول{" "}
+                *الاسم الأول{" "}
               </Text>
               <Text
                 style={{
@@ -377,7 +377,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                الاسم الأخير
+                *الاسم الأخير
               </Text>
               <Text
                 style={{
@@ -401,7 +401,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}البريد الإلكتروني
+                {"\n"}*البريد الإلكتروني
               </Text>
 
               <Text
@@ -426,7 +426,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}اسم المستخدم
+                {"\n"}*اسم المستخدم
               </Text>
 
               <Text
@@ -450,7 +450,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}رقم الجوال
+                {"\n"}*رقم الجوال
               </Text>
               <Text
                 style={{
@@ -474,7 +474,7 @@ export default function Local_Account({ navigation }) {
               <Text
                 style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}
               >
-                {"\n"}رقم معروف
+                {"\n"}*رقم معروف
               </Text>
 
               <Text
@@ -614,16 +614,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   body: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    marginVertical: 12,
-    width: "95%",
-    height: 42,
-    alignSelf: "center",
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
     paddingLeft: 20,
     paddingRight: 20,
-    borderColor: "#5398a0",
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: "right",
   },
   buttonCont: {
     width: 180,

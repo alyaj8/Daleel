@@ -24,7 +24,7 @@ export default function Local_Manage_Account({ navigation }) {
           style: "cancel",
         },
         {
-          text: "تعم",
+          text: "نعم",
           style: "cancel",
           onPress: async () => {
             try {
