@@ -58,6 +58,9 @@ const ActivityForm = ({
   trigger,
 }) => {
   const [imageUrl, setImageUrl] = useState(null);
+  const [swVal, setSwVal] = useState(
+    getValues().activitiesCustomizable || false
+  );
 
   const pickImage = async () => {
     trigger("activity.imageUrl");
@@ -437,14 +440,11 @@ const ActivityForm = ({
                     السماح للسائح بتخصيص أنشطة هذه الرحلة
                   </Text>
                   <Switch
-                    value={activitiesCustomizable}
-                    onValueChange={() =>
-                      setTour((prevState) => ({
-                        ...prevState,
-                        activitiesCustomizable:
-                          !prevState.activitiesCustomizable,
-                      }))
-                    }
+                    value={swVal}
+                    onValueChange={(value) => {
+                      setSwVal(value);
+                      setValue("activitiesCustomizable", value);
+                    }}
                     color={colors.themeDefault}
                   />
                 </View>
