@@ -17,12 +17,12 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
-  TouchableOpacity
 } from "react-native";
 //import Comment from "./Comment";
-import { Rating, AirbnbRating } from "react-native-ratings";
 import Modal from "react-native-modal";
+import { Rating } from "react-native-ratings";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
@@ -49,6 +49,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
 
   const isReq = route.params?.mode === "request";
+  const selectedActivities = route.params?.activities;
 
   const [data, setData] = useState({
     title: null,
@@ -85,9 +86,7 @@ export default function TourDetailedInformation({ navigation, route }) {
       });
   };
   useEffect(() => {
-
     checkReview();
-
   });
 
   const getTourDetail = async () => {
@@ -265,63 +264,64 @@ export default function TourDetailedInformation({ navigation, route }) {
                 alignSelf: "center",
                 paddingBottom: 15,
               }}
-            > 
-               <Rating
-              startingValue={bookstar && bookstar / data.reviews?.length}
-              imageSize={30}
-              fractions={20}
-              showRating={false}
-              readonly={true}
-              tintColor={"#ececec"}
-              style={{
-                marginVertical: 10,
-
-              }}
-            />
-            {data.reviews?.length > 0 ? (
-              <Text
-                style={{
-                  color: "black",
-                  alignItems: "center",
-                  fontWeight: "bold",
-                  alignSelf: "center",
-                  fontSize: 8,
-                  marginTop: -7,
-
-                }}
-              >
-                {"     "} {(bookstar / data.reviews?.length).toFixed(2)}  من اصل 5   {"\n"}
-                {data.reviews?.length} من الأشخاص
-              </Text>
-            ) : (
-              <Text style={{ color: "black" }}>
-              </Text>
-            )}
-            <TouchableOpacity
-              style={{
-                width: 150,
-                height: 50,
-                alignItems: "center",
-                justifyContent: "center",
-                alignSelf: "center"
-              }}
-              onPress={() => {
-                navigation.navigate("Comment", data);
-              }}
-              disabled={data.reviews?.length == null ? true : false}
             >
-              <Text
+              <Rating
+                startingValue={bookstar && bookstar / data.reviews?.length}
+                imageSize={30}
+                fractions={20}
+                showRating={false}
+                readonly={true}
+                tintColor={"#ececec"}
                 style={{
-                  color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown,
-                  textDecorationLine: "underline",
-                  fontWeight: "bold",
-                  fontSize: 16,
-                  textAlign: "center",
+                  marginVertical: 10,
                 }}
+              />
+              {data.reviews?.length > 0 ? (
+                <Text
+                  style={{
+                    color: "black",
+                    alignItems: "center",
+                    fontWeight: "bold",
+                    alignSelf: "center",
+                    fontSize: 8,
+                    marginTop: -7,
+                  }}
+                >
+                  {"     "} {(bookstar / data.reviews?.length).toFixed(2)} من
+                  اصل 5 {"\n"}
+                  {data.reviews?.length} من الأشخاص
+                </Text>
+              ) : (
+                <Text style={{ color: "black" }}></Text>
+              )}
+              <TouchableOpacity
+                style={{
+                  width: 150,
+                  height: 50,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  alignSelf: "center",
+                }}
+                onPress={() => {
+                  navigation.navigate("Comment", data);
+                }}
+                disabled={data.reviews?.length == null ? true : false}
               >
-                {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{
+                    color:
+                      data.reviews?.length > 0
+                        ? colors.lightBrown
+                        : colors.lightBrown,
+                    textDecorationLine: "underline",
+                    fontWeight: "bold",
+                    fontSize: 16,
+                    textAlign: "center",
+                  }}
+                >
+                  {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+                </Text>
+              </TouchableOpacity>
 
               <Text style={[text.text30, { fontWeight: "bold" }]}>
                 {data?.title}
@@ -392,13 +392,13 @@ export default function TourDetailedInformation({ navigation, route }) {
                   text.text16,
                   {
                     fontWeight: "bold",
-                    marginRight: 5, 
+                    marginRight: 5,
                   },
                 ]}
               >
                 {data?.city}
               </Text>
-              <Image source={images.location} style={[styles.icon ,  ]} />
+              <Image source={images.location} style={[styles.icon]} />
             </View>
 
             {/* Description */}
@@ -538,7 +538,19 @@ export default function TourDetailedInformation({ navigation, route }) {
             </View>
             {!!data?.activities &&
               data?.activities.map((item, index) => {
-                return <ActivityCard key={index} activity={item} display />;
+                const isSelected = selectedActivities.find(
+                  (activity) => activity.id === item.id
+                );
+
+                return (
+                  <ActivityCard
+                    display={isReq}
+                    isChecked={isReq && isSelected}
+                    key={index}
+                    activity={item}
+                    display
+                  />
+                );
               })}
           </View>
 
@@ -679,7 +691,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 30,
     tintColor: "lightbrown",
-    marginRight: 15, 
+    marginRight: 15,
   },
   flexRow: {
     alignItems: "center",

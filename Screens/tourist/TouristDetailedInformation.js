@@ -1,6 +1,7 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { StatusBar } from "expo-status-bar";
 import ExpoStatusBar from "expo-status-bar/build/ExpoStatusBar";
+import { getAuth } from "firebase/auth";
 import { collection, doc, onSnapshot, query, where } from "firebase/firestore";
 import React, { useEffect, useReducer, useState } from "react";
 import {
@@ -10,10 +11,11 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
-  TouchableOpacity
 } from "react-native";
 import Modal from "react-native-modal";
+import { Rating } from "react-native-ratings";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
@@ -34,9 +36,6 @@ import {
   getFormattedTime,
   logObj,
 } from "./../../util/DateHelper";
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { Rating, AirbnbRating } from "react-native-ratings";
-import Comment from "./Comment";
 async function sendBookNotification(
   expoPushToken,
   title,
@@ -64,7 +63,6 @@ async function sendBookNotification(
 }
 
 export default function TouristDetailedInformation({ navigation, route }) {
-
   const [isModalVisible, setModalVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
@@ -108,6 +106,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
     city: "جدة",
   });
 
+  const isReq = route.params?.mode === "request";
+  console.log("🚀 ~ isReq", isReq);
+  const currentActs = route.params?.activities;
+  console.log("🚀 ~ selectedActivities", currentActs);
+
   let checkReview = () => {
     let countStar = 0;
     data?.reviews?.length >= 0 &&
@@ -122,9 +125,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
       });
   };
   useEffect(() => {
-
     checkReview();
-
   });
 
   logObj(data, "🚀 ~ data", " s");
@@ -178,6 +179,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
         console.log("not requested");
       });
     });
+
+    // isReq &&
+    //   setData((prev) => ({
+    //     ...prev,
+
+    //     activities: selectedActivities,
+    //   }));
 
     return () => {
       unsubscribe();
@@ -286,7 +294,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
           style={{ flex: 1 }}
           source={images.backgroundImg}
           resizeMode="cover"
-
         >
           {/* Header */}
           <Pressable
@@ -331,7 +338,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
               tintColor={"#ececec"}
               style={{
                 marginVertical: 10,
-
               }}
             />
 
@@ -344,15 +350,14 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   alignSelf: "center",
                   fontSize: 8,
                   marginTop: -7,
-
                 }}
               >
-                {"     "} {(bookstar / data.reviews?.length).toFixed(2)}  من اصل 5   {"\n"}
+                {"     "} {(bookstar / data.reviews?.length).toFixed(2)} من اصل
+                5 {"\n"}
                 {data.reviews?.length} من الأشخاص
               </Text>
             ) : (
-              <Text style={{ color: "black" }}>
-              </Text>
+              <Text style={{ color: "black" }}></Text>
             )}
             <TouchableOpacity
               style={{
@@ -360,7 +365,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 height: 50,
                 alignItems: "center",
                 justifyContent: "center",
-                alignSelf: "center"
+                alignSelf: "center",
               }}
               onPress={() => {
                 navigation.navigate("Comment", data);
@@ -369,7 +374,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
             >
               <Text
                 style={{
-                  color: data.reviews?.length > 0 ? colors.lightBrown : colors.lightBrown,
+                  color:
+                    data.reviews?.length > 0
+                      ? colors.lightBrown
+                      : colors.lightBrown,
                   textDecorationLine: "underline",
                   fontWeight: "bold",
                   fontSize: 16,
@@ -386,8 +394,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   text.themeDefault,
                   text.text18,
                   { color: colors.brown, fontSize: 22, marginTop: -8 },
-                ]
-                }
+                ]}
               >
                 {price} SAR
               </Text>
@@ -441,8 +448,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   text.text16,
                   {
                     fontWeight: "bold",
-                    marginRight: 5, 
-                    paddingTop: 20, 
+                    marginRight: 5,
+                    paddingTop: 20,
                   },
                 ]}
               >
@@ -518,7 +525,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                       { fontWeight: "bold" },
                     ]}
                   >
-                     الفئة العمرية: {data?.age}
+                    الفئة العمرية: {data?.age}
                   </Text>
                 </View>
                 <View style={{ marginHorizontal: 10 }}>
@@ -545,9 +552,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
               </View>
             </View>
           </View>
-
-
-
 
           {/* <TouchableOpacity
             style={{
@@ -625,24 +629,35 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 }}
               />
             </View>
-            {!!data?.activities &&
-              data?.activities.map((item, index) => {
-                const isSelected = selectedActivities
-                  .map((item) => item.id)
-                  .includes(item.id);
+            {isReq
+              ? currentActs.map((item, index) => {
+                  return (
+                    <ActivityCard
+                      key={index}
+                      activity={item}
+                      display
+                      isChecked
+                    />
+                  );
+                })
+              : !!data?.activities &&
+                data?.activities.map((item, index) => {
+                  const isSelected = selectedActivities
+                    .map((item) => item.id)
+                    .includes(item.id);
 
-                //   console.log("🚀 ~ OUT > isSelected", isSelected);
-                return (
-                  <ActivityCard
-                    key={index}
-                    activity={item}
-                    display={!customizing}
-                    withChecklist={customizing}
-                    isChecked={isSelected}
-                    onCheck={handlePressActivity}
-                  />
-                );
-              })}
+                  //   console.log("🚀 ~ OUT > isSelected", isSelected);
+                  return (
+                    <ActivityCard
+                      key={index}
+                      activity={item}
+                      display={!customizing}
+                      withChecklist={customizing}
+                      isChecked={isSelected}
+                      onCheck={handlePressActivity}
+                    />
+                  );
+                })}
             {/* Price */}
             <View
               style={[
@@ -686,10 +701,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 tourStatus == "requested"
                   ? "تم الطلب"
                   : tourStatus == "accepted"
-                    ? "تم الحجز"
-                    : tourStatus == "rejected"
-                      ? "طلب مرة أخرى"
-                      : "حجز الرحلة"
+                  ? "تم الحجز"
+                  : tourStatus == "rejected"
+                  ? "طلب مرة أخرى"
+                  : "حجز الرحلة"
               }
               disabled={tourStatus == "requested" || tourStatus == "accepted"}
               onPress={toggleModal}
@@ -698,10 +713,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   tourStatus == "requested"
                     ? colors.gray
                     : tourStatus == "accepted"
-                      ? colors.green
-                      : tourStatus == "rejected"
-                        ? colors.redTheme
-                        : colors.Blue,
+                    ? colors.green
+                    : tourStatus == "rejected"
+                    ? colors.redTheme
+                    : colors.Blue,
                 paddingVertical: 18,
                 width: screenWidth.width90,
               }}
