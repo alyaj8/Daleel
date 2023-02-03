@@ -286,6 +286,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           style={{ flex: 1 }}
           source={images.backgroundImg}
           resizeMode="cover"
+
         >
           {/* Header */}
           <Pressable
@@ -440,6 +441,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   text.text16,
                   {
                     fontWeight: "bold",
+                    marginRight: 5, 
+                    paddingTop: 20, 
                   },
                 ]}
               >
@@ -515,7 +518,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                       { fontWeight: "bold" },
                     ]}
                   >
-                    {data?.age}
+                     الفئة العمرية: {data?.age}
                   </Text>
                 </View>
                 <View style={{ marginHorizontal: 10 }}>
@@ -665,9 +668,9 @@ export default function TouristDetailedInformation({ navigation, route }) {
               </Text>
               <Text
                 style={{
-                  color: colors.Blue,
-                  fontWeight: "bold",
-                  fontSize: 16,
+                  color: colors.lightBrown,
+                  fontWeight: "900",
+                  fontSize: 18,
                   marginHorizontal: 20,
                 }}
               >
@@ -812,7 +815,8 @@ const styles = StyleSheet.create({
   icon: {
     width: 25,
     height: 25,
-    tintColor: "#5398a0",
+    tintColor: "lightbrown",
+    marginRight: 15,
   },
   flexRow: {
     flexDirection: "row",
@@ -821,7 +825,7 @@ const styles = StyleSheet.create({
   iconLg: {
     width: 40,
     height: 40,
-    tintColor: "#5398a0",
+    tintColor: "loghtbrown",
   },
   arrowIcon: {
     width: 30,
