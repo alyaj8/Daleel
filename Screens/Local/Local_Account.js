@@ -156,7 +156,8 @@ export default function Local_Account({ navigation }) {
       checkFirstName(value.lastname) === false ||
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
-      checkPhone(value.phone) == false
+      checkPhone(value.phone) == false ||
+      checkUserName(value.username) == false
     ) {
       validatName();
       validatEmail();
@@ -219,7 +220,7 @@ export default function Local_Account({ navigation }) {
     if (value.username === "") {
       setUsernameError("الرجاء إدخال اسم المستخدم");
     } else if (!checkUserName(value.username))
-      setUsernameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف");
+      setUsernameError("يُسمح باستخدام الحروف الهجائية و الأرقام الانجليزية فقط وان تتكون من 4-25 حرف");
     else {
       CheckUnique(value.username);
     }
@@ -367,6 +368,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {NameError}
@@ -391,6 +394,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {LastNameError}
@@ -416,6 +421,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {EmailError}
@@ -441,6 +448,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {UsernameError}
@@ -464,6 +473,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {PhoneError}
@@ -489,6 +500,8 @@ export default function Local_Account({ navigation }) {
                 style={{
                   color: "red",
                   marginLeft: 10,
+                  fontSize: 12,
+                  textAlign: "right"
                 }}
               >
                 {MaroofError}
