@@ -473,7 +473,8 @@ export default function Local_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {NameError}
@@ -490,7 +491,8 @@ export default function Local_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {LastNameError}
@@ -509,6 +511,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {UsernameError}
@@ -526,6 +530,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {EmailError}
@@ -547,6 +553,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PhoneError}
@@ -565,6 +573,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {MaroofError}
@@ -583,6 +593,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PassError}
@@ -601,6 +613,8 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {Pass2Error}

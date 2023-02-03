@@ -294,6 +294,8 @@ export default function Tourist_Account({ navigation }) {
                                 style={{
                                     color: "red",
                                     marginLeft: 10,
+                                    fontSize: 12,
+                                    textAlign: "right"
                                 }}
                             >
                                 {NameError}
@@ -317,6 +319,8 @@ export default function Tourist_Account({ navigation }) {
                                 style={{
                                     color: "red",
                                     marginLeft: 10,
+                                    fontSize: 12,
+                                    textAlign: "right"
                                 }}
                             >
                                 {PhoneError}
@@ -342,6 +346,8 @@ export default function Tourist_Account({ navigation }) {
                                 style={{
                                     color: "red",
                                     marginLeft: 10,
+                                    fontSize: 12,
+                                    textAlign: "right"
                                 }}
                             >
                                 {EmailError}

@@ -308,7 +308,8 @@ export default function Tourist_Sign_up({ navigation }) {
             <Text
               style={{
                 color: "red",
-                textAlign: "right",
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {NameError}
@@ -328,6 +329,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {EmailError}
@@ -347,6 +350,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PhoneError}
@@ -366,6 +371,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {PassError}
@@ -384,6 +391,8 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 marginLeft: 10,
+                fontSize: 12,
+                textAlign: "right"
               }}
             >
               {Pass2Error}
