@@ -601,6 +601,18 @@ const EditTourV4 = ({ navigation, route }) => {
       endTime: localTour.endTime.toDate
         ? localTour.endTime.toDate()
         : localTour.endTime,
+
+      activities: localTour.activities.map((activity) => {
+        return {
+          ...activity,
+          startTime: activity.startTime.toDate
+            ? activity.startTime.toDate()
+            : activity.startTime,
+          endTime: activity.endTime.toDate
+            ? activity.endTime.toDate()
+            : activity.endTime,
+        };
+      }),
     };
 
     return tourData;

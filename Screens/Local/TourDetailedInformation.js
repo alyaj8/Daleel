@@ -216,7 +216,13 @@ export default function TourDetailedInformation({ navigation, route }) {
               },
             ]}
           >
-            <Text style={[text.white, text.text30, { fontWeight: "bold" , marginTop: 30 }]}>
+            <Text
+              style={[
+                text.white,
+                text.text30,
+                { fontWeight: "bold", marginTop: 30 },
+              ]}
+            >
               {data?.title}
             </Text>
           </View>
@@ -235,7 +241,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
-                paddingBottom: 15, 
+                paddingBottom: 15,
               }}
             >
               <Text style={[text.text30, { fontWeight: "bold" }]}>
@@ -248,7 +254,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown , paddingBottom: 20 },
+                  { color: colors.brown, paddingBottom: 20 },
                 ]}
               >
                 {data.price} SAR
@@ -260,7 +266,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                paddingBottom: 20
+                paddingBottom: 20,
               }}
             >
               <Text
@@ -270,7 +276,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     flex: 1,
                     color: colors.Blue,
                     fontWeight: "bold",
-                    paddingBottom: 20
+                    paddingBottom: 20,
                   },
                   text.text14,
                 ]}
@@ -312,7 +318,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               >
                 {data?.city}
               </Text>
-              <Image source={images.location} style={[styles.icon   ]} />
+              <Image source={images.location} style={[styles.icon]} />
             </View>
 
             {/* Description */}
@@ -384,7 +390,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                       { fontWeight: "bold" },
                     ]}
                   >
-                   الفئة العمرية:  {data?.age}
+                    الفئة العمرية: {data?.age}
                   </Text>
                 </View>
 

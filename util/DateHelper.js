@@ -231,3 +231,15 @@ export const isTime1Equal2 = (date1, date2, range = "10000") => {
     return false;
   }
 };
+
+export const enhancedDateTime = (date) => {
+  // check if firebase timestamp
+  if (!!date?.toDate) {
+    date = date.toDate();
+  }
+
+  // get timestamp
+  const timestamp = date.getTime();
+
+  return timestamp;
+};

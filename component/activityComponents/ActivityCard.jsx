@@ -208,7 +208,8 @@ const ActivityCard = ({
               borderBottomColor: colors.grey,
               borderTopColor: colors.grey,
               width: "90%",
-              height: "40%",
+              marginVertical: 2,
+              // height: "40%",
             }}
           >
             <Text
