@@ -35,14 +35,15 @@ export default function Local_ChangePass({ navigation }) {
   };
 
   let savePass = async () => {
-    // console.log(user.uid, current);
-    // console.log(newPass.length);
-    if (newPass.length > 7 && newPass.length < 31) {
+    if (oldPass.length == 0) {
+      setError("الرجاء إدخال الرقم السري الحالي");
+    }
+    else if (newPass.length > 7 && newPass.length < 31) {
       if (oldPass === current) {
         updatePassword(user, newPass)
           .then(async () => {
             await updateDoc(doc(db, "users", user.uid), { password: newPass });
-            await updateDoc(doc(db, "Admin_users", user.uid), {
+            await updateDoc(doc(db, "Tourist_users", user.uid), {
               password: newPass,
             });
             setError("");
@@ -53,9 +54,14 @@ export default function Local_ChangePass({ navigation }) {
             setError(error.message);
           });
       } else {
-        setError(" الرقم السري غير صحيح");
+        setError(" الرقم السري الحالي غير صحيح");
       }
-    } else {
+    }
+
+    else if (newPass == "") {
+      setError("الرجاء إدخال الرقم السري الجديد");
+    }
+    else {
       setError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
     }
   };
@@ -100,7 +106,7 @@ export default function Local_ChangePass({ navigation }) {
               alignSelf: "center",
             }}
           >
-          تغيير الرقم السري{" "}
+            تغيير الرقم السري{" "}
           </Text>
         </View>
       </View>
@@ -121,7 +127,7 @@ export default function Local_ChangePass({ navigation }) {
             color: "red",
             fontWeight: "bold",
             textAlign: "center",
-            fontSize: 16,
+            fontSize: 15,
           }}
         >
           {error}
@@ -200,7 +206,7 @@ const styles = StyleSheet.create({
     borderColor: "#BDBDBD",
     width: "100%",
     height: 50,
-    marginTop: 10, 
+    marginTop: 10,
     paddingLeft: 20,
     paddingRight: 20,
     backgroundColor: "#ffff",

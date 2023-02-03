@@ -35,9 +35,10 @@ export default function Tourist_ChangePass({ navigation }) {
   };
 
   let savePass = async () => {
-    // console.log(user.uid, current);
-    console.log(newPass.length);
-    if (newPass.length > 7 && newPass.length < 31) {
+    if (oldPass.length == 0) {
+      setError("الرجاء إدخال الرقم السري الحالي");
+    }
+    else if (newPass.length > 7 && newPass.length < 31) {
       if (oldPass === current) {
         updatePassword(user, newPass)
           .then(async () => {
@@ -53,9 +54,14 @@ export default function Tourist_ChangePass({ navigation }) {
             setError(error.message);
           });
       } else {
-        setError(" الرقم السري غير صحيح");
+        setError(" الرقم السري الحالي غير صحيح");
       }
-    } else {
+    }
+
+    else if (newPass == "") {
+      setError("الرجاء إدخال الرقم السري الجديد");
+    }
+    else {
       setError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
     }
   };
@@ -78,7 +84,7 @@ export default function Tourist_ChangePass({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: -15 }}
           onPress={() => navigation.goBack()}
         />
         <View
@@ -121,7 +127,7 @@ export default function Tourist_ChangePass({ navigation }) {
             color: "red",
             fontWeight: "bold",
             textAlign: "center",
-            fontSize: 16,
+            fontSize: 15,
           }}
         >
           {error}
