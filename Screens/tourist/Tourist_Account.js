@@ -288,7 +288,7 @@ export default function Tourist_Account({ navigation }) {
                     <View style={{ marginTop: 40, marginLeft: -10 }}>
                         <View style={styles.InputContainer}>
                             <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                                الإسم
+                                الإسم*
                             </Text>
                             <Text
                                 style={{
@@ -313,7 +313,7 @@ export default function Tourist_Account({ navigation }) {
 
                         <View style={styles.InputContainer}>
                             <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                                {"\n"}رقم الجوال
+                                {"\n"}رقم الجوال*
                             </Text>
                             <Text
                                 style={{
@@ -339,7 +339,7 @@ export default function Tourist_Account({ navigation }) {
 
                         <View style={styles.InputContainer}>
                             <Text style={{ fontWeight: "bold", fontSize: 17, textAlign: "right" }}>
-                                {"\n"}البريد الإلكتروني
+                                {"\n"}البريد الإلكتروني*
                             </Text>
 
                             <Text
