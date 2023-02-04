@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -11,13 +11,28 @@ import {
   View,
 } from "react-native";
 import TourDetailCard from "../../component/card/TourDetailCard";
+import TabsWrapper from "../../component/TabsWrapper";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
+
+const tabs = [
+  {
+    title: "Previous",
+  },
+  {
+    title: "Upcoming",
+  },
+  {
+    title: "Post",
+  },
+];
+
 export default function TourDetail({ navigation }) {
   const [data, setData] = useState([]);
-  const [tourId, setTourId] = useState(null);
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [listedData, setListedData] = useState([]);
 
   useFocusEffect(
     useCallback(() => {
@@ -43,15 +58,39 @@ export default function TourDetail({ navigation }) {
           // remove duplicates from array
           const unique = [...new Set(bag)];
           setData(unique);
+          setListedData(unique);
         });
       };
       getAllRequests();
     }, [])
   );
 
+  useEffect(() => {
+    // 0 = previous = past any status
+    // 1 = upcoming = future or current and status 1
+    // 2 = post = future or current status 0
+
+    console.log("🚀 ~ selectedTab", selectedTab);
+    if (selectedTab === 0) {
+      const past = data.filter((item) => item.date.toDate() < new Date());
+      setListedData(past);
+    } else if (selectedTab === 1) {
+      const future = data.filter(
+        (item) => item.date.toDate() >= new Date() && item.status == 1
+      );
+      setListedData(future);
+    } else {
+      const post = data.filter(
+        (item) => item.date.toDate() >= new Date() && item.status == 0
+      );
+      setListedData(post);
+    }
+  }, [selectedTab]);
+
   return (
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+        {/* Header */}
         <View
           style={{
             alignItems: "center",
@@ -70,6 +109,17 @@ export default function TourDetail({ navigation }) {
             جولاتي
           </Text>
         </View>
+
+        {/* Tabs */}
+        <View style={styles.tabDiv}>
+          <TabsWrapper
+            menuTabs={tabs}
+            selectedMenu={selectedTab}
+            onPressTab={(index) => setSelectedTab(index)}
+          />
+        </View>
+
+        {/* Cards */}
         <ScrollView
           style={{
             flex: 1,
@@ -79,8 +129,8 @@ export default function TourDetail({ navigation }) {
           <View
             style={[{}, styles.cardDiv, { marginTop: screenWidth.width15 }]}
           >
-            {data?.length ? (
-              data?.map((item, index) => {
+            {listedData?.length ? (
+              listedData?.map((item, index) => {
                 // console.log('item', item.title)
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
