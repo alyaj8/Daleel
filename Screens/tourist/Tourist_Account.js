@@ -248,14 +248,14 @@ export default function Tourist_Account({ navigation }) {
                 <Icon
                     name="arrow-back-outline"
                     size={45}
-                    style={{ color: "white", marginTop: 30, marginLeft: -15 }}
+                    style={{ color: "white", marginTop: 35, marginLeft: -5 }}
                     onPress={() => navigation.goBack()}
                 />
                 <View
                     style={{
                         flexDirection: "row",
                         alignItems: "center",
-                        marginTop: -10,
+                        marginTop: 10,
                         width: "100%",
                         marginLeft: 11
                     }}
@@ -277,7 +277,7 @@ export default function Tourist_Account({ navigation }) {
                 <View
                     style={{
                         backgroundColor: "#FFF",
-                        // height: "80%",
+                        height: "80%",
                         borderRadius: 50,
                         paddingHorizontal: 20,
                         marginBottom: 15,
@@ -488,16 +488,17 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     body: {
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        marginVertical: 12,
-        width: "95%",
-        height: 42,
-        alignSelf: "center",
+        borderWidth: 3,
+        borderColor: "#BDBDBD",
+        width: "100%",
+        height: 50,
         paddingLeft: 20,
         paddingRight: 20,
-        borderColor: "#5398a0",
+        backgroundColor: "#ffff",
+        padding: 10,
+        borderRadius: 10,
+        marginBottom: 20,
+        textAlign: "right",
     },
     buttonCont: {
         width: 180,
