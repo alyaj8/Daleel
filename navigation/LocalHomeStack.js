@@ -4,6 +4,8 @@ import BookingDetail from "../Screens/Local/BookingDetail";
 import EditTourV4 from "../Screens/Local/EditTourV4";
 import TourDetailedInformation from "../Screens/Local/TourDetailedInformation";
 import Local_Home from "../Screens/Local_Home";
+import Localcomments from "../Screens/Local/Localcomments"; 
+
 const Stack = createNativeStackNavigator();
 
 function LocalHomeStack() {
@@ -16,6 +18,7 @@ function LocalHomeStack() {
         component={TourDetailedInformation}
       />
       <Stack.Screen name="EditTour" component={EditTourV4} />
+      <Stack.Screen name = "Localcomments" component={Localcomments} /> 
     </Stack.Navigator>
   );
 }

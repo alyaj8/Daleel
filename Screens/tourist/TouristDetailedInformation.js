@@ -332,12 +332,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <Rating
               startingValue={bookstar && bookstar / data.reviews?.length}
               imageSize={30}
-              fractions={20}
+              fractions={25}
               showRating={false}
               readonly={true}
               tintColor={"#ececec"}
               style={{
                 marginVertical: 10,
+                padding: 5,
               }}
             />
 
@@ -346,15 +347,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 style={{
                   color: "black",
                   alignItems: "center",
-                  fontWeight: "bold",
+                  
+                  fontWeight: "800",
                   alignSelf: "center",
-                  fontSize: 8,
-                  marginTop: -7,
+                  fontSize: 15,
+                  marginTop: -10,
                 }}
               >
-                {"     "} {(bookstar / data.reviews?.length).toFixed(2)} من اصل
-                5 {"\n"}
-                {data.reviews?.length} من الأشخاص
+                {""} {(bookstar / data.reviews?.length).toFixed(2)} من أصل
+                5 {"\n "}
+                
+                
               </Text>
             ) : (
               <Text style={{ color: "black" }}></Text>
@@ -379,12 +382,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
                       ? colors.lightBrown
                       : colors.lightBrown,
                   textDecorationLine: "underline",
-                  fontWeight: "bold",
-                  fontSize: 16,
+                  fontWeight: "900",
+                  fontSize: 18,
                   textAlign: "center",
                 }}
               >
-                {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+                {data.reviews?.length > 0 ? "...تقيمات الجولة" : "تقيمات الجولة"}
               </Text>
             </TouchableOpacity>
             {/* Price */}

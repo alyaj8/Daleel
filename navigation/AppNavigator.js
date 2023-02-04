@@ -14,6 +14,7 @@ import Tourist_Account from "./../Screens/Tourist/Tourist_Account";
 import Tourist_Manage_Account from "./../Screens/Tourist/Tourist_Manage_Account";
 import LocalBottomTabs from "./LocalBottomTabs";
 import TouristBottomTabs from "./TouristBottomTabs";
+import Localcomments from "../Screens/Local/Localcomments"; 
 
 import Local_Account from "./../Screens/Local/Local_Account";
 import Tourist_ChangePass from "./../Screens/Tourist/Tourist_ChangePass";
@@ -53,6 +54,7 @@ function AppNavigator() {
       />
       <Stack.Screen name="Tourist_Account" component={Tourist_Account} />
       <Stack.Screen name="Tourist_ChangePass" component={Tourist_ChangePass} />
+      <Stack.Screen name="Localcomments" component={Localcomments}/> 
     </Stack.Navigator>
   );
 }
