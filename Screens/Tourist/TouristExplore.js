@@ -87,7 +87,12 @@ export default function TouristExplore({ navigation }) {
     useCallback(() => {
       const getAllRequests = async () => {
         const uid = await getUserId();
-        const q = query(collection(db, "tours"), where("status", "==", 0));
+        const q = query(
+          collection(db, "tours"),
+          where("status", "==", 0),
+          // date is in the future
+          where("date", ">", new Date())
+        );
         // listen for changes
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
