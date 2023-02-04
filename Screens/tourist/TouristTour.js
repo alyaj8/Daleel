@@ -2,77 +2,85 @@ import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
-import Icon from "react-native-vector-icons/Ionicons";
 import TourDetailCard from "../../component/card/TourDetailCard";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 //import { Dropdown } from "react-native-element-dropdown";
+import TabsWrapper from "./../../component/TabsWrapper";
+
+const tabs = [
+  {
+    title: "Previous",
+  },
+  {
+    title: "Upcoming",
+  },
+];
 
 export default function TouristTour({ navigation }) {
   const [data, setData] = useState([]);
-  const [refreshing, setRefreshing] = useState(false);
-  const [tourId, setTourId] = useState(null);
-  const [currentUserId, setCurrentUserId] = useState(null);
-  const [allTours, setallTours] = useState([]);
-
-  const search = (text) => {
-    console.log(text);
-    const filter = [];
-    data.forEach((e) => {
-      if (e.title.toLowerCase().includes(text.toLowerCase())) {
-        filter.push(e);
-      }
-    });
-    setData(filter);
-  };
-
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [listedData, setListedData] = useState([]);
   useFocusEffect(
     useCallback(() => {
       const getAllRequests = async () => {
         const uid = await getUserId();
-        const q = query(collection(db, "tours"), where("status", "==", 0));
+
+        const q = query(
+          collection(db, "tours"),
+          where("status", "==", 1),
+          where("bookedBy", "==", uid)
+        );
 
         // listen for changes
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
           querySnapshot.forEach((doc) => {
-            // console.log(
-            //   "🚀 ~ doc.data().status === 0",
-            //   doc.data().status === 0
-            // );
-            if (doc.data().status === 0) {
-              bag.push({
-                id: doc.id,
-                ...doc.data(),
-              });
-            }
+            console.log("🚀 ~ doc.data().status === 0", doc.data().status);
+            bag.push({
+              id: doc.id,
+              ...doc.data(),
+            });
           });
 
           setData(bag);
-
           // remove duplicates from array
           const unique = [...new Set(bag)];
           setData(unique);
+          setListedData(unique);
         });
       };
       getAllRequests();
     }, [])
   );
 
+  useEffect(() => {
+    // 0 = previous = past
+    // 1 = upcoming = future
+    console.log("🚀 ~ selectedTab", selectedTab);
+    if (selectedTab === 0) {
+      const past = data.filter((item) => item.date.toDate() < new Date());
+      setListedData(past);
+    } else {
+      const future = data.filter((item) => item.date.toDate() >= new Date());
+      setListedData(future);
+    }
+  }, [selectedTab]);
+
   return (
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+        {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 20 }]}>
           <Text
             style={[
@@ -90,39 +98,21 @@ export default function TouristTour({ navigation }) {
             الجولات
           </Text>
         </View>
-        <View
-          style={{
-            backgroundColor: "#FFF",
-            // D0ECDF
-            paddingVertical: 8,
-            paddingHorizontal: 20,
-            marginHorizontal: 20,
-            borderRadius: 15,
-            marginTop: 25,
-            marginBottom: -10,
-            flexDirection: "row",
-            alignItems: "center",
-            borderColor: "black",
-            borderWidth: 0.2,
-          }}
-        >
-          <Icon name="ios-search" size={25} style={{ marginRight: 10 }} />
-          <TextInput
-            placeholder="ابحث عن جوله او مرشد سياحي "
-            placeholderTextColor="grey"
-            onChangeText={(text) => search(text)}
-            style={{
-              fontWeight: "bold",
-              fontSize: 18,
-              width: 260,
-              textAlign: "right",
-            }}
+
+        {/* Tabs */}
+        <View style={styles.tabDiv}>
+          <TabsWrapper
+            menuTabs={tabs}
+            selectedMenu={selectedTab}
+            onPressTab={(index) => setSelectedTab(index)}
           />
         </View>
+
+        {/* Body */}
         <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
-          {data.length > 0 ? (
+          {listedData.length > 0 ? (
             <>
-              {data.map((item, index) => {
+              {listedData.map((item, index) => {
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
                     <TourDetailCard

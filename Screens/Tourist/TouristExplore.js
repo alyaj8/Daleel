@@ -96,13 +96,30 @@ export default function TouristExplore({ navigation }) {
     }, [])
   );
 
+  const citiesBuilder = (data) => {
+    const cities = [
+      {
+        label: "كل المدن",
+        value: "كل المدن",
+      },
+    ];
+    data.map((item) => {
+      cities.push(item.city);
+    });
+    const uniqueCities = [...new Set(cities)];
+    const citiesList = uniqueCities.map((item) => {
+      return {
+        label: item,
+        value: item,
+      };
+    });
+    setCityList([...cityList, ...citiesList]);
+  };
+
   useEffect(() => {
     const isSearch = !!searchText;
     const isCity = selectedCity !== "كل المدن" && selectedCity !== null;
     const isAge = selectedAge !== "كل الأعمار" && selectedAge !== null;
-    console.log("🚀 ~ isSearch", isSearch);
-    console.log("🚀 ~ isCity", isCity);
-    console.log("🚀 ~ isAge", isAge);
     let localData = data;
 
     if (isSearch) {

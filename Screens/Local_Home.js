@@ -64,6 +64,7 @@ export default function Local_Home({ navigation }) {
 
   const [requestId, setRequestId] = useState(null);
   const [tourId, setTourId] = useState(null);
+  const [touristId, setTouristId] = useState(null);
 
   // to chat this is sender id
   const [currentUserId, setCurrentUserId] = useState(null);
@@ -112,7 +113,7 @@ export default function Local_Home({ navigation }) {
     console.log("Accept> reqId: ");
     setModalVisibleAccepted(!isModalVisibleAccepted);
 
-    await acceptRequest(requestId, tourId);
+    await acceptRequest(requestId, tourId, touristId);
     forceUpdate();
   };
 
@@ -152,6 +153,7 @@ export default function Local_Home({ navigation }) {
   const toggleModalAccepted = (req) => {
     setRequestId(req.id);
     setTourId(req.tourId);
+    setTouristId(req.touristId);
 
     setModalVisibleAccepted(!isModalVisibleAccepted);
   };

@@ -133,12 +133,20 @@ export async function updateRequest(reqId, data) {
   }
 }
 
-export async function acceptRequest(reqId, tourId) {
+export async function acceptRequest(reqId, tourId, touristId) {
   try {
     // TODO: update the request status to accepted
     updateRequest(reqId, {
       acceptedAt: new Date(),
+      bookedBy: touristId,
       status: 1,
+    });
+
+    // TODO: update the tour status to accepted
+    const taskDocRef = doc(db, "tours", tourId);
+    const result = await updateDoc(taskDocRef, {
+      status: 1,
+      acceptedAt: new Date(),
     });
 
     // TODO: Update all other requests of the same tour to rejected
