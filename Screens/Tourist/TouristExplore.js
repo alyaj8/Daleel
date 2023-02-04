@@ -18,6 +18,7 @@ import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
+import { logObj } from "../../util/DateHelper";
 
 export default function TouristExplore({ navigation }) {
   const [data, setData] = useState([]);
@@ -103,18 +104,22 @@ export default function TouristExplore({ navigation }) {
         value: "كل المدن",
       },
     ];
-    data.map((item) => {
-      cities.push(item.city);
+
+    data.forEach((item) => {
+      // check if city is already in the list
+      const isCityExist = cities.find((city) => city.value === item.city);
+      if (!isCityExist) {
+        cities.push({
+          label: item.city,
+          value: item.city,
+        });
+      }
     });
-    const uniqueCities = [...new Set(cities)];
-    const citiesList = uniqueCities.map((item) => {
-      return {
-        label: item,
-        value: item,
-      };
-    });
-    setCityList([...cityList, ...citiesList]);
+
+    setCityList(cities);
   };
+
+  logObj(cityList);
 
   useEffect(() => {
     const isSearch = !!searchText;
