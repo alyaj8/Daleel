@@ -11,20 +11,49 @@ import {
   TextInput,
   View,
 } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 import Icon from "react-native-vector-icons/Ionicons";
 import TourDetailCard from "../../component/card/TourDetailCard";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
-//import { Dropdown } from "react-native-element-dropdown";
 
-export default function TouristTour({ navigation }) {
+export default function TouristExplore({ navigation }) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [tourId, setTourId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
-  const [allTours, setallTours] = useState([]);
+
+  const [filteredData, setFilteredData] = useState([]);
+  // Lists
+  // city
+  const [cityList, setCityList] = useState([
+    {
+      label: "كل المدن",
+      value: "كل المدن",
+    },
+  ]);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [cityListVisible, setCityListVisible] = useState(false);
+
+  // age
+  const [ageList, setAgeList] = useState([
+    {
+      label: "كل الأعمار",
+      value: "كل الأعمار",
+    },
+    {
+      label: "عائلية",
+      value: "عائلية",
+    },
+    {
+      label: "كبار",
+      value: "كبار",
+    },
+  ]);
+  const [selectedAge, setSelectedAge] = useState(null);
+  const [ageListVisible, setAgeListVisible] = useState(false);
 
   const search = (text) => {
     console.log(text);
@@ -35,6 +64,23 @@ export default function TouristTour({ navigation }) {
       }
     });
     setData(filter);
+    setFilteredData(filter);
+  };
+
+  const citiesBuilder = (data) => {
+    const cities = [
+      {
+        label: "كل المدن",
+        value: "كل المدن",
+      },
+    ];
+    data.forEach((e) => {
+      cities.push({
+        label: e.city,
+        value: e.city,
+      });
+    });
+    setCityList(cities);
   };
 
   useFocusEffect(
@@ -42,7 +88,6 @@ export default function TouristTour({ navigation }) {
       const getAllRequests = async () => {
         const uid = await getUserId();
         const q = query(collection(db, "tours"), where("status", "==", 0));
-
         // listen for changes
         const unsubscribe = onSnapshot(q, (querySnapshot) => {
           const bag = [];
@@ -60,19 +105,80 @@ export default function TouristTour({ navigation }) {
           });
 
           setData(bag);
-
+          setFilteredData(bag);
           // remove duplicates from array
           const unique = [...new Set(bag)];
           setData(unique);
+          setFilteredData(unique);
+          citiesBuilder(unique);
         });
       };
       getAllRequests();
     }, [])
   );
 
+  const onCityChange = (item) => {
+    let localData = data;
+    // check if age filter is active
+    if (selectedAge !== "كل الأعمار") {
+      const filter = [];
+      localData.forEach((e) => {
+        if (e.age === selectedAge) {
+          filter.push(e);
+        }
+      });
+      localData = filter;
+    }
+
+    if (item.value === "كل المدن") {
+      setFilteredData(localData);
+    } else {
+      const filter = [];
+      localData.forEach((e) => {
+        if (e.city === item.value) {
+          filter.push(e);
+        }
+      });
+      setFilteredData(filter);
+    }
+
+    setSelectedCity(item);
+    setCityListVisible(false);
+  };
+
+  const onAgeChange = (item) => {
+    let localData = data;
+    // check if city filter is active
+    if (selectedCity !== "كل المدن") {
+      const filter = [];
+      localData.forEach((e) => {
+        if (e.city === selectedCity) {
+          filter.push(e);
+        }
+      });
+      localData = filter;
+    }
+
+    if (item.value === "كل الأعمار") {
+      setFilteredData(localData);
+    } else {
+      const filter = [];
+      localData.forEach((e) => {
+        if (e.age === item.value) {
+          filter.push(e);
+        }
+      });
+      setFilteredData(filter);
+    }
+
+    setSelectedAge(item);
+    setAgeListVisible(false);
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+        {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 20 }]}>
           <Text
             style={[
@@ -84,12 +190,15 @@ export default function TouristTour({ navigation }) {
                 fontSize: 30,
               },
               text.white,
+
               text.bold,
             ]}
           >
-            الجولات
+            استكشف الجولات
           </Text>
         </View>
+
+        {/* Search */}
         <View
           style={{
             backgroundColor: "#FFF",
@@ -119,10 +228,52 @@ export default function TouristTour({ navigation }) {
             }}
           />
         </View>
+        <View
+          style={{
+            width: "90%",
+            alignSelf: "center",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginHorizontal: 20,
+            marginTop: 20,
+            zIndex: 1,
+          }}
+        >
+          {/* Age */}
+          <DropDownPicker
+            onSelectItem={onAgeChange}
+            open={ageListVisible}
+            value={selectedAge}
+            items={ageList}
+            setOpen={setAgeListVisible}
+            setValue={setSelectedAge}
+            setItems={setAgeList}
+            containerStyle={{
+              width: "45%",
+            }}
+          />
+
+          {/* City */}
+          <DropDownPicker
+            onSelectItem={onCityChange}
+            open={cityListVisible}
+            value={selectedCity}
+            items={cityList}
+            setOpen={setCityListVisible}
+            setValue={setSelectedCity}
+            setItems={setCityList}
+            containerStyle={{
+              width: "45%",
+            }}
+          />
+        </View>
+
+        {/* Body */}
         <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
-          {data.length > 0 ? (
+          {filteredData.length > 0 ? (
             <>
-              {data.map((item, index) => {
+              {filteredData.map((item, index) => {
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
                     <TourDetailCard

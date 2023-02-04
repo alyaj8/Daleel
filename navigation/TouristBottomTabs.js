@@ -8,6 +8,7 @@ import Tourist_Manage_Account from "./../Screens/Tourist/Tourist_Manage_Account"
 
 import { colors, images } from "../config/Constant";
 import ChatStack from "./ChatStack";
+import TouristExploreStack from "./TouristExploreStack";
 const Tab = createBottomTabNavigator();
 
 export default function TouristBottomTabs() {
@@ -114,7 +115,7 @@ export default function TouristBottomTabs() {
           ),
         }}
         name="PostSearch"
-        component={TouristTourStack}
+        component={TouristExploreStack}
       />
 
       {/* رسائلي */}
