@@ -84,14 +84,14 @@ export default function Tourist_ChangePass({ navigation }) {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "white", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: 5 }}
           onPress={() => navigation.goBack()}
         />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: -10,
+            marginTop: 10,
             width: "100%",
             marginLeft: 11,
           }}
@@ -114,11 +114,11 @@ export default function Tourist_ChangePass({ navigation }) {
       <View
         style={{
           backgroundColor: "#FFF",
-          height: "80%",
+          height: "100%",
           borderRadius: 50,
           paddingHorizontal: 20,
           marginBottom: 15,
-          marginTop: 15,
+          marginTop: 10,
           paddingTop: 10,
         }}
       >
@@ -135,9 +135,9 @@ export default function Tourist_ChangePass({ navigation }) {
         <View style={{ marginTop: 40, marginLeft: -10 }}>
           <View>
             <Text
-              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}
+              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right", padding: 10, }}
             >
-              الرقم السري الحالي
+              الرقم السري الحالي*
             </Text>
             <TextInput
               style={styles.body}
@@ -150,9 +150,9 @@ export default function Tourist_ChangePass({ navigation }) {
           </View>
           <View>
             <Text
-              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" }}
+              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" , padding: 10,  }}
             >
-              {"\n"}الرقم السري الجديد
+              {"\n"}الرقم السري الجديد*
             </Text>
             <TextInput
               style={styles.body}
@@ -202,15 +202,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   body: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    margin: 12,
-    width: 350,
-    height: 42,
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
     paddingLeft: 20,
     paddingRight: 20,
-    borderColor: "#5398a0",
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: "right",
   },
   buttonCont: {
     width: 180,
