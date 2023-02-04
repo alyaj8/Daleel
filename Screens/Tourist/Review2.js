@@ -46,23 +46,23 @@ export default function Review2({ route, navigation }) {
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <ImageBackground
-          style={{ flex: 1 }}
-          source={images.abackgroundImg}
-          resizeMode="cover"
-        >
-                <Pressable
-            onPress={() => navigation.goBack()}
-            style={{ position: "absolute", margin: 15 }}
-          >
-            <Image source={images.arrow} style={[styles.arrowIcon]} />
-          </Pressable>
-          <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.text25, text.bold, { color: colors.Blue }]}>
-            تقييم  {book.title}
-            </Text>
-          </View>
-                   
+                <ImageBackground
+                    style={{ flex: 1 }}
+                    source={images.abackgroundImg}
+                    resizeMode="cover"
+                >
+                    <Pressable
+                        onPress={() => navigation.goBack()}
+                        style={{ position: "absolute", margin: 15 }}
+                    >
+                        <Image source={images.arrow} style={[styles.arrowIcon]} />
+                    </Pressable>
+                    <View style={[styles.alignCenter, { marginTop: 20 }]}>
+                        <Text style={[text.text25, text.bold, { color: colors.Blue }]}>
+                            تقييم  {book.title}
+                        </Text>
+                    </View>
+
 
                     <View style={styles.card}>
                         <Rating
@@ -81,7 +81,7 @@ export default function Review2({ route, navigation }) {
                         />
                         <TextInput
                             style={styles.review}
-                            placeholder="Write Comment Here......"
+                            placeholder="اكتب هنا التقييم"
                             multiline={true}
                             onChangeText={(text) => setComment(text)}
                         />
@@ -89,7 +89,7 @@ export default function Review2({ route, navigation }) {
                             style={{
                                 borderRadius: 25,
                                 backgroundColor:
-                                    review === 0 || comment === "" ? colors.gray: colors.brown ,
+                                    review === 0 || comment === "" ? colors.gray : colors.brown,
                                 width: "48%",
                                 alignSelf: "center",
                                 marginTop: 30,
@@ -109,12 +109,12 @@ export default function Review2({ route, navigation }) {
                                     color: "white",
                                 }}
                             >
-                               قيم الرحلة
+                                قيم الرحلة
                             </Text>
                         </TouchableOpacity>
                     </View>
-         
-                 </ImageBackground>
+
+                </ImageBackground>
             </ScrollView>
         </SafeAreaView>
     );
@@ -123,23 +123,23 @@ export default function Review2({ route, navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-      },
-      alignCenter: {
+    },
+    alignCenter: {
         alignItems: "center",
-      },
-      dummyImg: {
+    },
+    dummyImg: {
         width: screenWidth.width50,
         height: screenWidth.width50,
         resizeMode: "contain",
         opacity: 0.7,
-      },
-      img: {
+    },
+    img: {
         width: screenWidth.width80,
         height: screenWidth.width60,
         resizeMode: "contain",
         borderRadius: 10,
         marginBottom: 15,
-      },
+    },
     bookTitle: {
         fontSize: 22,
         fontWeight: "bold",
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         alignSelf: "center",
         marginTop: 50,
-        marginBottom:250,
+        marginBottom: 250,
         ///shadowEffect
         shadowColor: "#171717",
         shadowOffset: { width: -2, height: 4 },
@@ -170,11 +170,13 @@ const styles = StyleSheet.create({
         alignSelf: "center",
         padding: 10,
         marginTop: 30,
+        textAlign: "right"
+
     },
     arrowIcon: {
         width: 30,
         height: 30,
         resizeMode: "contain",
         tintColor: colors.lightBrown,
-      },
+    },
 });

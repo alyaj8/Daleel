@@ -370,7 +370,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               onPress={() => {
                 navigation.navigate("Comment", data);
               }}
-              disabled={data.reviews?.length == null ? true : false}
+            // disabled={data.reviews?.length == null ? true : false}
             >
               <Text
                 style={{
@@ -631,33 +631,33 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
             {isReq
               ? currentActs.map((item, index) => {
-                  return (
-                    <ActivityCard
-                      key={index}
-                      activity={item}
-                      display
-                      isChecked
-                    />
-                  );
-                })
+                return (
+                  <ActivityCard
+                    key={index}
+                    activity={item}
+                    display
+                    isChecked
+                  />
+                );
+              })
               : !!data?.activities &&
-                data?.activities.map((item, index) => {
-                  const isSelected = selectedActivities
-                    .map((item) => item.id)
-                    .includes(item.id);
+              data?.activities.map((item, index) => {
+                const isSelected = selectedActivities
+                  .map((item) => item.id)
+                  .includes(item.id);
 
-                  //   console.log("🚀 ~ OUT > isSelected", isSelected);
-                  return (
-                    <ActivityCard
-                      key={index}
-                      activity={item}
-                      display={!customizing}
-                      withChecklist={customizing}
-                      isChecked={isSelected}
-                      onCheck={handlePressActivity}
-                    />
-                  );
-                })}
+                //   console.log("🚀 ~ OUT > isSelected", isSelected);
+                return (
+                  <ActivityCard
+                    key={index}
+                    activity={item}
+                    display={!customizing}
+                    withChecklist={customizing}
+                    isChecked={isSelected}
+                    onCheck={handlePressActivity}
+                  />
+                );
+              })}
             {/* Price */}
             <View
               style={[
@@ -701,10 +701,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 tourStatus == "requested"
                   ? "تم الطلب"
                   : tourStatus == "accepted"
-                  ? "تم الحجز"
-                  : tourStatus == "rejected"
-                  ? "طلب مرة أخرى"
-                  : "حجز الرحلة"
+                    ? "تم الحجز"
+                    : tourStatus == "rejected"
+                      ? "طلب مرة أخرى"
+                      : "حجز الرحلة"
               }
               disabled={tourStatus == "requested" || tourStatus == "accepted"}
               onPress={toggleModal}
@@ -713,10 +713,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   tourStatus == "requested"
                     ? colors.gray
                     : tourStatus == "accepted"
-                    ? colors.green
-                    : tourStatus == "rejected"
-                    ? colors.redTheme
-                    : colors.Blue,
+                      ? colors.green
+                      : tourStatus == "rejected"
+                        ? colors.redTheme
+                        : colors.Blue,
                 paddingVertical: 18,
                 width: screenWidth.width90,
               }}
