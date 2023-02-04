@@ -95,7 +95,7 @@ export default function TouristTour({ navigation }) {
               text.bold,
             ]}
           >
-            الجولات
+            جولاتي
           </Text>
         </View>
 

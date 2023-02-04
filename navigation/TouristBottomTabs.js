@@ -64,7 +64,7 @@ export default function TouristBottomTabs() {
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              الجولات
+              جولاتي
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
