@@ -1,5 +1,6 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { createOpenLink } from "react-native-open-maps";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 import { getFormattedTime, limitCharacters } from "../../util/DateHelper";
@@ -33,11 +34,13 @@ const ActivityCard = ({
   const WrapperComponet = withChecklist ? TouchableOpacity : View;
   // const { id, title, full_name, address, coordinates, category } = item;
 
-  let fakeLocation = {
-    full_name:
-      "مجمع الدمام الطبي، King Khaled Bin Abdulaziz Rd.، الدمام، السعودية",
-    title: "مجمع الدمام الطبي",
-  };
+  const openMaps = createOpenLink({
+    latitude: location?.coordinates?.latitude,
+    longitude: location?.coordinates?.longitude,
+    zoom: 15,
+    query: `${location?.address}`,
+    // end: `${item?.address}`,
+  });
 
   return (
     <WrapperComponet
@@ -261,9 +264,11 @@ const ActivityCard = ({
             </View>
 
             {/* Location */}
-            <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
+            <TouchableOpacity
+              onPress={openMaps}
+              style={[styles.row, styles.ROWxLeft_COLyTop, {}]}
+            >
               <Text style={[text.text12, { textAlign: "right" }]}>
-                {/* {limitCharacters(fakeLocation.full_name, 20)} */}
                 {limitCharacters(location?.title, 20)}
               </Text>
               <MIcon
@@ -272,7 +277,7 @@ const ActivityCard = ({
                 color="black"
                 style={{ marginRight: 5 }}
               />
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
