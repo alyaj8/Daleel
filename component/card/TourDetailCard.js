@@ -3,7 +3,6 @@ import * as React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-import AppImage from "../AppImage";
 
 export default function TourDetailCard({ onpress, source, title, tour }) {
   // logObj(tour, "tour");
@@ -17,7 +16,13 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
           {/* image */}
           <View style={{}}>
             {source.uri ? (
-              <AppImage sourceURI={source.uri} style={[styles.img]} />
+              // <AppImage sourceURI={source.uri} style={[styles.img]} />
+              <Image
+                source={{
+                  uri: source.uri,
+                }}
+                style={[styles.img]}
+              />
             ) : (
               <Image source={images.photo} style={[styles.img]} />
             )}

@@ -36,7 +36,7 @@ import {
   REQUESTS,
   screenWidth,
 } from "../../config/Constant";
-import { db } from "../../config/firebase";
+import { auth, db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
@@ -75,7 +75,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   let checkReview = () => {
     let countStar = 0;
     data?.reviews?.length >= 0 &&
-      Auth.onAuthStateChanged(async (user) => {
+      auth.onAuthStateChanged(async (user) => {
         data.reviews?.map((val, ind) => {
           countStar = countStar + val.review;
           if (user.uid === val.comenteuseruid) {

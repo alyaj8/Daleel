@@ -273,9 +273,13 @@ export const InputMap = memo(
             inputContainerStyle={{
               flexDirection: "row-reverse",
               backgroundColor: "#fff",
-              borderRadius: 20,
+              borderRadius: 10,
               borderWidth: 1,
-              borderColor: "#5398a0",
+              borderColor: "#BDBDBD",
+              backgroundColor: "#ffff",
+              marginBottom: 20,
+              textAlign: "right",
+              paddingRight: 20,
             }}
             suggestionsListContainerStyle={{
               backgroundColor: "#fff",
@@ -287,7 +291,7 @@ export const InputMap = memo(
               <Feather
                 name="chevron-down"
                 size={20}
-                color={colors.themeDefault}
+                color={colors.lightBrown}
               />
             }
             ClearIconComponent={

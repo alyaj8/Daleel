@@ -160,8 +160,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     borderWidth: 1,
-    borderColor: "#5398a0",
-    borderRadius: 20,
+    borderColor: "#BDBDBD",
+    height: 50,
+    borderRadius: 10,
+    paddingLeft: 20,
+    backgroundColor: "#ffff",
+    paddingRight: 20,
     textAlign: "right",
     backgroundColor: "#fff",
 
@@ -184,7 +188,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 20,
     height: 20,
-    tintColor: "#5398a0",
+    tintColor: colors.lightBrown,
   },
   position: {
     position: "absolute",

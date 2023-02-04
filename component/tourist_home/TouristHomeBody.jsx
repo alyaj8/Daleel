@@ -102,6 +102,7 @@ const TouristHomeBody = ({
       });
     });
   };
+
   React.useEffect(() => {
     // console.log("Child", currentUserId);
     Asyced();

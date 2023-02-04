@@ -63,16 +63,6 @@ export default function Tourist_Home({ navigation }) {
     })();
   }, []);
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     console.log("effect callBack");
-  //     fetchRequests();
-  //     return () => {
-  //       console.log("unsub");
-  //     };
-  //   }, [])
-  // );
-
   useEffect(() => {
     setRequestStatus(requestStatus);
   }, [requestStatus]);

@@ -1,8 +1,7 @@
 import { Feather } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -19,73 +18,87 @@ import text from "../../style/text";
 
 const tabs = [
   {
-    title: "Previous",
+    title: "القادمة",
   },
   {
-    title: "Upcoming",
+    title: "الحالية",
   },
   {
-    title: "Post",
+    title: "السابقة",
   },
 ];
 
 export default function TourDetail({ navigation }) {
   const [data, setData] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [listedData, setListedData] = useState([]);
+  const [listedData, setListedData] = useState({
+    prev: [],
+    curr: [],
+    upcom: [],
+  });
 
-  useFocusEffect(
-    useCallback(() => {
-      const getAllRequests = async () => {
-        const uid = await getUserId();
-        const q = query(collection(db, "tours"), where("requestBy", "==", uid));
+  const Asyced = () => {
+    getUserId().then((currentUserIdLoc) => {
+      const q = query(
+        collection(db, "tours"),
+        where("requestBy", "==", currentUserIdLoc)
+      );
 
-        // listen for changes
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const bag = [];
-          querySnapshot.forEach((doc) => {
-            // console.log("doc", doc.data());
-            if (doc.data().status != 1) {
-              bag.push({
-                id: doc.id,
-                ...doc.data(),
-              });
-            }
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        let tours = [];
+
+        querySnapshot.forEach((doc) => {
+          tours.push({
+            id: doc.id,
+            ...doc.data(),
           });
-
-          setData(bag);
-
-          // remove duplicates from array
-          const unique = [...new Set(bag)];
-          setData(unique);
-          setListedData(unique);
         });
-      };
-      getAllRequests();
-    }, [])
-  );
+
+        const unique = tours.filter((thing, index, self) => {
+          return (
+            index ===
+            self.findIndex((t) => {
+              return t.id === thing.id;
+            })
+          );
+        });
+
+        // logObj(unique, "🚀 ~ unique");
+
+        const today = new Date().toISOString().slice(0, 10);
+
+        let prev = []; // past, any status
+        let curr = []; // present, future, status 0
+        let upcom = []; // present, future, status 1
+
+        unique.forEach((item) => {
+          const tourDate = item.date.toDate().toISOString().slice(0, 10);
+
+          // past, any status
+          if (tourDate < today) {
+            prev.push(item);
+          }
+          // present, future
+          else if (tourDate >= today) {
+            // status 0
+            if (item.status === 0) {
+              curr.push(item);
+            }
+            // status 1
+            else if (item.status === 1) {
+              upcom.push(item);
+            }
+          }
+        });
+
+        setListedData({ prev, curr, upcom });
+      });
+    });
+  };
 
   useEffect(() => {
-    // 0 = previous = past any status
-    // 1 = upcoming = future or current and status 1
-    // 2 = post = future or current status 0
-
-    console.log("🚀 ~ selectedTab", selectedTab);
-    if (selectedTab === 0) {
-      const past = data.filter((item) => item.date.toDate() < new Date());
-      setListedData(past);
-    } else if (selectedTab === 1) {
-      const future = data.filter(
-        (item) => item.date.toDate() >= new Date() && item.status == 1
-      );
-      setListedData(future);
-    } else {
-      const post = data.filter(
-        (item) => item.date.toDate() >= new Date() && item.status == 0
-      );
-      setListedData(post);
-    }
-  }, [selectedTab]);
+    Asyced();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -111,7 +124,13 @@ export default function TourDetail({ navigation }) {
         </View>
 
         {/* Tabs */}
-        <View style={styles.tabDiv}>
+        <View
+          style={
+            {
+              // backgroundColor: "red",
+            }
+          }
+        >
           <TabsWrapper
             menuTabs={tabs}
             selectedMenu={selectedTab}
@@ -126,15 +145,20 @@ export default function TourDetail({ navigation }) {
           }}
           showsVerticalScrollIndicator={false}
         >
-          <View
-            style={[{}, styles.cardDiv, { marginTop: screenWidth.width15 }]}
-          >
-            {listedData?.length ? (
-              listedData?.map((item, index) => {
+          <View style={[{}, styles.cardDiv, { marginTop: screenWidth.width2 }]}>
+            {listedData?.prev || listedData?.curr || listedData?.upcom ? (
+              listedData[
+                selectedTab === 0
+                  ? "upcom"
+                  : selectedTab === 1
+                  ? "curr"
+                  : "prev"
+              ].map((item, index) => {
                 // console.log('item', item.title)
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
                     <TourDetailCard
+                      key={index}
                       source={{ uri: item?.imageUrl }}
                       title={item?.title}
                       tour={item}

@@ -1,8 +1,7 @@
 import { Feather } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -20,62 +19,73 @@ import TabsWrapper from "./../../component/TabsWrapper";
 
 const tabs = [
   {
-    title: "Previous",
+    title: "السابقة",
   },
   {
-    title: "Upcoming",
+    title: "القادمة",
   },
 ];
 
 export default function TouristTour({ navigation }) {
   const [data, setData] = useState([]);
   const [selectedTab, setSelectedTab] = useState(0);
-  const [listedData, setListedData] = useState([]);
-  useFocusEffect(
-    useCallback(() => {
-      const getAllRequests = async () => {
-        const uid = await getUserId();
+  const [listedData, setListedData] = useState({
+    prev: [],
+    upcom: [],
+  });
 
-        const q = query(
-          collection(db, "tours"),
-          where("status", "==", 1),
-          where("bookedBy", "==", uid)
-        );
+  const Asyced = () => {
+    getUserId().then((currentUserIdLoc) => {
+      const q = query(
+        collection(db, "tours"),
+        where("status", "==", 1)
+        // where("bookedBy", "==", currentUserIdLoc)
+      );
 
-        // listen for changes
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const bag = [];
-          querySnapshot.forEach((doc) => {
-            console.log("🚀 ~ doc.data().status === 0", doc.data().status);
-            bag.push({
-              id: doc.id,
-              ...doc.data(),
-            });
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        let tours = [];
+
+        querySnapshot.forEach((doc) => {
+          tours.push({
+            id: doc.id,
+            ...doc.data(),
           });
-
-          setData(bag);
-          // remove duplicates from array
-          const unique = [...new Set(bag)];
-          setData(unique);
-          setListedData(unique);
         });
-      };
-      getAllRequests();
-    }, [])
-  );
+
+        // console.log("🚀 ~ tours", tours.length);
+        // console.log("🚀 ~ tours", tours[0].date.toDate());
+
+        const unique = tours.filter((thing, index, self) => {
+          return (
+            index ===
+            self.findIndex((t) => {
+              return t.id === thing.id;
+            })
+          );
+        });
+
+        // logObj(unique, "🚀 ~ unique");
+
+        const today = new Date().toISOString().slice(0, 10);
+
+        let prev = [];
+        let upcom = [];
+        unique.forEach((item) => {
+          if (item.date.toDate().toISOString().slice(0, 10) < today) {
+            prev.push(item);
+          } else {
+            upcom.push(item);
+          }
+        });
+
+        setListedData({ prev, upcom });
+      });
+    });
+  };
 
   useEffect(() => {
-    // 0 = previous = past
-    // 1 = upcoming = future
-    console.log("🚀 ~ selectedTab", selectedTab);
-    if (selectedTab === 0) {
-      const past = data.filter((item) => item.date.toDate() < new Date());
-      setListedData(past);
-    } else {
-      const future = data.filter((item) => item.date.toDate() >= new Date());
-      setListedData(future);
-    }
-  }, [selectedTab]);
+    Asyced();
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -110,25 +120,27 @@ export default function TouristTour({ navigation }) {
 
         {/* Body */}
         <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
-          {listedData.length > 0 ? (
+          {listedData?.prev.length > 0 || listedData?.upcom.length > 0 ? (
             <>
-              {listedData.map((item, index) => {
-                return (
-                  <View key={index} style={{ marginVertical: 20 }}>
-                    <TourDetailCard
-                      source={{ uri: item?.imageUrl }}
-                      title={item?.title}
-                      tour={item}
-                      onpress={() =>
-                        navigation.navigate("TouristDetailedInformation", {
-                          item,
-                          tourId: item.id,
-                        })
-                      }
-                    />
-                  </View>
-                );
-              })}
+              {listedData[selectedTab === 0 ? "prev" : "upcom"].map(
+                (item, index) => {
+                  return (
+                    <View key={index} style={{ marginVertical: 20 }}>
+                      <TourDetailCard
+                        source={{ uri: item?.imageUrl }}
+                        title={item?.title}
+                        tour={item}
+                        onpress={() =>
+                          navigation.navigate("TouristDetailedInformation", {
+                            item,
+                            tourId: item.id,
+                          })
+                        }
+                      />
+                    </View>
+                  );
+                }
+              )}
             </>
           ) : (
             <View
