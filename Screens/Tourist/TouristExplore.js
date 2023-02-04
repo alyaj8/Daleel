@@ -2,7 +2,7 @@ import { Feather } from "@expo/vector-icons";
 import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -55,33 +55,7 @@ export default function TouristExplore({ navigation }) {
   const [selectedAge, setSelectedAge] = useState(null);
   const [ageListVisible, setAgeListVisible] = useState(false);
 
-  const search = (text) => {
-    console.log(text);
-    const filter = [];
-    data.forEach((e) => {
-      if (e.title.toLowerCase().includes(text.toLowerCase())) {
-        filter.push(e);
-      }
-    });
-    setData(filter);
-    setFilteredData(filter);
-  };
-
-  const citiesBuilder = (data) => {
-    const cities = [
-      {
-        label: "كل المدن",
-        value: "كل المدن",
-      },
-    ];
-    data.forEach((e) => {
-      cities.push({
-        label: e.city,
-        value: e.city,
-      });
-    });
-    setCityList(cities);
-  };
+  const [searchText, setSearchText] = useState("");
 
   useFocusEffect(
     useCallback(() => {
@@ -122,63 +96,28 @@ export default function TouristExplore({ navigation }) {
     }, [])
   );
 
-  const onCityChange = (item) => {
+  useEffect(() => {
+    const isSearch = !!searchText;
+    const isCity = selectedCity !== "كل المدن" && selectedCity !== null;
+    const isAge = selectedAge !== "كل الأعمار" && selectedAge !== null;
+    console.log("🚀 ~ isSearch", isSearch);
+    console.log("🚀 ~ isCity", isCity);
+    console.log("🚀 ~ isAge", isAge);
     let localData = data;
-    // check if age filter is active
-    if (selectedAge !== "كل الأعمار") {
-      const filter = [];
-      localData.forEach((e) => {
-        if (e.age === selectedAge) {
-          filter.push(e);
-        }
-      });
-      localData = filter;
+
+    if (isSearch) {
+      localData = localData.filter((item) =>
+        item.title.toUpperCase().includes(searchText.toUpperCase())
+      );
     }
-
-    if (item.value === "كل المدن") {
-      setFilteredData(localData);
-    } else {
-      const filter = [];
-      localData.forEach((e) => {
-        if (e.city === item.value) {
-          filter.push(e);
-        }
-      });
-      setFilteredData(filter);
+    if (isCity) {
+      localData = localData.filter((item) => item.city === selectedCity);
     }
-
-    setSelectedCity(item);
-    setCityListVisible(false);
-  };
-
-  const onAgeChange = (item) => {
-    let localData = data;
-    // check if city filter is active
-    if (selectedCity !== "كل المدن") {
-      const filter = [];
-      localData.forEach((e) => {
-        if (e.city === selectedCity) {
-          filter.push(e);
-        }
-      });
-      localData = filter;
+    if (isAge) {
+      localData = localData.filter((item) => item.age === selectedAge);
     }
-
-    if (item.value === "كل الأعمار") {
-      setFilteredData(localData);
-    } else {
-      const filter = [];
-      localData.forEach((e) => {
-        if (e.age === item.value) {
-          filter.push(e);
-        }
-      });
-      setFilteredData(filter);
-    }
-
-    setSelectedAge(item);
-    setAgeListVisible(false);
-  };
+    setFilteredData(localData);
+  }, [selectedCity, selectedAge, searchText]);
 
   return (
     <View style={styles.container}>
@@ -224,7 +163,7 @@ export default function TouristExplore({ navigation }) {
           <TextInput
             placeholder="ابحث عن جوله او مرشد سياحي "
             placeholderTextColor="grey"
-            onChangeText={(text) => search(text)}
+            onChangeText={(text) => setSearchText(text)}
             style={{
               fontWeight: "bold",
               fontSize: 18,
@@ -247,7 +186,7 @@ export default function TouristExplore({ navigation }) {
         >
           {/* Age */}
           <DropDownPicker
-            onSelectItem={onAgeChange}
+            placeholder="العمر"
             open={ageListVisible}
             value={selectedAge}
             items={ageList}
@@ -261,7 +200,7 @@ export default function TouristExplore({ navigation }) {
 
           {/* City */}
           <DropDownPicker
-            onSelectItem={onCityChange}
+            placeholder="المدينة"
             open={cityListVisible}
             value={selectedCity}
             items={cityList}
