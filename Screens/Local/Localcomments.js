@@ -4,7 +4,7 @@ import { Rating } from "react-native-ratings";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
-class Comment extends Component {
+class Localcomment extends Component {
     render() {
         let book = this.props.route.params;
         console.log(book);
@@ -94,7 +94,7 @@ class Comment extends Component {
         );
     }
 }
-export default Comment;
+export default Localcomment;
 
 const styles = StyleSheet.create({
     container: {
