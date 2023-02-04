@@ -14,8 +14,9 @@ import {
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useForm } from "react-hook-form";
-import { Platform } from "react-native";
+import { Alert, Platform } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -35,7 +36,8 @@ import {
   screenWidth,
   uploadImage,
 } from "../../config/Constant";
-import { getUserObj, insertTour } from "../../network/ApiService";
+import { db } from "../../config/firebase";
+import { getUserId, getUserObj, insertTour } from "../../network/ApiService";
 import text from "../../style/text";
 import {
   isTime1After2,
@@ -640,7 +642,15 @@ const PostTourV2 = ({ navigation }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [pickerConfig, setPickerConfig] = useState("date"); // date, startTime, endTime
 
+  const [currentUserId, setCurrentUserId] = useState(null);
+
+  const getCurrentUser = async () => {
+    const user = await getUserId();
+    setCurrentUserId(user);
+    return user;
+  };
   useEffect(() => {
+    getCurrentUser();
     return () => {};
   }, []);
 
@@ -750,6 +760,18 @@ const PostTourV2 = ({ navigation }) => {
       location: ActLoc,
     };
 
+    const isTitleExist = activities.find(
+      (a) => a.title === activities.title && a.id !== activity.id
+    );
+    console.log("🚀 ~ isTitleExist", isTitleExist);
+    if (isTitleExist) {
+      Alert.alert(
+        "خطأ",
+        "الرجاء اختيار عنوان آخر للنشاط، لأنه موجود بالفعل في نشاط آخر"
+      );
+      return;
+    }
+
     setActivities([...activities, act]);
     setActivitiesMode("idle");
     setActivity(initActivity);
@@ -770,6 +792,18 @@ const PostTourV2 = ({ navigation }) => {
     setValue("activity", activityToEdit);
   };
   const onEditActivitySubmit = () => {
+    // check if title is added to another activity
+    const isTitleExist = activities.find(
+      (a) => a.title === activities.title && a.id !== activity.id
+    );
+    if (isTitleExist) {
+      Alert.alert(
+        "خطأ",
+        "الرجاء اختيار عنوان آخر للنشاط، لأنه موجود بالفعل في نشاط آخر"
+      );
+      return;
+    }
+
     const index = activities.findIndex((a) => a.id === activity.id);
     const newActivities = [...activities];
     newActivities[index] = activity;
@@ -809,6 +843,34 @@ const PostTourV2 = ({ navigation }) => {
     try {
       setIsLoading(true);
       setModalVisible(!isModalVisible);
+
+      // TODO: check if name is duplicated in firebase
+      // tours collection
+      const q = query(
+        collection(db, "tours"),
+        where("title", "==", getValues().title),
+        // localId current user
+        where("localId", "==", currentUserId)
+      );
+
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.size > 0) {
+        setIsLoading(false);
+        setModalVisible(!isModalVisible);
+        return Alert.alert(
+          "يوجد جولة بنفس الاسم",
+          "الرجاء تغيير اسم الجولة",
+          [
+            {
+              text: "حسنا",
+              onPress: () => console.log("Cancel Pressed"),
+              style: "cancel",
+            },
+          ],
+          { cancelable: false }
+        );
+      }
+
       const uploadedImage = await uploadImage(filePathTour);
       const { uid: userId, firstname } = await getUserObj();
 
