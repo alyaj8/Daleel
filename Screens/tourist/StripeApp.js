@@ -181,9 +181,8 @@ const StripeApp = ({ route, navigation }) => {
                     borderRadius: 30,
                     marginHorizontal: 4,
                     paddingHorizontal: 20,
-                    marginBottom: 60,
                     paddingBottom: 10,
-                    marginTop: -51,
+                    marginTop: -5,
                     borderColor: "black",
                     borderWidth: 0.5
                 }}
@@ -245,7 +244,7 @@ const styles = StyleSheet.create({
         alignContent: "center",
         borderRadius: 50,
         backgroundColor: "#5398a0",
-        marginTop: 19,
+        marginTop: 8,
         paddingLeft: 10,
         marginBottom: 10,
         alignSelf: "center",
@@ -260,7 +259,7 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         borderRadius: 30,
         marginHorizontal: 9,
-        marginBottom: 60,
+        marginBottom: 10,
 
         shadowColor: "lightgrey",
         shadowOffset: { height: 5, width: 5 },
