@@ -34,7 +34,7 @@ export default function Sign_up({ navigation }) {
         />
       </View>
 
-      <View style={{ marginTop: 50, alignSelf: "center" }}>
+      <View style={{ marginTop: 80, alignSelf: "center" }}>
         <Text style={{ fontSize: 33, fontWeight: "bold" }}>
           {" "}
           أهلا بك في دليل!
@@ -43,19 +43,19 @@ export default function Sign_up({ navigation }) {
 
       <View style={{ marginTop: 40, alignSelf: "flex-end" }}>
         <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-          {"   "} تسجيل حساب جديد ك:
+          {"   "}  تسجيل حساب جديد كـ:
         </Text>
       </View>
 
-      <View style={{ marginLeft: -165, marginTop: 80 }}>
+      <View style={{ marginLeft: -165, marginTop: 85 }}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Local_Sign_up");
           }}
         >
           <Image
-            style={{ height: 120, width: 120, alignSelf: "center" }}
-            source={require("../assets/22.jpg")}
+            style={{ height: 140, width: 120, alignSelf: "center" }}
+            source={require("../assets/location.png")}
           />
 
           <Text
@@ -70,15 +70,15 @@ export default function Sign_up({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style={{ marginLeft: 165, marginTop: -140 }}>
+      <View style={{ marginLeft: 165, marginTop: -160 }}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Tourist_Sign_up");
           }}
         >
           <Image
-            style={{ height: 120, width: 120, alignSelf: "center" }}
-            source={require("../assets/111.jpg")}
+            style={{ height: 140, width: 130, alignSelf: "center" }}
+            source={require("../assets/t1.png")}
           />
 
           <Text
