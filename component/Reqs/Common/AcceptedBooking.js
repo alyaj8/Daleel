@@ -180,18 +180,20 @@ export default function AcceptedBooking({
           // ...highlights.brdr02,
         }}
       >
-        <AppButton
-          title={"الدفع"}
-          onPress={onPressPayment}
-          style={{
-            width: screenWidth.width40,
-            height: 60,
-            backgroundColor: colors.Blue,
-            borderRadius: 10,
-            padding: 10,
-            marginRight: 10,
-          }}
-        />
+        {type !== "local" && (
+          <AppButton
+            title={"الدفع"}
+            onPress={onPressPayment}
+            style={{
+              width: screenWidth.width40,
+              height: 60,
+              backgroundColor: colors.Blue,
+              borderRadius: 10,
+              padding: 10,
+              marginRight: 10,
+            }}
+          />
+        )}
         <AppButton
           title={"الذهاب للدردشة"}
           onPress={onpressAccepted}

@@ -66,7 +66,7 @@ export default function BookingDetail({ navigation, route }) {
           resizeMode="cover"
         >
           <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.white, text.text30,text.bold]}>جولاتي</Text>
+            <Text style={[text.white, text.text30, text.bold]}>جولاتي</Text>
           </View>
           <View style={[styles.card]}>
             <View style={[styles.alignCenter, {}]}>

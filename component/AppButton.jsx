@@ -10,10 +10,11 @@ const AppButton = ({
   style,
   error = "",
   disabled = false,
+  alwaysEnabled,
 }) => {
   return (
     <>
-      {!disabled && !error ? (
+      {(!disabled && !error) || alwaysEnabled ? (
         <TouchableOpacity
           style={[
             styles.button,

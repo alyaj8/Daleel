@@ -98,21 +98,26 @@ export async function insertRequest(data) {
 export async function updateTour(id, data) {
   try {
     const taskDocRef = doc(db, "tours", id);
-    const result = await updateDoc(taskDocRef, data);
-    console.log("updateRequest >result ", result);
+    await updateDoc(taskDocRef, data);
 
-    // TODO: update all related requests
-    const q = query(collection(db, "requests"), where("tourId", "==", id));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      // doc.data() is never undefined for query doc snapshots
-      const result = await updateRequest(doc.id, {
-        imageUrl: data?.imageUrl,
-        title: data?.title,
+    //TODO: if no image is provided, dont update the image
+    if (data?.imageUrl || data?.title) {
+      const dataToUpdate = {};
+      if (data?.imageUrl) {
+        dataToUpdate.imageUrl = data.imageUrl;
+      }
+      if (data?.title) {
+        dataToUpdate.title = data.title;
+      }
+
+      // TODO: update all related requests
+      const q = query(collection(db, "requests"), where("tourId", "==", id));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+        // doc.data() is never undefined for query doc snapshots
+        await updateRequest(doc.id, dataToUpdate);
       });
-    });
-
-    return result;
+    }
   } catch (err) {
     console.log("🚀 ~updateRequest err", err);
     alert(err);

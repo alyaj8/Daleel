@@ -23,7 +23,7 @@ function TouristHomeStack() {
 
       <Stack.Screen name="Comment" component={Comment} />
       <Stack.Screen name="Review2" component={Review2} />
-      <Stack.Screen name="StripeApp" component={StripeApp} />
+      <Stack.Screen name="Payment" component={StripeApp} />
     </Stack.Navigator>
   );
 }

@@ -1133,7 +1133,7 @@ const PostTourV2 = ({ navigation }) => {
           >
             {activities.length == 0 && selectedMenu == "0" ? (
               <AppButton
-                // disabled={!enablePost}
+                alwaysEnabled
                 style={{
                   ...styles.button,
                   ...styles.shadow,

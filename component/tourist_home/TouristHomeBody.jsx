@@ -80,35 +80,20 @@ const TouristHomeBody = ({
     });
   };
 
-  const OldAsyced = () => {
-    getUserId().then((currentUserIdLoc) => {
-      const q = query(
-        collection(db, "requests"),
-        where("touristId", "==", currentUserIdLoc)
-      );
-
-      const unsub = onSnapshot(q, (querySnapshot) => {
-        let newRequest = [];
-        querySnapshot.forEach((doc) => {
-          newRequest.push({
-            id: doc.id,
-            ...doc.data(),
-          });
-        });
-
-        // console.log("🚀 ~ newRequest", newRequest);
-        setRequestStatus(newRequest);
-        setData(newRequest);
-      });
-    });
-  };
-
   React.useEffect(() => {
     // console.log("Child", currentUserId);
     Asyced();
 
     // return unsub;
   }, []);
+
+  const onPressPayment = (req) => {
+    navigation.navigate("Payment", {
+      ...req,
+      mode: "request",
+      tourId: req.tourId,
+    });
+  };
 
   return (
     <ScrollView style={{}} showsVerticalScrollIndicator={false}>
@@ -198,6 +183,7 @@ const TouristHomeBody = ({
                           forPerson={item?.localName}
                           onpressAccepted={() => onPressChat(item)}
                           type="tourist"
+                          onPressPayment={() => onPressPayment(item)}
                           // onpressAccepted={() => navigation.navigate("ChatMenu")}
                         />
                       </View>
