@@ -330,6 +330,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
               </Text>
             </View>
 
+            {/* local name */}
+            <View
+              style={{
+                alignSelf: "center",
+              }}
+            >
+              <Text style={[text.text15, { fontWeight: "bold" }]}>
+                أسم المُرشد: {data?.localName}
+              </Text>
+            </View>
+
             <Rating
               startingValue={bookstar && bookstar / data.reviews?.length}
               imageSize={30}
