@@ -338,6 +338,18 @@ export default function TourDetailedInformation({ navigation, route }) {
                 {data?.title}
               </Text>
             </View>
+
+            {/* local name */}
+            <View
+              style={{
+                alignSelf: "center",
+              }}
+            >
+              <Text style={[text.text15, { fontWeight: "bold" }]}>
+                أسم المُرشد: {data?.localName}
+              </Text>
+            </View>
+
             {/* Price */}
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text

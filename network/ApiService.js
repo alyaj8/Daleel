@@ -352,7 +352,7 @@ export async function createChatRoom(senderId, receiverId) {
         console.log("✅ Got users data");
 
         await set(chatlist_FromTo_Set_Ref, chatOnSenderList);
-        await set(cghatlist_ToFrom_Set_Ref, chatOnReceiverList);
+        await set(chatlist_ToFrom_Set_Ref, chatOnReceiverList);
 
         await set(chats_Set_Ref, {
           roomId,

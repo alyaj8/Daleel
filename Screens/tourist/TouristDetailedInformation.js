@@ -559,28 +559,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
           </View>
 
-          {/* <TouchableOpacity
-            style={{
-              borderRadius: 25,
-              backgroundColor: reviewDone ? "#aadecc" : "#00a46c",
-              width: "48%",
-              height: 50,
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-            disabled={reviewDone}
-            onPress={() => navigation.navigate("Review2", data)}
-          >
-            <Text
-              style={{
-                fontWeight: "bold",
-                alignSelf: "center",
-                fontSize: 18,
-              }}
-            >
-              {reviewDone ? "Reviewed" : "Review it.."}
-            </Text>
-          </TouchableOpacity> */}
           {/* Activitys */}
           <View
             style={{

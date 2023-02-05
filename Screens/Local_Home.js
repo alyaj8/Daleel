@@ -27,6 +27,7 @@ import Button from "../component/button/Button";
 import AcceptedBooking from "../component/Reqs/Common/AcceptedBooking";
 import LocalRejectedCard from "../component/Reqs/Local/LocalRejectedCard";
 
+import Loading from "../component/Loading";
 import TabsWrapper from "../component/TabsWrapper";
 import { db } from "../config/firebase";
 
@@ -166,6 +167,8 @@ export default function Local_Home({ navigation }) {
   };
   return (
     <View style={styles.container}>
+      <Loading visible={isLoading} text="جاري الحجز" />
+
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
         <View

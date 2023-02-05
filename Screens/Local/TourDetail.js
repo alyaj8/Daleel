@@ -11,11 +11,16 @@ import {
 } from "react-native";
 import AppTouchableHigh from "../../component/AppTouchableHigh";
 import TourDetailCard from "../../component/card/TourDetailCard";
+import Loading from "../../component/Loading";
 import AcceptedBooking from "../../component/Reqs/Common/AcceptedBooking";
 import TabsWrapper from "../../component/TabsWrapper";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
-import { getUserId } from "../../network/ApiService";
+import {
+  createChatRoom,
+  getUserId,
+  getUserObj,
+} from "../../network/ApiService";
 import text from "../../style/text";
 // import AcceptedBooking from "../../component/Reqs/Common/AcceptedBooking";
 
@@ -39,6 +44,30 @@ export default function TourDetail({ navigation }) {
     post: [],
     upcom: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onPressChat = async (request) => {
+    try {
+      setIsLoading(true);
+
+      const me = await getUserObj();
+      const chatItem = await createChatRoom(me.uid, request.bookedBy);
+
+      navigation.navigate("ChatConv", {
+        receiverName: chatItem.name,
+        receiverId: chatItem.senderId,
+        senderId: me.uid,
+        senderName: me.firstname,
+        roomId: chatItem.roomId,
+      });
+
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.log("🚀 ~ Local Home Err> ", error);
+    }
+  };
+
   const goToTourDetail = (tour) => {
     navigation.navigate("TourDetailedInformation", {
       ...tour,
@@ -105,6 +134,8 @@ export default function TourDetail({ navigation }) {
 
   return (
     <View style={styles.container}>
+      <Loading visible={isLoading} text="جاري الحجز" />
+
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
         <View
