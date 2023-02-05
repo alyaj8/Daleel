@@ -171,7 +171,7 @@ const StripeApp = ({ route, navigation }) => {
         >
           <Text
             style={{
-              marginLeft: 50,
+              marginLeft: 80,
               marginTop: -20,
               fontSize: 29,
               color: "#FFF",
