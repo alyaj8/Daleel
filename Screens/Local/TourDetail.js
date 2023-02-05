@@ -393,6 +393,7 @@ export default function TourDetail({ navigation }) {
                       >
                         <AcceptedBooking
                           mode="myTour"
+                          chatDisabled
                           key={index}
                           source={{ uri: item?.imageUrl }}
                           // booked={item?.touristName}
@@ -401,7 +402,7 @@ export default function TourDetail({ navigation }) {
                           time={setTime}
                           item={item}
                           forPerson={item?.bookedByName}
-                          onpressAccepted={() => onPressChat(item)}
+                          onpressAccepted={() => console.log("Hi")}
                           type="local"
                         />
                       </AppTouchableHigh>

@@ -23,6 +23,7 @@ export default function AcceptedBooking({
   forPerson,
   type = "local", // local or tourist
   mode,
+  chatDisabled,
 }) {
   const paymentAllownceTimePassed =
     item?.acceptedAt?.toDate() < PaymentAllownceTime;
@@ -228,7 +229,7 @@ export default function AcceptedBooking({
         <AppButton
           title={"الذهاب للدردشة"}
           onPress={onpressAccepted}
-          disabled={!item?.isPaid}
+          disabled={!item?.isPaid || chatDisabled}
           style={{
             flex: 1,
             height: 60,
