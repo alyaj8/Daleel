@@ -72,6 +72,7 @@ export default function TourDetailedInformation({ navigation, route }) {
     id: null,
   });
   let [bookstar, setBookStar] = useState(0);
+
   let checkReview = () => {
     let countStar = 0;
     data?.reviews?.length >= 0 &&
@@ -85,9 +86,10 @@ export default function TourDetailedInformation({ navigation, route }) {
         setBookStar(countStar);
       });
   };
+
   useEffect(() => {
     checkReview();
-  });
+  }, []);
 
   const getTourDetail = async () => {
     let tourDetail = route.params;
@@ -258,7 +260,8 @@ export default function TourDetailedInformation({ navigation, route }) {
                 <Image source={images.photo} style={[styles.dummyImg]} />
               )}
             </View>
-            {/* Title */}
+
+            {/* Rating */}
             <View
               style={{
                 alignSelf: "center",
@@ -289,7 +292,6 @@ export default function TourDetailedInformation({ navigation, route }) {
                 >
                   {"     "} {(bookstar / data.reviews?.length).toFixed(2)} من
                   اصل 5 {"\n"}
-                 
                 </Text>
               ) : (
                 <Text style={{ color: "black" }}></Text>
@@ -305,7 +307,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 onPress={() => {
                   navigation.navigate("Localcomments", data);
                 }}
-               // disabled={data.reviews?.length == null ? true : false}
+                // disabled={data.reviews?.length == null ? true : false}
               >
                 <Text
                   style={{
@@ -319,10 +321,19 @@ export default function TourDetailedInformation({ navigation, route }) {
                     textAlign: "center",
                   }}
                 >
-                  {data.reviews?.length > 0 ? "تقيمات الجولة" : " تقييمات الجولة..."}
+                  {data.reviews?.length > 0
+                    ? "تقيمات الجولة"
+                    : " تقييمات الجولة..."}
                 </Text>
               </TouchableOpacity>
-
+            </View>
+            {/* Title */}
+            <View
+              style={{
+                alignSelf: "center",
+                paddingBottom: 15,
+              }}
+            >
               <Text style={[text.text30, { fontWeight: "bold" }]}>
                 {data?.title}
               </Text>
