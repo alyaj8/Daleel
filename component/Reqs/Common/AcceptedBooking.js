@@ -29,6 +29,8 @@ export default function AcceptedBooking({
 
   const isMyTour = mode === "myTour";
 
+  const isPaid = item?.isPaid;
+
   return (
     <View
       style={[
@@ -226,10 +228,10 @@ export default function AcceptedBooking({
         <AppButton
           title={"الذهاب للدردشة"}
           onPress={onpressAccepted}
+          disabled={!item?.isPaid}
           style={{
             flex: 1,
             height: 60,
-
             backgroundColor: colors.lightBrown,
             borderRadius: 10,
             padding: 10,

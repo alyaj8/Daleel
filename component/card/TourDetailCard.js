@@ -66,7 +66,7 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                       { fontWeight: "bold", color: colors.green },
                     ]}
                   >
-                    متاحة
+                    متاحة للحجز
                   </Text>
                 ) : (
                   <Text
@@ -75,7 +75,7 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                       { fontWeight: "bold", color: colors.redTheme },
                     ]}
                   >
-                    غير متاحة
+                    غير متاحة للحجز
                   </Text>
                 ))}
 
@@ -88,7 +88,7 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                       { fontWeight: "bold", color: colors.green },
                     ]}
                   >
-                    متاحة
+                    قادمة
                   </Text>
                 ) : (
                   <Text
@@ -111,7 +111,7 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                       { fontWeight: "bold", color: colors.lightBrown },
                     ]}
                   >
-                    محجوزة من قبل {bookedByName}
+                    محجوزة
                   </Text>
                 </>
               )}

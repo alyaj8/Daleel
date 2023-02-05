@@ -52,6 +52,8 @@ export default function TourDetail({ navigation }) {
 
       const me = await getUserObj();
       const chatItem = await createChatRoom(me.uid, request.bookedBy);
+      console.log("🚀 ~ request.bookedBy", request.bookedBy);
+      console.log("🚀 ~ me.uid", me.uid);
 
       navigation.navigate("ChatConv", {
         receiverName: chatItem.name,
