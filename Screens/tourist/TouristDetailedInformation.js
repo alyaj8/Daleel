@@ -31,11 +31,7 @@ import {
   updateRequest,
 } from "../../network/ApiService";
 import text from "../../style/text";
-import {
-  getFormattedDate,
-  getFormattedTime,
-  logObj,
-} from "./../../util/DateHelper";
+import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
 async function sendBookNotification(
   expoPushToken,
   title,
@@ -125,8 +121,6 @@ export default function TouristDetailedInformation({ navigation, route }) {
   useEffect(() => {
     checkReview();
   });
-
-  logObj(data, "🚀 ~ data", " s");
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -626,7 +620,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
               <AppButton
                 title={customizing ? "حفظ التخصيص" : "تخصيص الأنشطة"}
-                disabled={!isCustomizable || tourStatus == "requested"}
+                disabled={
+                  !isCustomizable ||
+                  tourStatus == "requested" ||
+                  tourStatus == "accepted" ||
+                  data.isPaid == true
+                }
                 style={{
                   backgroundColor: customizing
                     ? colors.lightBrown

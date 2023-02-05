@@ -9,6 +9,7 @@ import {
   Text,
   View,
 } from "react-native";
+import AppTouchableHigh from "../../component/AppTouchableHigh";
 import TourDetailCard from "../../component/card/TourDetailCard";
 import TabsWrapper from "../../component/TabsWrapper";
 import { images, screenWidth } from "../../config/Constant";
@@ -21,7 +22,7 @@ const tabs = [
     title: "القادمة",
   },
   {
-    title: "الحالية",
+    title: "المَنشورة",
   },
   {
     title: "السابقة",
@@ -33,10 +34,15 @@ export default function TourDetail({ navigation }) {
   const [selectedTab, setSelectedTab] = useState(0);
   const [listedData, setListedData] = useState({
     prev: [],
-    curr: [],
+    post: [],
     upcom: [],
   });
-
+  const goToTourDetail = (tour) => {
+    navigation.navigate("TourDetailedInformation", {
+      ...tour,
+      mode: "myTour",
+    });
+  };
   const Asyced = () => {
     getUserId().then((currentUserIdLoc) => {
       const q = query(
@@ -68,30 +74,25 @@ export default function TourDetail({ navigation }) {
         const today = new Date().toISOString().slice(0, 10);
 
         let prev = []; // past, any status
-        let curr = []; // present, future, status 0
+        let post = []; // present, future, status 0
         let upcom = []; // present, future, status 1
 
         unique.forEach((item) => {
           const tourDate = item.date.toDate().toISOString().slice(0, 10);
 
-          // past, any status
-          if (tourDate < today) {
+          // past
+          if (tourDate < today && item.isPaid) {
             prev.push(item);
           }
           // present, future
-          else if (tourDate >= today) {
-            // status 0
-            if (item.status === 0) {
-              curr.push(item);
-            }
-            // status 1
-            else if (item.status === 1) {
-              upcom.push(item);
-            }
+          else if (tourDate >= today && item.isPaid) {
+            upcom.push(item);
           }
+
+          post.push(item);
         });
 
-        setListedData({ prev, curr, upcom });
+        setListedData({ prev, post, upcom });
       });
     });
   };
@@ -145,58 +146,262 @@ export default function TourDetail({ navigation }) {
           }}
           showsVerticalScrollIndicator={false}
         >
-          <View style={[{}, styles.cardDiv, { marginTop: screenWidth.width2 }]}>
-            {listedData?.prev || listedData?.curr || listedData?.upcom ? (
-              listedData[
-                selectedTab === 0
-                  ? "upcom"
-                  : selectedTab === 1
-                  ? "curr"
-                  : "prev"
-              ].map((item, index) => {
-                // console.log('item', item.title)
-                return (
-                  <View key={index} style={{ marginVertical: 20 }}>
-                    <TourDetailCard
-                      key={index}
-                      source={{ uri: item?.imageUrl }}
-                      title={item?.title}
-                      tour={item}
-                      onpress={() =>
-                        navigation.navigate("TourDetailedInformation", item)
-                      }
-                    />
-                  </View>
-                );
-              })
-            ) : (
-              <View
-                style={{
-                  marginTop: 200,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  // flex: 1,
-                }}
-              >
-                <Text
-                  style={[
-                    {
-                      fontSize: 20,
-                      fontWeight: "bold",
-                      textAlign: "center",
-                      marginRight: 10,
-                    },
-                    text.text20,
-                  ]}
+          {/* OLD */}
+          {false && (
+            <View
+              style={[{}, styles.cardDiv, { marginTop: screenWidth.width2 }]}
+            >
+              {listedData?.prev || listedData?.post || listedData?.upcom ? (
+                listedData[
+                  selectedTab === 0
+                    ? "upcom"
+                    : selectedTab === 1
+                    ? "post"
+                    : "prev"
+                ].map((item, index) => {
+                  // console.log('item', item.title)
+                  return (
+                    <View key={index} style={{ marginVertical: 20 }}>
+                      <TourDetailCard
+                        mode="explore"
+                        key={index}
+                        source={{ uri: item?.imageUrl }}
+                        title={item?.title}
+                        tour={item}
+                        onpress={() =>
+                          navigation.navigate("TourDetailedInformation", item)
+                        }
+                      />
+                    </View>
+                  );
+                })
+              ) : (
+                <View
+                  style={{
+                    marginTop: 200,
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    // flex: 1,
+                  }}
                 >
-                  لا يوجد جولات
-                </Text>
-                {/* Icon */}
-                <Feather name="alert-circle" size={24} color="black" />
-              </View>
-            )}
-          </View>
+                  <Text
+                    style={[
+                      {
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        textAlign: "center",
+                        marginRight: 10,
+                      },
+                      text.text20,
+                    ]}
+                  >
+                    لا يوجد جولات
+                  </Text>
+                  {/* Icon */}
+                  <Feather name="alert-circle" size={24} color="black" />
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* upcom */}
+          {selectedTab === 0 && (
+            <View>
+              {listedData?.upcom.length > 0 ? (
+                <>
+                  {listedData?.upcom.map((item, index) => {
+                    const isDeleted = item?.isDeleted;
+
+                    return (
+                      <AppTouchableHigh
+                        key={index}
+                        onPress={
+                          !!isDeleted ? null : () => goToTourDetail(item)
+                        }
+                      >
+                        <View key={index} style={{ marginVertical: 20 }}>
+                          <TourDetailCard
+                            mode="myTour"
+                            key={index}
+                            source={{ uri: item?.imageUrl }}
+                            title={item?.title}
+                            tour={item}
+                            onpress={() =>
+                              navigation.navigate(
+                                "TourDetailedInformation",
+                                item
+                              )
+                            }
+                          />
+                        </View>
+                      </AppTouchableHigh>
+                    );
+                  })}
+                </>
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لا يوجد طلبات مُعلقة
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* post */}
+          {selectedTab === 1 && (
+            <View>
+              {listedData?.post.length > 0 ? (
+                <>
+                  {listedData?.post.map((item, index) => {
+                    const isDeleted = item?.isDeleted;
+
+                    return (
+                      <AppTouchableHigh
+                        key={index}
+                        onPress={
+                          !!isDeleted ? null : () => goToTourDetail(item)
+                        }
+                      >
+                        <View key={index} style={{ marginVertical: 20 }}>
+                          <TourDetailCard
+                            mode="myTour"
+                            key={index}
+                            source={{ uri: item?.imageUrl }}
+                            title={item?.title}
+                            tour={item}
+                            onpress={() =>
+                              navigation.navigate(
+                                "TourDetailedInformation",
+                                item
+                              )
+                            }
+                          />
+                        </View>
+                      </AppTouchableHigh>
+                    );
+                  })}
+                </>
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لا يوجد طلبات مُعلقة
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
+
+          {/* prev */}
+          {selectedTab === 2 && (
+            <View>
+              {listedData?.prev.length > 0 ? (
+                <>
+                  {listedData?.prev.map((item, index) => {
+                    const isDeleted = item?.isDeleted;
+
+                    return (
+                      <AppTouchableHigh
+                        key={index}
+                        onPress={
+                          !!isDeleted ? null : () => goToTourDetail(item)
+                        }
+                      >
+                        <View key={index} style={{ marginVertical: 20 }}>
+                          <TourDetailCard
+                            mode="myTour"
+                            key={index}
+                            source={{ uri: item?.imageUrl }}
+                            title={item?.title}
+                            tour={item}
+                            onpress={() =>
+                              navigation.navigate(
+                                "TourDetailedInformation",
+                                item
+                              )
+                            }
+                          />
+                        </View>
+                      </AppTouchableHigh>
+                    );
+                  })}
+                </>
+              ) : (
+                <View style={{ marginTop: 200, alignItems: "center" }}>
+                  <View
+                    style={{
+                      // marginTop: 200,
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      // flex: 1,
+                    }}
+                  >
+                    <Text
+                      style={[
+                        {
+                          fontSize: 20,
+                          fontWeight: "bold",
+                          textAlign: "center",
+                          marginRight: 10,
+                        },
+                        text.text20,
+                      ]}
+                    >
+                      لا يوجد طلبات مُعلقة
+                    </Text>
+                    {/* Icon */}
+                    <Feather name="alert-circle" size={24} color="black" />
+                  </View>
+                </View>
+              )}
+            </View>
+          )}
         </ScrollView>
       </ImageBackground>
       <StatusBar style="auto" />

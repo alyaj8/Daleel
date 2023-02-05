@@ -128,7 +128,7 @@ export async function updateRequest(reqId, data) {
   try {
     const taskDocRef = doc(db, "requests", reqId);
     const result = await setDoc(taskDocRef, data, { merge: true });
-    console.log("updateRequest >result ", result);
+    // console.log("updateRequest >result ", result);
 
     return result;
   } catch (err) {

@@ -8,11 +8,13 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
   const today = new Date().toISOString().slice(0, 10);
   const tourDate = tour.date.toDate().toISOString().slice(0, 10);
   const isExplore = mode === "explore";
+  const isMyTour = mode === "myTour";
   const isPassed = tourDate < today;
 
   // logObj(tour, "tour");
   const route = useRoute();
   // console.log("route", route);
+  console.log("🚀 ~ tour?.bookedBy", tour?.bookedBy);
 
   return (
     <View style={styles.container}>
@@ -43,17 +45,55 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
               ...highlights.brdr02,
             }}
           >
-            {/* title & activities */}
-            {isExplore && isPassed && (
-              <Text
-                style={[
-                  text.text15,
-                  { fontWeight: "bold", color: colors.redTheme },
-                ]}
-              >
-                فائتة
-              </Text>
-            )}
+            <View
+              style={{
+                flexDirection: "row-reverse",
+              }}
+            >
+              {/* Is passed & booked by */}
+              {(isExplore || isMyTour) &&
+                (isPassed ? (
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.redTheme },
+                    ]}
+                  >
+                    فائتة
+                  </Text>
+                ) : (
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.green },
+                    ]}
+                  >
+                    قادمة
+                  </Text>
+                ))}
+
+              {(isMyTour || isExplore) && tour.isPaid && (
+                <>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {" "}
+                    |{" "}
+                  </Text>
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.redTheme },
+                    ]}
+                  >
+                    محجوزة لـ {tour?.bookedByName}
+                  </Text>
+                </>
+              )}
+            </View>
+            {/* title */}
             <View
               style={{
                 flexDirection: "row",
@@ -63,11 +103,9 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                 ...highlights.brdr01,
               }}
             >
-              {/* activities */}
-
               <Text
                 style={[
-                  text.text20,
+                  text.text22,
                   {
                     textAlign: "center",
                     fontWeight: "bold",
@@ -79,7 +117,19 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                 {title}
               </Text>
             </View>
-
+            <Text
+              style={[
+                // text.text12,
+                {
+                  textAlign: "center",
+                  fontWeight: "bold",
+                  color: colors.textHeadingColor,
+                  ...highlights.brdr02,
+                },
+              ]}
+            >
+              المُرشد: {tour.localName}
+            </Text>
             {/* age & qty & city */}
             <Text
               style={{

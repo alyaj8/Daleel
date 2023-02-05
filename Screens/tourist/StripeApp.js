@@ -22,8 +22,11 @@ import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/Ionicons";
 import { highlights, images } from "../../config/Constant";
 import { db } from "../../config/firebase";
-import { updateRequest, updateTour } from "../../network/ApiService";
-import { logObj } from "../../util/DateHelper";
+import {
+  getUserObj,
+  updateRequest,
+  updateTour,
+} from "../../network/ApiService";
 
 //ADD localhost address of your server
 const API_URL = "http://localhost:19003";
@@ -43,7 +46,6 @@ const StripeApp = ({ route, navigation }) => {
   const [cardError, setCardError] = useState(false);
   // const { confirmPayment, loading } = useConfirmPayment();
   const req = route.params;
-  logObj(req.tourId);
 
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(`${API_URL}/create-payment-intent`, {
@@ -77,16 +79,22 @@ const StripeApp = ({ route, navigation }) => {
     }
     try {
       setLoading(true);
+      const currUser = await getUserObj();
+      console.log("🚀 ~ currUser", currUser?.firstname);
+      console.log("🚀 ~ currUser", currUser);
+
       // TODO: update tour to isPaid = true
       await updateTour(req.tourId, {
         isPaid: true,
         paidAt: new Date(),
+        bookedByName: currUser?.firstname,
       });
 
       // TODO: update request to isPaid = true
       await updateRequest(req.id, {
         isPaid: true,
         paidAt: new Date(),
+        bookedByName: currUser?.firstname,
       });
 
       // TODO: Update all other requests of the same tour to rejected

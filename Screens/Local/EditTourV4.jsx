@@ -1053,7 +1053,7 @@ const EditTourV4 = ({ navigation, route }) => {
   false && console.log("🚀 ~ dirtyFields", dirtyFields);
   false && console.log("🚀 ~ touchedFields", touchedFields);
 
-  !false && logObj(errors, "error");
+  false && logObj(errors, "error");
   // console.log("🚀 ~ activities.length", activities.length);
 
   return (

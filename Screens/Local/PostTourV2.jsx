@@ -942,10 +942,10 @@ const PostTourV2 = ({ navigation }) => {
 
         delete data.activity;
 
-        !!false && logObj(data, "data");
+        false && logObj(data, "data");
         !false && (await insertTour(data));
         setIsLoading(false);
-        false && navigation.goBack();
+        navigation.goBack();
       }
 
       // setLoading(false);
@@ -1038,7 +1038,7 @@ const PostTourV2 = ({ navigation }) => {
     Object.keys(errors).length === 0 &&
     activities.length > 0;
 
-  !false && logObj(errors, "error");
+  false && logObj(errors, "error");
   // console.log("🚀 ~ activities.length", activities.length);
 
   return (
