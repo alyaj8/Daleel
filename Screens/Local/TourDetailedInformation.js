@@ -281,15 +281,15 @@ export default function TourDetailedInformation({ navigation, route }) {
                   style={{
                     color: "black",
                     alignItems: "center",
-                    fontWeight: "bold",
+                    fontWeight: "800",
                     alignSelf: "center",
-                    fontSize: 8,
-                    marginTop: -7,
+                    fontSize: 15,
+                    marginTop: -10,
                   }}
                 >
                   {"     "} {(bookstar / data.reviews?.length).toFixed(2)} من
                   اصل 5 {"\n"}
-                  {data.reviews?.length} من الأشخاص
+                 
                 </Text>
               ) : (
                 <Text style={{ color: "black" }}></Text>
@@ -303,9 +303,9 @@ export default function TourDetailedInformation({ navigation, route }) {
                   alignSelf: "center",
                 }}
                 onPress={() => {
-                  navigation.navigate("Comment", data);
+                  navigation.navigate("Localcomments", data);
                 }}
-                disabled={data.reviews?.length == null ? true : false}
+               // disabled={data.reviews?.length == null ? true : false}
               >
                 <Text
                   style={{
@@ -314,12 +314,12 @@ export default function TourDetailedInformation({ navigation, route }) {
                         ? colors.lightBrown
                         : colors.lightBrown,
                     textDecorationLine: "underline",
-                    fontWeight: "bold",
-                    fontSize: 16,
+                    fontWeight: "900",
+                    fontSize: 18,
                     textAlign: "center",
                   }}
                 >
-                  {data.reviews?.length > 0 ? "تقيمات الجولة" : "تقيمات الجولة"}
+                  {data.reviews?.length > 0 ? "تقيمات الجولة" : " تقييمات الجولة..."}
                 </Text>
               </TouchableOpacity>
 
@@ -548,7 +548,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     isChecked={isReq && isSelected}
                     key={index}
                     activity={item}
-                    display
+                    //display
                   />
                 );
               })}
