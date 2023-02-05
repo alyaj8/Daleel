@@ -24,7 +24,7 @@ import { useLastNotificationResponse } from "expo-notifications";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import AppTouchableHigh from "../component/AppTouchableHigh";
 import Button from "../component/button/Button";
-import AcceptedBookings from "../component/Reqs/Common/AcceptedBooking";
+import AcceptedBooking from "../component/Reqs/Common/AcceptedBooking";
 import LocalRejectedCard from "../component/Reqs/Local/LocalRejectedCard";
 
 import TabsWrapper from "../component/TabsWrapper";
@@ -280,7 +280,7 @@ export default function Local_Home({ navigation }) {
                       key={index}
                       onPress={!!isDeleted ? null : () => goToTourDetail(item)}
                     >
-                      <AcceptedBookings
+                      <AcceptedBooking
                         key={index}
                         source={{ uri: item?.imageUrl }}
                         // booked={item?.touristName}

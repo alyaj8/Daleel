@@ -22,9 +22,12 @@ export default function AcceptedBooking({
   item,
   forPerson,
   type = "local", // local or tourist
+  mode,
 }) {
   const paymentAllownceTimePassed =
     item?.acceptedAt?.toDate() < PaymentAllownceTime;
+
+  const isMyTour = mode === "myTour";
 
   return (
     <View

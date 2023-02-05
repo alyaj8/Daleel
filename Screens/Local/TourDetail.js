@@ -11,11 +11,13 @@ import {
 } from "react-native";
 import AppTouchableHigh from "../../component/AppTouchableHigh";
 import TourDetailCard from "../../component/card/TourDetailCard";
+import AcceptedBooking from "../../component/Reqs/Common/AcceptedBooking";
 import TabsWrapper from "../../component/TabsWrapper";
 import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
+// import AcceptedBooking from "../../component/Reqs/Common/AcceptedBooking";
 
 const tabs = [
   {
@@ -211,7 +213,10 @@ export default function TourDetail({ navigation }) {
               {listedData?.upcom.length > 0 ? (
                 <>
                   {listedData?.upcom.map((item, index) => {
-                    const isDeleted = item?.isDeleted;
+                    const date = new Date(item?.dateCreated);
+                    const setDate = date.toDateString();
+                    const setTime = date.toTimeString();
+                    const isDeleted = item.isDeleted;
 
                     return (
                       <AppTouchableHigh
@@ -220,21 +225,19 @@ export default function TourDetail({ navigation }) {
                           !!isDeleted ? null : () => goToTourDetail(item)
                         }
                       >
-                        <View key={index} style={{ marginVertical: 20 }}>
-                          <TourDetailCard
-                            mode="myTour"
-                            key={index}
-                            source={{ uri: item?.imageUrl }}
-                            title={item?.title}
-                            tour={item}
-                            onpress={() =>
-                              navigation.navigate(
-                                "TourDetailedInformation",
-                                item
-                              )
-                            }
-                          />
-                        </View>
+                        <AcceptedBooking
+                          mode="myTour"
+                          key={index}
+                          source={{ uri: item?.imageUrl }}
+                          // booked={item?.touristName}
+                          title={item?.title}
+                          date={setDate}
+                          time={setTime}
+                          item={item}
+                          forPerson={item?.bookedByName}
+                          onpressAccepted={() => onPressChat(item)}
+                          type="local"
+                        />
                       </AppTouchableHigh>
                     );
                   })}
@@ -343,7 +346,10 @@ export default function TourDetail({ navigation }) {
               {listedData?.prev.length > 0 ? (
                 <>
                   {listedData?.prev.map((item, index) => {
-                    const isDeleted = item?.isDeleted;
+                    const date = new Date(item?.dateCreated);
+                    const setDate = date.toDateString();
+                    const setTime = date.toTimeString();
+                    const isDeleted = item.isDeleted;
 
                     return (
                       <AppTouchableHigh
@@ -352,21 +358,19 @@ export default function TourDetail({ navigation }) {
                           !!isDeleted ? null : () => goToTourDetail(item)
                         }
                       >
-                        <View key={index} style={{ marginVertical: 20 }}>
-                          <TourDetailCard
-                            mode="myTour"
-                            key={index}
-                            source={{ uri: item?.imageUrl }}
-                            title={item?.title}
-                            tour={item}
-                            onpress={() =>
-                              navigation.navigate(
-                                "TourDetailedInformation",
-                                item
-                              )
-                            }
-                          />
-                        </View>
+                        <AcceptedBooking
+                          mode="myTour"
+                          key={index}
+                          source={{ uri: item?.imageUrl }}
+                          // booked={item?.touristName}
+                          title={item?.title}
+                          date={setDate}
+                          time={setTime}
+                          item={item}
+                          forPerson={item?.bookedByName}
+                          onpressAccepted={() => onPressChat(item)}
+                          type="local"
+                        />
                       </AppTouchableHigh>
                     );
                   })}
