@@ -91,7 +91,7 @@ export default function TouristTour({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex: 1 , marginTop: -50 }} source={images.backgroundImg}>
         {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 20 }]}>
           <Text
@@ -102,6 +102,7 @@ export default function TouristTour({ navigation }) {
                 textAlign: "center",
                 //color: colors.Blue,
                 fontSize: 30,
+                marginTop: 40,
               },
               text.white,
               text.bold,
