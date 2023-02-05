@@ -133,6 +133,7 @@ export default function TouristTour({ navigation }) {
                   return (
                     <View key={index} style={{ marginVertical: 20 }}>
                       <TourDetailCard
+                        mode="tourist"
                         source={{ uri: item?.imageUrl }}
                         title={item?.title}
                         tour={item}

@@ -8,13 +8,20 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
   const today = new Date().toISOString().slice(0, 10);
   const tourDate = tour.date.toDate().toISOString().slice(0, 10);
   const isExplore = mode === "explore";
+  console.log("🚀 ~ isExplore", isExplore);
   const isMyTour = mode === "myTour";
+  console.log("🚀 ~ isMyTour", isMyTour);
   const isPassed = tourDate < today;
+  const isPaid = tour.isPaid;
+  const bookedByName = tour.bookedByName;
 
   // logObj(tour, "tour");
   const route = useRoute();
   // console.log("route", route);
   console.log("🚀 ~ tour?.bookedBy", tour?.bookedBy);
+
+  // switch status
+  // available only for explore when not paid and not passed
 
   return (
     <View style={styles.container}>
@@ -50,9 +57,40 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                 flexDirection: "row-reverse",
               }}
             >
-              {/* Is passed & booked by */}
-              {(isExplore || isMyTour) &&
-                (isPassed ? (
+              {/* Is Explore  available */}
+              {isExplore &&
+                (!isPassed && !isPaid ? (
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.green },
+                    ]}
+                  >
+                    متاحة
+                  </Text>
+                ) : (
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.redTheme },
+                    ]}
+                  >
+                    غير متاحة
+                  </Text>
+                ))}
+
+              {/* Is My Tour  available */}
+              {isMyTour &&
+                (!isPassed ? (
+                  <Text
+                    style={[
+                      text.text15,
+                      { fontWeight: "bold", color: colors.green },
+                    ]}
+                  >
+                    متاحة
+                  </Text>
+                ) : (
                   <Text
                     style={[
                       text.text15,
@@ -61,34 +99,19 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
                   >
                     فائتة
                   </Text>
-                ) : (
-                  <Text
-                    style={[
-                      text.text15,
-                      { fontWeight: "bold", color: colors.green },
-                    ]}
-                  >
-                    قادمة
-                  </Text>
                 ))}
 
-              {(isMyTour || isExplore) && tour.isPaid && (
+              {/* Is Booked */}
+              {isMyTour && isPaid && (
                 <>
-                  <Text
-                    style={{
-                      fontWeight: "bold",
-                    }}
-                  >
-                    {" "}
-                    |{" "}
-                  </Text>
+                  <Text style={[{ fontWeight: "bold" }]}> | </Text>
                   <Text
                     style={[
                       text.text15,
-                      { fontWeight: "bold", color: colors.redTheme },
+                      { fontWeight: "bold", color: colors.lightBrown },
                     ]}
                   >
-                    محجوزة لـ {tour?.bookedByName}
+                    محجوزة من قبل {bookedByName}
                   </Text>
                 </>
               )}

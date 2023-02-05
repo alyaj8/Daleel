@@ -165,7 +165,7 @@ export default function TourDetail({ navigation }) {
                   return (
                     <View key={index} style={{ marginVertical: 20 }}>
                       <TourDetailCard
-                        mode="explore"
+                        mode="myTour"
                         key={index}
                         source={{ uri: item?.imageUrl }}
                         title={item?.title}
