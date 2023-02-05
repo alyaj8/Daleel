@@ -349,3 +349,7 @@ export const uploadImage = async (path) => {
     return Promise.reject(err);
   }
 };
+
+export const PaymentAllownceTime = new Date().setHours(
+  new Date().getHours() - 6
+);

@@ -27,7 +27,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors, imagePickerConfig, images, screenWidth } from "../config/Constant";
+import {
+  colors,
+  imagePickerConfig,
+  images,
+  screenWidth,
+} from "../config/Constant";
 import { auth, db } from "../config/firebase";
 import { registerForPushNotificationsAsync } from "../util/Notifcations";
 import Loading from "./../component/Loading";
@@ -224,7 +229,9 @@ export default function Local_Sign_up({ navigation }) {
     if (value.username === "") {
       setUsernameError("الرجاء إدخال اسم المستخدم");
     } else if (!checkUserName(value.username))
-      setUsernameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف");
+      setUsernameError(
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف"
+      );
     else {
       CheckUnique(value.username);
     }
@@ -242,7 +249,6 @@ export default function Local_Sign_up({ navigation }) {
   };
 
   async function signUp() {
-    console.log("user333");
     if (
       value.firstname === "" ||
       value.lastname === "" ||
@@ -280,7 +286,6 @@ export default function Local_Sign_up({ navigation }) {
           value.email,
           value.password
         );
-        console.log("user1111");
 
         const isTourHasImage = filePath ? true : false;
         let imageUrl = null;
@@ -475,7 +480,7 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {NameError}
@@ -493,7 +498,7 @@ export default function Local_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {LastNameError}
@@ -513,7 +518,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {UsernameError}
@@ -532,7 +537,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {EmailError}
@@ -555,7 +560,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {PhoneError}
@@ -575,7 +580,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {MaroofError}
@@ -595,7 +600,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {PassError}
@@ -615,7 +620,7 @@ export default function Local_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {Pass2Error}

@@ -59,8 +59,6 @@ export default function Log_in2({ navigation }) {
 
     const user = auth.currentUser;
 
-    console.log("l oggedInUser", loggedInUser);
-
     if (loggedInUser !== null) {
       if (loggedInUser.isTourist) {
         await updateDoc(doc(db, "users", loggedInUser.uid), {
@@ -91,8 +89,6 @@ export default function Log_in2({ navigation }) {
 
   // Navigate to home page
   const navigateToDashboard = (user) => {
-    console.log("🚀 ~ user");
-
     try {
       if (user.isTourist) {
         navigation.navigate("TouristBottomTabs");

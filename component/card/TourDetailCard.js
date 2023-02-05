@@ -4,7 +4,12 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
 
-export default function TourDetailCard({ onpress, source, title, tour }) {
+export default function TourDetailCard({ onpress, source, title, tour, mode }) {
+  const today = new Date().toISOString().slice(0, 10);
+  const tourDate = tour.date.toDate().toISOString().slice(0, 10);
+  const isExplore = mode === "explore";
+  const isPassed = tourDate < today;
+
   // logObj(tour, "tour");
   const route = useRoute();
   // console.log("route", route);
@@ -39,6 +44,16 @@ export default function TourDetailCard({ onpress, source, title, tour }) {
             }}
           >
             {/* title & activities */}
+            {isExplore && isPassed && (
+              <Text
+                style={[
+                  text.text15,
+                  { fontWeight: "bold", color: colors.redTheme },
+                ]}
+              >
+                فائتة
+              </Text>
+            )}
             <View
               style={{
                 flexDirection: "row",

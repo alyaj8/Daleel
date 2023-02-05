@@ -4,6 +4,7 @@ import {
   colors,
   highlights,
   images,
+  PaymentAllownceTime,
   screenWidth,
 } from "../../../config/Constant";
 import { getFormattedDate, getFormattedTime } from "../../../util/DateHelper";
@@ -22,14 +23,8 @@ export default function AcceptedBooking({
   forPerson,
   type = "local", // local or tourist
 }) {
-  const isLost6hours =
-    item?.acceptedAt?.toDate() < new Date().setHours(new Date().getHours() - 6);
-  const isLost5min =
-    item?.acceptedAt?.toDate() <
-    new Date().setMinutes(new Date().getMinutes() - 5);
-
-  console.log("🚀 ~ isLost6hours", isLost6hours);
-  console.log("🚀 ~ isLLost5min", isLost5min);
+  const paymentAllownceTimePassed =
+    item?.acceptedAt?.toDate() < PaymentAllownceTime;
 
   return (
     <View
@@ -81,7 +76,7 @@ export default function AcceptedBooking({
               >
                 {item?.isPaid
                   ? "تم الدفع"
-                  : isLost6hours
+                  : paymentAllownceTimePassed
                   ? "فات وقت الدفع"
                   : "لم يتم الدفع بعد"}
               </Text>
@@ -207,9 +202,13 @@ export default function AcceptedBooking({
         {type !== "local" && (
           <AppButton
             title={
-              item?.isPaid ? "تم الدفع" : isLost6hours ? "فات الدفع" : "الدفع"
+              item?.isPaid
+                ? "تم الدفع"
+                : paymentAllownceTimePassed
+                ? "فات الدفع"
+                : "الدفع"
             }
-            disabled={item?.isPaid || isLost6hours}
+            disabled={item?.isPaid || paymentAllownceTimePassed}
             onPress={onPressPayment}
             style={{
               width: screenWidth.width40,

@@ -268,7 +268,12 @@ const ActivityCard = ({
               onPress={openMaps}
               style={[styles.row, styles.ROWxLeft_COLyTop, {}]}
             >
-              <Text style={[text.text12, { textAlign: "right" }]}>
+              <Text
+                style={[
+                  text.text12,
+                  { textAlign: "right", fontWeight: "bold" },
+                ]}
+              >
                 {limitCharacters(location?.title, 20)}
               </Text>
               <MIcon

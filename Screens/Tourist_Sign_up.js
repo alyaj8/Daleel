@@ -164,7 +164,6 @@ export default function Tourist_Sign_up({ navigation }) {
           value.email,
           value.password
         );
-        console.log("user", user.uid);
 
         const data = {
           email: value.email,
@@ -309,7 +308,7 @@ export default function Tourist_Sign_up({ navigation }) {
               style={{
                 color: "red",
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {NameError}
@@ -330,7 +329,7 @@ export default function Tourist_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {EmailError}
@@ -351,7 +350,7 @@ export default function Tourist_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {PhoneError}
@@ -372,7 +371,7 @@ export default function Tourist_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {PassError}
@@ -392,7 +391,7 @@ export default function Tourist_Sign_up({ navigation }) {
                 color: "red",
                 marginLeft: 10,
                 fontSize: 12,
-                textAlign: "right"
+                textAlign: "right",
               }}
             >
               {Pass2Error}

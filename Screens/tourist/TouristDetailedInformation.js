@@ -107,9 +107,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
   });
 
   const isReq = route.params?.mode === "request";
-  console.log("🚀 ~ isReq", isReq);
   const currentActs = route.params?.activities;
-  console.log("🚀 ~ selectedActivities", currentActs);
 
   let checkReview = () => {
     let countStar = 0;
@@ -170,13 +168,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
           if (doc.data().status == 0) {
             setTourStatus("requested");
-          } else if (doc.data().status == 1) {
+          } else if (doc.data().status == 1 && doc.data().isPaid == false) {
             setTourStatus("accepted");
           } else if (doc.data().status == 2) {
             setTourStatus("rejected");
           }
         }
-        console.log("not requested");
       });
     });
 
@@ -711,31 +708,44 @@ export default function TouristDetailedInformation({ navigation, route }) {
 
           {/* Button */}
           <View style={{ alignSelf: "center", marginVertical: 30 }}>
-            <AppButton
-              title={
-                tourStatus == "requested"
-                  ? "تم الطلب"
-                  : tourStatus == "accepted"
-                  ? "تم الحجز"
-                  : tourStatus == "rejected"
-                  ? "طلب مرة أخرى"
-                  : "حجز الرحلة"
-              }
-              disabled={tourStatus == "requested" || tourStatus == "accepted"}
-              onPress={toggleModal}
-              style={{
-                backgroundColor:
+            {data?.isPaid ? (
+              <AppButton
+                title="جولة محجوزة"
+                disabled
+                style={{
+                  paddingVertical: 18,
+                  paddingHorizontal: 30,
+                  width: screenWidth.width90,
+                }}
+              />
+            ) : (
+              <AppButton
+                title={
                   tourStatus == "requested"
-                    ? colors.gray
+                    ? "تم الطلب"
                     : tourStatus == "accepted"
-                    ? colors.green
+                    ? "تم الحجز"
                     : tourStatus == "rejected"
-                    ? colors.redTheme
-                    : colors.Blue,
-                paddingVertical: 18,
-                width: screenWidth.width90,
-              }}
-            />
+                    ? "طلب مرة أخرى"
+                    : "حجز الرحلة"
+                }
+                disabled={tourStatus == "requested" || tourStatus == "accepted"}
+                onPress={toggleModal}
+                style={{
+                  backgroundColor:
+                    tourStatus == "requested"
+                      ? colors.gray
+                      : tourStatus == "accepted"
+                      ? colors.green
+                      : tourStatus == "rejected"
+                      ? colors.redTheme
+                      : colors.Blue,
+                  paddingVertical: 18,
+                  paddingHorizontal: 30,
+                  width: screenWidth.width90,
+                }}
+              />
+            )}
           </View>
 
           <StatusBar style="auto" />

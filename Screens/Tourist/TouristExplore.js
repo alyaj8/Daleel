@@ -1,8 +1,7 @@
 import { Feather } from "@expo/vector-icons";
-import { useFocusEffect } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
-import React, { useCallback, useEffect, useState } from "react";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   ScrollView,
@@ -18,7 +17,6 @@ import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
-import { logObj } from "../../util/DateHelper";
 
 export default function TouristExplore({ navigation }) {
   const [data, setData] = useState([]);
@@ -58,44 +56,41 @@ export default function TouristExplore({ navigation }) {
 
   const [searchText, setSearchText] = useState("");
 
-  useFocusEffect(
-    useCallback(() => {
-      const getAllRequests = async () => {
-        const uid = await getUserId();
-        const q = query(
-          collection(db, "tours"),
-          where("status", "==", 0),
-          // date is in the future
-          where("date", ">", new Date())
-        );
-        // listen for changes
-        const unsubscribe = onSnapshot(q, (querySnapshot) => {
-          const bag = [];
-          querySnapshot.forEach((doc) => {
-            // console.log(
-            //   "🚀 ~ doc.data().status === 0",
-            //   doc.data().status === 0
-            // );
-            if (doc.data().status === 0) {
-              bag.push({
-                id: doc.id,
-                ...doc.data(),
-              });
-            }
-          });
+  const Asyced = () => {
+    getUserId().then((currentUserIdLoc) => {
+      const q = query(collection(db, "tours"));
 
-          setData(bag);
-          setFilteredData(bag);
-          // remove duplicates from array
-          const unique = [...new Set(bag)];
-          setData(unique);
-          setFilteredData(unique);
-          citiesBuilder(unique);
+      const unsub = onSnapshot(q, (querySnapshot) => {
+        let newRequest = [];
+        querySnapshot.forEach((doc) => {
+          newRequest.push({
+            id: doc.id,
+            ...doc.data(),
+          });
         });
-      };
-      getAllRequests();
-    }, [])
-  );
+
+        const unique = newRequest.filter((thing, index, self) => {
+          return (
+            index ===
+            self.findIndex((t) => {
+              return t.id === thing.id;
+            })
+          );
+        });
+        citiesBuilder(unique);
+
+        setData(unique);
+        setFilteredData(unique);
+      });
+    });
+  };
+
+  React.useEffect(() => {
+    // console.log("Child", currentUserId);
+    Asyced();
+
+    // return unsub;
+  }, []);
 
   const citiesBuilder = (data) => {
     const cities = [
@@ -119,7 +114,7 @@ export default function TouristExplore({ navigation }) {
     setCityList(cities);
   };
 
-  logObj(cityList);
+  // logObj(cityList);
 
   useEffect(() => {
     const isSearch = !!searchText;
@@ -143,11 +138,11 @@ export default function TouristExplore({ navigation }) {
 
   return (
     <View style={styles.container}>
-     <ImageBackground
-      style={{ flex: 1 , marginTop: -40, }}
-      source={images.backgroundImg}
-      resizeMode="cover"
-    >
+      <ImageBackground
+        style={{ flex: 1, marginTop: -40 }}
+        source={images.backgroundImg}
+        resizeMode="cover"
+      >
         {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 50 }]}>
           <Text
@@ -185,7 +180,11 @@ export default function TouristExplore({ navigation }) {
             borderWidth: 2,
           }}
         >
-          <Icon name="ios-search" size={25} style={{ marginRight: 10 , color: "#BDBDBD" }} />
+          <Icon
+            name="ios-search"
+            size={25}
+            style={{ marginRight: 10, color: "#BDBDBD" }}
+          />
           <TextInput
             placeholder="إبحث عن جولة      "
             placeholderTextColor="grey"
@@ -194,7 +193,7 @@ export default function TouristExplore({ navigation }) {
               fontWeight: "bold",
               fontSize: 18,
               width: 260,
-              
+
               textAlign: "right",
             }}
           />
@@ -209,7 +208,6 @@ export default function TouristExplore({ navigation }) {
             marginHorizontal: 20,
             marginTop: 20,
             zIndex: 1,
-            
           }}
         >
           {/* Age */}
@@ -222,7 +220,6 @@ export default function TouristExplore({ navigation }) {
             setValue={setSelectedAge}
             setItems={setAgeList}
             containerStyle={{
-              
               width: "45%",
             }}
           />
@@ -250,6 +247,7 @@ export default function TouristExplore({ navigation }) {
                 return (
                   <View key={index} style={{ marginVertical: 20 }}>
                     <TourDetailCard
+                      mode="explore"
                       source={{ uri: item?.imageUrl }}
                       title={item?.title}
                       tour={item}

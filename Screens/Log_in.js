@@ -85,9 +85,6 @@ function Log_in({ navigation, isTourist, setisTourist }) {
         value.email,
         value.password
       );
-      console.log("====================================");
-      console.log("user.uid", user.uid);
-      console.log("====================================");
       setValue({ email: "", password: "", error: "" });
       //////////////////////////////////////////////////
       getDoc(doc(db, "users", user.uid))
