@@ -187,7 +187,7 @@ const ChatsList = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex: 1 , marginTop:-50 }} source={images.backgroundImg}>
         {/* Header */}
         <Text
           style={[
@@ -196,7 +196,7 @@ const ChatsList = ({ navigation }) => {
             text.bold,
             text.text30,
             {
-              marginTop: 40,
+              marginTop: 50,
               width: "100%",
               textAlign: "center",
               //color:colors.Blue
@@ -237,7 +237,7 @@ const ChatsList = ({ navigation }) => {
               >
                 لا يوجد لديك محادثات حاليا
               </Text>
-              <Feather name="alert-circle" size={35} color="red" />
+              <Feather name="alert-circle" size={35} color="#c66b3d" />
             </View>
           )}
         </View>
