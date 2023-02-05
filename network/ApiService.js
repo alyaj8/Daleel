@@ -155,20 +155,6 @@ export async function acceptRequest(reqId, tourId, touristId) {
       bookedBy: touristId,
     });
 
-    // TODO: Update all other requests of the same tour to rejected
-    const q = query(collection(db, "requests"), where("tourId", "==", tourId));
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach(async (doc) => {
-      // TODO: Dont update the current request
-      if (doc.id !== reqId) {
-        // doc.data() is never undefined for query doc snapshots
-        const result = await updateRequest(doc.id, {
-          status: 2,
-          rejectedAt: new Date(),
-        });
-      }
-    });
     return true;
   } catch (err) {
     console.log("🚀 ~ acceptRequest err", err);

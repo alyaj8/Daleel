@@ -1,6 +1,12 @@
 import { CardField, useStripe } from "@stripe/stripe-react-native";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useState } from "react";
 import {
   ActivityIndicator,
@@ -15,6 +21,7 @@ import {
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/Ionicons";
 import { highlights, images } from "../../config/Constant";
+import { db } from "../../config/firebase";
 import { updateRequest, updateTour } from "../../network/ApiService";
 import { logObj } from "../../util/DateHelper";
 
@@ -80,6 +87,24 @@ const StripeApp = ({ route, navigation }) => {
       await updateRequest(req.id, {
         isPaid: true,
         paidAt: new Date(),
+      });
+
+      // TODO: Update all other requests of the same tour to rejected
+      const q = query(
+        collection(db, "requests"),
+        where("tourId", "==", req.tourId)
+      );
+
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach(async (doc) => {
+        // TODO: Dont update the current request
+        if (doc.id !== req.id) {
+          // doc.data() is never undefined for query doc snapshots
+          const result = await updateRequest(doc.id, {
+            status: 2,
+            rejectedAt: new Date(),
+          });
+        }
       });
 
       setLoading(false);
@@ -191,7 +216,7 @@ const StripeApp = ({ route, navigation }) => {
             height: 30,
             width: 40,
             borderRadius: 10,
-            
+
             marginTop: 60,
             marginLeft: 19,
           }}
@@ -215,9 +240,8 @@ const StripeApp = ({ route, navigation }) => {
           <View>
             <TouchableOpacity
               onPress={handlePayPress}
-              style={styles.fixToText }
+              style={styles.fixToText}
               color="white"
-              
             >
               <Text style={styles.buyit}>ادفع الان</Text>
             </TouchableOpacity>
@@ -247,7 +271,7 @@ const StripeApp = ({ route, navigation }) => {
                 fontSize: 25,
                 fontWeight: "900",
                 marginTop: 15,
-                color : "#c66b3d",
+                color: "#c66b3d",
               }}
             >
               تفاصيل الطلبية
@@ -257,7 +281,7 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 fontSize: 30,
                 fontWeight: "bold",
-                color : "#c66b3d",
+                color: "#c66b3d",
                 marginTop: 20,
               }}
             >
@@ -265,7 +289,12 @@ const StripeApp = ({ route, navigation }) => {
             </Text>
 
             <Text
-              style={{ textAlign: "right" , padding: 15 , fontSize: 25, fontWeight: "500" }}
+              style={{
+                textAlign: "right",
+                padding: 15,
+                fontSize: 25,
+                fontWeight: "500",
+              }}
             >
               {req?.title}
             </Text>
@@ -274,14 +303,19 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 fontSize: 30,
                 fontWeight: "bold",
-                color : "#c66b3d",
+                color: "#c66b3d",
                 marginTop: 20,
               }}
             >
               سعر الجولة:
             </Text>
             <Text
-              style={{ textAlign: "right", padding: 20, fontSize: 25, fontWeight: "500" }}
+              style={{
+                textAlign: "right",
+                padding: 20,
+                fontSize: 25,
+                fontWeight: "500",
+              }}
             >
               {req?.price} ريال
             </Text>
@@ -303,7 +337,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#efefefef",
 
     borderRadius: 8,
-   
+
     fontSize: 20,
     height: 50,
     padding: 10,
