@@ -69,7 +69,7 @@ export default function Tourist_Home({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex: 1 ,marginTop: -49}} source={images.backgroundImg}>
         {/* Header */}
         <Text
           style={[
@@ -78,7 +78,7 @@ export default function Tourist_Home({ navigation }) {
             text.bold,
             text.text30,
             {
-              marginTop: 20,
+              marginTop: 45,
               width: "100%",
               textAlign: "center",
               //color:colors.Blue

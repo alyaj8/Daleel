@@ -157,7 +157,7 @@ const StripeApp = ({ route, navigation }) => {
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "black", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 30, marginLeft: -10 }}
           onPress={() => navigation.goBack()}
         />
         <View
@@ -172,7 +172,7 @@ const StripeApp = ({ route, navigation }) => {
           <Text
             style={{
               marginLeft: 50,
-              marginTop: -40,
+              marginTop: -20,
               fontSize: 29,
               color: "#FFF",
               fontWeight: "bold",
@@ -191,6 +191,7 @@ const StripeApp = ({ route, navigation }) => {
             height: 30,
             width: 40,
             borderRadius: 10,
+            
             marginTop: 60,
             marginLeft: 19,
           }}
@@ -209,13 +210,14 @@ const StripeApp = ({ route, navigation }) => {
           }}
         />
         {loading ? (
-          <ActivityIndicator size={"large"} color="blue" />
+          <ActivityIndicator size={"large"} color="white" />
         ) : (
           <View>
             <TouchableOpacity
               onPress={handlePayPress}
-              style={styles.fixToText}
-              color="black"
+              style={styles.fixToText }
+              color="white"
+              
             >
               <Text style={styles.buyit}>ادفع الان</Text>
             </TouchableOpacity>
@@ -227,14 +229,14 @@ const StripeApp = ({ route, navigation }) => {
       <View
         style={{
           backgroundColor: "white",
-          height: 440,
+          height: 400,
           borderRadius: 30,
           marginHorizontal: 4,
           paddingHorizontal: 20,
           paddingBottom: 10,
-          marginTop: -5,
-          borderColor: "black",
-          borderWidth: 0.5,
+          marginTop: 3,
+          borderColor: "#BDBDBD",
+          borderWidth: 3,
         }}
       >
         <ScrollView>
@@ -243,40 +245,43 @@ const StripeApp = ({ route, navigation }) => {
               style={{
                 textAlign: "center",
                 fontSize: 25,
-                fontWeight: "bold",
+                fontWeight: "900",
                 marginTop: 15,
+                color : "#c66b3d",
               }}
             >
-              عرض الطلبية
+              تفاصيل الطلبية
             </Text>
             <Text
               style={{
                 textAlign: "right",
-                fontSize: 20,
+                fontSize: 30,
                 fontWeight: "bold",
-                marginTop: 16,
+                color : "#c66b3d",
+                marginTop: 20,
               }}
             >
               عنوان الجولة:{" "}
             </Text>
 
             <Text
-              style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}
+              style={{ textAlign: "right" , padding: 15 , fontSize: 25, fontWeight: "500" }}
             >
               {req?.title}
             </Text>
             <Text
               style={{
                 textAlign: "right",
-                fontSize: 20,
+                fontSize: 30,
                 fontWeight: "bold",
-                marginTop: 5,
+                color : "#c66b3d",
+                marginTop: 20,
               }}
             >
               سعر الجولة:
             </Text>
             <Text
-              style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}
+              style={{ textAlign: "right", padding: 20, fontSize: 25, fontWeight: "500" }}
             >
               {req?.price} ريال
             </Text>
@@ -298,6 +303,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#efefefef",
 
     borderRadius: 8,
+   
     fontSize: 20,
     height: 50,
     padding: 10,
@@ -323,7 +329,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 50,
-    backgroundColor: "#5398a0",
+    backgroundColor: "#c4a35a",
     marginTop: 8,
     paddingLeft: 10,
     marginBottom: 10,
@@ -366,7 +372,8 @@ const styles = StyleSheet.create({
   },
   buyit: {
     fontSize: 18,
-    fontWeight: "bold",
+    color: "white",
+    fontWeight: "800",
     alignSelf: "center",
     marginTop: 10,
     marginBottom: 10,

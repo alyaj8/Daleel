@@ -143,9 +143,13 @@ export default function TouristExplore({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
+     <ImageBackground
+      style={{ flex: 1 , marginTop: -40, }}
+      source={images.backgroundImg}
+      resizeMode="cover"
+    >
         {/* Header */}
-        <View style={[styles.alignCenter, { marginVertical: 20 }]}>
+        <View style={[styles.alignCenter, { marginVertical: 50 }]}>
           <Text
             style={[
               {
@@ -172,24 +176,25 @@ export default function TouristExplore({ navigation }) {
             paddingVertical: 8,
             paddingHorizontal: 20,
             marginHorizontal: 20,
-            borderRadius: 15,
-            marginTop: 25,
+            borderRadius: 9,
+            marginTop: -25,
             marginBottom: -10,
             flexDirection: "row",
             alignItems: "center",
-            borderColor: "black",
-            borderWidth: 0.2,
+            borderColor: "#BDBDBD",
+            borderWidth: 2,
           }}
         >
-          <Icon name="ios-search" size={25} style={{ marginRight: 10 }} />
+          <Icon name="ios-search" size={25} style={{ marginRight: 10 , color: "#BDBDBD" }} />
           <TextInput
-            placeholder="ابحث عن جوله او مرشد سياحي "
+            placeholder="إبحث عن جولة      "
             placeholderTextColor="grey"
             onChangeText={(text) => setSearchText(text)}
             style={{
               fontWeight: "bold",
               fontSize: 18,
               width: 260,
+              
               textAlign: "right",
             }}
           />
@@ -204,6 +209,7 @@ export default function TouristExplore({ navigation }) {
             marginHorizontal: 20,
             marginTop: 20,
             zIndex: 1,
+            
           }}
         >
           {/* Age */}
@@ -216,6 +222,7 @@ export default function TouristExplore({ navigation }) {
             setValue={setSelectedAge}
             setItems={setAgeList}
             containerStyle={{
+              
               width: "45%",
             }}
           />
