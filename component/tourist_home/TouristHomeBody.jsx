@@ -10,7 +10,6 @@ import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import AppTouchableHigh from "../AppTouchableHigh";
 import Button from "../button/Button";
-import { screenWidth } from "./../../config/Constant";
 
 import AcceptedBooking from "../Reqs/Common/AcceptedBooking";
 import TouristPendingCard from "../Reqs/Tourist/TouristPendingCard";
@@ -283,7 +282,6 @@ const TouristHomeBody = ({
         </View>
       )}
 
-      <View style={{ marginBottom: screenWidth.width20 }}></View>
       <Modal isVisible={isModalVisibleAccepted}>
         <View style={[styles.modalView]}>
           <View style={[styles.main]}>

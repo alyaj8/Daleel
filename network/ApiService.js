@@ -152,6 +152,7 @@ export async function acceptRequest(reqId, tourId, touristId) {
     const result = await updateDoc(taskDocRef, {
       status: 1,
       acceptedAt: new Date(),
+      bookedBy: touristId,
     });
 
     // TODO: Update all other requests of the same tour to rejected

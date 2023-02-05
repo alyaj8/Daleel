@@ -937,12 +937,13 @@ const PostTourV2 = ({ navigation }) => {
           dateCreated: Date.now(),
           dateUpdated: null,
           status: 0,
+          isPaid: false,
         };
 
         delete data.activity;
 
         !!false && logObj(data, "data");
-        !false && (await insertTour(data, "tours"));
+        !false && (await insertTour(data));
         setIsLoading(false);
         false && navigation.goBack();
       }

@@ -36,10 +36,12 @@ export default function TouristTour({ navigation }) {
 
   const Asyced = () => {
     getUserId().then((currentUserIdLoc) => {
+      console.log("🚀 ~ currentUserIdLoc", currentUserIdLoc);
       const q = query(
         collection(db, "tours"),
-        where("status", "==", 1)
-        // where("bookedBy", "==", currentUserIdLoc)
+        where("status", "==", 1),
+        where("isPaid", "==", true)
+        // where("requestBy", "==", currentUserIdLoc)
       );
 
       const unsub = onSnapshot(q, (querySnapshot) => {
@@ -119,7 +121,7 @@ export default function TouristTour({ navigation }) {
         </View>
 
         {/* Body */}
-        <ScrollView style={[styles.cardDiv, { marginTop: screenWidth.width5 }]}>
+        <ScrollView style={[styles.cardDiv]}>
           {listedData?.prev.length > 0 || listedData?.upcom.length > 0 ? (
             <>
               {listedData[selectedTab === 0 ? "prev" : "upcom"].map(
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   cardDiv: {
-    marginTop: 20,
+    // marginTop: 20,
   },
   modalView: {
     flex: 1,

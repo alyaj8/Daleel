@@ -15,7 +15,7 @@ import {
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/Ionicons";
 import { highlights, images } from "../../config/Constant";
-import { updateTour } from "../../network/ApiService";
+import { updateRequest, updateTour } from "../../network/ApiService";
 import { logObj } from "../../util/DateHelper";
 
 //ADD localhost address of your server
@@ -35,8 +35,8 @@ const StripeApp = ({ route, navigation }) => {
   const [cardDetails, setCardDetails] = useState();
   const [cardError, setCardError] = useState(false);
   // const { confirmPayment, loading } = useConfirmPayment();
-  const tour = route.params;
-  logObj(tour.tourId);
+  const req = route.params;
+  logObj(req.tourId);
 
   const fetchPaymentIntentClientSecret = async () => {
     const response = await fetch(`${API_URL}/create-payment-intent`, {
@@ -70,12 +70,18 @@ const StripeApp = ({ route, navigation }) => {
     }
     try {
       setLoading(true);
-      await updateTour(tour.tourId, {
+      // TODO: update tour to isPaid = true
+      await updateTour(req.tourId, {
         isPaid: true,
         paidAt: new Date(),
-        imageUrl: tour.imageUrl,
-        title: tour.title,
       });
+
+      // TODO: update request to isPaid = true
+      await updateRequest(req.id, {
+        isPaid: true,
+        paidAt: new Date(),
+      });
+
       setLoading(false);
       showToast();
 
@@ -257,7 +263,7 @@ const StripeApp = ({ route, navigation }) => {
             <Text
               style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}
             >
-              {tour?.title}
+              {req?.title}
             </Text>
             <Text
               style={{
@@ -272,7 +278,7 @@ const StripeApp = ({ route, navigation }) => {
             <Text
               style={{ textAlign: "right", fontSize: 15, fontWeight: "bold" }}
             >
-              {tour?.price} ريال
+              {req?.price} ريال
             </Text>
           </View>
         </ScrollView>

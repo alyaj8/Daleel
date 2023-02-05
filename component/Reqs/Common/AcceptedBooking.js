@@ -22,6 +22,11 @@ export default function AcceptedBooking({
   forPerson,
   type = "local", // local or tourist
 }) {
+  const isLLost5min =
+    item?.acceptedAt?.toDate() <
+    new Date().setMinutes(new Date().getMinutes() - 5);
+  console.log("🚀 ~ isLLost5min", isLLost5min);
+
   return (
     <View
       style={[
@@ -50,18 +55,33 @@ export default function AcceptedBooking({
           }}
         >
           {/* Title */}
-          <View style={{ alignItems: "flex-end" }}>
+          <View style={{ alignItems: "flex-end", marginBottom: 1 }}>
             <Text
               style={{
                 fontSize: 24,
                 color: colors.brown,
-                marginBottom: 5,
                 fontWeight: "bold",
                 textAlign: "right",
               }}
             >
               {title}
             </Text>
+            {type == "local" && (
+              <Text
+                style={{
+                  fontSize: 16,
+                  textAlign: "right",
+                  fontWeight: "bold",
+                  color: colors.lightBrown,
+                }}
+              >
+                {item?.isPaid
+                  ? "تم الدفع"
+                  : isLLost5min
+                  ? "فات وقت الدفع"
+                  : "لم يتم الدفع بعد"}
+              </Text>
+            )}
           </View>
 
           {/* Booked at */}
@@ -182,7 +202,10 @@ export default function AcceptedBooking({
       >
         {type !== "local" && (
           <AppButton
-            title={"الدفع"}
+            title={
+              item?.isPaid ? "تم الدفع" : isLLost5min ? "فات الدفع" : "الدفع"
+            }
+            disabled={item?.isPaid || isLLost5min}
             onPress={onPressPayment}
             style={{
               width: screenWidth.width40,
