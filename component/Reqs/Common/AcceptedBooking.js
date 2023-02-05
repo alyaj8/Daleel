@@ -22,10 +22,14 @@ export default function AcceptedBooking({
   forPerson,
   type = "local", // local or tourist
 }) {
-  const isLLost5min =
+  const isLost6hours =
+    item?.acceptedAt?.toDate() < new Date().setHours(new Date().getHours() - 6);
+  const isLost5min =
     item?.acceptedAt?.toDate() <
     new Date().setMinutes(new Date().getMinutes() - 5);
-  console.log("🚀 ~ isLLost5min", isLLost5min);
+
+  console.log("🚀 ~ isLost6hours", isLost6hours);
+  console.log("🚀 ~ isLLost5min", isLost5min);
 
   return (
     <View
@@ -77,7 +81,7 @@ export default function AcceptedBooking({
               >
                 {item?.isPaid
                   ? "تم الدفع"
-                  : isLLost5min
+                  : isLost6hours
                   ? "فات وقت الدفع"
                   : "لم يتم الدفع بعد"}
               </Text>
@@ -203,9 +207,9 @@ export default function AcceptedBooking({
         {type !== "local" && (
           <AppButton
             title={
-              item?.isPaid ? "تم الدفع" : isLLost5min ? "فات الدفع" : "الدفع"
+              item?.isPaid ? "تم الدفع" : isLost6hours ? "فات الدفع" : "الدفع"
             }
-            disabled={item?.isPaid || isLLost5min}
+            disabled={item?.isPaid || isLost6hours}
             onPress={onPressPayment}
             style={{
               width: screenWidth.width40,

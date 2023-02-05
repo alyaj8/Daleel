@@ -40,8 +40,8 @@ export default function TouristTour({ navigation }) {
       const q = query(
         collection(db, "tours"),
         where("status", "==", 1),
-        where("isPaid", "==", true)
-        // where("requestBy", "==", currentUserIdLoc)
+        where("isPaid", "==", true),
+        where("bookedBy", "==", currentUserIdLoc)
       );
 
       const unsub = onSnapshot(q, (querySnapshot) => {
@@ -91,7 +91,10 @@ export default function TouristTour({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground style={{ flex: 1 , marginTop: -50 }} source={images.backgroundImg}>
+      <ImageBackground
+        style={{ flex: 1, marginTop: -50 }}
+        source={images.backgroundImg}
+      >
         {/* Header */}
         <View style={[styles.alignCenter, { marginVertical: 20 }]}>
           <Text
