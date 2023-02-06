@@ -1097,9 +1097,9 @@ const EditTourV4 = ({ navigation, route }) => {
                 }}
               >
                 <Text style={styles.headerText}>
-                  تحديث: {limitCharacters(tour.title, 7)}
+                   {limitCharacters(tour.title, 15)}
                 </Text>
-                <AppButton
+                {/* <AppButton
                   disabled={!enablePost}
                   style={{
                     // ...styles.button,
@@ -1107,11 +1107,11 @@ const EditTourV4 = ({ navigation, route }) => {
                     width: 60,
                     ...styles.shadow,
                   }}
-                  title={"تحديث"}
+                  title={"تديث"}
                   onPress={() => {
                     setModalVisible(true);
                   }}
-                />
+                /> */}
               </View>
             </View>
             <TabsWrapper

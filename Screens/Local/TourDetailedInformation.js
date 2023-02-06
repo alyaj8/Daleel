@@ -247,7 +247,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 { fontWeight: "bold", marginTop: -50 },
               ]}
             >
-              {data?.title}
+             معلومات الجولة
             </Text>
           </View>
 
@@ -283,7 +283,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               }}
             >
               <Text style={[text.text15, { fontWeight: "bold" }]}>
-                أسم المُرشد: {data?.localName}
+                اسم المُرشد: {data?.localName}
               </Text>
             </View>
             <View

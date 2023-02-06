@@ -96,7 +96,7 @@ export default function LocalBottomTabs() {
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              نشر
+              إنشاء جولة
             </Text>
           ),
           tabBarIcon: ({ focused }) => (

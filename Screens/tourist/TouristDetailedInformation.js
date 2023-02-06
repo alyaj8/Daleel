@@ -298,7 +298,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           />
           <View style={[styles.alignCenter, { marginTop: -36 }]}>
             <Text style={[text.text30, text.bold, { color: colors.white }]}>
-              {data?.title}
+             معلومات الجولة
             </Text>
           </View>
 
@@ -327,10 +327,11 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
+                paddingTop:7,
               }}
             >
               <Text style={[text.text15, { fontWeight: "bold" }]}>
-                أسم المُرشد: {data?.localName}
+                اسم المُرشد: {data?.localName}
               </Text>
             </View>
 
@@ -368,7 +369,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <TouchableOpacity
               style={{
                 width: 150,
-                height: 50,
+                height: 20,
                 alignItems: "center",
                 justifyContent: "center",
                 alignSelf: "center",
@@ -413,6 +414,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+                paddingTop:10,
               }}
             >
               <Text

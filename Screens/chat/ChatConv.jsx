@@ -1,12 +1,13 @@
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { child, getDatabase, onValue, ref } from "firebase/database";
 import React, { useCallback, useEffect, useState } from "react";
-import { Platform, StyleSheet } from "react-native";
-import { Bubble, GiftedChat } from "react-native-gifted-chat";
+import { Platform, StyleSheet,View } from "react-native";
+import { Bubble, GiftedChat ,Send } from "react-native-gifted-chat";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { IconButton } from 'react-native-paper';
 import { colors } from "../../config/Constant";
 import { markAsRead, sendMessage } from "../../network/ApiService";
-import { images } from "./../../config/Constant";
+import { images} from "./../../config/Constant";
 
 const ChatConvesation = ({
   navigation,
@@ -91,9 +92,21 @@ const ChatConvesation = ({
   }, []);
 
   console.log("🚀 ~ insets.bottom", insets.bottom);
+  function renderSend(props) {
+    return (
+      <Send {...props}>
+        <View style={styles.sendingContainer}>
+          <IconButton icon="send-circle" size={32}  iconColor={colors.lightBrown} />
+        </View>
+      </Send>
+    );
+  }
   return (
     // <KeyboardAvoidingView style={{ flex: 1 }}>
-    <GiftedChat
+    <GiftedChat 
+    renderSend={renderSend}
+    placeholder="اكتب رسالة"
+    alwaysShowSend={true}
       wrapInSafeArea={false}
       bottomOffset={
         Platform.OS === "ios" && !!DEFAULT_TABBAR_HEIGHT
@@ -114,20 +127,23 @@ const ChatConvesation = ({
             {...props}
             textStyle={{
               right: {
-                color: "white",
-
+                color: "black",
                 fontWeight: "bold",
                 padding: 3,
               },
               left: {
-                color: "white",
+                color: "black",
                 fontWeight: "bold",
                 padding: 3,
               },
             }}
             wrapperStyle={{
               left: {
-                backgroundColor: colors.brown,
+                backgroundColor: colors.gray,
+                borderRadius: 10,
+              },
+              right: {
+                backgroundColor: colors.lightBrown,
                 borderRadius: 10,
               },
             }}
@@ -141,4 +157,9 @@ const ChatConvesation = ({
 
 export default ChatConvesation;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  sendingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  }
+});

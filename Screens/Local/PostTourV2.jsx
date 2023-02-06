@@ -1082,7 +1082,7 @@ const PostTourV2 = ({ navigation }) => {
                 }}
               >
                 <Text style={styles.headerText}>نشر جولة جديدة</Text>
-                <AppButton
+                {/* <AppButton
                   disabled={!enablePost}
                   style={{
                     // ...styles.button,
@@ -1094,7 +1094,7 @@ const PostTourV2 = ({ navigation }) => {
                   onPress={() => {
                     setModalVisible(true);
                   }}
-                />
+                /> */}
               </View>
             </View>
             <TabsWrapper
