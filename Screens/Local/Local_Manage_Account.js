@@ -95,7 +95,7 @@ export default function Local_Manage_Account({ navigation }) {
             style={{
               resizeMode: "cover",
               opacity: 0.7,
-              width: 390,
+              width: 420,
               height: 260,
               marginTop: -13,
               marginLeft: -10,

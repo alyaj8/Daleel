@@ -20,11 +20,7 @@ class Comment extends Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <ImageBackground
-          style={{ flex: 1 }}
-          source={images.abackgroundImg}
-          resizeMode="cover"
-        >
+       
           <Pressable
             onPress={() => navigation.goBack()}
             style={{ position: "absolute", margin: 15 }}
@@ -102,7 +98,7 @@ class Comment extends Component {
               width: "48%",
               alignSelf: "center",
               marginTop: 30,
-              marginBottom: 20,
+              marginBottom: 35,
               height: 50,
               alignItems: "center",
               justifyContent: "center",
@@ -120,7 +116,7 @@ class Comment extends Component {
               قيم الجولة
             </Text>
           </TouchableOpacity>
-        </ImageBackground>
+       
       </SafeAreaView>
     );
   }
@@ -204,6 +200,8 @@ const styles = StyleSheet.create({
   arrowIcon: {
     width: 30,
     height: 30,
+    marginLeft: 20, 
+    marginTop: 40, 
     resizeMode: "contain",
     tintColor: colors.lightBrown,
   },

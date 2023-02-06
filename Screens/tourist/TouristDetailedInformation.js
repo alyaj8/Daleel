@@ -344,7 +344,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               tintColor={"#ececec"}
               style={{
                 marginVertical: 10,
-                padding: 5,
+                padding: 2,
               }}
             />
 
@@ -352,12 +352,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
               <Text
                 style={{
                   color: "black",
-                  alignItems: "center",
-
-                  fontWeight: "800",
-                  alignSelf: "center",
-                  fontSize: 15,
-                  marginTop: -10,
+                    alignItems: "center",
+                    fontWeight: "800",
+                    alignSelf: "center",
+                    marginLeft: 20,
+                    fontSize: 15,
+                    marginTop: -10,
                 }}
               >
                 {""} {(bookstar / data.reviews?.length).toFixed(2)} من أصل 5{" "}
@@ -369,7 +369,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <TouchableOpacity
               style={{
                 width: 150,
-                height: 20,
+                height: 50,
                 alignItems: "center",
                 justifyContent: "center",
                 alignSelf: "center",
@@ -389,20 +389,22 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   fontWeight: "900",
                   fontSize: 18,
                   textAlign: "center",
+                  marginTop: -20
+                  
                 }}
               >
                 {data.reviews?.length > 0
-                  ? "...تقيمات الجولة"
-                  : "تقيمات الجولة"}
+                  ? "تقيمات الجولة..."
+                  : "لا توجد تقيمات"}
               </Text>
             </TouchableOpacity>
             {/* Price */}
-            <View style={{ alignSelf: "center", marginVertical: 5 }}>
+            <View style={{ alignSelf: "center", marginVertical: -5 }}>
               <Text
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown, fontSize: 22, marginTop: -8 },
+                  { color: colors.brown, fontSize: 22,  paddingBottom: 25 },
                 ]}
               >
                 {price} SAR

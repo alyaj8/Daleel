@@ -55,10 +55,10 @@ export default function Review2({ route, navigation }) {
                     <Icon
                         name="arrow-back-outline"
                         size={45}
-                        style={{ color: "white", marginTop: 35, marginLeft: -5 }}
+                        style={{ color: colors.brown, marginTop: 15, marginLeft:  20 }}
                         onPress={() => navigation.goBack()}
                     />
-                    <View style={[styles.alignCenter, { marginTop: 20 }]}>
+                    <View style={[styles.alignCenter, { marginTop: -35 }]}>
                         <Text style={[text.text25, text.bold, { color: colors.Blue }]}>
                             تقييم  {book.title}
                         </Text>

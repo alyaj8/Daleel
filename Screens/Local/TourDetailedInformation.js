@@ -36,11 +36,12 @@ import {
   REQUESTS,
   screenWidth,
 } from "../../config/Constant";
-import { auth, db } from "../../config/firebase";
+import { Auth, db } from "../../config/firebase"; 
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
 import Icon from "react-native-vector-icons/Ionicons";
+import { getAuth } from "firebase/auth";
 
 export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");
@@ -48,6 +49,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
   const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
+  var Auth = getAuth() ; 
 
   const isReq = route.params?.mode === "request";
   const selectedActivities = route.params?.activities;
@@ -73,11 +75,12 @@ export default function TourDetailedInformation({ navigation, route }) {
     id: null,
   });
   let [bookstar, setBookStar] = useState(0);
+  let [reviewDone, setReviewDone] = useState(false);
 
   let checkReview = () => {
     let countStar = 0;
     data?.reviews?.length >= 0 &&
-      auth.onAuthStateChanged(async (user) => {
+      Auth.onAuthStateChanged(async (user) => {
         data.reviews?.map((val, ind) => {
           countStar = countStar + val.review;
           if (user.uid === val.comenteuseruid) {
@@ -87,11 +90,9 @@ export default function TourDetailedInformation({ navigation, route }) {
         setBookStar(countStar);
       });
   };
-
   useEffect(() => {
     checkReview();
-  }, []);
-
+  });
   const getTourDetail = async () => {
     let tourDetail = route.params;
 
@@ -225,7 +226,7 @@ export default function TourDetailedInformation({ navigation, route }) {
           <Icon
             name="arrow-back-outline"
             size={45}
-            style={{ color: "white", marginTop: 45, marginLeft: 5 }}
+            style={{ color: "white", marginTop: 45, marginLeft: 15 }}
             onPress={() => navigation.goBack()}
           />
           <View
@@ -301,6 +302,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 tintColor={"#ececec"}
                 style={{
                   marginVertical: 10,
+                padding: 2,
                 }}
               />
               {data.reviews?.length > 0 ? (
@@ -310,6 +312,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     alignItems: "center",
                     fontWeight: "800",
                     alignSelf: "center",
+                    marginLeft: 20,
                     fontSize: 15,
                     marginTop: -10,
                   }}
@@ -324,6 +327,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={{
                   width: 150,
                   height: 50,
+                  
                   alignItems: "center",
                   justifyContent: "center",
                   alignSelf: "center",
@@ -336,29 +340,31 @@ export default function TourDetailedInformation({ navigation, route }) {
                 <Text
                   style={{
                     color:
-                      data.reviews?.length > 0
-                        ? colors.lightBrown
-                        : colors.lightBrown,
-                    textDecorationLine: "underline",
-                    fontWeight: "900",
-                    fontSize: 18,
-                    textAlign: "center",
+                    data.reviews?.length > 0
+                      ? colors.lightBrown
+                      : colors.lightBrown,
+                  textDecorationLine: "underline",
+                  fontWeight: "900",
+                  fontSize: 18,
+                  
+                  textAlign: "center",
+                  marginTop: -20
                   }}
                 >
-                  {data.reviews?.length > 0
-                    ? "تقيمات الجولة"
-                    : " تقييمات الجولة..."}
+                    {data.reviews?.length > 0
+                  ? "تقيمات الجولة..."
+                  : "لا توجد تقيمات"}
                 </Text>
               </TouchableOpacity>
             </View>
             {/* Price */}
 
-            <View style={{ alignSelf: "center", marginVertical: 5 }}>
+            <View style={{ alignSelf: "center", marginVertical: -5 }}>
               <Text
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown, fontSize: 22, marginTop: -18 },
+                  { color: colors.brown, fontSize: 22,  paddingBottom: 25 },
                 ]}
               >
                 {data.price} SAR

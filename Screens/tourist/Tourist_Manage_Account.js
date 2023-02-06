@@ -95,9 +95,9 @@ export default function Tourist_Manage_Account({ navigation }) {
             source={require("../../assets/a1.jpg")}
             style={{
               resizeMode: "cover",
-              opacity: 0.6,
-              width: 390,
-              height: 250,
+              opacity: 0.7,
+              width: 420,
+              height: 260,
               marginTop: -13,
               marginLeft: -10,
             }}
