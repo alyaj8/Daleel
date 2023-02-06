@@ -40,6 +40,7 @@ import { auth, db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");
@@ -221,17 +222,17 @@ export default function TourDetailedInformation({ navigation, route }) {
           resizeMode="cover"
         >
           {/* Header */}
-          <Pressable
+          <Icon
+            name="arrow-back-outline"
+            size={45}
+            style={{ color: "white", marginTop: 45, marginLeft: 5 }}
             onPress={() => navigation.goBack()}
-            style={{ position: "absolute", margin: 25 }}
-          >
-            <Image source={images.arrow} style={[styles.arrowIcon]} />
-          </Pressable>
+          />
           <View
             style={[
               styles.alignCenter,
               {
-                height: 65,
+                height: 18,
                 // flexWrap: "wrap",
                 marginHorizontal: 35,
                 alignItems: "center",
@@ -243,7 +244,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               style={[
                 text.white,
                 text.text30,
-                { fontWeight: "bold", marginTop: 30 },
+                { fontWeight: "bold", marginTop: -50 },
               ]}
             >
               {data?.title}
@@ -262,6 +263,29 @@ export default function TourDetailedInformation({ navigation, route }) {
             </View>
 
             {/* Rating */}
+
+            {/* Title */}
+            <View
+              style={{
+                alignSelf: "center",
+                paddingBottom: 15,
+              }}
+            >
+              <Text style={[text.text30, { fontWeight: "bold" }]}>
+                {data?.title}
+              </Text>
+            </View>
+
+            {/* local name */}
+            <View
+              style={{
+                alignSelf: "center",
+              }}
+            >
+              <Text style={[text.text15, { fontWeight: "bold" }]}>
+                أسم المُرشد: {data?.localName}
+              </Text>
+            </View>
             <View
               style={{
                 alignSelf: "center",
@@ -307,7 +331,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 onPress={() => {
                   navigation.navigate("Localcomments", data);
                 }}
-                // disabled={data.reviews?.length == null ? true : false}
+              // disabled={data.reviews?.length == null ? true : false}
               >
                 <Text
                   style={{
@@ -327,36 +351,14 @@ export default function TourDetailedInformation({ navigation, route }) {
                 </Text>
               </TouchableOpacity>
             </View>
-            {/* Title */}
-            <View
-              style={{
-                alignSelf: "center",
-                paddingBottom: 15,
-              }}
-            >
-              <Text style={[text.text30, { fontWeight: "bold" }]}>
-                {data?.title}
-              </Text>
-            </View>
-
-            {/* local name */}
-            <View
-              style={{
-                alignSelf: "center",
-              }}
-            >
-              <Text style={[text.text15, { fontWeight: "bold" }]}>
-                أسم المُرشد: {data?.localName}
-              </Text>
-            </View>
-
             {/* Price */}
+
             <View style={{ alignSelf: "center", marginVertical: 5 }}>
               <Text
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown, paddingBottom: 20 },
+                  { color: colors.brown, fontSize: 22, marginTop: -18 },
                 ]}
               >
                 {data.price} SAR
@@ -571,7 +573,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     isChecked={isReq && isSelected}
                     key={index}
                     activity={item}
-                    //display
+                  //display
                   />
                 );
               })}
@@ -664,8 +666,6 @@ export default function TourDetailedInformation({ navigation, route }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    marginTop: 20,
   },
   alignCenter: {
     alignItems: "center",

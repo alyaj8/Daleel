@@ -31,6 +31,7 @@ import {
   updateRequest,
 } from "../../network/ApiService";
 import text from "../../style/text";
+import Icon from "react-native-vector-icons/Ionicons";
 import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
 async function sendBookNotification(
   expoPushToken,
@@ -279,7 +280,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
   }, [selectedActivities]);
 
   return (
-    <SafeAreaView style={styles.container}>
+    <View style={styles.container}>
       <Loading visible={isLoading} text="جاري الحجز" />
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageBackground
@@ -288,14 +289,15 @@ export default function TouristDetailedInformation({ navigation, route }) {
           resizeMode="cover"
         >
           {/* Header */}
-          <Pressable
+
+          <Icon
+            name="arrow-back-outline"
+            size={45}
+            style={{ color: "white", marginTop: 45, marginLeft: 10 }}
             onPress={() => navigation.goBack()}
-            style={{ position: "absolute", margin: 15 }}
-          >
-            <Image source={images.arrow} style={[styles.arrowIcon]} />
-          </Pressable>
-          <View style={[styles.alignCenter, { marginTop: 20 }]}>
-            <Text style={[text.text25, text.bold, { color: colors.white }]}>
+          />
+          <View style={[styles.alignCenter, { marginTop: -36 }]}>
+            <Text style={[text.text30, text.bold, { color: colors.white }]}>
               {data?.title}
             </Text>
           </View>
@@ -374,7 +376,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               onPress={() => {
                 navigation.navigate("Comment", data);
               }}
-              // disabled={data.reviews?.length == null ? true : false}
+            // disabled={data.reviews?.length == null ? true : false}
             >
               <Text
                 style={{
@@ -620,33 +622,33 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
             {isReq
               ? currentActs.map((item, index) => {
-                  return (
-                    <ActivityCard
-                      key={index}
-                      activity={item}
-                      display
-                      isChecked
-                    />
-                  );
-                })
+                return (
+                  <ActivityCard
+                    key={index}
+                    activity={item}
+                    display
+                    isChecked
+                  />
+                );
+              })
               : !!data?.activities &&
-                data?.activities.map((item, index) => {
-                  const isSelected = selectedActivities
-                    .map((item) => item.id)
-                    .includes(item.id);
+              data?.activities.map((item, index) => {
+                const isSelected = selectedActivities
+                  .map((item) => item.id)
+                  .includes(item.id);
 
-                  //   console.log("🚀 ~ OUT > isSelected", isSelected);
-                  return (
-                    <ActivityCard
-                      key={index}
-                      activity={item}
-                      display={!customizing}
-                      withChecklist={customizing}
-                      isChecked={isSelected}
-                      onCheck={handlePressActivity}
-                    />
-                  );
-                })}
+                //   console.log("🚀 ~ OUT > isSelected", isSelected);
+                return (
+                  <ActivityCard
+                    key={index}
+                    activity={item}
+                    display={!customizing}
+                    withChecklist={customizing}
+                    isChecked={isSelected}
+                    onCheck={handlePressActivity}
+                  />
+                );
+              })}
             {/* Price */}
             <View
               style={[
@@ -701,10 +703,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   tourStatus == "requested"
                     ? "تم الطلب"
                     : tourStatus == "accepted"
-                    ? "تم الحجز"
-                    : tourStatus == "rejected"
-                    ? "طلب مرة أخرى"
-                    : "حجز الرحلة"
+                      ? "تم الحجز"
+                      : tourStatus == "rejected"
+                        ? "طلب مرة أخرى"
+                        : "حجز الرحلة"
                 }
                 disabled={tourStatus == "requested" || tourStatus == "accepted"}
                 onPress={toggleModal}
@@ -713,10 +715,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     tourStatus == "requested"
                       ? colors.gray
                       : tourStatus == "accepted"
-                      ? colors.green
-                      : tourStatus == "rejected"
-                      ? colors.redTheme
-                      : colors.Blue,
+                        ? colors.green
+                        : tourStatus == "rejected"
+                          ? colors.redTheme
+                          : colors.Blue,
                   paddingVertical: 18,
                   paddingHorizontal: 30,
                   width: screenWidth.width90,
@@ -770,15 +772,13 @@ export default function TouristDetailedInformation({ navigation, route }) {
         </ImageBackground>
       </ScrollView>
       <ExpoStatusBar style="dark" />
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: screenWidth.width10,
-    backgroundColor: "#fff",
   },
   alignCenter: {
     alignItems: "center",

@@ -18,6 +18,7 @@ import { getAuth } from "firebase/auth";
 import { db } from "../../config/firebase";
 import { colors, images, screenWidth } from "../../config/Constant";
 import text from "../../style/text";
+
 export default function Review2({ route, navigation }) {
     const book = route.params;
     const auth = getAuth();
@@ -51,12 +52,12 @@ export default function Review2({ route, navigation }) {
                     source={images.abackgroundImg}
                     resizeMode="cover"
                 >
-                    <Pressable
+                    <Icon
+                        name="arrow-back-outline"
+                        size={45}
+                        style={{ color: "white", marginTop: 35, marginLeft: -5 }}
                         onPress={() => navigation.goBack()}
-                        style={{ position: "absolute", margin: 15 }}
-                    >
-                        <Image source={images.arrow} style={[styles.arrowIcon]} />
-                    </Pressable>
+                    />
                     <View style={[styles.alignCenter, { marginTop: 20 }]}>
                         <Text style={[text.text25, text.bold, { color: colors.Blue }]}>
                             تقييم  {book.title}

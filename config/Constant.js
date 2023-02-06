@@ -350,6 +350,6 @@ export const uploadImage = async (path) => {
   }
 };
 
-export const PaymentAllownceTime = new Date().setHours(
-  new Date().getHours() - 6
+export const PaymentAllownceTime = new Date().setMinutes(
+  new Date().getMinutes() - 2
 );
