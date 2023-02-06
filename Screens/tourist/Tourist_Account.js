@@ -28,6 +28,7 @@ import {
     where,
     getDocs,
     updateDoc,
+    deleteDoc,
 } from "firebase/firestore";
 import { db } from "../../config/firebase";
 import { images, screenWidth, REQUEST_TABLE, colors } from "../../config/Constant";

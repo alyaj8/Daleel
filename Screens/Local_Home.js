@@ -167,7 +167,7 @@ export default function Local_Home({ navigation }) {
   };
   return (
     <View style={styles.container}>
-      <Loading visible={isLoading} text="جاري الحجز" />
+     
 
       <ImageBackground style={{ flex: 1 }} source={images.backgroundImg}>
         {/* Header */}
