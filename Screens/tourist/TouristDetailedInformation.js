@@ -7,7 +7,6 @@ import React, { useEffect, useReducer, useState } from "react";
 import {
   Image,
   ImageBackground,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -16,7 +15,7 @@ import {
 } from "react-native";
 import Modal from "react-native-modal";
 import { Rating } from "react-native-ratings";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/Ionicons";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
@@ -31,7 +30,6 @@ import {
   updateRequest,
 } from "../../network/ApiService";
 import text from "../../style/text";
-import Icon from "react-native-vector-icons/Ionicons";
 import { getFormattedDate, getFormattedTime } from "./../../util/DateHelper";
 async function sendBookNotification(
   expoPushToken,
@@ -121,7 +119,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
   };
   useEffect(() => {
     checkReview();
-  });
+  }, []);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -298,7 +296,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
           />
           <View style={[styles.alignCenter, { marginTop: -36 }]}>
             <Text style={[text.text30, text.bold, { color: colors.white }]}>
-             معلومات الجولة
+              معلومات الجولة
             </Text>
           </View>
 
@@ -327,7 +325,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View
               style={{
                 alignSelf: "center",
-                paddingTop:7,
+                paddingTop: 7,
               }}
             >
               <Text style={[text.text15, { fontWeight: "bold" }]}>
@@ -352,12 +350,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
               <Text
                 style={{
                   color: "black",
-                    alignItems: "center",
-                    fontWeight: "800",
-                    alignSelf: "center",
-                    marginLeft: 20,
-                    fontSize: 15,
-                    marginTop: -10,
+                  alignItems: "center",
+                  fontWeight: "800",
+                  alignSelf: "center",
+                  marginLeft: 20,
+                  fontSize: 15,
+                  marginTop: -10,
                 }}
               >
                 {""} {(bookstar / data.reviews?.length).toFixed(2)} من أصل 5{" "}
@@ -377,7 +375,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               onPress={() => {
                 navigation.navigate("Comment", data);
               }}
-            // disabled={data.reviews?.length == null ? true : false}
+              // disabled={data.reviews?.length == null ? true : false}
             >
               <Text
                 style={{
@@ -389,8 +387,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   fontWeight: "900",
                   fontSize: 18,
                   textAlign: "center",
-                  marginTop: -20
-                  
+                  marginTop: -20,
                 }}
               >
                 {data.reviews?.length > 0
@@ -404,7 +401,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown, fontSize: 22,  paddingBottom: 25 },
+                  { color: colors.brown, fontSize: 22, paddingBottom: 25 },
                 ]}
               >
                 {price} SAR
@@ -416,7 +413,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                paddingTop:10,
+                paddingTop: 10,
               }}
             >
               <Text
@@ -626,33 +623,33 @@ export default function TouristDetailedInformation({ navigation, route }) {
             </View>
             {isReq
               ? currentActs.map((item, index) => {
-                return (
-                  <ActivityCard
-                    key={index}
-                    activity={item}
-                    display
-                    isChecked
-                  />
-                );
-              })
+                  return (
+                    <ActivityCard
+                      key={index}
+                      activity={item}
+                      display
+                      isChecked
+                    />
+                  );
+                })
               : !!data?.activities &&
-              data?.activities.map((item, index) => {
-                const isSelected = selectedActivities
-                  .map((item) => item.id)
-                  .includes(item.id);
+                data?.activities.map((item, index) => {
+                  const isSelected = selectedActivities
+                    .map((item) => item.id)
+                    .includes(item.id);
 
-                //   console.log("🚀 ~ OUT > isSelected", isSelected);
-                return (
-                  <ActivityCard
-                    key={index}
-                    activity={item}
-                    display={!customizing}
-                    withChecklist={customizing}
-                    isChecked={isSelected}
-                    onCheck={handlePressActivity}
-                  />
-                );
-              })}
+                  //   console.log("🚀 ~ OUT > isSelected", isSelected);
+                  return (
+                    <ActivityCard
+                      key={index}
+                      activity={item}
+                      display={!customizing}
+                      withChecklist={customizing}
+                      isChecked={isSelected}
+                      onCheck={handlePressActivity}
+                    />
+                  );
+                })}
             {/* Price */}
             <View
               style={[
@@ -707,10 +704,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                   tourStatus == "requested"
                     ? "تم الطلب"
                     : tourStatus == "accepted"
-                      ? "تم الحجز"
-                      : tourStatus == "rejected"
-                        ? "طلب مرة أخرى"
-                        : "حجز الرحلة"
+                    ? "تم الحجز"
+                    : tourStatus == "rejected"
+                    ? "طلب مرة أخرى"
+                    : "حجز الرحلة"
                 }
                 disabled={tourStatus == "requested" || tourStatus == "accepted"}
                 onPress={toggleModal}
@@ -719,10 +716,10 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     tourStatus == "requested"
                       ? colors.gray
                       : tourStatus == "accepted"
-                        ? colors.green
-                        : tourStatus == "rejected"
-                          ? colors.redTheme
-                          : colors.Blue,
+                      ? colors.green
+                      : tourStatus == "rejected"
+                      ? colors.redTheme
+                      : colors.Blue,
                   paddingVertical: 18,
                   paddingHorizontal: 30,
                   width: screenWidth.width90,

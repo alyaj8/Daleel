@@ -13,7 +13,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import {
   Image,
   ImageBackground,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -21,8 +20,10 @@ import {
   View,
 } from "react-native";
 //import Comment from "./Comment";
+import { getAuth } from "firebase/auth";
 import Modal from "react-native-modal";
 import { Rating } from "react-native-ratings";
+import Icon from "react-native-vector-icons/Ionicons";
 import ActivityCard from "../../component/activityComponents/ActivityCard";
 import AppButton from "../../component/AppButton";
 import AppImage from "../../component/AppImage";
@@ -36,12 +37,10 @@ import {
   REQUESTS,
   screenWidth,
 } from "../../config/Constant";
-import { Auth, db } from "../../config/firebase"; 
+import { db } from "../../config/firebase";
 import { deleteTour, getUserId } from "../../network/ApiService";
 import text from "../../style/text";
 import { getFormattedDate, getFormattedTime } from "../../util/DateHelper";
-import Icon from "react-native-vector-icons/Ionicons";
-import { getAuth } from "firebase/auth";
 
 export default function TourDetailedInformation({ navigation, route }) {
   // logObj(route.params, "route.params");
@@ -49,7 +48,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisibleAccept, setModalVisibleAccept] = useState(false);
   const DEFAULT_TABBAR_HEIGHT = useBottomTabBarHeight();
-  var Auth = getAuth() ; 
+  var Auth = getAuth();
 
   const isReq = route.params?.mode === "request";
   const selectedActivities = route.params?.activities;
@@ -92,7 +91,7 @@ export default function TourDetailedInformation({ navigation, route }) {
   };
   useEffect(() => {
     checkReview();
-  });
+  }, []);
   const getTourDetail = async () => {
     let tourDetail = route.params;
 
@@ -248,7 +247,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 { fontWeight: "bold", marginTop: -50 },
               ]}
             >
-             معلومات الجولة
+              معلومات الجولة
             </Text>
           </View>
 
@@ -302,7 +301,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 tintColor={"#ececec"}
                 style={{
                   marginVertical: 10,
-                padding: 2,
+                  padding: 2,
                 }}
               />
               {data.reviews?.length > 0 ? (
@@ -327,7 +326,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={{
                   width: 150,
                   height: 50,
-                  
+
                   alignItems: "center",
                   justifyContent: "center",
                   alignSelf: "center",
@@ -335,25 +334,25 @@ export default function TourDetailedInformation({ navigation, route }) {
                 onPress={() => {
                   navigation.navigate("Localcomments", data);
                 }}
-              // disabled={data.reviews?.length == null ? true : false}
+                // disabled={data.reviews?.length == null ? true : false}
               >
                 <Text
                   style={{
                     color:
-                    data.reviews?.length > 0
-                      ? colors.lightBrown
-                      : colors.lightBrown,
-                  textDecorationLine: "underline",
-                  fontWeight: "900",
-                  fontSize: 18,
-                  
-                  textAlign: "center",
-                  marginTop: -20
+                      data.reviews?.length > 0
+                        ? colors.lightBrown
+                        : colors.lightBrown,
+                    textDecorationLine: "underline",
+                    fontWeight: "900",
+                    fontSize: 18,
+
+                    textAlign: "center",
+                    marginTop: -20,
                   }}
                 >
-                    {data.reviews?.length > 0
-                  ? "تقيمات الجولة..."
-                  : "لا توجد تقيمات"}
+                  {data.reviews?.length > 0
+                    ? "تقيمات الجولة..."
+                    : "لا توجد تقيمات"}
                 </Text>
               </TouchableOpacity>
             </View>
@@ -364,7 +363,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                 style={[
                   text.themeDefault,
                   text.text18,
-                  { color: colors.brown, fontSize: 22,  paddingBottom: 25 },
+                  { color: colors.brown, fontSize: 22, paddingBottom: 25 },
                 ]}
               >
                 {data.price} SAR
@@ -579,7 +578,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     isChecked={isReq && isSelected}
                     key={index}
                     activity={item}
-                  //display
+                    //display
                   />
                 );
               })}
