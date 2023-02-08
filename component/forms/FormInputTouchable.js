@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   InputStyle: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderWidth: 1,
+    borderWidth: 3,
     borderColor: "#BDBDBD",
     height: 50,
     borderRadius: 10,
@@ -177,8 +177,9 @@ const styles = StyleSheet.create({
   },
   label: {
     // width: "100%",
+    marginRight: 9,
 
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: "bold",
     // color: "#5398a0",
     textAlign: "right",
