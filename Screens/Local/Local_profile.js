@@ -29,12 +29,13 @@ import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import AppImage from "../../component/AppImage";
 import Button from "../../component/button/Button";
-import { imagePickerConfig, images, screenWidth,colors } from "../../config/Constant";
+import { imagePickerConfig, images, screenWidth, colors } from "../../config/Constant";
 import { auth, db } from "../../config/firebase";
 
 export default function Local_profile({ navigation }) {
   const [isModalVisible, setModalVisible] = useState(false);
   const [DisModalVisible, setDModalVisible] = useState(false);
+  const [isModalVisible3, setModalVisible3] = useState(false);
 
   const [fname, setFname] = useState("");
   const [filePath, setFilePath] = useState(null);
@@ -100,8 +101,40 @@ export default function Local_profile({ navigation }) {
     setModalVisible((prev) => !prev);
     // console.log("11");
   };
+  const toggleModal3 = () => {
+    setModalVisible3((prev) => !prev);
+    // console.log("11");
+  };
 
 
+  const submitRequest2 = async () => {
+    try {
+      setModalVisible3(!isModalVisible3);
+
+      const isTourHasImage = filePath ? true : false;
+      let imageUrl = null;
+      if (isTourHasImage) {
+        imageUrl = await uploadImage(filePath);
+      }
+      // console.log("11777777", imageUrl);
+      const colRef = query(
+        collection(db, "Admin_users"),
+        where("uid", "==", user.uid)
+      );
+
+
+
+      await updateDoc(doc(db, "Admin_users", user.uid), { poster: imageUrl });
+      navigation.goBack();
+      // await updateDoc(taskDocRef, data);
+
+
+    } catch (error) {
+      setIsLoading(false);
+      alert("حدث خطأ ما، الرجاء المحاولة مرة أخرى");
+      console.log("error submitRequest", error);
+    }
+  };
   const submitRequest = async () => {
     try {
       setModalVisible(!isModalVisible);
@@ -224,7 +257,7 @@ export default function Local_profile({ navigation }) {
               paddingHorizontal: 20,
               marginTop: 7,
               textAlign: "center",
-              color: "white", 
+              color: "white",
               fontSize: 37,
               fontWeight: "bold",
             }}
@@ -240,15 +273,18 @@ export default function Local_profile({ navigation }) {
           onPress={() => navigation.goBack()}
         />
       </View>
-      <View>
+      <TouchableOpacity
+        onPress={() => toggleModal3()}
+      >
+
         {pic ? (
           <AppImage
             sourceURI={pic}
             style={{
               alignSelf: "center",
               width: 170,
-              height: 190,
-              borderRadius: 1,
+              height: 180,
+              borderRadius: 150,
               resizeMode: "center",
               borderWidth: 3,
               borderColor: "grey",
@@ -268,7 +304,7 @@ export default function Local_profile({ navigation }) {
             }}
           />
         )}
-      </View>
+      </TouchableOpacity>
       <View
         style={{
           borderRadius: 20,
@@ -323,12 +359,12 @@ export default function Local_profile({ navigation }) {
                         }}
                       >
                         <View >
-                          <Button title="نعم" onpress={() => DeleteFunc(item)} 
-                          style={{ backgroundColor: colors.redTheme , borderRadius: 4}} />
+                          <Button title="نعم" onpress={() => DeleteFunc(item)}
+                            style={{ backgroundColor: colors.redTheme, borderRadius: 4 }} />
                         </View>
                         <View>
                           <Button title="إلغاء" onpress={() => DtoggleModal()}
-                          style={{ backgroundColor: colors.lightBrown , borderRadius: 4}} />
+                            style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
                         </View>
                       </View>
                     </View>
@@ -372,20 +408,49 @@ export default function Local_profile({ navigation }) {
                 justifyContent: "space-between",
               }}
             >
-               <View>
+              <View>
                 <Button title="الغاء" onpress={() => toggleModal()}
-                 style={{ backgroundColor: colors.lightBrown , borderRadius: 4}}  />
+                  style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
               </View>
               <View >
                 <Button title="حفظ" onpress={submitRequest}
-                 style={{ backgroundColor: colors.Blue, borderRadius: 4  }}  />
+                  style={{ backgroundColor: colors.Blue, borderRadius: 4 }} />
               </View>
-             
+
             </View>
           </View>
         </View>
       </Modal>
+      <Modal isVisible={isModalVisible3}>
+        <View style={[styles.modalView]}>
+          <View style={[styles.main]}>
+            <View>
+              <TouchableOpacity
+                onPress={() => pickImage()}
+                style={[styles.alignCenter, { marginTop: screenWidth.width20 - 30, marginBottom: 12 }]}
+              >
+                <Image source={images.photo} style={[styles.dummyImg]} />
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <Button title="الغاء" onpress={() => toggleModal3()}
+                  style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
+              </View>
+              <View >
+                <Button title="حفظ" onpress={submitRequest2}
+                  style={{ backgroundColor: colors.Blue, borderRadius: 4 }} />
+              </View>
 
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 }
