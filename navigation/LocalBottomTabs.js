@@ -38,10 +38,10 @@ export default function LocalBottomTabs() {
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
-                source={images.mark}
+                source={images.order}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 34,
+                  height: 28,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
@@ -72,8 +72,8 @@ export default function LocalBottomTabs() {
               <Image
                 source={images.location}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 30,
+                  height: 30,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
@@ -104,8 +104,8 @@ export default function LocalBottomTabs() {
               <Image
                 source={images.add}
                 style={{
-                  width: 40,
-                  height: 40,
+                  width: 45,
+                  height: 45,
                   tintColor: focused ? colors.brown : "black",
                 }}
               />
@@ -136,8 +136,8 @@ export default function LocalBottomTabs() {
               <Image
                 source={images.chat}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 26,
+                  height: 26,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
@@ -168,8 +168,8 @@ export default function LocalBottomTabs() {
               <Image
                 source={images.profile}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 26,
+                  height: 26,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
