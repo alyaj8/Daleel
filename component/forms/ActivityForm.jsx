@@ -142,7 +142,7 @@ const ActivityForm = ({
             <FormInputTouchable
               // debug
               label="اسم النشاط"
-              placeholder="اكتب اسم النشاط"
+              placeholder="*اكتب اسم النشاط"
               editable
               // Form
               name="activity.title"
@@ -161,7 +161,7 @@ const ActivityForm = ({
               control={control}
               // rest
               label="وصف النشاط"
-              placeholder="اكتب وصف النشاط"
+              placeholder="*اكتب وصف النشاط"
               editable
               multiline
               onChangeText={(text) => {
@@ -176,7 +176,7 @@ const ActivityForm = ({
               // rest
 
               label="موقع النشاط"
-              placeholder="اختر موقع النشاط"
+              placeholder="*اختر موقع النشاط"
               // value={activity.location}
               onSelectLocation={(location) => {
                 setActivity({ ...activity, location: location });
@@ -204,7 +204,7 @@ const ActivityForm = ({
                 control={control}
                 // rest
                 label="وقت نهاية النشاط"
-                placeholder="اختر وقت نهاية"
+                placeholder="*اختر وقت نهاية"
                 editable={false}
                 icon={true}
                 source={images.timer}
@@ -219,7 +219,7 @@ const ActivityForm = ({
                 control={control}
                 // rest
                 label="وقت بداية النشاط"
-                placeholder="اختر وقت بداية"
+                placeholder="*اختر وقت بداية"
                 editable={false}
                 icon={true}
                 source={images.timer}
@@ -245,7 +245,7 @@ const ActivityForm = ({
                 control={control}
                 // rest
                 label="سعر النشاط"
-                placeholder="سعر النشاط"
+                placeholder="*سعر النشاط"
                 keyboardType="numeric"
                 icon={true}
                 onChangeText={(text) => {
@@ -266,7 +266,7 @@ const ActivityForm = ({
                 name="activity.imageUrl"
                 control={control}
                 // rest
-                label="ارفق صورة للنشاط"
+                label="*ارفق صورة للنشاط"
                 // style
                 onRemoveImage={() => {
                   setActivity({ ...activity, imageUrl: null });
@@ -277,7 +277,7 @@ const ActivityForm = ({
                 style={{
                   alignItems: "center",
                   justifyContent: "center",
-
+                
                   marginLeft: 2,
                   marginTop: 0,
                   marginLeft: 15,
@@ -432,12 +432,12 @@ const ActivityForm = ({
                   alignItems: "flex-end",
                   justifyContent: "center",
                   padding: 10,
-                  marginRight: 20,
+                  marginRight: 1,
                 }}
               >
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <Text style={[text.white, text.text14]}>
-                    السماح للسائح بتخصيص أنشطة هذه الرحلة
+                <View style={{ flexDirection: "row", alignItems: "center", }}>
+                  <Text style={[text.white, text.text14,]}>
+                    السماح للسائح بتخصيص الأنشطة
                   </Text>
                   <Switch
                     value={swVal}

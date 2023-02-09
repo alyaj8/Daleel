@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { colors, highlights, images, screenWidth } from "../../config/Constant";
+import text from "../../style/text";
 import FormInputTouchable from "./FormInputTouchable";
 import ImageForm from "./ImageForm";
 import MapFrom from "./MapFrom";
@@ -52,6 +53,7 @@ const TourForm = ({
           alignSelf: "center",
           width: screenWidth.width80,
           minHeight: screenWidth.width70,
+       
         }}
         imageStye={{
           width: screenWidth.width80,
@@ -95,7 +97,7 @@ const TourForm = ({
       <FormInputTouchable
         // debug
         label="اسم الجولة"
-        placeholder="اكتب اسم الجولة"
+        placeholder="*اكتب اسم الجولة"
         editable
         // Form
         name="title"
@@ -111,7 +113,7 @@ const TourForm = ({
         control={control}
         // rest
         label="وصف الجولة"
-        placeholder="اكتب وصف الجولة"
+        placeholder="*اكتب وصف الجولة"
         editable
         multiline
       />
@@ -124,7 +126,7 @@ const TourForm = ({
         control={control}
         // rest
         label="تاريخ الجولة"
-        placeholder="اختر تاريخ الجولة"
+        placeholder="*اختر تاريخ الجولة"
         editable={false}
         icon={true}
         source={images.calendar}
@@ -145,7 +147,7 @@ const TourForm = ({
           control={control}
           // rest
           label="وقت نهاية الجولة"
-          placeholder="اختر وقت نهاية"
+          placeholder="*اختر وقت نهاية"
           editable={false}
           icon={true}
           source={images.timer}
@@ -160,7 +162,7 @@ const TourForm = ({
           control={control}
           // rest
           label="وقت بداية الجولة"
-          placeholder="اختر وقت بداية"
+          placeholder="*اختر وقت بداية"
           editable={false}
           icon={true}
           source={images.timer}
@@ -175,7 +177,7 @@ const TourForm = ({
         control={control}
         // rest
         label="نقطة اللقاء"
-        placeholder="اختر نقطة اللقاء"
+        placeholder="*اختر نقطة اللقاء"
         // value={tour.meetingPoint}
         onSelectLocation={(location) => {
           setTour({ ...tour, meetingPoint: location });
@@ -198,7 +200,7 @@ const TourForm = ({
         control={control}
         // rest
         label="المدينة"
-        placeholder="اختر المدينة"
+        placeholder="*اختر المدينة"
         editable={false}
         icon={true}
         source={images.location}
@@ -219,8 +221,8 @@ const TourForm = ({
           name="age"
           control={control}
           // rest
-          label="العمر"
-          placeholder="اختر العمر"
+          label="الفئة العمرية"
+          placeholder="*اختر الفئة العمرية"
           editable={false}
           onPress={() => onShowModal("age")}
           style={{ marginRight: 2 }}
@@ -234,7 +236,7 @@ const TourForm = ({
           control={control}
           // rest
           label="عدد الأشخاص"
-          placeholder="اختر عدد الأشخاص"
+          placeholder="*اختر عدد الأشخاص"
           editable
           keyboardType="numeric"
           icon={true}

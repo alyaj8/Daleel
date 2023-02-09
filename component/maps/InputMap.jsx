@@ -274,7 +274,7 @@ export const InputMap = memo(
               flexDirection: "row-reverse",
               backgroundColor: "#fff",
               borderRadius: 10,
-              borderWidth: 3,
+              borderWidth: 1,
               borderColor: "#BDBDBD",
               backgroundColor: "#ffff",
               marginBottom: 20,

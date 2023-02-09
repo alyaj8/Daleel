@@ -22,7 +22,7 @@ const FormInputTouchable = ({
   multiline = false,
   editable = true,
 
-  placeholder = "برجاء ملئ الحقل",
+  placeholder = "رجاء ملئ الحقل",
   onPress,
 
   labelStyle,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
   InputStyle: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderWidth: 3,
+    borderWidth: 1,
     borderColor: "#BDBDBD",
     height: 50,
     borderRadius: 10,

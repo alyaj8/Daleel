@@ -1164,6 +1164,7 @@ const PostTourV2 = ({ navigation }) => {
 
                   width: screenWidth.width80,
                   height: 60,
+                  backgroundColor:colors.Blue,
                 }}
                 error={
                   !enablePost
@@ -1174,7 +1175,7 @@ const PostTourV2 = ({ navigation }) => {
                       : ""
                     : ""
                 }
-                title={"نشر"}
+                title={"نشر الجولة"}
                 onPress={() => {
                   setModalVisible(true);
                 }}

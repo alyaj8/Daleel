@@ -243,7 +243,7 @@ export default function Log_in2({ navigation }) {
 
 const styles = StyleSheet.create({
     body: {
-        borderWidth: 3,
+        borderWidth: 2,
         borderColor: "#BDBDBD",
         width: "100%",
         height: 50,
