@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 import TouristHomeStack from "./TouristHomeStack";
 import TouristTourStack from "./TouristTourStack";
 
-import Tourist_Manage_Account from "./../Screens/Tourist/Tourist_Manage_Account";
+import Tourist_Manage_Account from "../Screens/Tourist/Tourist_Manage_Account";
 
 import { colors, images } from "../config/Constant";
 import ChatStack from "./ChatStack";
@@ -32,16 +32,16 @@ export default function TouristBottomTabs() {
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              طلباتی
+              طلباتي
             </Text>
           ),
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
-                source={images.mark}
+                source={images.order}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 34,
+                  height: 28,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
@@ -70,10 +70,10 @@ export default function TouristBottomTabs() {
           tabBarIcon: ({ focused }) => (
             <View style={{ ...Styles.iconView }}>
               <Image
-                source={images.location}
+                source={images.bag}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 30,
+                  height: 30,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}
@@ -103,10 +103,10 @@ export default function TouristBottomTabs() {
             <View style={[Styles.plusTabDiv, { ...Styles.iconView }]}>
               <View style={[Styles.plusTab, { ...Styles.iconView }]}>
                 <Image
-                  source={images.search}
+                  source={images.explore}
                   style={{
-                    width: 30,
-                    height: 30,
+                    width: 45,
+                    height: 45,
                     tintColor: focused ? colors.brown : "black",
                   }}
                 />
@@ -137,10 +137,11 @@ export default function TouristBottomTabs() {
               <Image
                 source={images.chat}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 26,
+                  height: 26,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
+
                 }}
               />
             </View>
@@ -169,8 +170,8 @@ export default function TouristBottomTabs() {
               <Image
                 source={images.profile}
                 style={{
-                  width: 20,
-                  height: 20,
+                  width: 26,
+                  height: 26,
                   resizeMode: "contain",
                   tintColor: focused ? colors.brown : "black",
                 }}

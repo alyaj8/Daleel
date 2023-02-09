@@ -139,6 +139,14 @@ export const images = {
   arrow: require("../assets/back.png"),
   send: require("../assets/send.png"),
   search: require("../assets/search.png"),
+  order: require("../assets/request.png"),
+  tours_local: require("../assets/calendar.png"),
+  home: require("../assets/home.png"),
+  cart2: require("../assets/cart2.png"),
+  explore: require("../assets/explore.png"),
+  bag: require("../assets/bag.png"),
+
+
 };
 
 export const navThemeConstants = {
