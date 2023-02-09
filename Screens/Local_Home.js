@@ -185,7 +185,7 @@ export default function Local_Home({ navigation }) {
               fontWeight: "bold",
             }}
           >
-            جولاتي
+            طلباتي
           </Text>
         </View>
 

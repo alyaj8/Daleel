@@ -144,7 +144,7 @@ export default function TourDetail({ navigation }) {
           style={{
             alignItems: "center",
 
-            marginTop: screenWidth.width15,
+            marginTop: screenWidth.width10,
             marginVertical: 10,
           }}
         >
@@ -297,7 +297,7 @@ export default function TourDetail({ navigation }) {
                         text.text20,
                       ]}
                     >
-                      لا يوجد طلبات مُعلقة
+                    لايوجد جولات قادمة
                     </Text>
                     {/* Icon */}
                     <Feather name="alert-circle" size={24} color="black" />
@@ -363,7 +363,7 @@ export default function TourDetail({ navigation }) {
                         text.text20,
                       ]}
                     >
-                      لا يوجد طلبات مُعلقة
+                      لا يوجد جولات منشورة
                     </Text>
                     {/* Icon */}
                     <Feather name="alert-circle" size={24} color="black" />
@@ -431,7 +431,7 @@ export default function TourDetail({ navigation }) {
                         text.text20,
                       ]}
                     >
-                      لا يوجد طلبات مُعلقة
+                      لا يوجد جولات سابقة
                     </Text>
                     {/* Icon */}
                     <Feather name="alert-circle" size={24} color="black" />
