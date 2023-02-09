@@ -119,7 +119,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
   };
   useEffect(() => {
     checkReview();
-  }, []);
+  }, [data]);
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);

@@ -89,9 +89,11 @@ export default function TourDetailedInformation({ navigation, route }) {
         setBookStar(countStar);
       });
   };
+
   useEffect(() => {
     checkReview();
-  }, []);
+  }, [data]);
+
   const getTourDetail = async () => {
     let tourDetail = route.params;
 
