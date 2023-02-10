@@ -153,7 +153,7 @@ export default function Local_Manage_Account({ navigation }) {
             >
               المعلومات الشخصية
             </Text>
-            <Icon name="person-outline" size={33} style={{ marginRight: 10 }} />
+            <Icon name="person-outline" size={33} style={{ marginRight: 10, textAlign: "right" }} />
           </View>
         </TouchableOpacity>
 
@@ -174,7 +174,7 @@ export default function Local_Manage_Account({ navigation }) {
             marginBottom: 10,
           }}
         >
-          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}>
+          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}>
             الملف الشخصي
           </Text>
           <Icon
@@ -202,7 +202,7 @@ export default function Local_Manage_Account({ navigation }) {
             }}
           >
             <Text
-              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}
+              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}
             >
               تغيير الرقم السري
             </Text>
@@ -230,7 +230,7 @@ export default function Local_Manage_Account({ navigation }) {
             marginBottom: 19,
           }}
         >
-          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}>
+          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}>
             تسجيل الخروج
           </Text>
           <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />

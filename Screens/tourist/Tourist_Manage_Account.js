@@ -147,7 +147,7 @@ export default function Tourist_Manage_Account({ navigation }) {
             }}
           >
             <Text
-              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}
+              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}
             >
               المعلومات الشخصية{" "}
             </Text>
@@ -174,7 +174,7 @@ export default function Tourist_Manage_Account({ navigation }) {
             }}
           >
             <Text
-              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}
+              style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}
             >
               تغيير الرقم السري
             </Text>
@@ -202,7 +202,7 @@ export default function Tourist_Manage_Account({ navigation }) {
             marginBottom: 19,
           }}
         >
-          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1 }}>
+          <Text style={{ fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right" }}>
             تسجيل الخروج
           </Text>
           <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
