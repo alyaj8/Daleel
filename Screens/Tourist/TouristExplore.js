@@ -148,7 +148,7 @@ export default function TouristExplore({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        style={{ flex: 1, marginTop: -40 }}
+        style={{ flex: 1, marginTop: -45 }}
         source={images.backgroundImg}
         resizeMode="cover"
       >
@@ -162,6 +162,7 @@ export default function TouristExplore({ navigation }) {
                 textAlign: "center",
                 //color: colors.Blue,
                 fontSize: 30,
+                marginTop: 25,
               },
               text.white,
 
@@ -181,13 +182,13 @@ export default function TouristExplore({ navigation }) {
             paddingHorizontal: 20,
             marginHorizontal: 20,
             borderRadius: 9,
-            marginTop: -25,
+            marginTop: -30,
             marginBottom: -10,
             flexDirection: "row",
             alignItems: "center",
             borderColor: "#BDBDBD",
             borderWidth: 2,
-            marginLeft: 9,
+            marginLeft: 70,
             width: 330,
             height: 50
 
@@ -211,11 +212,11 @@ export default function TouristExplore({ navigation }) {
           />
         </View>
 
-        <TouchableOpacity style={{ height: 35, width: 35, marginLeft: 348, marginTop: -30 }}
+        <TouchableOpacity style={{ height: 35, width: 35, marginLeft: 15, marginTop: -35 }}
           onPress={() => toggleModal()}>
           <Image
             source={require("../../assets/adjust2.png")}
-            style={{ width: 35, height: 35 }}
+            style={{ width: 40, height: 40 }}
           ></Image>
 
         </TouchableOpacity>

@@ -415,13 +415,13 @@ export default function Local_Sign_up({ navigation }) {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
+      style={{ flex: 1, justifyContent: "center", backgroundColor: "#f8f5f2" }}
     >
       <Loading visible={isLoading} text={"جاري إنشاء الحساب..."} />
       <Icon
         name="arrow-back-outline"
         size={50}
-        style={{ color: "black" }}
+        style={{ color: "#0a243d" }}
         onPress={() => navigation.goBack()}
       />
 
@@ -429,7 +429,7 @@ export default function Local_Sign_up({ navigation }) {
         <View style={{ alignItems: "center", marginTop: 0 }}>
           <Image
             style={{ height: 200, width: 200 }}
-            source={require("../assets/Daleel_Logo.jpg")}
+            source={require("../assets/daleel3.png")}
           />
         </View>
         <View style={{ paddingHorizontal: 25, marginTop: 10 }}>
@@ -449,7 +449,7 @@ export default function Local_Sign_up({ navigation }) {
                   alignContent: "center",
                   fontSize: 16,
                   fontWeight: "700",
-                  color: "#4F6367",
+                  color: "#0a243d",
                 }}
               >
                 اختر الصورة الشخصية
@@ -466,7 +466,7 @@ export default function Local_Sign_up({ navigation }) {
                   alignContent: "center",
                   fontSize: 16,
                   fontWeight: "700",
-                  color: "#4F6367",
+                  color: "#0a243d",
                 }}
               >
                 اختر الصورة الشخصية
@@ -649,20 +649,20 @@ export default function Local_Sign_up({ navigation }) {
 const styles = StyleSheet.create({
   title: {
     fontSize: 28,
-    fontWeight: "600",
+    fontWeight: "500",
     marginBottom: 25,
     alignSelf: "flex-end",
     marginTop: 20,
-    color: "#4F6367",
+    color: "#0a243d",
   },
   body: {
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: "#BDBDBD",
     width: "100%",
     height: 50,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: "#ffff",
+    backgroundColor: "#f8f5f2",
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
@@ -677,12 +677,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.brown,
   },
   lable: {
-    fontSize: 16,
-    fontWeight: "700",
+    fontSize: 19,
+    fontWeight: "500",
     marginTop: 10,
     marginBottom: 5,
     alignSelf: "flex-end",
-    color: "#4F6367",
+    color: "#0a243d",
   },
   dummyImg: {
     width: screenWidth.width50,

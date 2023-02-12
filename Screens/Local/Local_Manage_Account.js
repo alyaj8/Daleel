@@ -145,15 +145,12 @@ export default function Local_Manage_Account({ navigation }) {
           >
             <Text
               style={{
-                fontSize: 18,
-                marginTop: 7,
-                marginRight: 8,
-                flex: 1,
+                fontSize: 18, marginTop: 7, marginRight: 8, flex: 1, textAlign: "right"
               }}
             >
               المعلومات الشخصية
             </Text>
-            <Icon name="person-outline" size={33} style={{ marginRight: 10, textAlign: "right" }} />
+            <Icon name="person-outline" size={33} style={{ marginRight: 5, textAlign: "right" }} />
           </View>
         </TouchableOpacity>
 

@@ -15,7 +15,7 @@ export default function Sign_up({ navigation }) {
   return (
     <ImageBackground
       style={{ flex: 1 }}
-      source={require("../assets/2.png")}
+      source={require("../assets/b2.png")}
       resizeMode="cover"
     >
       <View
@@ -24,12 +24,13 @@ export default function Sign_up({ navigation }) {
           height: 45,
           paddingHorizontal: 5,
           marginTop: 70,
+          
         }}
       >
         <Icon
           name="arrow-back-outline"
           size={50}
-          style={{ color: "black" }}
+          style={{ color: "#f8f5f2" , marginLeft: 10}}
           onPress={() => navigation.goBack()}
         />
       </View>

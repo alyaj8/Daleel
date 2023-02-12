@@ -63,7 +63,7 @@ export default function LocalPendingCard({
               onpress={onpressAccepted}
               style={{
                 backgroundColor: colors.Blue,
-                borderRadius: 10,
+                borderRadius: 5,
                 width: screenWidth.width40,
                 marginRight: 10,
               }}
@@ -81,7 +81,7 @@ export default function LocalPendingCard({
               onpress={onpressRejected}
               style={{
                 backgroundColor: colors.brown,
-                borderRadius: 10,
+                borderRadius: 5,
                 width: screenWidth.width40,
                 marginRight: 10,
               }}

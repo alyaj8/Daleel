@@ -3,7 +3,7 @@ export function getRequestStatus(status) {
     return "قيد الانتظار";
   }
   if (status === 1) {
-    return "قبول";
+    return "";
   }
 }
 export function getConversationId(currentUserId, chatUserId) {

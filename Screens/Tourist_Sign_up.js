@@ -270,7 +270,7 @@ export default function Tourist_Sign_up({ navigation }) {
 
   return (
     <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", backgroundColor: "#ffff" }}
+      style={{ flex: 1, justifyContent: "center", backgroundColor: "#f8f5f2" }}
     >
       <Loading visible={isLoading} text={"جاري إنشاء الحساب..."} />
 
@@ -294,7 +294,7 @@ export default function Tourist_Sign_up({ navigation }) {
         <View style={{ alignItems: "center", marginTop: 0 }}>
           <Image
             style={{ height: 200, width: 200 }}
-            source={require("../assets/Daleel_Logo.jpg")}
+            source={require("../assets/daleel3.png")}
           />
         </View>
 
@@ -407,7 +407,7 @@ export default function Tourist_Sign_up({ navigation }) {
           <View>
             <TouchableOpacity
               style={{
-                backgroundColor: colors.brown,
+                backgroundColor: "#826a47",
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,
@@ -417,7 +417,7 @@ export default function Tourist_Sign_up({ navigation }) {
               <Text
                 style={{
                   textAlign: "center",
-                  fontWeight: "700",
+                  fontWeight: "500",
                   fontSize: 18,
                   color: "white",
                 }}
@@ -439,16 +439,16 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     alignSelf: "flex-end",
     marginTop: 20,
-    color: "#4F6367",
+    color: "#0a243d",
   },
   body: {
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: "#BDBDBD",
     width: "100%",
     height: 50,
     paddingLeft: 20,
     paddingRight: 20,
-    backgroundColor: "#ffff",
+    backgroundColor: "#f8f5f2",
     padding: 10,
     borderRadius: 10,
     marginBottom: 20,
@@ -462,10 +462,10 @@ const styles = StyleSheet.create({
   },
   lable: {
     fontSize: 16,
-    fontWeight: "700",
+    fontWeight: "500",
     marginTop: 10,
     marginBottom: 5,
     alignSelf: "flex-end",
-    color: "#4F6367",
+    color: "#0a243d",
   },
 });

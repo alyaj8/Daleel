@@ -32,7 +32,7 @@ export default function LocalBottomTabs() {
                 fontWeight: focused ? "bold" : "normal",
               }}
             >
-              طلباتی
+              طلباتي
             </Text>
           ),
           tabBarIcon: ({ focused }) => (

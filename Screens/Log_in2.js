@@ -117,18 +117,18 @@ export default function Log_in2({ navigation }) {
         ]);
     }, []);
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: "#ffff" , height: "100%",  }}>
+        <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: "#f8f5f2" , height: "100%",  }}>
         <SafeAreaView
-            style={{ flex: 1, backgroundColor: "#ffff" ,   }}
+            style={{ flex: 1, backgroundColor: "#f8f5f2" ,   }}
         >
             <View style={{ alignItems: "center", marginTop: 20 }}>
                 <Image
                     style={{ height: 265, width: 265 }}
-                    source={require("../assets/Daleel_Logo.jpg")}
+                    source={require("../assets/daleel3.png")}
                 />
             </View>
 
-            <View style={{ paddingHorizontal: 25, marginTop: 10 , height: "100%", backgroundColor: "#ffff"}}>
+            <View style={{ paddingHorizontal: 25, marginTop: 10 , height: "100%", backgroundColor: "#f8f5f2"}}>
 
 
                 <Text
@@ -138,7 +138,7 @@ export default function Log_in2({ navigation }) {
                         marginBottom: 40,
                         alignSelf: "flex-end",
                         marginTop: 20,
-                        color: "#4F6367",
+                        color: "#0a243d",
                     }}
                 >
                     تسجيل الدخول
@@ -148,10 +148,10 @@ export default function Log_in2({ navigation }) {
                     <Text
                         style={{
                             fontSize: 16,
-                            fontWeight: "700",
+                            fontWeight: "500",
                             marginBottom: 10,
                             alignSelf: "flex-end",
-                            color: "#4F6367",
+                            color: "#0a243d",
                         }}
                     >
                         البريد الإلكتروني
@@ -166,10 +166,10 @@ export default function Log_in2({ navigation }) {
                     <Text
                         style={{
                             fontSize: 16,
-                            fontWeight: "700",
+                            fontWeight: "500",
                             marginBottom: 10,
                             alignSelf: "flex-end",
-                            color: "#4F6367",
+                            color: "#0a243d",
                         }}
                     >
                         كلمة المرور
@@ -189,7 +189,7 @@ export default function Log_in2({ navigation }) {
                     <TouchableOpacity
                         onPress={signIn}
                         style={{
-                            backgroundColor: colors.brown,
+                            backgroundColor: "#826a47",
                             padding: 20,
                             borderRadius: 10,
                             marginBottom: 30,
@@ -198,7 +198,7 @@ export default function Log_in2({ navigation }) {
                         <Text
                             style={{
                                 textAlign: "center",
-                                fontWeight: "700",
+                                fontWeight: "500",
                                 fontSize: 18,
                                 color: "white",
                             }}
@@ -218,7 +218,7 @@ export default function Log_in2({ navigation }) {
                     <TouchableOpacity onPress={() => navSignUP(value)}>
                         <Text
                             style={{
-                                color: colors.lightBrown,
+                                color: "#826a47",
                                 fontWeight: "800",
                                 textDecorationLine: "underline",
                             }}
@@ -231,7 +231,7 @@ export default function Log_in2({ navigation }) {
                         style={{
                             textAlign: "center",
                             fontSize: 16,
-                            color: "#4F6367",
+                            color: "#0a243d",
                         }}>ليس لديك حساب؟</Text>
 
                 </View>
@@ -243,13 +243,13 @@ export default function Log_in2({ navigation }) {
 
 const styles = StyleSheet.create({
     body: {
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: "#BDBDBD",
         width: "100%",
         height: 50,
         paddingLeft: 20,
         paddingRight: 20,
-        backgroundColor: "#ffff",
+        backgroundColor: "#f8f5f2",
         padding: 10,
         borderRadius: 10,
         marginBottom: 20,
