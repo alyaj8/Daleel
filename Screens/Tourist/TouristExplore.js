@@ -214,7 +214,7 @@ export default function TouristExplore({ navigation }) {
         <TouchableOpacity style={{ height: 35, width: 35, marginLeft: 348, marginTop: -30 }}
           onPress={() => toggleModal()}>
           <Image
-            source={require("../../assets/adjust.png")}
+            source={require("../../assets/adjust2.png")}
             style={{ width: 35, height: 35 }}
           ></Image>
 
