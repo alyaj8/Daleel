@@ -9,20 +9,25 @@ import {
   Text,
   TextInput,
   View,
+  Image,
+  TouchableOpacity
 } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import Icon from "react-native-vector-icons/Ionicons";
 import TourDetailCard from "../../component/card/TourDetailCard";
-import { images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import { getUserId } from "../../network/ApiService";
 import text from "../../style/text";
+import Modal from "react-native-modal";
+import Button from "../../component/button/Button";
+import { images, screenWidth, REQUEST_TABLE, colors, imagePickerConfig } from "../../config/Constant";
 
 export default function TouristExplore({ navigation }) {
   const [data, setData] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
   const [tourId, setTourId] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const [filteredData, setFilteredData] = useState([]);
   // Lists
@@ -84,7 +89,11 @@ export default function TouristExplore({ navigation }) {
       });
     });
   };
-
+  const toggleModal = () => {
+    console.log(isModalVisible)
+    setModalVisible(prev => !prev);
+    console.log(isModalVisible, "22")
+  };
   React.useEffect(() => {
     // console.log("Child", currentUserId);
     Asyced();
@@ -178,6 +187,10 @@ export default function TouristExplore({ navigation }) {
             alignItems: "center",
             borderColor: "#BDBDBD",
             borderWidth: 2,
+            marginLeft: 9,
+            width: 330,
+            height: 50
+
           }}
         >
           <Icon
@@ -192,12 +205,20 @@ export default function TouristExplore({ navigation }) {
             style={{
               fontWeight: "bold",
               fontSize: 18,
-              width: 260,
-
+              width: 250,
               textAlign: "right",
             }}
           />
         </View>
+
+        <TouchableOpacity style={{ height: 35, width: 35, marginLeft: 348, marginTop: -30 }}
+          onPress={() => toggleModal()}>
+          <Image
+            source={require("../../assets/adjust.png")}
+            style={{ width: 35, height: 35 }}
+          ></Image>
+
+        </TouchableOpacity>
         <View
           style={{
             width: "90%",
@@ -210,33 +231,57 @@ export default function TouristExplore({ navigation }) {
             zIndex: 1,
           }}
         >
-          {/* Age */}
-          <DropDownPicker
-            placeholder="العمر"
-            open={ageListVisible}
-            value={selectedAge}
-            items={ageList}
-            setOpen={setAgeListVisible}
-            setValue={setSelectedAge}
-            setItems={setAgeList}
-            containerStyle={{
-              width: "45%",
-            }}
-          />
 
-          {/* City */}
-          <DropDownPicker
-            placeholder="المدينة"
-            open={cityListVisible}
-            value={selectedCity}
-            items={cityList}
-            setOpen={setCityListVisible}
-            setValue={setSelectedCity}
-            setItems={setCityList}
-            containerStyle={{
-              width: "45%",
-            }}
-          />
+          <Modal isVisible={isModalVisible}>
+            <View style={[styles.modalView]}>
+              <View style={[styles.main]}>
+                <View style={{ marginVertical: 20 }}>
+
+
+                  <Icon name="close-circle-outline" size={33} style={{ marginLeft: 230, marginTop: -28 }}
+                    onPress={() => toggleModal()}
+                  />
+                </View>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+
+                  {/* Age */}
+                  <DropDownPicker
+                    placeholder="العمر"
+                    open={ageListVisible}
+                    value={selectedAge}
+                    items={ageList}
+                    setOpen={setAgeListVisible}
+                    setValue={setSelectedAge}
+                    setItems={setAgeList}
+                    containerStyle={{
+                      width: "45%",
+                    }}
+                  />
+
+                  {/* City */}
+                  <DropDownPicker
+                    placeholder="المدينة"
+                    open={cityListVisible}
+                    value={selectedCity}
+                    items={cityList}
+                    setOpen={setCityListVisible}
+                    setValue={setSelectedCity}
+                    setItems={setCityList}
+                    containerStyle={{
+                      width: "45%",
+                    }}
+                  />
+
+                </View>
+              </View>
+            </View>
+          </Modal>
+
         </View>
 
         {/* Body */}
