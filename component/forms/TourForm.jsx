@@ -176,7 +176,7 @@ const TourForm = ({
         name="meetingPoint"
         control={control}
         // rest
-        label="نقطة اللقاء"
+        label="  نقطة اللقاء"
         placeholder="*اختر نقطة اللقاء"
         // value={tour.meetingPoint}
         onSelectLocation={(location) => {
@@ -235,8 +235,8 @@ const TourForm = ({
           name="qty"
           control={control}
           // rest
-          label="عدد الأشخاص"
-          placeholder="*اختر عدد الأشخاص"
+          label="اقصى عدد للسياح"
+          placeholder="*اكتب عدد الأشخاص"
           editable
           keyboardType="numeric"
           icon={true}

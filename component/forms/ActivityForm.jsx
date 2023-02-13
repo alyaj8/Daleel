@@ -175,7 +175,7 @@ const ActivityForm = ({
               control={control}
               // rest
 
-              label="موقع النشاط"
+              label="  موقع النشاط"
               placeholder="*اختر موقع النشاط"
               // value={activity.location}
               onSelectLocation={(location) => {

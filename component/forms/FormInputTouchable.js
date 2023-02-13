@@ -179,7 +179,7 @@ const styles = StyleSheet.create({
     // width: "100%",
     marginRight: 9,
 
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: "bold",
     // color: "#5398a0",
     textAlign: "right",

@@ -65,23 +65,19 @@ export default function LocalRejectedCard({
               </Text>
 
               {item.localName && (
-                <View style={[styles.flexDirection, { alignSelf: "flex-end" }]}>
+                <View style={[styles.flexDirection, { alignSelf: "flex-end" ,paddingTop:5,}]}>
                   <Text
                     style={[
-                      {
-                        fontWeight: "bold",
-                      },
-                      text.text15,
-                    ]}
+                      text.TextC,
+                       text.text14,   
+                      ]}
                   >
                     {booked}
                   </Text>
                   <Text
                     style={[
-                      {
-                        fontWeight: "bold",
-                      },
-                      text.text15,
+                    text.TextC,
+                     text.text14, 
                     ]}
                   >
                     السائح:{" "}

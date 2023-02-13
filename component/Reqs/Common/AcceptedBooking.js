@@ -10,6 +10,7 @@ import {
 import { getFormattedDate, getFormattedTime } from "../../../util/DateHelper";
 import AppButton from "../../AppButton";
 import AppImage from "../../AppImage";
+import text from "../../../style/text";
 
 export default function AcceptedBooking({
   onpressAccepted,
@@ -116,20 +117,20 @@ export default function AcceptedBooking({
                 ...highlights.brdr03,
               }}
             >
-              <Text>قُبلت: </Text>
+              <Text style={[text.HeadingC,text.bold]}>قُبلت: </Text>
               <Text
-                style={{
-                  fontWeight: "bold",
-                }}
+              style={[text.TextC]}
               >
                 {getFormattedTime(item?.acceptedAt)}
               </Text>
               <Text
-                style={{
+                style={[
+                  text.TextC,
+                  {
                   fontSize: 14,
                   textAlign: "right",
-                  fontWeight: "bold",
-                }}
+                  }
+                ]}
               >
                 {getFormattedDate(date)}
               </Text>
@@ -147,22 +148,22 @@ export default function AcceptedBooking({
                 ...highlights.brdr03,
               }}
             >
-              <Text>الموعد: </Text>
+              <Text style={[text.HeadingC,text.bold]}>الموعد: </Text>
 
               <Text
-                style={{
-                  fontWeight: "bold",
-                }}
+               style={[text.TextC]}
               >
                 {getFormattedTime(item?.acceptedAt)}
               </Text>
               <Text
-                style={{
-                  fontSize: 14,
-                  // textAlign: "right",
-                  fontWeight: "bold",
-                }}
-              >
+                  style={[
+                    text.TextC,
+                    {
+                    fontSize: 14,
+                    textAlign: "right",
+                    }
+                  ]}
+                >
                 {getFormattedDate(date)}
               </Text>
             </View>
@@ -177,18 +178,19 @@ export default function AcceptedBooking({
             }}
           >
             <Text
-              style={{
+              style={[ text.TextC,{
                 fontWeight: "bold",
-              }}
+                fontSize: 15,
+              }]}
             >
               {" "}
               {forPerson}{" "}
             </Text>
             <Text
-              style={{
+              style={[ text.TextC,{
                 fontWeight: "bold",
                 fontSize: 16,
-              }}
+              }]}
             >
               {type === "local" ? "السائح: " : "المُرشِد: "}
             </Text>
