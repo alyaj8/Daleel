@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { ImageBackground, StyleSheet, Text } from "react-native";
+import { ImageBackground, StyleSheet, Text,View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TabsWrapper from "../component/TabsWrapper";
 
@@ -69,25 +69,25 @@ export default function Tourist_Home({ navigation }) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground style={{ flex: 1, marginTop: -47 }} source={images.backgroundImg}>
+      <ImageBackground style={{ flex: 1, marginTop: -50 }} source={images.backgroundImg}>
         {/* Header */}
-        <Text
-          style={[
-            styles.alignCenter,
-            text.white,
-            text.bold,
-            text.text30,
-            {
-              marginTop: 48,
-              width: "100%",
-              textAlign: "center",
-              marginBottom: 15
-              //color:colors.Blue
-            },
-          ]}
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: screenWidth.width10,
+            marginVertical: 0,
+          }}
         >
-          طلباتي
-        </Text>
+          <Text
+            style={{
+              color: "#fff",
+              fontSize: 25,
+              fontWeight: "bold",
+            }}
+          >
+            طلباتي
+          </Text>
+        </View>
 
         {/* Top Tabs */}
         <TabsWrapper

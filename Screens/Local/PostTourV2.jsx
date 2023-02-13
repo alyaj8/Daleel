@@ -1374,7 +1374,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     color: "#fff",
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: "bold",
     textAlign: "right",
     width: "75%",

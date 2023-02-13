@@ -295,7 +295,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             onPress={() => navigation.goBack()}
           />
           <View style={[styles.alignCenter, { marginTop: -36 }]}>
-            <Text style={[text.text30, text.bold, { color: colors.white }]}>
+            <Text style={[text.text25, text.bold, { color: colors.white }]}>
               معلومات الجولة
             </Text>
           </View>

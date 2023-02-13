@@ -294,7 +294,7 @@ export default function Tourist_Sign_up({ navigation }) {
         <View style={{ alignItems: "center", marginTop: 0 }}>
           <Image
             style={{ height: 200, width: 200 }}
-            source={require("../assets/daleel3.png")}
+            source={require("../assets/Daleel_Logo.png")}
           />
         </View>
 
@@ -407,7 +407,7 @@ export default function Tourist_Sign_up({ navigation }) {
           <View>
             <TouchableOpacity
               style={{
-                backgroundColor: "#826a47",
+                backgroundColor: colors.brown,
                 padding: 20,
                 borderRadius: 10,
                 marginBottom: 30,

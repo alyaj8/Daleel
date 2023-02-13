@@ -80,10 +80,11 @@ export const screenWidth = {
 export const colors = {
   textHeadingColor: "#212121",
   textColor: "#424242",
-  Blue: "#0a243d",
-  lightBrown: "#c4a35a",
-  brown: "#826a47",
-  gray: "#e5e5dc",
+  Blue: "#223950",
+  lightBrown: "#8a7b6c",
+  lightBrown2: "#8b5b2c",
+  brown: "#775365",
+  gray: "#ebe6e9",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
 

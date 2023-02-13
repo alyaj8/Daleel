@@ -194,7 +194,7 @@ const ChatsList = ({ navigation }) => {
             styles.alignCenter,
             text.white,
             text.bold,
-            text.text30,
+            text.text25,
             {
               marginTop: 50,
               width: "100%",

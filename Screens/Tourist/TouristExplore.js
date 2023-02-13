@@ -161,8 +161,8 @@ export default function TouristExplore({ navigation }) {
                 width: "100%",
                 textAlign: "center",
                 //color: colors.Blue,
-                fontSize: 30,
-                marginTop: 25,
+                fontSize: 25,
+                marginTop: 10,
               },
               text.white,
 

@@ -27,7 +27,7 @@ export default function LocalBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -43,7 +43,7 @@ export default function LocalBottomTabs() {
                   width: 34,
                   height: 28,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2  : "black",
                 }}
               />
             </View>
@@ -59,7 +59,7 @@ export default function LocalBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -75,7 +75,7 @@ export default function LocalBottomTabs() {
                   width: 30,
                   height: 30,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2  : "black",
                 }}
               />
             </View>
@@ -91,7 +91,7 @@ export default function LocalBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -106,7 +106,7 @@ export default function LocalBottomTabs() {
                 style={{
                   width: 45,
                   height: 45,
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2  : "black",
                 }}
               />
             </View>
@@ -123,7 +123,7 @@ export default function LocalBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2  : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -139,7 +139,7 @@ export default function LocalBottomTabs() {
                   width: 26,
                   height: 26,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2  : "black",
                 }}
               />
             </View>
@@ -155,7 +155,7 @@ export default function LocalBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -171,7 +171,7 @@ export default function LocalBottomTabs() {
                   width: 26,
                   height: 26,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2  : "black",
                 }}
               />
             </View>

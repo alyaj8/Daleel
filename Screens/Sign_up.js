@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
+import text from "../style/text";
 // <ImageBackground source={require("../assets/2.jpg")} resizeMode="cover">
 
 export default function Sign_up({ navigation }) {
@@ -34,6 +35,28 @@ export default function Sign_up({ navigation }) {
           onPress={() => navigation.goBack()}
         />
       </View>
+      <View
+            style={[
+              styles.alignCenter,
+              {
+                height: 18,
+                // flexWrap: "wrap",
+                marginHorizontal: 35,
+                alignItems: "center",
+                justifyContent: "center",
+              },
+            ]}
+          >
+            <Text
+              style={[
+                text.white,
+                text.text25,
+                { fontWeight: "bold", marginTop: -50 },
+              ]}
+            >
+              إنشاء حساب
+            </Text>
+          </View>
 
       <View style={{ marginTop: 80, alignSelf: "center" }}>
         <Text style={{ fontSize: 33, fontWeight: "bold" }}>
