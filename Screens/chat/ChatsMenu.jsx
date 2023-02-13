@@ -237,7 +237,7 @@ const ChatsList = ({ navigation }) => {
               >
                 لا يوجد لديك محادثات حاليا
               </Text>
-              <Feather name="alert-circle" size={35} color="#c66b3d" />
+              <Feather name="alert-circle" size={35} color="#9d8e78" />
             </View>
           )}
         </View>

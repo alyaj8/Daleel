@@ -1164,7 +1164,7 @@ const PostTourV2 = ({ navigation }) => {
 
                   width: screenWidth.width80,
                   height: 60,
-                  backgroundColor: colors.Blue,
+                  backgroundColor: colors.brown,
                 }}
                 error={
                   !enablePost

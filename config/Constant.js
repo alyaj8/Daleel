@@ -83,7 +83,7 @@ export const colors = {
   Blue: "#223950",
   lightBrown: "#8a7b6c",
   lightBrown2: "#8b5b2c",
-  brown: "#775365",
+  brown: "#9d8e78",
   gray: "#ebe6e9",
   mapCircleColor: "#1278EE",
   themeSecondary: "#52616B",
