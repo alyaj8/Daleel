@@ -704,6 +704,7 @@ const PostTourV2 = ({ navigation }) => {
     setActivity(initActivity);
     setFilePathTour(null);
     setActivities([]);
+    reset();
   };
 
   const onPressTab = (index) => {
@@ -808,7 +809,6 @@ const PostTourV2 = ({ navigation }) => {
     const isTitleExist = activities.find(
       (a) => a.title === activities.title && a.id !== activity.id
     );
-    console.log("🚀 ~ isTitleExist", isTitleExist);
     if (isTitleExist) {
       Alert.alert(
         "خطأ",
@@ -946,8 +946,8 @@ const PostTourV2 = ({ navigation }) => {
         setIsLoading(false);
         navigation.goBack();
       }
-
-      // setLoading(false);
+      setIsLoading(false);
+      reseter();
       // navigation.navigate("Home");
     } catch (error) {
       setIsLoading(false);
@@ -969,6 +969,7 @@ const PostTourV2 = ({ navigation }) => {
             filePathTour={filePathTour}
             setFilePathTour={setFilePathTour}
             isDatePickerVisible={isDatePickerVisible}
+            onRemoveImage={() => setValue("imageUrl", "")}
             onShowModal={onShowModal}
             selectModal={selectModal}
             setTour={setTour}
