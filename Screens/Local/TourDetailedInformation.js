@@ -580,7 +580,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     isChecked={isReq && isSelected}
                     key={index}
                     activity={item}
-                    //display
+                    display
                   />
                 );
               })}

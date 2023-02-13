@@ -697,7 +697,6 @@ const PostTourV2 = ({ navigation }) => {
   };
   useEffect(() => {
     getCurrentUser();
-    return () => {};
   }, []);
 
   const reseter = () => {
@@ -1164,7 +1163,7 @@ const PostTourV2 = ({ navigation }) => {
 
                   width: screenWidth.width80,
                   height: 60,
-                  backgroundColor:colors.Blue,
+                  backgroundColor: colors.Blue,
                 }}
                 error={
                   !enablePost
@@ -1211,7 +1210,7 @@ const PostTourV2 = ({ navigation }) => {
                 justifyContent: "space-between",
               }}
             >
-                  <AppButton
+              <AppButton
                 title="الغاء"
                 onPress={() => {
                   setModalVisible(false);
@@ -1226,12 +1225,13 @@ const PostTourV2 = ({ navigation }) => {
               <AppButton
                 title="نشر"
                 onPress={handleSubmit(submitRequest)}
-                style={{ width: screenWidth.width30,
+                style={{
+                  width: screenWidth.width30,
                   paddingVertical: 7,
                   borderRadius: 20,
-                backgroundColor: colors.brown, }}
+                  backgroundColor: colors.brown,
+                }}
               />
-          
             </View>
           </View>
         </View>

@@ -21,7 +21,7 @@ import {
 import Modal from "react-native-modal";
 import Icon from "react-native-vector-icons/Ionicons";
 import Button from "../../component/button/Button";
-import { images, screenWidth, colors } from "../../config/Constant";
+import { colors, images, screenWidth } from "../../config/Constant";
 import { db } from "../../config/firebase";
 
 export default function Local_Account({ navigation }) {
@@ -80,6 +80,7 @@ export default function Local_Account({ navigation }) {
   useEffect(() => {
     getData();
   }, []);
+
   const getData = async () => {
     try {
       const q = query(collection(db, "users"), where("uid", "==", user.uid));
@@ -90,7 +91,6 @@ export default function Local_Account({ navigation }) {
 
         value.username22 = Acc.username;
         set2(value.username22);
-
       });
       //  setValue(Acc);
     } catch (error) {
@@ -163,7 +163,6 @@ export default function Local_Account({ navigation }) {
       checkMaroof(value.maroof) === false ||
       checkPhone(value.phone) == false ||
       checkUserName(value.username) == false
-
     ) {
       validatName();
       validatEmail();
@@ -172,10 +171,10 @@ export default function Local_Account({ navigation }) {
       validatMaroof();
       validatUsername();
     } else {
-      console.log(u1, "2")
+      console.log(u1, "2");
 
-      CheckUnique()
-      console.log("isModalVisible")
+      CheckUnique();
+      console.log("isModalVisible");
       // setModalVisible((prev) => !prev);
       // console.log(isModalVisible, "22")
     }
@@ -229,7 +228,9 @@ export default function Local_Account({ navigation }) {
     if (value.username === "") {
       setUsernameError("الرجاء إدخال اسم المستخدم");
     } else if (!checkUserName(value.username))
-      setUsernameError("يُسمح باستخدام الحروف الهجائية و الأرقام الانجليزية فقط وان تتكون من 4-25 حرف");
+      setUsernameError(
+        "يُسمح باستخدام الحروف الهجائية و الأرقام الانجليزية فقط وان تتكون من 4-25 حرف"
+      );
     else {
       setUsernameError("");
     }
@@ -243,9 +244,8 @@ export default function Local_Account({ navigation }) {
     }
   };
   let CheckUnique = async () => {
-
-    console.log(value.username, "check in db")
-    console.log(u2, "check for previous 2")
+    console.log(value.username, "check in db");
+    console.log(u2, "check for previous 2");
     const q = query(
       collection(db, "Admin_users"),
       where("username", "==", value.username)
@@ -253,37 +253,34 @@ export default function Local_Account({ navigation }) {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
-      console.log("uniqe")
+      console.log("uniqe");
       setUsernameError("");
       setModalVisible((prev) => !prev);
 
       return true;
-    }
-    else if (u2 == value.username) {
-      console.log("matches")
+    } else if (u2 == value.username) {
+      console.log("matches");
       setUsernameError("");
       setModalVisible((prev) => !prev);
 
       return true;
-    }
-    else {
+    } else {
       setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
 
       set1(false);
-      console.log(u1, "11")
+      console.log(u1, "11");
 
       return false;
-
     }
-
   };
 
   const validatName = () => {
     if (value.firstname === "") {
       setNameError("لا يمكن ترك الإسم الأول فارغا");
     } else if (!checkFirstName(value.firstname)) {
-      setNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
-
+      setNameError(
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
+      );
     } else if (checkFirstName(value.firstname) && value.firstname !== "") {
       setNameError("");
     }
@@ -292,7 +289,9 @@ export default function Local_Account({ navigation }) {
     if (value.lastname === "") {
       setLastNameError("لا يمكن ترك الإسم الأخير فارغا");
     } else if (!checkFirstName(value.lastname)) {
-      setLastNameError("يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف");
+      setLastNameError(
+        "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-20 حرف"
+      );
     } else if (checkFirstName(value.lastname) && value.lastname !== "") {
       setLastNameError("");
     }
@@ -324,7 +323,6 @@ export default function Local_Account({ navigation }) {
     } else if (!checkMaroof(value.maroof))
       setMaroofError("يجب ان يتكون رقم معروف من ٥ او ٦ ارقام  ");
   };
-
 
   return (
     <ImageBackground
@@ -395,7 +393,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {NameError}
@@ -421,7 +419,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {LastNameError}
@@ -448,7 +446,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {EmailError}
@@ -475,7 +473,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {UsernameError}
@@ -500,7 +498,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {PhoneError}
@@ -527,7 +525,7 @@ export default function Local_Account({ navigation }) {
                   color: "red",
                   marginLeft: 10,
                   fontSize: 12,
-                  textAlign: "right"
+                  textAlign: "right",
                 }}
               >
                 {MaroofError}
@@ -603,14 +601,17 @@ export default function Local_Account({ navigation }) {
                       justifyContent: "space-between",
                     }}
                   >
-
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModal}
-                        style={{ backgroundColor: colors.lightBrown }} />
-
+                      <Button
+                        title="الغاء"
+                        onpress={toggleModal}
+                        style={{ backgroundColor: colors.lightBrown }}
+                      />
                     </View>
                     <View style={{}}>
-                      <Button title="حفظ" onpress={saveChanges2}
+                      <Button
+                        title="حفظ"
+                        onpress={saveChanges2}
                         style={{ backgroundColor: colors.Blue }}
                       />
                     </View>
@@ -633,12 +634,18 @@ export default function Local_Account({ navigation }) {
                     }}
                   >
                     <View style={{}}>
-                      <Button title="الغاء" onpress={toggleModalDelet}
-                        style={{ backgroundColor: colors.lightBrown }} />
+                      <Button
+                        title="الغاء"
+                        onpress={toggleModalDelet}
+                        style={{ backgroundColor: colors.lightBrown }}
+                      />
                     </View>
                     <View style={{}}>
-                      <Button title="حذف" onpress={() => deleteUserFunc()}
-                        style={{ backgroundColor: colors.brown }} />
+                      <Button
+                        title="حذف"
+                        onpress={() => deleteUserFunc()}
+                        style={{ backgroundColor: colors.brown }}
+                      />
                     </View>
                   </View>
                 </View>

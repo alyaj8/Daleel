@@ -222,7 +222,6 @@ const ActivityCard = ({
                 text.text13,
                 text.TextC,
                 {
-                  
                   fontWeight: "bold",
                   alignSelf: "flex-end",
                   textAlign: "right",

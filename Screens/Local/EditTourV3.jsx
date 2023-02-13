@@ -123,12 +123,6 @@ const EditTourV3 = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    return () => {
-      // console.log("OUIUUUUUUUUUUUUT");
-    };
-  }, []);
-
-  useEffect(() => {
     setIsUpdated(true);
   }, [activities, tour]);
 
