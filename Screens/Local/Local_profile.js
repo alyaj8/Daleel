@@ -125,6 +125,8 @@ export default function Local_profile({ navigation }) {
 
 
       await updateDoc(doc(db, "Admin_users", user.uid), { poster: imageUrl });
+      alert("تم تحديث  الصورة الشخصية بنجاح");
+
       navigation.goBack();
       // await updateDoc(taskDocRef, data);
 
@@ -171,6 +173,7 @@ export default function Local_profile({ navigation }) {
       //myData.pictures = PArray;
 
       await updateDoc(doc(db, "Admin_users", user.uid), { pictures: PArray });
+      alert("تمت اضافه الصورة بنجاح");
       navigation.goBack();
 
       // setLoading(false);
@@ -218,6 +221,7 @@ export default function Local_profile({ navigation }) {
 
     const docRef = doc(db, 'Admin_users', user.uid);
     await updateDoc(docRef, { pictures: arrayRemove(item) })
+    alert("تم حذف الصورة  بنجاح");
     navigation.goBack();
   };
   const DtoggleModal = () => {

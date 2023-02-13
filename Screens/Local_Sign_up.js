@@ -233,7 +233,7 @@ export default function Local_Sign_up({ navigation }) {
         "يُسمح باستخدام الحروف الهجائية الانجليزية فقط وان تتكون من 4-25 حرف"
       );
     else {
-      CheckUnique(value.username);
+      setUsernameError("");
     }
   };
 
@@ -264,8 +264,7 @@ export default function Local_Sign_up({ navigation }) {
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
       checkPhone(value.phone) == false ||
-      checkUserName(value.username) == false ||
-      CheckUnique() == false
+      checkUserName(value.username) == false
 
       //  value.city === ""
       //   value.poster === ""
@@ -279,56 +278,9 @@ export default function Local_Sign_up({ navigation }) {
       validatUsername();
       validatPass2();
     } else {
-      try {
-        setIsLoading(true);
-        const { user } = await createUserWithEmailAndPassword(
-          auth,
-          value.email,
-          value.password
-        );
+      CheckUnique()
 
-        const isTourHasImage = filePath ? true : false;
-        let imageUrl = null;
-        if (isTourHasImage) {
-          imageUrl = await uploadImage(filePath);
-          // console.log("🚀 ~ imageUrl", imageUrl);
-        }
-        const data = {
-          firstname: value.firstname,
-          lastname: value.lastname,
 
-          email: value.email,
-          phone: value.phone,
-          password: value.password,
-          username: value.username,
-          username22: value.username,
-
-          maroof: value.maroof,
-          city: value.city,
-          poster: imageUrl,
-          pictures: [],
-          uid: user.uid,
-          isTourist: false,
-          push_token: push_token || "",
-        };
-        setDoc(doc(db, "users", user.uid), data);
-        setDoc(doc(db, "Admin_users", user.uid), data).then(() => {
-          alert("تم إنشاء الحساب بنجاح الرجاء تسجيل الدخول");
-          navigation.navigate("Log_in2");
-        });
-        setIsLoading(false);
-      } catch (er) {
-        console.log("====================================");
-        console.log("er", er);
-        console.log("====================================");
-        er = msg(er);
-        setValue({
-          ...value,
-          error: er,
-        });
-        console.log(er);
-        setIsLoading(false);
-      }
     }
   }
 
@@ -407,6 +359,58 @@ export default function Local_Sign_up({ navigation }) {
     if (snapshot.empty) {
       console.log(snapshot.empty, "true2 check uniq");
       setUsernameError("");
+      {
+        try {
+          setIsLoading(true);
+          const { user } = await createUserWithEmailAndPassword(
+            auth,
+            value.email,
+            value.password
+          );
+
+          const isTourHasImage = filePath ? true : false;
+          let imageUrl = null;
+          if (isTourHasImage) {
+            imageUrl = await uploadImage(filePath);
+            // console.log("🚀 ~ imageUrl", imageUrl);
+          }
+          const data = {
+            firstname: value.firstname,
+            lastname: value.lastname,
+
+            email: value.email,
+            phone: value.phone,
+            password: value.password,
+            username: value.username,
+            username22: value.username,
+
+            maroof: value.maroof,
+            city: value.city,
+            poster: imageUrl,
+            pictures: [],
+            uid: user.uid,
+            isTourist: false,
+            push_token: push_token || "",
+          };
+          setDoc(doc(db, "users", user.uid), data);
+          setDoc(doc(db, "Admin_users", user.uid), data).then(() => {
+            alert("تم إنشاء الحساب بنجاح الرجاء تسجيل الدخول");
+            navigation.navigate("Log_in2");
+          });
+          setIsLoading(false);
+        } catch (er) {
+          console.log("====================================");
+          console.log("er", er);
+          console.log("====================================");
+          er = msg(er);
+          setValue({
+            ...value,
+            error: er,
+          });
+          console.log(er);
+          setIsLoading(false);
+        }
+      }
       return true;
     }
     setUsernameError("هذا الاسم قدم تم استخدامه من قبل");
