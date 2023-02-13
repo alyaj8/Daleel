@@ -397,7 +397,7 @@ const ActivityForm = ({
                 },
               ]}
             >
-              <Text style={[text.themeDefault, text.text20, text.right]}>
+              <Text style={[text.TextC, text.text20, text.right]}>
                 السعر الإجمالي للرحلة:{" "}
                 {
                   // totalPrice

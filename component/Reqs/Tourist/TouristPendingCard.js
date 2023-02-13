@@ -33,7 +33,7 @@ export default function TouristPendingCard({ onpress, source, title }) {
         <View style={{ width: screenWidth.width50 }}>
           <Text
             style={[
-              text.themeDefault,
+              text.HeadingC,
               text.text18,
               { textAlign: "right", fontWeight: "bold", marginRight: 20 },
             ]}

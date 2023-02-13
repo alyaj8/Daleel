@@ -128,12 +128,12 @@ const ChatConvesation = ({
             textStyle={{
               right: {
                 color: "black",
-                fontWeight: "bold",
+                
                 padding: 3,
               },
               left: {
                 color: "black",
-                fontWeight: "bold",
+                
                 padding: 3,
               },
             }}

@@ -316,7 +316,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 alignSelf: "center",
               }}
             >
-              <Text style={[text.text30, { fontWeight: "bold" }]}>
+              <Text style={[text.text30,text.HeadingC, { fontWeight: "bold" }]}>
                 {data?.title}
               </Text>
             </View>
@@ -328,7 +328,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 paddingTop: 7,
               }}
             >
-              <Text style={[text.text15, { fontWeight: "bold" }]}>
+              <Text style={[text.text15,text.SubduedTextC, { fontWeight: "bold" }]}>
                 اسم المُرشد: {data?.localName}
               </Text>
             </View>
@@ -349,12 +349,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
             {data.reviews?.length > 0 ? (
               <Text
                 style={{
-                  color: "black",
+                  color: "#616161",
                   alignItems: "center",
                   fontWeight: "800",
                   alignSelf: "center",
                   marginLeft: 20,
-                  fontSize: 15,
+                  fontSize: 13,
                   marginTop: -10,
                 }}
               >
@@ -455,6 +455,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
               <Text
                 style={[
                   text.text16,
+                  text.TextC,
                   {
                     fontWeight: "bold",
                     marginRight: 5,
@@ -470,7 +471,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
             <View style={{ marginHorizontal: 5 }}>
               <Text
                 style={[
-                  text.themeDefault,
+                  text.TextC,
                   text.text14,
                   text.right,
                   {
@@ -498,12 +499,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
               >
                 <Text
                   style={[
-                    text.themeDefault,
-                    text.text20,
+                    text.TextC,
+                    text.text18,
                     { fontWeight: "bold" },
                   ]}
                 >
-                  نقطة اللقاء
+                  نقطة اللقاء:
                 </Text>
               </View>
             </View>
@@ -529,8 +530,8 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 <View>
                   <Text
                     style={[
-                      text.themeDefault,
-                      text.text20,
+                      text.TextC,
+                      text.text18,
                       { fontWeight: "bold" },
                     ]}
                   >
@@ -551,7 +552,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                 ]}
               >
                 <View style={{ marginHorizontal: 10 }}>
-                  <Text style={[text.themeDefault, text.text20]}>
+                  <Text style={[text.TextC, text.text20,text.bold]}>
                     {data?.qty}
                   </Text>
                 </View>
@@ -833,7 +834,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 25,
     height: 25,
-    tintColor: "lightbrown",
+    tintColor: colors.brown,
     marginRight: 15,
   },
   flexRow: {
@@ -843,7 +844,7 @@ const styles = StyleSheet.create({
   iconLg: {
     width: 40,
     height: 40,
-    tintColor: "loghtbrown",
+    tintColor: colors.brown,
   },
   arrowIcon: {
     width: 30,

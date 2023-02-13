@@ -24,12 +24,12 @@ export default function TouristRejectCard({ onpress, source, title, local }) {
           </View>
           <View style={{ marginHorizontal: 10 }}>
             <Text
-              style={[text.text18, { textAlign: "right", fontWeight: "bold" }]}
+              style={[text.text18,text.HeadingC, { textAlign: "right", fontWeight: "bold" }]}
             >
               {title}
             </Text>
             <Text
-              style={[text.text14, { textAlign: "right", fontWeight: "bold" }]}
+              style={[text.text14,text.TextC, { textAlign: "right", }]}
             >
               المُرشد: {local}
             </Text>

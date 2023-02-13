@@ -168,6 +168,7 @@ const ActivityCard = ({
                 style={[
                   styles.title,
                   text.text18,
+                  text.HeadingC,
                   {
                     fontWeight: "bold",
                     marginBottom: 5,
@@ -184,6 +185,7 @@ const ActivityCard = ({
                 <Text
                   style={[
                     text.text12,
+                    text.SubduedTextC,
                     {
                       fontWeight: "bold",
                     },
@@ -194,7 +196,7 @@ const ActivityCard = ({
                 <MIcon
                   name="clock-outline"
                   size={14}
-                  color="black"
+                  color="#616161"
                   style={{ marginLeft: 5 }}
                 />
               </View>
@@ -217,9 +219,10 @@ const ActivityCard = ({
           >
             <Text
               style={[
-                text.text14,
+                text.text13,
+                text.TextC,
                 {
-                  color: colors.dark,
+                  
                   fontWeight: "bold",
                   alignSelf: "flex-end",
                   textAlign: "right",
@@ -246,14 +249,15 @@ const ActivityCard = ({
             <View style={[styles.row, styles.ROWxLeft_COLyTop]}>
               <MIcon
                 name="cash"
-                size={14}
-                color="black"
+                size={15}
+                color="#616161"
                 style={{ marginRight: 5 }}
               />
               <Text
                 style={[
                   text.text12,
-
+                  text.SubduedTextC,
+                  text.bold,
                   {
                     width: screenWidth.width10,
                   },
@@ -271,6 +275,7 @@ const ActivityCard = ({
               <Text
                 style={[
                   text.text12,
+                  text.SubduedTextC,
                   { textAlign: "right", fontWeight: "bold" },
                 ]}
               >
@@ -278,8 +283,8 @@ const ActivityCard = ({
               </Text>
               <MIcon
                 name="map-marker"
-                size={14}
-                color="black"
+                size={15}
+                color="#616161"
                 style={{ marginRight: 5 }}
               />
             </TouchableOpacity>

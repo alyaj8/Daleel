@@ -129,10 +129,10 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
               <Text
                 style={[
                   text.text22,
+                  text.HeadingC,
                   {
                     textAlign: "center",
                     fontWeight: "bold",
-                    color: colors.textHeadingColor,
                     ...highlights.brdr02,
                   },
                 ]}
@@ -143,10 +143,10 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
             <Text
               style={[
                 // text.text12,
+                text.SubduedTextC,
                 {
-                  textAlign: "center",
                   fontWeight: "bold",
-                  color: colors.textHeadingColor,
+                  textAlign: "center",
                   ...highlights.brdr02,
                 },
               ]}
@@ -155,23 +155,41 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
             </Text>
             {/* age & qty & city */}
             <Text
-              style={{
-                fontWeight: "bold",
-              }}
+                 style={[
+                  // text.text12,
+                  text.SubduedTextC,
+                  {
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    ...highlights.brdr02,
+                  },
+                ]}
             >
-              السن: {tour?.age}
+              الفئة العمرية: {tour?.age}
             </Text>
             <Text
-              style={{
-                fontWeight: "bold",
-              }}
+                 style={[
+                  // text.text12,
+                  text.SubduedTextC,
+                  {
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    ...highlights.brdr02,
+                  },
+                ]}
             >
               تستوعب: {tour?.qty} فرد{" "}
             </Text>
             <Text
-              style={{
-                fontWeight: "bold",
-              }}
+                 style={[
+                  // text.text12,
+                  text.SubduedTextC,
+                  {
+                    fontWeight: "bold",
+                    textAlign: "center",
+                    ...highlights.brdr02,
+                  },
+                ]}
             >
               مدينة: {tour?.city}
             </Text>

@@ -11,6 +11,15 @@ export default StyleSheet.create({
   fontFamily: {
     // fontFamily:'serif',
   },
+  HeadingC:{
+    color:"#212121"
+  },
+  TextC:{
+    color:"#424242"
+  },
+  SubduedTextC:{
+    color:"#616161"
+  },
   text6: {
     fontSize: 6,
     textAlign: "justify",
@@ -37,6 +46,10 @@ export default StyleSheet.create({
   },
   text12: {
     fontSize: 12,
+    textAlign: "justify",
+  },
+  text13: {
+    fontSize: 13,
     textAlign: "justify",
   },
   text14: {
