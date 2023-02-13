@@ -33,6 +33,8 @@ export default function Local_Account({ navigation }) {
 
   const [PhoneError, setPhoneError] = useState("");
   const [MaroofError, setMaroofError] = useState("");
+  const [u1, set1] = useState(true);
+  const [u2, set2] = useState("");
 
   const [isModalVisible, setModalVisible] = useState(false);
   const [isModalVisible2, setModalVisible2] = useState(false);
@@ -85,7 +87,10 @@ export default function Local_Account({ navigation }) {
       querySnapshot.forEach(async (doc) => {
         const Acc = doc.data();
         setValue(Acc);
-        // console.log(value.email);
+
+        value.username22 = Acc.username;
+        set2(value.username22);
+
       });
       //  setValue(Acc);
     } catch (error) {
@@ -157,8 +162,8 @@ export default function Local_Account({ navigation }) {
       checkEmail(value.email) === false ||
       checkMaroof(value.maroof) === false ||
       checkPhone(value.phone) == false ||
-      checkUserName(value.username) == false ||
-      CheckUnique() == false
+      checkUserName(value.username) == false
+
     ) {
       validatName();
       validatEmail();
@@ -167,8 +172,11 @@ export default function Local_Account({ navigation }) {
       validatMaroof();
       validatUsername();
     } else {
-      // console.log(isModalVisible)
-      setModalVisible((prev) => !prev);
+      console.log(u1, "2")
+
+      CheckUnique()
+      console.log("isModalVisible")
+      // setModalVisible((prev) => !prev);
       // console.log(isModalVisible, "22")
     }
   };
@@ -223,7 +231,7 @@ export default function Local_Account({ navigation }) {
     } else if (!checkUserName(value.username))
       setUsernameError("يُسمح باستخدام الحروف الهجائية و الأرقام الانجليزية فقط وان تتكون من 4-25 حرف");
     else {
-      CheckUnique(value.username);
+      setUsernameError("");
     }
   };
   let checkUserName = (value) => {
@@ -235,6 +243,9 @@ export default function Local_Account({ navigation }) {
     }
   };
   let CheckUnique = async () => {
+
+    console.log(value.username, "check in db")
+    console.log(u2, "check for previous 2")
     const q = query(
       collection(db, "Admin_users"),
       where("username", "==", value.username)
@@ -242,15 +253,29 @@ export default function Local_Account({ navigation }) {
     const snapshot = await getDocs(q);
 
     if (snapshot.empty) {
+      console.log("uniqe")
       setUsernameError("");
+      setModalVisible((prev) => !prev);
+
       return true;
     }
-    else if (value.username == value.username22) {
+    else if (u2 == value.username) {
+      console.log("matches")
       setUsernameError("");
+      setModalVisible((prev) => !prev);
+
       return true;
     }
-    setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
-    return false;
+    else {
+      setUsernameError("اسم المستخدم قدم تم استخدامه من قبل");
+
+      set1(false);
+      console.log(u1, "11")
+
+      return false;
+
+    }
+
   };
 
   const validatName = () => {
