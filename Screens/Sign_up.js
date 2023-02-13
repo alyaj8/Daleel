@@ -15,7 +15,7 @@ export default function Sign_up({ navigation }) {
   return (
     <ImageBackground
       style={{ flex: 1 }}
-      source={require("../assets/b2.png")}
+      source={require("../assets/B7.png")}
       resizeMode="cover"
     >
       <View
