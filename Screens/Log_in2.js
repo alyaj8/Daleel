@@ -51,6 +51,7 @@ export default function Log_in2({ navigation }) {
 
     const [value, setValue] = React.useState({
         email: "",
+        password: "",
         error: "",
     });
 
@@ -117,126 +118,126 @@ export default function Log_in2({ navigation }) {
         ]);
     }, []);
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style = {{backgroundColor: "#f8f5f2" , height: "100%",  }}>
-        <SafeAreaView
-            style={{ flex: 1, backgroundColor: "#f8f5f2" ,   }}
-        >
-            <View style={{ alignItems: "center", marginTop: 20 }}>
-                <Image
-                    style={{ height: 265, width: 265 }}
-                    source={require("../assets/daleel3.png")}
-                />
-            </View>
-
-            <View style={{ paddingHorizontal: 25, marginTop: 10 , height: "100%", backgroundColor: "#f8f5f2"}}>
-
-
-                <Text
-                    style={{
-                        fontSize: 28,
-                        fontWeight: "600",
-                        marginBottom: 40,
-                        alignSelf: "flex-end",
-                        marginTop: 20,
-                        color: "#0a243d",
-                    }}
-                >
-                    تسجيل الدخول
-                </Text>
-                <Text style={{ color: "red" }}>{value?.error}</Text>
-                <View>
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            fontWeight: "500",
-                            marginBottom: 10,
-                            alignSelf: "flex-end",
-                            color: "#0a243d",
-                        }}
-                    >
-                        البريد الإلكتروني
-                    </Text>
-                    <TextInput
-                        style={styles.body}
-                        placeholder="*البريد الإلكتروني"
-                        onChangeText={(text) => setValue({ ...value, email: text, error: "" })}
-                        underlineColorAndroid="transparent"
-                        value={value.email}
-                    />
-                    <Text
-                        style={{
-                            fontSize: 16,
-                            fontWeight: "500",
-                            marginBottom: 10,
-                            alignSelf: "flex-end",
-                            color: "#0a243d",
-                        }}
-                    >
-                        كلمة المرور
-                    </Text>
-                    <TextInput
-                        style={styles.body}
-                        //  secureTextEntry={true}
-                        placeholder="*الرقم السري"
-                        onChangeText={(text) => setValue({ ...value, password: text, error: "" })}
-                        underlineColorAndroid="transparent"
-                        value={value.password}
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#f8f5f2", height: "100%", }}>
+            <SafeAreaView
+                style={{ flex: 1, backgroundColor: "#f8f5f2", }}
+            >
+                <View style={{ alignItems: "center", marginTop: 20 }}>
+                    <Image
+                        style={{ height: 265, width: 265 }}
+                        source={require("../assets/daleel3.png")}
                     />
                 </View>
 
+                <View style={{ paddingHorizontal: 25, marginTop: 10, height: "100%", backgroundColor: "#f8f5f2" }}>
 
-                <View>
-                    <TouchableOpacity
-                        onPress={signIn}
+
+                    <Text
                         style={{
-                            backgroundColor: "#826a47",
-                            padding: 20,
-                            borderRadius: 10,
+                            fontSize: 28,
+                            fontWeight: "600",
+                            marginBottom: 40,
+                            alignSelf: "flex-end",
+                            marginTop: 20,
+                            color: "#0a243d",
+                        }}
+                    >
+                        تسجيل الدخول
+                    </Text>
+                    <Text style={{ color: "red", textAlign: "center" }}>{value?.error}</Text>
+                    <View>
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                fontWeight: "500",
+                                marginBottom: 10,
+                                alignSelf: "flex-end",
+                                color: "#0a243d",
+                            }}
+                        >
+                            البريد الإلكتروني
+                        </Text>
+                        <TextInput
+                            style={styles.body}
+                            placeholder="*البريد الإلكتروني"
+                            onChangeText={(text) => setValue({ ...value, email: text, error: "" })}
+                            underlineColorAndroid="transparent"
+                            value={value.email}
+                        />
+                        <Text
+                            style={{
+                                fontSize: 16,
+                                fontWeight: "500",
+                                marginBottom: 10,
+                                alignSelf: "flex-end",
+                                color: "#0a243d",
+                            }}
+                        >
+                            كلمة المرور
+                        </Text>
+                        <TextInput
+                            style={styles.body}
+                            //  secureTextEntry={true}
+                            placeholder="*الرقم السري"
+                            onChangeText={(text) => setValue({ ...value, password: text, error: "" })}
+                            underlineColorAndroid="transparent"
+                            value={value.password}
+                        />
+                    </View>
+
+
+                    <View>
+                        <TouchableOpacity
+                            onPress={signIn}
+                            style={{
+                                backgroundColor: "#826a47",
+                                padding: 20,
+                                borderRadius: 10,
+                                marginBottom: 30,
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    textAlign: "center",
+                                    fontWeight: "500",
+                                    fontSize: 18,
+                                    color: "white",
+                                }}
+                            >
+                                تسجيل الدخول
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+
+                    <View
+                        style={{
+                            flexDirection: "row",
+                            justifyContent: "center",
                             marginBottom: 30,
                         }}
                     >
+                        <TouchableOpacity onPress={() => navSignUP(value)}>
+                            <Text
+                                style={{
+                                    color: "#826a47",
+                                    fontWeight: "800",
+                                    textDecorationLine: "underline",
+                                }}
+                            >
+                                {" "}
+                                إنشاء حساب
+                            </Text>
+                        </TouchableOpacity>
                         <Text
                             style={{
                                 textAlign: "center",
-                                fontWeight: "500",
-                                fontSize: 18,
-                                color: "white",
-                            }}
-                        >
-                            تسجيل الدخول
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                                fontSize: 16,
+                                color: "#0a243d",
+                            }}>ليس لديك حساب؟</Text>
 
-                <View
-                    style={{
-                        flexDirection: "row",
-                        justifyContent: "center",
-                        marginBottom: 30,
-                    }}
-                >
-                    <TouchableOpacity onPress={() => navSignUP(value)}>
-                        <Text
-                            style={{
-                                color: "#826a47",
-                                fontWeight: "800",
-                                textDecorationLine: "underline",
-                            }}
-                        >
-                            {" "}
-                            إنشاء حساب
-                        </Text>
-                    </TouchableOpacity>
-                    <Text
-                        style={{
-                            textAlign: "center",
-                            fontSize: 16,
-                            color: "#0a243d",
-                        }}>ليس لديك حساب؟</Text>
-
+                    </View>
                 </View>
-            </View>
-        </SafeAreaView>
+            </SafeAreaView>
         </ScrollView>
     );
 }
