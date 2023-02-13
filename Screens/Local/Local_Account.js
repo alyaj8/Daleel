@@ -357,9 +357,9 @@ export default function Local_Account({ navigation }) {
         >
           <Text
             style={{
-              marginLeft: 100,
+              marginLeft: 130,
               marginTop: -40,
-              fontSize: 29,
+              fontSize: 25,
               color: "#FFF",
               fontWeight: "bold",
               alignSelf: "center",

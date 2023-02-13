@@ -263,9 +263,9 @@ export default function Tourist_Account({ navigation }) {
                 >
                     <Text
                         style={{
-                            marginLeft: 100,
+                            marginLeft: 130,
                             marginTop: -60,
-                            fontSize: 29,
+                            fontSize: 25,
                             color: "#FFF",
                             fontWeight: "bold",
                             alignSelf: "center",

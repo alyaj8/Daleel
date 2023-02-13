@@ -245,7 +245,7 @@ export default function TourDetailedInformation({ navigation, route }) {
             <Text
               style={[
                 text.white,
-                text.text30,
+                text.text25,
                 { fontWeight: "bold", marginTop: -50 },
               ]}
             >

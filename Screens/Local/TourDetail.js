@@ -151,7 +151,7 @@ export default function TourDetail({ navigation }) {
           <Text
             style={{
               color: "#fff",
-              fontSize: 30,
+              fontSize: 25,
               fontWeight: "bold",
             }}
           >

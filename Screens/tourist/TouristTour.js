@@ -92,24 +92,23 @@ export default function TouristTour({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        style={{ flex: 1, marginTop: -50 }}
+        style={{ flex: 1, marginTop: -43 }}
         source={images.backgroundImg}
       >
         {/* Header */}
-        <View style={[styles.alignCenter, { marginVertical: 20 }]}>
+        <View
+          style={{
+            alignItems: "center",
+            marginTop: screenWidth.width10,
+            marginVertical: 0,
+          }}
+        >
           <Text
-            style={[
-              {
-                // flex: 1,
-                width: "100%",
-                textAlign: "center",
-                //color: colors.Blue,
-                fontSize: 30,
-                marginTop: 40,
-              },
-              text.white,
-              text.bold,
-            ]}
+            style={{
+              color: "#fff",
+              fontSize: 25,
+              fontWeight: "bold",
+            }}
           >
             جولاتي
           </Text>

@@ -181,7 +181,7 @@ export default function Local_Home({ navigation }) {
           <Text
             style={{
               color: "#fff",
-              fontSize: 30,
+              fontSize: 25,
               fontWeight: "bold",
             }}
           >

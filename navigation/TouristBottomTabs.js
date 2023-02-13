@@ -27,7 +27,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -43,7 +43,7 @@ export default function TouristBottomTabs() {
                   width: 34,
                   height: 28,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2 : "black",
                 }}
               />
             </View>
@@ -59,7 +59,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2: "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -75,7 +75,7 @@ export default function TouristBottomTabs() {
                   width: 30,
                   height: 30,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ?colors.lightBrown2 : "black",
                 }}
               />
             </View>
@@ -91,7 +91,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -107,7 +107,7 @@ export default function TouristBottomTabs() {
                   style={{
                     width: 45,
                     height: 45,
-                    tintColor: focused ? colors.brown : "black",
+                    tintColor: focused ? colors.lightBrown2 : "black",
                   }}
                 />
               </View>
@@ -124,7 +124,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -140,7 +140,7 @@ export default function TouristBottomTabs() {
                   width: 26,
                   height: 26,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2: "black",
 
                 }}
               />
@@ -157,7 +157,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.brown : "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -173,7 +173,7 @@ export default function TouristBottomTabs() {
                   width: 26,
                   height: 26,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.brown : "black",
+                  tintColor: focused ? colors.lightBrown2 : "black",
                 }}
               />
             </View>

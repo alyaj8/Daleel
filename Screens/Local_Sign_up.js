@@ -433,7 +433,7 @@ export default function Local_Sign_up({ navigation }) {
         <View style={{ alignItems: "center", marginTop: 0 }}>
           <Image
             style={{ height: 200, width: 200 }}
-            source={require("../assets/daleel3.png")}
+            source={require("../assets/Daleel_Logo.png")}
           />
         </View>
         <View style={{ paddingHorizontal: 25, marginTop: 10 }}>

@@ -125,7 +125,7 @@ export default function Log_in2({ navigation }) {
                 <View style={{ alignItems: "center", marginTop: 20 }}>
                     <Image
                         style={{ height: 265, width: 265 }}
-                        source={require("../assets/daleel3.png")}
+                        source={require("../assets/Daleel_Logo.png")}
                     />
                 </View>
 
@@ -190,7 +190,7 @@ export default function Log_in2({ navigation }) {
                         <TouchableOpacity
                             onPress={signIn}
                             style={{
-                                backgroundColor: "#826a47",
+                                backgroundColor: colors.brown,
                                 padding: 20,
                                 borderRadius: 10,
                                 marginBottom: 30,
@@ -219,7 +219,7 @@ export default function Log_in2({ navigation }) {
                         <TouchableOpacity onPress={() => navSignUP(value)}>
                             <Text
                                 style={{
-                                    color: "#826a47",
+                                    color: colors.lightBrown,
                                     fontWeight: "800",
                                     textDecorationLine: "underline",
                                 }}
