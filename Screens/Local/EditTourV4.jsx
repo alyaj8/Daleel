@@ -1203,20 +1203,24 @@ const EditTourV4 = ({ navigation, route }) => {
               }}
             >
               <AppButton
-                title="تحديث"
-                onPress={handleSubmit(submitRequest)}
-                style={{ width: "45%", height: 55 }}
-              />
-              <AppButton
                 title="الغاء"
                 onPress={() => {
                   setModalVisible(false);
                 }}
                 style={{
-                  width: "45%",
-                  height: 55,
-                  backgroundColor: colors.apple,
+                  width: screenWidth.width30,
+                  paddingVertical: 7,
+                  borderRadius: 20,
+                  backgroundColor: colors.lightBrown,
                 }}
+              />
+                 <AppButton
+                title="تحديث"
+                onPress={handleSubmit(submitRequest)}
+                style={{ width: screenWidth.width30,
+                  paddingVertical: 7,
+                  borderRadius: 20,
+                backgroundColor: colors.brown, }}
               />
             </View>
           </View>
@@ -1368,12 +1372,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "rgba(0,0,0,0.5)",
   },
   main: {
-    backgroundColor: "#fff",
-    // width: screenWidth.width80,
-    // backgroundColor: "red",
+    // backgroundColorwith opacity
+    backgroundColor: "rgba(255,255,255,1)",
+    width: screenWidth.width80,
     padding: 20,
     borderRadius: 20,
   },
