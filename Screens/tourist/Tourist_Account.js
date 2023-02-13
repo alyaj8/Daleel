@@ -232,7 +232,7 @@ export default function Tourist_Account({ navigation }) {
     }
     return (
         <ImageBackground
-            style={{ flex: 1 }}
+            style={{ flex: 1, marginTop: -49 }}
             source={images.backgroundImg}
             resizeMode="cover"
         >
@@ -243,13 +243,13 @@ export default function Tourist_Account({ navigation }) {
                     borderBottomRightRadius: 20,
                     paddingHorizontal: 20,
                     marginBottom: 15,
-                    marginTop: 9,
+                    marginTop: 55,
                 }}
             >
                 <Icon
                     name="arrow-back-outline"
                     size={45}
-                    style={{ color: "white", marginTop: 35, marginLeft: -5 }}
+                    style={{ color: "white", marginTop: 40, marginLeft: -5 }}
                     onPress={() => navigation.goBack()}
                 />
                 <View
@@ -264,7 +264,7 @@ export default function Tourist_Account({ navigation }) {
                     <Text
                         style={{
                             marginLeft: 100,
-                            marginTop: -40,
+                            marginTop: -60,
                             fontSize: 29,
                             color: "#FFF",
                             fontWeight: "bold",
@@ -278,12 +278,14 @@ export default function Tourist_Account({ navigation }) {
                 <View
                     style={{
                         backgroundColor: "#FFF",
-                        height: "80%",
+                        height: "99%",
                         borderRadius: 50,
                         paddingHorizontal: 20,
                         marginBottom: 15,
                         paddingBottom: 10,
                         marginTop: 15,
+                        borderColor: "black",
+                        borderWidth: 1
                     }}
                 >
                     <View style={{ marginTop: 40, marginLeft: -10 }}>
