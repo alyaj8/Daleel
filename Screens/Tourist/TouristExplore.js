@@ -188,8 +188,8 @@ export default function TouristExplore({ navigation }) {
             alignItems: "center",
             borderColor: "#BDBDBD",
             borderWidth: 2,
-            marginLeft: 70,
-            width: 330,
+            marginLeft: 60,
+            width: 320,
             height: 50
 
           }}
@@ -216,7 +216,7 @@ export default function TouristExplore({ navigation }) {
           onPress={() => toggleModal()}>
           <Image
             source={require("../../assets/adjust2.png")}
-            style={{ width: 40, height: 40 }}
+            style={{ width: 35, height: 35 }}
           ></Image>
 
         </TouchableOpacity>
@@ -239,7 +239,7 @@ export default function TouristExplore({ navigation }) {
                 <View style={{ marginVertical: 20 }}>
 
 
-                  <Icon name="close-circle-outline" size={33} style={{ marginLeft: 230, marginTop: -28 }}
+                  <Icon name="close-circle-outline" size={33} style={{ marginLeft: 240, marginTop: -28, color: "red" }}
                     onPress={() => toggleModal()}
                   />
                 </View>
@@ -247,6 +247,7 @@ export default function TouristExplore({ navigation }) {
                   style={{
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    marginTop: -14
                   }}
                 >
 
@@ -291,7 +292,7 @@ export default function TouristExplore({ navigation }) {
             <>
               {filteredData.map((item, index) => {
                 return (
-                  <View key={index} style={{ marginVertical: 20 }}>
+                  <View key={index} style={{ marginVertical: 7 }}>
                     <TourDetailCard
                       mode="explore"
                       source={{ uri: item?.imageUrl }}

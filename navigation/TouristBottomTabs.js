@@ -14,6 +14,7 @@ const Tab = createBottomTabNavigator();
 export default function TouristBottomTabs() {
   return (
     <Tab.Navigator
+      initialRouteName="PostSearch"
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
@@ -59,7 +60,7 @@ export default function TouristBottomTabs() {
           tabBarLabel: ({ focused, color, size }) => (
             <Text
               style={{
-                color: focused ? colors.lightBrown2: "black",
+                color: focused ? colors.lightBrown2 : "black",
                 fontSize: 12,
                 fontWeight: focused ? "bold" : "normal",
               }}
@@ -75,7 +76,7 @@ export default function TouristBottomTabs() {
                   width: 30,
                   height: 30,
                   resizeMode: "contain",
-                  tintColor: focused ?colors.lightBrown2 : "black",
+                  tintColor: focused ? colors.lightBrown2 : "black",
                 }}
               />
             </View>
@@ -105,8 +106,8 @@ export default function TouristBottomTabs() {
                 <Image
                   source={images.explore}
                   style={{
-                    width: 45,
-                    height: 45,
+                    width: 49,
+                    height: 49,
                     tintColor: focused ? colors.lightBrown2 : "black",
                   }}
                 />
@@ -140,7 +141,7 @@ export default function TouristBottomTabs() {
                   width: 26,
                   height: 26,
                   resizeMode: "contain",
-                  tintColor: focused ? colors.lightBrown2: "black",
+                  tintColor: focused ? colors.lightBrown2 : "black",
 
                 }}
               />
