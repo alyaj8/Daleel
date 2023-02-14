@@ -232,7 +232,7 @@ export default function Tourist_Account({ navigation }) {
     }
     return (
         <ImageBackground
-            style={{ flex: 1, marginTop: -49 }}
+            style={{ flex: 1, marginTop: -30 }}
             source={images.backgroundImg}
             resizeMode="cover"
         >
@@ -243,7 +243,7 @@ export default function Tourist_Account({ navigation }) {
                     borderBottomRightRadius: 20,
                     paddingHorizontal: 20,
                     marginBottom: 15,
-                    marginTop: 55,
+                    marginTop: 40,
                 }}
             >
                 <Icon
@@ -471,7 +471,7 @@ export default function Tourist_Account({ navigation }) {
 
                                                 style={{ backgroundColor: colors.redTheme }} />
 
-                                               
+
                                         </View>
                                     </View>
                                 </View>

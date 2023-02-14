@@ -145,7 +145,7 @@ export default function TourDetail({ navigation }) {
             alignItems: "center",
 
             marginTop: screenWidth.width10,
-            marginVertical: 10,
+            marginVertical: 2,
           }}
         >
           <Text
@@ -191,8 +191,8 @@ export default function TourDetail({ navigation }) {
                   selectedTab === 0
                     ? "upcom"
                     : selectedTab === 1
-                    ? "post"
-                    : "prev"
+                      ? "post"
+                      : "prev"
                 ].map((item, index) => {
                   // console.log('item', item.title)
                   return (
@@ -297,7 +297,7 @@ export default function TourDetail({ navigation }) {
                         text.text20,
                       ]}
                     >
-                    لايوجد جولات قادمة
+                      لايوجد جولات قادمة
                     </Text>
                     {/* Icon */}
                     <Feather name="alert-circle" size={24} color="black" />

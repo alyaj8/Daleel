@@ -233,7 +233,7 @@ export default function Local_profile({ navigation }) {
 
   return (
     <ImageBackground
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginTop: -20 }}
       source={images.backgroundImg}
       resizeMode="cover"
     >
@@ -243,7 +243,7 @@ export default function Local_profile({ navigation }) {
           borderBottomLeftRadius: 20,
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
-          marginTop: 11,
+          marginTop: 35,
         }}
       >
         <View
@@ -251,7 +251,7 @@ export default function Local_profile({ navigation }) {
             borderBottomLeftRadius: 20,
             borderBottomRightRadius: 20,
             paddingHorizontal: 20,
-            marginTop: 30,
+            marginTop: 40,
           }}
         >
           <Text
@@ -262,7 +262,7 @@ export default function Local_profile({ navigation }) {
               marginTop: 7,
               textAlign: "center",
               color: "white",
-              fontSize: 37,
+              fontSize: 29,
               fontWeight: "bold",
             }}
           >
@@ -362,7 +362,7 @@ export default function Local_profile({ navigation }) {
                           justifyContent: "space-between",
                         }}
                       >
-                          <View>
+                        <View>
                           <Button title="إلغاء" onpress={() => DtoggleModal()}
                             style={{ backgroundColor: colors.lightBrown, borderRadius: 20 }} />
                         </View>
@@ -370,7 +370,7 @@ export default function Local_profile({ navigation }) {
                           <Button title="حذف" onpress={() => DeleteFunc(item)}
                             style={{ backgroundColor: colors.redTheme, borderRadius: 20 }} />
                         </View>
-                      
+
                       </View>
                     </View>
                   </View>

@@ -326,7 +326,7 @@ export default function Local_Account({ navigation }) {
 
   return (
     <ImageBackground
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginTop: -30 }}
       source={images.backgroundImg}
       resizeMode="cover"
     >
@@ -337,20 +337,20 @@ export default function Local_Account({ navigation }) {
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
           marginBottom: 15,
-          marginTop: 9,
+          marginTop: 40,
         }}
       >
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "white", marginTop: 30, marginLeft: -15 }}
+          style={{ color: "white", marginTop: 35, marginLeft: -15 }}
           onPress={() => navigation.goBack()}
         />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: 10,
+            marginTop: 1,
             width: "100%",
             marginLeft: 11,
           }}
@@ -379,6 +379,8 @@ export default function Local_Account({ navigation }) {
             marginBottom: 15,
             paddingBottom: 10,
             marginTop: 0,
+            borderColor: "#BDBDBD",
+            borderWidth: 1
           }}
         >
           <View style={{ marginTop: 40, marginLeft: -10 }}>

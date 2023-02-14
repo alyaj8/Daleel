@@ -32,6 +32,7 @@ export default function Local_ChangePass({ navigation }) {
     const snapshot = await getDoc(colRef);
     let userdata = snapshot.data();
     setCurrentPass(userdata.password);
+    console.log(userdata.password, "here 4")
   };
 
   let savePass = async () => {
@@ -43,7 +44,7 @@ export default function Local_ChangePass({ navigation }) {
         updatePassword(user, newPass)
           .then(async () => {
             await updateDoc(doc(db, "users", user.uid), { password: newPass });
-            await updateDoc(doc(db, "Tourist_users", user.uid), {
+            await updateDoc(doc(db, "Admin_users", user.uid), {
               password: newPass,
             });
             setError("");
@@ -67,7 +68,7 @@ export default function Local_ChangePass({ navigation }) {
   };
   return (
     <ImageBackground
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginTop: -20 }}
       source={images.backgroundImg}
       resizeMode="cover"
     >
@@ -78,13 +79,13 @@ export default function Local_ChangePass({ navigation }) {
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
           marginBottom: 15,
-          marginTop: 9,
+          marginTop: 35,
         }}
       >
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "white", marginTop: 30, marginLeft: -5 }}
+          style={{ color: "white", marginTop: 40, marginLeft: -5 }}
           onPress={() => navigation.goBack()}
         />
         <View
@@ -98,9 +99,9 @@ export default function Local_ChangePass({ navigation }) {
         >
           <Text
             style={{
-              marginLeft: 70,
-              marginTop: -40,
-              fontSize: 29,
+              marginLeft: 80,
+              marginTop: -65,
+              fontSize: 25,
               color: "#FFF",
               fontWeight: "bold",
               alignSelf: "center",
@@ -114,12 +115,15 @@ export default function Local_ChangePass({ navigation }) {
       <View
         style={{
           backgroundColor: "#FFF",
-          height: "100%",
+          height: "70%",
           borderRadius: 50,
           paddingHorizontal: 20,
           marginBottom: 15,
           marginTop: -5,
           paddingTop: 10,
+          //   marginTop: 15,
+          borderColor: "#BDBDBD",
+          borderWidth: 1
         }}
       >
         <Text

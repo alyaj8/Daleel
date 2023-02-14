@@ -67,7 +67,7 @@ export default function Tourist_ChangePass({ navigation }) {
   };
   return (
     <ImageBackground
-      style={{ flex: 1 }}
+      style={{ flex: 1, marginTop: -20 }}
       source={images.backgroundImg}
       resizeMode="cover"
     >
@@ -78,29 +78,29 @@ export default function Tourist_ChangePass({ navigation }) {
           borderBottomRightRadius: 20,
           paddingHorizontal: 20,
           marginBottom: 15,
-          marginTop: 9,
+          marginTop: 35,
         }}
       >
         <Icon
           name="arrow-back-outline"
           size={45}
-          style={{ color: "white", marginTop: 30, marginLeft: 5 }}
+          style={{ color: "white", marginTop: 40, marginLeft: 5 }}
           onPress={() => navigation.goBack()}
         />
         <View
           style={{
             flexDirection: "row",
             alignItems: "center",
-            marginTop: 10,
+            marginTop: 0,
             width: "100%",
             marginLeft: 11,
           }}
         >
           <Text
             style={{
-              marginLeft: 70,
+              marginLeft: 80,
               marginTop: -40,
-              fontSize: 29,
+              fontSize: 25,
               color: "#FFF",
               fontWeight: "bold",
               alignSelf: "center",
@@ -114,12 +114,14 @@ export default function Tourist_ChangePass({ navigation }) {
       <View
         style={{
           backgroundColor: "#FFF",
-          height: "100%",
+          height: "70%",
           borderRadius: 50,
           paddingHorizontal: 20,
           marginBottom: 15,
           marginTop: 10,
           paddingTop: 10,
+          borderColor: "#BDBDBD",
+          borderWidth: 1
         }}
       >
         <Text
@@ -150,7 +152,7 @@ export default function Tourist_ChangePass({ navigation }) {
           </View>
           <View>
             <Text
-              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right" , padding: 10,  }}
+              style={{ fontWeight: "bold", fontSize: 20, textAlign: "right", padding: 10, }}
             >
               {"\n"}الرقم السري الجديد*
             </Text>
