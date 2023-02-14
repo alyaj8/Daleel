@@ -657,6 +657,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                     <Button
                       title="حذف"
                       style={{ backgroundColor: colors.redTheme }}
+
                       onpress={onDeleteTour}
                     />
                   </View>

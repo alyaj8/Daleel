@@ -463,6 +463,7 @@ const EditTourV3 = ({ navigation, route }) => {
               ...styles.shadow,
               width: screenWidth.width40,
               height: 60,
+              backgroundColor: colors.Blue,
             }}
             title={"حذف"}
             onPress={() => {

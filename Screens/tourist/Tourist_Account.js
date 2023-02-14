@@ -278,13 +278,13 @@ export default function Tourist_Account({ navigation }) {
                 <View
                     style={{
                         backgroundColor: "#FFF",
-                        height: "99%",
+                        height: "100%",
                         borderRadius: 50,
                         paddingHorizontal: 20,
                         marginBottom: 15,
                         paddingBottom: 10,
                         marginTop: 15,
-                        borderColor: "black",
+                        borderColor: "#BDBDBD",
                         borderWidth: 1
                     }}
                 >
@@ -468,7 +468,10 @@ export default function Tourist_Account({ navigation }) {
                                         </View>
                                         <View style={{}}>
                                             <Button title="حذف" onpress={() => deleteUserFunc()}
+
                                                 style={{ backgroundColor: colors.redTheme }} />
+
+                                               
                                         </View>
                                     </View>
                                 </View>

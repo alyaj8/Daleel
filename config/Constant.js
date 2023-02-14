@@ -129,7 +129,7 @@ export const images = {
   profile: require("../assets/tabIcons/account.png"),
   chat: require("../assets/tabIcons/chat.png"),
   backgroundImg: require("../assets/B7.png"),
-  abackgroundImg: require("../assets/4.png"),
+  abackgroundImg: require("../assets/B11.png"),
   timer: require("../assets/timer.png"),
   calendar: require("../assets/calendar.png"),
   photo: require("../assets/photo.png"),
@@ -360,5 +360,5 @@ export const uploadImage = async (path) => {
 };
 
 export const PaymentAllownceTime = new Date().setMinutes(
-  new Date().getMinutes() - 2
+  new Date().getMinutes() - 6
 );
