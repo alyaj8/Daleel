@@ -20,7 +20,7 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 import Icon from "react-native-vector-icons/Ionicons";
-import { highlights, images } from "../../config/Constant";
+import { colors, highlights, images } from "../../config/Constant";
 import { db } from "../../config/firebase";
 import {
   getUserObj,
@@ -204,7 +204,7 @@ const StripeApp = ({ route, navigation }) => {
         >
           <Text
             style={{
-              marginLeft: 80,
+              marginLeft: 60,
               marginTop: -20,
               fontSize: 29,
               color: "#FFF",
@@ -279,7 +279,7 @@ const StripeApp = ({ route, navigation }) => {
                 fontSize: 25,
                 fontWeight: "900",
                 marginTop: 15,
-                color: "#c66b3d",
+                color: colors.Blue,
               }}
             >
               تفاصيل الطلبية
@@ -289,7 +289,7 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 fontSize: 30,
                 fontWeight: "bold",
-                color: "#c66b3d",
+                color: colors.Blue,
                 marginTop: 20,
               }}
             >
@@ -301,7 +301,8 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 padding: 15,
                 fontSize: 25,
-                fontWeight: "500",
+                fontWeight: "700",
+                color: colors.brown,
               }}
             >
               {req?.title}
@@ -311,7 +312,7 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 fontSize: 30,
                 fontWeight: "bold",
-                color: "#c66b3d",
+                color: colors.Blue,
                 marginTop: 20,
               }}
             >
@@ -322,7 +323,8 @@ const StripeApp = ({ route, navigation }) => {
                 textAlign: "right",
                 padding: 20,
                 fontSize: 25,
-                fontWeight: "500",
+                fontWeight: "700",
+                color: colors.brown,
               }}
             >
               {req?.price} ريال
@@ -371,7 +373,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignContent: "center",
     borderRadius: 50,
-    backgroundColor: "#c4a35a",
+    backgroundColor: colors.Blue,
     marginTop: 8,
     paddingLeft: 10,
     marginBottom: 10,

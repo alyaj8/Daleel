@@ -644,7 +644,7 @@ export default function Local_Account({ navigation }) {
                       <Button
                         title="حذف"
                         onpress={() => deleteUserFunc()}
-                        style={{ backgroundColor: colors.brown }}
+                        style={{ backgroundColor: colors.Blue }}
                       />
                     </View>
                   </View>

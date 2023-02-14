@@ -1138,6 +1138,7 @@ const PostTourV2 = ({ navigation }) => {
                 style={{
                   ...styles.button,
                   ...styles.shadow,
+                  backgroundColor: colors.Blue,
 
                   width: screenWidth.width80,
                   height: 60,
@@ -1164,7 +1165,7 @@ const PostTourV2 = ({ navigation }) => {
 
                   width: screenWidth.width80,
                   height: 60,
-                  backgroundColor: colors.brown,
+                  backgroundColor: colors.Blue,
                 }}
                 error={
                   !enablePost
@@ -1230,7 +1231,7 @@ const PostTourV2 = ({ navigation }) => {
                   width: screenWidth.width30,
                   paddingVertical: 7,
                   borderRadius: 20,
-                  backgroundColor: colors.brown,
+                  backgroundColor: colors.Blue,
                 }}
               />
             </View>

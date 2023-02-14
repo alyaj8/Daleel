@@ -460,7 +460,7 @@ export default function Local_Home({ navigation }) {
                   <Button
                     title="رفض"
                     onpress={() => onRejectionReq()}
-                    style={{ backgroundColor: colors.brown }}
+                    style={{ backgroundColor: colors.Blue }}
                   />
                 </View>
               </View>

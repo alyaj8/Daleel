@@ -65,7 +65,7 @@ export default function AcceptedBooking({
             <Text
               style={{
                 fontSize: 24,
-                color: colors.brown,
+                color: colors.Blue,
                 fontWeight: "bold",
                 textAlign: "right",
               }}

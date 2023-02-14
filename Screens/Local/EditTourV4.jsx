@@ -1220,7 +1220,7 @@ const EditTourV4 = ({ navigation, route }) => {
                 style={{ width: screenWidth.width30,
                   paddingVertical: 7,
                   borderRadius: 20,
-                backgroundColor: colors.brown, }}
+                backgroundColor: colors.Blue, }}
               />
             </View>
           </View>

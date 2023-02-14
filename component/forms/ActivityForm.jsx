@@ -134,6 +134,7 @@ const ActivityForm = ({
               alignSelf: "center",
               marginVertical: 15,
               height: 70,
+              backgroundColor: colors.Blue,
             }}
           />
         ) : (
@@ -309,18 +310,18 @@ const ActivityForm = ({
                 >
                   <AppButton
                     // disabled={disabled}
-                    title={"حفظ التغييرات"}
+                    title={"حفظ "}
                     onPress={() => {
                       onEditActivitySubmit();
                     }}
-                    style={{ width: screenWidth.width30, height: 50 }}
+                    style={{ width: screenWidth.width30, height: 50,  backgroundColor: colors.Blue, }}
                   />
                   <View style={{ width: 10 }} />
                   <AppButton
                     // disabled={disabled}
 
                     style={{
-                      backgroundColor: colors.green,
+                      backgroundColor: colors.brown,
                       width: screenWidth.width30,
                       height: 50,
                     }}
@@ -333,7 +334,7 @@ const ActivityForm = ({
                   <MIcon
                     name="delete"
                     size={50}
-                    color={colors.red}
+                    color={colors.brown}
                     style={{ marginHorizontal: 10 }}
                     onPress={() => {
                       onRemoveActivitySubmit();
