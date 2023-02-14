@@ -155,41 +155,41 @@ export default function TourDetailCard({ onpress, source, title, tour, mode }) {
             </Text>
             {/* age & qty & city */}
             <Text
-                 style={[
-                  // text.text12,
-                  text.SubduedTextC,
-                  {
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    ...highlights.brdr02,
-                  },
-                ]}
+              style={[
+                // text.text12,
+                text.SubduedTextC,
+                {
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  ...highlights.brdr02,
+                },
+              ]}
             >
               الفئة العمرية: {tour?.age}
             </Text>
             <Text
-                 style={[
-                  // text.text12,
-                  text.SubduedTextC,
-                  {
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    ...highlights.brdr02,
-                  },
-                ]}
+              style={[
+                // text.text12,
+                text.SubduedTextC,
+                {
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  ...highlights.brdr02,
+                },
+              ]}
             >
               تستوعب: {tour?.qty} فرد{" "}
             </Text>
             <Text
-                 style={[
-                  // text.text12,
-                  text.SubduedTextC,
-                  {
-                    fontWeight: "bold",
-                    textAlign: "center",
-                    ...highlights.brdr02,
-                  },
-                ]}
+              style={[
+                // text.text12,
+                text.SubduedTextC,
+                {
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  ...highlights.brdr02,
+                },
+              ]}
             >
               مدينة: {tour?.city}
             </Text>
@@ -225,7 +225,7 @@ const styles = StyleSheet.create({
     ...highlights.brdr0,
   },
   img: {
-    width: screenWidth.width30,
+    width: screenWidth.width30 + 70,
     height: screenWidth.width30,
     // resizeMode: "contain",
     // ...highlights.brdr03,
