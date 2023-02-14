@@ -593,7 +593,7 @@ export default function Local_Account({ navigation }) {
               <View style={[styles.modalView]}>
                 <View style={[styles.main]}>
                   <View style={{ marginVertical: 20 }}>
-                    <Text style={{ textAlign: "center" }}>
+                    <Text style={{ textAlign: "center", fontSize: 18 }}>
                       هل أنت متأكد من حفظ التغيرات؟
                     </Text>
                   </View>
@@ -625,7 +625,7 @@ export default function Local_Account({ navigation }) {
               <View style={[styles.modalView]}>
                 <View style={[styles.main]}>
                   <View style={{ marginVertical: 20 }}>
-                    <Text style={{ textAlign: "center" }}>
+                    <Text style={{ textAlign: "center", fontSize: 18 }}>
                       هل أنت متأكد من حذف الحساب؟
                     </Text>
                   </View>

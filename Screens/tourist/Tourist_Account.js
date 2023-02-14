@@ -417,7 +417,7 @@ export default function Tourist_Account({ navigation }) {
                                 <View style={[styles.main]}>
                                     <View style={{ marginVertical: 20 }}>
                                         <Text
-                                            style={{ textAlign: "center", }}
+                                            style={{ textAlign: "center", fontSize: 18 }}
                                         >
                                             هل أنت متأكد من حفظ التغيرات؟
                                         </Text>
@@ -448,7 +448,7 @@ export default function Tourist_Account({ navigation }) {
                                 <View style={[styles.main]}>
                                     <View style={{ marginVertical: 20 }}>
                                         <Text
-                                            style={{ textAlign: "center", }}
+                                            style={{ textAlign: "center", fontSize: 18 }}
                                         >
                                             هل أنت متأكد من حذف الحساب؟
                                         </Text>

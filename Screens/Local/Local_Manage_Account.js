@@ -1,53 +1,41 @@
 import { signOut } from "firebase/auth";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import { Alert, Image, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Image, Text, TouchableOpacity, View, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { auth, db } from "../../config/firebase";
 import { removeDataFromStorage } from "../../util/Storage";
+import Modal from "react-native-modal";
+import { images, screenWidth, REQUEST_TABLE, colors } from "../../config/Constant";
+import Button from "../../component/button/Button";
 
 export default function Local_Manage_Account({ navigation }) {
   const [infoList, setinfoList] = useState([]);
   const [fname, setFname] = useState("");
   const [lastname, setLname] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
 
   const user = auth.currentUser;
 
-  const showAlert = () =>
-    Alert.alert(
-      "تسجيل خروج ",
-      "هل أنت متأكد من الخروج",
-      [
-        {
-          text: "لا",
-          //  onPress: () => Alert.alert("Cancel Pressed"),
-          style: "cancel",
-        },
-        {
-          text: "نعم",
-          style: "cancel",
-          onPress: async () => {
-            try {
-              removeDataFromStorage("loggedInUser");
-              await signOut(auth);
-              navigation.navigate("Log_in2");
-            } catch (error) {
-              console.log(
-                "🚀 ~ file: Tourist_Manage_Account.js ~ line 48 ~ showAlert ~ error",
-                error
-              );
-            }
-          },
-        },
-      ],
-      {
-        cancelable: true,
-        onDismiss: () =>
-          Alert.alert(
-            "This alert was dismissed by tapping outside of the alert dialog."
-          ),
-      }
-    );
+  let logout = () => {
+    console.log("hello")
+    try {
+      removeDataFromStorage("loggedInUser");
+      signOut(auth);
+      navigation.navigate("Log_in2");
+    } catch (error) {
+      console.log(
+        "🚀 ~ file: Tourist_Manage_Account.js ~ line 48 ~ showAlert ~ error",
+        error
+      );
+    }
+  }
+
+  const toggleModal = () => {
+    console.log(isModalVisible)
+    setModalVisible(prev => !prev);
+    console.log(isModalVisible, "22")
+  };
 
   useEffect(() => {
     getData();
@@ -211,7 +199,7 @@ export default function Local_Manage_Account({ navigation }) {
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={showAlert}
+          onPress={toggleModal}
           style={{
             alignSelf: "center",
             flexDirection: "row",
@@ -232,7 +220,95 @@ export default function Local_Manage_Account({ navigation }) {
           </Text>
           <Icon name="log-out-outline" size={33} style={{ marginRight: 5 }} />
         </TouchableOpacity>
+        <Modal isVisible={isModalVisible}>
+          <View style={[styles.modalView]}>
+            <View style={[styles.main]}>
+              <View style={{ marginVertical: 20 }}>
+                <Text
+                  style={{ textAlign: "center", fontSize: 18 }}
+                >
+                  هل أنت متأكد من تسجيل الخروج
+                </Text>
+
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{}}>
+                  <Button title="الغاء" onpress={toggleModal}
+                    style={{ backgroundColor: colors.lightBrown }} />
+
+                </View>
+                <View style={{}}>
+                  <Button title="نعم" onpress={() => logout()}
+
+                    style={{ backgroundColor: colors.redTheme }} />
+                </View>
+
+              </View>
+            </View>
+          </View>
+        </Modal>
+
+
       </View>
+
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  title: {
+    alignItems: "left",
+    justifyContent: "left",
+    fontWeight: "bold",
+    fontSize: 35,
+    marginTop: 20,
+    paddingLeft: 10,
+    marginBottom: 20,
+  },
+  body: {
+    borderWidth: 3,
+    borderColor: "#BDBDBD",
+    width: "100%",
+    height: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: "#ffff",
+    padding: 10,
+    borderRadius: 10,
+    marginBottom: 20,
+    textAlign: "right",
+  },
+  buttonCont: {
+    width: 180,
+    height: 50,
+    borderRadius: 50,
+    backgroundColor: "#00a46c",
+    marginTop: 20,
+    paddingLeft: 10,
+    alignSelf: "center",
+  },
+  savechanges: {
+    fontSize: 18,
+    fontWeight: "bold",
+    alignSelf: "center",
+    marginTop: 10,
+    marginBottom: 10,
+    marginRight: 18,
+  },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  main: {
+    backgroundColor: "#fff",
+    width: screenWidth.width80,
+    padding: 20,
+    borderRadius: 20,
+  },
+});
