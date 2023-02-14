@@ -10,18 +10,28 @@ import {
   View,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { images, colors } from "../../config/Constant";
 import { db } from "../../config/firebase";
+import Modal from "react-native-modal";
+import { images, screenWidth, REQUEST_TABLE, colors } from "../../config/Constant";
+import Button from "../../component/button/Button";
 
 export default function Local_ChangePass({ navigation }) {
   const [current, setCurrentPass] = useState("");
   const [oldPass, setOldPass] = useState("");
   const [newPass, setNewPass] = useState("");
 
+  const [isModalVisible, setModalVisible] = useState(false);
+
   const [infoList, setinfoList] = useState([]);
   const [error, setError] = useState("");
   const auth = getAuth();
   const user = auth.currentUser;
+
+  const toggleModal = () => {
+    console.log(isModalVisible)
+    setModalVisible(prev => !prev);
+    console.log(isModalVisible, "22")
+  };
 
   useEffect(() => {
     getData();
@@ -34,37 +44,50 @@ export default function Local_ChangePass({ navigation }) {
     setCurrentPass(userdata.password);
     console.log(userdata.password, "here 4")
   };
+  let savePass2 = () => {
+    updatePassword(user, newPass)
+      .then(async () => {
+        await updateDoc(doc(db, "users", user.uid), { password: newPass });
+        await updateDoc(doc(db, "Admin_users", user.uid), {
+          password: newPass,
+        });
+        navigation.goBack();
+
+        alert("تم تغيير الرقم السري بنجاح ");
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
+  }
 
   let savePass = async () => {
+    console.log(newPass, "new pass")
+    console.log(current, "current pass")
+    console.log(oldPass, "old pass")
+    console.log(newPass.length, "new pass")
+
     if (oldPass.length == 0) {
       setError("الرجاء إدخال الرقم السري الحالي");
-    }
-    else if (newPass.length > 7 && newPass.length < 31) {
-      if (oldPass === current) {
-        updatePassword(user, newPass)
-          .then(async () => {
-            await updateDoc(doc(db, "users", user.uid), { password: newPass });
-            await updateDoc(doc(db, "Admin_users", user.uid), {
-              password: newPass,
-            });
-            setError("");
-            alert("تم تغيير الرقم السري بنجاح ");
-            navigation.goBack();
-          })
-          .catch((error) => {
-            setError(error.message);
-          });
-      } else {
-        setError(" الرقم السري الحالي غير صحيح");
-      }
     }
 
     else if (newPass == "") {
       setError("الرجاء إدخال الرقم السري الجديد");
     }
-    else {
+
+    else if (newPass.length < 7 || newPass.length > 30) {
       setError("الرقم السري ضعيف الرجاء ادخال رقم سري من 8-30 حرف");
     }
+    else if (newPass.length > 7 && newPass.length < 31) {
+      if (oldPass === current) {
+        setError("");
+
+        setModalVisible(prev => !prev);
+
+      } else {
+        setError(" الرقم السري الحالي غير صحيح");
+      }
+    }
+
   };
   return (
     <ImageBackground
@@ -169,7 +192,10 @@ export default function Local_ChangePass({ navigation }) {
 
           <View>
             <TouchableOpacity
-              onPress={savePass}
+              onPress={() => {
+                savePass();
+                // console.log("onPress");
+              }}
               style={{
                 backgroundColor: colors.Blue,
                 padding: 20,
@@ -191,6 +217,38 @@ export default function Local_ChangePass({ navigation }) {
             </TouchableOpacity>
           </View>
         </View>
+        <Modal isVisible={isModalVisible}>
+          <View style={[styles.modalView]}>
+            <View style={[styles.main]}>
+              <View style={{ marginVertical: 20 }}>
+                <Text
+                  style={{ textAlign: "center", fontSize: 18 }}
+                >
+                  هل أنت متأكد من تغيير الرقم السري
+                </Text>
+
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{}}>
+                  <Button title="الغاء" onpress={toggleModal}
+                    style={{ backgroundColor: colors.lightBrown }} />
+
+                </View>
+                <View style={{}}>
+                  <Button title="نعم" onpress={() => savePass2()}
+
+                    style={{ backgroundColor: colors.Blue }} />
+                </View>
+
+              </View>
+            </View>
+          </View>
+        </Modal>
       </View>
     </ImageBackground>
   );
@@ -236,4 +294,16 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginRight: 18,
   },
+  modalView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  main: {
+    backgroundColor: "#fff",
+    width: screenWidth.width80,
+    padding: 20,
+    borderRadius: 20,
+  },
 });
+
