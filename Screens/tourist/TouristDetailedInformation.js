@@ -702,15 +702,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
             ) : (
               <AppButton
                 title={
-                  tourStatus == "requested"
+                  price == 0
+                  ? "يجب اختيار نشاط واحد على الأقل"
+                  :tourStatus == "requested"
                     ? "تم الطلب"
                     : tourStatus == "accepted"
                     ? "تم الحجز"
                     : tourStatus == "rejected"
                     ? "طلب مرة أخرى"
-                    : "حجز الرحلة"
+                    : "حجز الجولة"
                 }
-                disabled={tourStatus == "requested" || tourStatus == "accepted"}
+                disabled={tourStatus == "requested" || tourStatus == "accepted"|| price == 0}
                 onPress={toggleModal}
                 style={{
                   backgroundColor:

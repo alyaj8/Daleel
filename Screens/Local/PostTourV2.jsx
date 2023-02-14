@@ -448,7 +448,7 @@ const activitySchema = yup.object({
       .required("يجب إدخال سعر النشاط")
       .test(
         "is-price-valid",
-        "يجب أن يكون سعر النشاط رقم صحيح",
+        "يجب أن يكون السعر اكبر من 0",
         function (value, context) {
           const { price } = context.from[1].value.activity;
           const test = !!price ? !!Number(price) : true;
