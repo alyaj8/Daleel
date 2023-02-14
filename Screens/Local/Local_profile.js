@@ -413,7 +413,7 @@ export default function Local_profile({ navigation }) {
               }}
             >
               <View>
-                <Button title="" onpress={() => toggleModal()}
+                <Button title="الغاء" onpress={() => toggleModal()}
                   style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
               </View>
               <View >
@@ -443,7 +443,7 @@ export default function Local_profile({ navigation }) {
               }}
             >
               <View>
-                <Button title="" onpress={() => toggleModal3()}
+                <Button title="الغاء" onpress={() => toggleModal3()}
                   style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
               </View>
               <View >
