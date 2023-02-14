@@ -754,12 +754,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     // flex: 1,
                   }}
                 >
-                  <AppButton
-                    title="حجز"
-                    style={{ backgroundColor: colors.Blue, width: "45%" }}
-                    onPress={onReserveTour}
-                  />
-                  <AppButton
+                       <AppButton
                     title="الغاء"
                     style={{
                       backgroundColor: colors.lightBrown,
@@ -767,6 +762,12 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     }}
                     onPress={toggleModal}
                   />
+                  <AppButton
+                    title="حجز"
+                    style={{ backgroundColor: colors.Blue, width: "45%" }}
+                    onPress={onReserveTour}
+                  />
+             
                 </View>
               </View>
             </View>
