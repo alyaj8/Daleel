@@ -393,7 +393,7 @@ export default function Tourist_Account({ navigation }) {
                             <TouchableOpacity onPress={toggleModalDelet}
 
                                 style={{
-                                    backgroundColor: colors.brown,
+                                    backgroundColor: colors.redTheme,
                                     padding: 20,
                                     borderRadius: 10,
                                     marginBottom: 30,
@@ -468,7 +468,7 @@ export default function Tourist_Account({ navigation }) {
                                         </View>
                                         <View style={{}}>
                                             <Button title="حذف" onpress={() => deleteUserFunc()}
-                                                style={{ backgroundColor: colors.brown }} />
+                                                style={{ backgroundColor: colors.redTheme }} />
                                         </View>
                                     </View>
                                 </View>

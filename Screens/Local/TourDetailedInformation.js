@@ -615,7 +615,7 @@ export default function TourDetailedInformation({ navigation, route }) {
               title={" حذف الجولة"}
               onPress={toggleModal}
               style={{
-                backgroundColor: colors.brown,
+                backgroundColor: colors.redTheme,
                 paddingVertical: 18,
 
                 width: screenWidth.width90,
@@ -656,7 +656,7 @@ export default function TourDetailedInformation({ navigation, route }) {
                   <View style={{}}>
                     <Button
                       title="حذف"
-                      style={{ backgroundColor: colors.brown }}
+                      style={{ backgroundColor: colors.redTheme }}
                       onpress={onDeleteTour}
                     />
                   </View>

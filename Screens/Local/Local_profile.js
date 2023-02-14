@@ -362,14 +362,15 @@ export default function Local_profile({ navigation }) {
                           justifyContent: "space-between",
                         }}
                       >
-                        <View >
-                          <Button title="نعم" onpress={() => DeleteFunc(item)}
-                            style={{ backgroundColor: colors.redTheme, borderRadius: 4 }} />
-                        </View>
-                        <View>
+                          <View>
                           <Button title="إلغاء" onpress={() => DtoggleModal()}
-                            style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
+                            style={{ backgroundColor: colors.lightBrown, borderRadius: 20 }} />
                         </View>
+                        <View >
+                          <Button title="حذف" onpress={() => DeleteFunc(item)}
+                            style={{ backgroundColor: colors.redTheme, borderRadius: 20 }} />
+                        </View>
+                      
                       </View>
                     </View>
                   </View>
@@ -414,11 +415,11 @@ export default function Local_profile({ navigation }) {
             >
               <View>
                 <Button title="الغاء" onpress={() => toggleModal()}
-                  style={{ backgroundColor: colors.lightBrown, borderRadius: 4 }} />
+                  style={{ backgroundColor: colors.lightBrown, borderRadius: 20 }} />
               </View>
               <View >
                 <Button title="حفظ" onpress={submitRequest}
-                  style={{ backgroundColor: colors.Blue, borderRadius: 4 }} />
+                  style={{ backgroundColor: colors.Blue, borderRadius: 20 }} />
               </View>
 
             </View>

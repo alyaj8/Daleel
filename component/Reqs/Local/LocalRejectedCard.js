@@ -95,7 +95,7 @@ export default function LocalRejectedCard({
                     textAlign: "right",
                     fontWeight: "bold",
                     marginRight: 20,
-                    color: colors.brown,
+                    color: colors.redTheme,
                   },
                 ]}
               >

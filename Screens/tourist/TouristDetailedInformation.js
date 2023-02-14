@@ -721,7 +721,7 @@ export default function TouristDetailedInformation({ navigation, route }) {
                       : tourStatus == "accepted"
                       ? colors.green
                       : tourStatus == "rejected"
-                      ? colors.redTheme
+                      ? colors.redTheme 
                       : colors.Blue,
                   paddingVertical: 18,
                   paddingHorizontal: 30,
@@ -760,13 +760,17 @@ export default function TouristDetailedInformation({ navigation, route }) {
                     title="الغاء"
                     style={{
                       backgroundColor: colors.lightBrown,
-                      width: "45%",
+                      width: screenWidth.width30,
+                      paddingVertical: 7,
+                      borderRadius: 20,
                     }}
                     onPress={toggleModal}
                   />
                   <AppButton
                     title="حجز"
-                    style={{ backgroundColor: colors.Blue, width: "45%" }}
+                    style={{ backgroundColor: colors.Blue,  width: screenWidth.width30,
+                      paddingVertical: 7,
+                      borderRadius: 20, }}
                     onPress={onReserveTour}
                   />
              

@@ -261,7 +261,7 @@ export const cities = [
   "الباحة",
 ];
 
-export const ages = ["عائلية", "كبار"];
+export const ages = ["الكل", "صغار","كبار"];
 
 const brdrWidth = 1;
 const no_brdrWidth = 0;
