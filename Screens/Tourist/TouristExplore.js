@@ -43,17 +43,22 @@ export default function TouristExplore({ navigation }) {
 
   // age
   const [ageList, setAgeList] = useState([
+  {
+    label: "كل النتائج",
+     value: "كل الأعمار",
+  },
+   
     {
-      label: "كل الأعمار",
-      value: "كل الأعمار",
-    },
-    {
-      label: "عائلية",
-      value: "عائلية",
+      label: "صغار",
+      value: "صفار",
     },
     {
       label: "كبار",
       value: "كبار",
+    },
+    {
+      label: "الكل",
+      value: "الكل",
     },
   ]);
   const [selectedAge, setSelectedAge] = useState(null);
